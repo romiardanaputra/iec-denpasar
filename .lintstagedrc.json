@@ -1,0 +1,8 @@
+{
+  "*.{html,scss,js}": [
+    "prettier --write",
+    "eslint --ignore-pattern 'vendor/*' --ignore-pattern 'node_modules/*' --ignore-pattern 'public/*' --ignore-pattern 'storage/*' --fix"
+  ],
+  "*.php": ["./vendor/bin/pint --dirty"],
+  "*.blade.php": ["prettier --write"]
+}
