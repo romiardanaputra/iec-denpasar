@@ -6,7 +6,8 @@
     "dev": "vite",
     "prepare": "husky",
     "format": "prettier --write resources/**/*.blade.php",
-    "lint": "eslint --ignore-pattern 'vendor/*' --ignore-pattern 'node_modules/*' --ignore-pattern 'public/*'"
+    "lint": "eslint --ignore-pattern 'vendor/*' --ignore-pattern 'node_modules/*' --ignore-pattern 'public/*'",
+    "lint-staged": "lint-staged"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
