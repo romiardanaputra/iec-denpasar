@@ -13,14 +13,14 @@
           </article>
           <div class="flex gap-5">
             <a href="#">
-              <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full py-6 px-12">
-                <x-lucide-mail-open class="mr-2 size-4" /> Explore
+              <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
+                <x-lucide-search class="mr-2 size-4" /> Explore
               </x-button>
             </a>
             <a href="#">
               <x-button size='lg'
-                class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full py-6 px-12 ">
-                <x-lucide-mail-open class="mr-2 size-4" /> Sign Up
+                class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
+                <x-lucide-user-round-plus class="mr-2 size-4" /> Enroll
               </x-button>
             </a>
           </div>
@@ -49,8 +49,8 @@
             </x-typography.list>
           </div>
           <a href="#">
-            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full py-6 px-12">
-              <x-lucide-mail-open class="mr-2 size-4" /> Enroll Now
+            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
+              <x-lucide-user-round-plus class="mr-2 size-4" /> Enroll Now
             </x-button>
           </a>
         </article>
@@ -74,8 +74,8 @@
             levels. Whether you're a
             beginner or looking to refine your skills, we have the perfect program for you.</p>
           <a href="#">
-            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full py-8 px-12">
-              <x-lucide-mail-open class="mr-2 size-4" /> View all
+            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
+              <x-lucide-eye class="mr-2 size-4" /> View all
             </x-button>
           </a>
         </div>
@@ -144,7 +144,7 @@
               </div>
               <x-button size='lg'
                 class="border border-blue-800 hover:bg-blue-800 hover:text-white bg-white text-blue-800 px-8 py-6 rounded-full">
-                <x-lucide-mail-open class="mr-2 size-4" /> Enroll
+                <x-lucide-user-round-plus class="mr-2 size-4" /> Enroll
               </x-button>
             </x-card.footer>
           </x-card>
@@ -195,7 +195,7 @@
           <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">IEC denpasar is more than just English
             course. Educate everyone with our professional mentors</p>
           <a href="#">
-            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full py-6 px-12">
+            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
               <x-lucide-library class="mr-2 size-4" /> Enroll Now
             </x-button>
           </a>
