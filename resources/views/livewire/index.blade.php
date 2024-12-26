@@ -25,8 +25,8 @@
             </a>
           </div>
         </div>
-        <div class="w-full">
-          <img class="size-full h-fit" src="{{ asset('storage/assets/user/images/home/hero.svg') }}" alt="hero.svg">
+        <div class="w-[80%]">
+          <img class="size-full" src="{{ asset('storage/assets/user/images/home/hero.svg') }}" alt="hero.svg">
         </div>
       </div>
     </section>
@@ -64,96 +64,7 @@
     </section>
 
     {{-- program section --}}
-    <section class="container py-16">
-      <article class="space-y-4">
-        <p class="font-medium text-blue-800">courses</p>
-        <h1 class="lg:text-5xl font-medium sm:text-inherit leading-tight mb-5 ">Our program</h1>
-        <div class="sm:flex justify-between gap-5">
-          <p class="mb-4 sm:w-1/2 text-slate-600">Unlock your potential with our diverse range of English courses
-            tailored for all
-            levels. Whether you're a
-            beginner or looking to refine your skills, we have the perfect program for you.</p>
-          <a href="#">
-            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
-              <x-lucide-eye class="mr-2 size-4" /> View all
-            </x-button>
-          </a>
-        </div>
-      </article>
-      <article class="flex flex-wrap flex-row gap-8 w-full justify-center my-8 ">
-        @php
-          $cards = [
-              (object) [
-                  'img' => 'classic-lms-01.jpg',
-                  'title' => 'English For Children',
-                  'short_description' =>
-                      'Fun and interactive lessons to help children learn English through games and activities.',
-              ],
-              (object) [
-                  'img' => 'classic-lms-02.jpg',
-                  'title' => 'English For Junior',
-                  'short_description' => 'Engaging stories and songs to make learning English enjoyable for kids.',
-              ],
-              (object) [
-                  'img' => 'classic-lms-03.jpg',
-                  'title' => 'General English',
-                  'short_description' => 'Creative writing exercises to boost children\'s English language skills.',
-              ],
-              (object) [
-                  'img' => 'course-online-02.jpg',
-                  'title' => 'TOEFL/TOEIC Program',
-                  'short_description' => 'Interactive quizzes and puzzles to reinforce English vocabulary and grammar.',
-              ],
-              (object) [
-                  'img' => 'course-online-03.jpg',
-                  'title' => 'Conversation Practice',
-                  'short_description' =>
-                      'Live online classes with experienced teachers to guide children in learning English.',
-              ],
-              (object) [
-                  'img' => 'course-online-06.jpg',
-                  'title' => 'Grammar Class',
-                  'short_description' =>
-                      'A variety of multimedia resources to support children\'s English learning journey.',
-              ],
-          ];
-        @endphp
-
-        @forelse ($cards as $card)
-          <x-card class="min-w-[300px] w-[28%] ">
-            <x-card.header>
-              <img class="w-100 object-cover rounded-xl"
-                src="{{ asset('storage/assets/user/images/home/' . $card->img) }}" alt="course-image">
-              <x-typography.h4 class="pt-4">
-                {{ $card->title }}
-              </x-typography.h4>
-            </x-card.header>
-            <x-card.content>
-              <x-typography.p class="text-slate-600">
-                {{ Str::limit($card->short_description, 70, '...') }}
-              </x-typography.p>
-            </x-card.content>
-            <x-card.footer class="flex justify-between gap-8">
-              <div class="flex items-center gap-4">
-                <span class="text-slate-200 bg-blue-800/80 p-3.5 py-2 rounded-full">5</span>
-                <div class="flex items-center">
-                  @for ($i = 0; $i < 5; $i++)
-                    <x-lucide-star class="mr-1 size-4 text-yellow-400" />
-                  @endfor
-                </div>
-              </div>
-              <x-button size='lg'
-                class="border border-blue-800 hover:bg-blue-800 hover:text-white bg-white text-blue-800 px-8 py-6 rounded-full">
-                <x-lucide-user-round-plus class="mr-2 size-4" /> Enroll
-              </x-button>
-            </x-card.footer>
-          </x-card>
-        @empty
-          <div>No data found</div>
-        @endforelse
-
-      </article>
-    </section>
+    @livewire('partials.program-section')
 
     {{-- testimonial section --}}
     <section class="bg-white dark:bg-gray-900">
