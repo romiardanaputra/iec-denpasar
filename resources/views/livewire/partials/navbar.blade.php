@@ -1,5 +1,5 @@
-<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 py-4">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 px-0">
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 ">
+  <div class="container flex flex-wrap items-center justify-between mx-auto p-4 px-0">
     <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="{{ asset('storage/assets/user/images/logo/iec.jpg') }}" class="h-8" alt="Flowbite Logo">
       <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
@@ -35,7 +35,7 @@
             wire:current="md:text-blue-800 text-white">About</a>
         </li>
         <li>
-          <a href="#"
+          <a href="{{ route('our-program') }}" wire:navigate
             class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Our
             Program</a>
         </li>
