@@ -1,27 +1,6 @@
 <div>
   @livewire('partials.navbar')
-  <section class="py-16">
-    <div class="bg-cover bg-blue-800/60 bg-blend-multiply p-20 h-96 rounded-xl flex items-center justify-center"
-      style="background-image: url('{{ asset('storage/assets/user/images/about/iec-dps.jpg') }}');">
-      <div class="space-y-4">
-        <div class="space-y-2 flex flex-col items-center">
-          <x-breadcrumb>
-            <x-breadcrumb.list>
-              <x-breadcrumb.item>
-                <x-breadcrumb.link class="text-slate-300" href="{{ route('landing') }}"
-                  wire:navigate>Home</x-breadcrumb.link>
-              </x-breadcrumb.item>
-              <x-breadcrumb.separator class="text-slate-300" />
-              <x-breadcrumb.item>
-                <x-breadcrumb.page class="text-white">Our teams</x-breadcrumb.page>
-              </x-breadcrumb.item>
-            </x-breadcrumb.list>
-          </x-breadcrumb>
-          <h3 class="font-bold text-slate-300 text-5xl pt-6">Meet Our Experts!!</h3>
-        </div>
-      </div>
-    </div>
-  </section>
+  <livewire:partials.hero-section title="Our Team" breadcrumb="Our Team" routeName="landing" />
   <section class="py-16">
     <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
       <div class="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
