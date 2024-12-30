@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Auth\Login;
 use App\Livewire\Index;
 use App\Livewire\Pages\About;
 use App\Livewire\Pages\Contact;
@@ -12,3 +13,4 @@ Route::get('/about', About::class)->name('about');
 Route::get('/our-program', Program::class)->name('our-program');
 Route::get('/our-teams', OurTeam::class)->name('our-team');
 Route::get('/contact', Contact::class)->name('contact');
+Route::get('/login', Login::class)->name('login');
