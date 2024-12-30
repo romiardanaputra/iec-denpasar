@@ -5,7 +5,7 @@
       <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
     </a>
     <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-      <a href="#">
+      <a href="{{ route('login') }}" wire:navigate>
         <x-button size='lg'
           class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
           <x-lucide-log-in class="mr-2 size-4" /> Sign In
