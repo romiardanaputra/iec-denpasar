@@ -48,8 +48,10 @@
           Log in
         </button>
       </div>
-      <p class="text-sm mt-8 text-center text-gray-800">Don't have an account? <a href="javascript:void(0);"
-          class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">Register here</a></p>
+      <p class="text-sm mt-8 text-center text-gray-800">Don't have an account?
+        <a href="{{ route('register') }}" wire:navigate
+          class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">Register here</a>
+      </p>
     </form>
 
     <div class="h-full flex justify-center items-center">
