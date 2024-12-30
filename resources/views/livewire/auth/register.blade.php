@@ -15,36 +15,40 @@
         </div>
       </div>
 
-      <div class="mt-4">
-        <x-label htmlFor="phone">Phone Number</x-label>
-        <div class="relative flex items-center">
-          <x-input class="text-gray-800 rounded-full" type="number" id="phone" placeholder="Phone Number" />
-          <x-lucide-phone class="size-4 absolute right-0 mr-4" />
+      <div class="grid lg:grid-cols-2 gap-4">
+        <div class="mt-4">
+          <x-label htmlFor="phone">Phone Number</x-label>
+          <div class="relative flex items-center">
+            <x-input class="text-gray-800 rounded-full" type="number" id="phone" placeholder="Phone Number" />
+            <x-lucide-phone class="size-4 absolute right-0 mr-4" />
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <x-label htmlFor="email">Email</x-label>
+          <div class="relative flex items-center">
+            <x-input class="text-gray-800 rounded-full" type="email" id="email" placeholder="Email Address" />
+            <x-lucide-mail class="size-4 absolute right-0 mr-4" />
+          </div>
         </div>
       </div>
 
-      <div class="mt-4">
-        <x-label htmlFor="email">Email</x-label>
-        <div class="relative flex items-center">
-          <x-input class="text-gray-800 rounded-full" type="email" id="email" placeholder="Email Address" />
-          <x-lucide-mail class="size-4 absolute right-0 mr-4" />
+      <div class="grid lg:grid-cols-2 gap-4">
+        <div class="mt-4">
+          <x-label htmlFor="password">Password</x-label>
+          <div class="relative flex items-center">
+            <x-input class="text-gray-800 rounded-full" type="password" id="password" placeholder="Password" />
+            <x-lucide-eye class="size-4 absolute right-0 mr-4" />
+          </div>
         </div>
-      </div>
 
-      <div class="mt-4">
-        <x-label htmlFor="password">Password</x-label>
-        <div class="relative flex items-center">
-          <x-input class="text-gray-800 rounded-full" type="password" id="password" placeholder="Password" />
-          <x-lucide-eye class="size-4 absolute right-0 mr-4" />
-        </div>
-      </div>
-
-      <div class="mt-4">
-        <x-label htmlFor="passConfirm">Confirm Password</x-label>
-        <div class="relative flex items-center">
-          <x-input class="text-gray-800 rounded-full" type="passConfirm" id="passConfirm"
-            placeholder="Confirm Password" />
-          <x-lucide-eye-off class="size-4 absolute right-0 mr-4" />
+        <div class="mt-4">
+          <x-label htmlFor="passConfirm">Confirm Password</x-label>
+          <div class="relative flex items-center">
+            <x-input class="text-gray-800 rounded-full" type="passConfirm" id="passConfirm"
+              placeholder="Confirm Password" />
+            <x-lucide-eye-off class="size-4 absolute right-0 mr-4" />
+          </div>
         </div>
       </div>
 
