@@ -30,7 +30,7 @@
     @vite(['resources/css/luvi-ui.css', 'resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body>
-    <main>
+    <main class="antialiased">
       {{ $slot }}
     </main>
   </body>
