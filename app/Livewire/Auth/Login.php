@@ -13,13 +13,17 @@ class Login extends Component
 
     public $remmember = false;
 
-    protected $rules = [
-        'email' => 'required|email:rfc,dns',
-        'password' => 'required',
-    ];
+    protected function rules()
+    {
+        return [
+            'email' => ['required', 'string', 'lowercase', 'email:rfc,dns'],
+            'password' => ['required'],
+        ];
+    }
 
     public function login()
     {
+        $this->validate();
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remmember)) {
             $user = User::where(['email' => $this->email])->first();
             auth()->login($user, $this->remmember);

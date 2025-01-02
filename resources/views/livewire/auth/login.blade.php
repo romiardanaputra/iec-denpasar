@@ -30,7 +30,7 @@
 
       <div class="flex flex-wrap items-center gap-4 justify-between mt-4">
         <div class="flex items-center gap-4">
-          <x-checkbox id="terms1" wire:model.live="remember" name="remember" />
+          <x-checkbox id="terms1" wire:model.live="remmember" name="remmember" />
           <x-label htmlFor="terms1"
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             Remember Me
@@ -63,4 +63,3 @@
         alt="Dining Experience" />
     </div>
   </div>
-</div>

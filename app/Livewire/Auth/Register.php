@@ -21,14 +21,19 @@ class Register extends Component
 
     public $email;
 
+    protected function rules()
+    {
+        return [
+            'full_name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'phone:AUTO', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email:dns,rfc', 'unique:'.User::class, 'max:255'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ];
+    }
+
     public function store()
     {
-        $data = $this->validate([
-            'full_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'phone:AUTO'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'unique:'.User::class, 'max:255'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        $data = $this->validate();
         $data['password'] = Hash::make($this->password);
         $data['phone'] = phone($this->phone)->formatE164();
         $user = User::create($data);
