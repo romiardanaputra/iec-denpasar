@@ -37,9 +37,9 @@
           </x-label>
         </div>
 
-        @if (Route::has('password.request'))
+        @if (Route::has('forgot.password'))
           <div class="text-sm">
-            <a href="{{ route('password.request') }}" class="text-blue-600 font-semibold hover:underline">
+            <a href="{{ route('forgot.password') }}" class="text-blue-600 font-semibold hover:underline">
               Forgot your password?
             </a>
           </div>

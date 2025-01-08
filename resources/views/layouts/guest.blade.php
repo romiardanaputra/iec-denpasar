@@ -30,7 +30,7 @@
   </head>
 
   <body class="font-sans text-gray-900 antialiased">
-    <main>
+    <main class="antialiased">
       {{ $slot }}
     </main>
   </body>

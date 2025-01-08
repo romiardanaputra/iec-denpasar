@@ -21,6 +21,11 @@ class Register extends Component
 
     public $email;
 
+    public function render()
+    {
+        return view('livewire.auth.register');
+    }
+
     protected function rules()
     {
         return [
@@ -37,14 +42,9 @@ class Register extends Component
         $data['password'] = Hash::make($this->password);
         $data['phone'] = phone($this->phone)->formatE164();
         $user = User::create($data);
-        event(new Registered($user));
+        // event(new Registered($user));
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
-    }
-
-    public function render()
-    {
-        return view('livewire.auth.register');
     }
 }
