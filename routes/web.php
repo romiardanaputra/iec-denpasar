@@ -1,7 +1,9 @@
 <?php
 
+use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Feature\User\Dashboard;
 use App\Livewire\Index;
 use App\Livewire\Pages\About;
@@ -18,6 +20,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/contact', Contact::class)->name('contact');
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
+    Route::get('/forgot-password', ForgotPassword::class)->name('forgot.password');
+    Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
 });
 
 Route::group(['middleware' => 'auth'], function () {

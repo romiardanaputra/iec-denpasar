@@ -10,6 +10,7 @@ use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
 {
+    // dipake pertama
     /**
      * Display the password reset link request view.
      */
