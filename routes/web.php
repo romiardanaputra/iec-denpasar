@@ -10,6 +10,7 @@ use App\Livewire\Pages\About;
 use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\OurTeam;
 use App\Livewire\Pages\Program;
+use App\Livewire\Pages\ProgramDetail;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -22,6 +23,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', Register::class)->name('register');
     Route::get('/forgot-password', ForgotPassword::class)->name('forgot.password');
     Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
+    Route::get('/our-program/{slug}', ProgramDetail::class)->name('program.detail');
 });
 
 Route::group(['middleware' => 'auth'], function () {

@@ -30,9 +30,13 @@
   </head>
 
   <body class="font-sans text-gray-900 antialiased">
-    <main class="antialiased">
-      {{ $slot }}
-    </main>
+    <div>
+      @livewire('partials.navbar')
+      <main class="antialiased mt-36">
+        {{ $slot }}
+      </main>
+      @livewire('partials.footer')
+    </div>
   </body>
 
 </html>
