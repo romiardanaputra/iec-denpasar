@@ -12,11 +12,11 @@
       <div class="mt-4">
         <x-label htmlFor="full_name">Full Name</x-label>
         <div class="relative flex items-center">
-          <x-input wire:model.blur="full_name" name="full_name" class="text-gray-800 rounded-full" type="text"
-            id="full_name" placeholder="full name" required autofocus auto autocomplete="fullname" :value="old('full_name')" />
+          <x-input wire:model.blur="name" name="name" class="text-gray-800 rounded-full" type="text"
+            id="name" placeholder="full name" required autofocus auto autocomplete="fullname" :value="old('name')" />
           <x-lucide-user class="size-4 absolute right-0 mr-4" />
         </div>
-        <x-input-error :messages="$errors->get('full_name')" class="mt-2" />
+        <x-input-error :messages="$errors->get('name')" class="mt-2" />
       </div>
 
       <div class="grid lg:grid-cols-2 gap-4">

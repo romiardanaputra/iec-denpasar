@@ -29,7 +29,7 @@ class Register extends Component
     protected function rules()
     {
         return [
-            'full_name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'phone:AUTO', 'unique:'.User::class],
             'email' => ['required', 'string', 'lowercase', 'email:dns,rfc', 'unique:'.User::class, 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
