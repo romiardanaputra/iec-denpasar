@@ -24,6 +24,9 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/forgot-password', ForgotPassword::class)->name('forgot.password');
     Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
     Route::get('/our-program/{slug}', ProgramDetail::class)->name('program.detail');
+    Route::get('oauth/google', [\App\Http\Controllers\OauthController::class, 'redirectToProvider'])->name('oauth.google');
+    Route::get('oauth/google/callback', [\App\Http\Controllers\OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {
