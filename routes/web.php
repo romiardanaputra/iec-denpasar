@@ -6,6 +6,7 @@ use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Feature\User\Dashboard;
 use App\Livewire\Feature\User\Profile;
+use App\Livewire\Feature\User\Schedule;
 use App\Livewire\Index;
 use App\Livewire\Pages\About;
 use App\Livewire\Pages\Contact;
@@ -33,4 +34,5 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/profile', Profile::class)->name('profile');
+    Route::get('/schedule', Schedule::class)->name('schedule');
 });
