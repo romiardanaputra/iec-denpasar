@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <meta name="description"
-      content="IEC Denpasar menyediakan kursus bahasa Inggris profesional untuk anak, remaja, dan dewasa di Denpasar. Mulai dari program dasar hingga persiapan TOEFL.">
+      content="test guest IEC Denpasar menyediakan kursus bahasa Inggris profesional untuk anak, remaja, dan dewasa di Denpasar. Mulai dari program dasar hingga persiapan TOEFL.">
     <meta name="keywords"
       content="kursus bahasa inggris denpasar, les bahasa inggris denpasar, kursus toefl denpasar, kursus ielts denpasar, iec denpasar">
     <link rel="canonical" href="https://iecdps.com/kursus-bahasa-inggris-denpasar">

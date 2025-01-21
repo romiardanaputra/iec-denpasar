@@ -1,4 +1,3 @@
-<!-- Navbar -->
 <nav
   class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all shadow-none duration-250 ease-soft-in rounded-2xl lg:flex-nowrap lg:justify-start"
   navbar-main navbar-scroll="true">
@@ -25,14 +24,12 @@
       <ul
         class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full {{ Request::is('rtl') ? 'pr-10 ml-0 mr-auto' : '' }}">
 
-        <!-- online builder btn  -->
         <li class="flex items-center">
           <a href="javascript:;"
             class="block px-0 py-2 font-semibold transition-all ease-nav-brand text-size-sm text-slate-500">
             <livewire:auth.logout />
           </a>
         </li>
-        {{-- mobile responsive --}}
         <li class="flex items-center {{ Request::is('rtl') ? 'pr-4' : 'pl-4' }} xl:hidden">
           <a href="javascript:;" class="block p-0 transition-all ease-nav-brand text-size-sm text-slate-500"
             sidenav-trigger>

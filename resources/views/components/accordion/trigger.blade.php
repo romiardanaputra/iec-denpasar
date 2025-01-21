@@ -1,6 +1,6 @@
 <h3 x-accordion:trigger class="flex" @click="__toggle(item)" :data-state="__getDataState(item)">
   <button :data-state="__getDataState(item)"
-    class="flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180">
+    class="flex flex-1 items-center justify-between py-4 text-base font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180">
     {{ $slot }}
     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"
       class="h-4 w-4 shrink-0 text-slate-500 transition-transform duration-200 dark:text-slate-400">

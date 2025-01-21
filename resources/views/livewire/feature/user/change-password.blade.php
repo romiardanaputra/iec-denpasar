@@ -26,7 +26,7 @@
           </div>
         @endif
 
-        <form wire:submit.prevent="resetPassword" autocomplete="on" id="profileForm" class="space-y-3">
+        <form wire:submit.prevent="resetPassword" autocomplete="on" id="changePassForm" class="space-y-3">
           @csrf
           <div class="max-w-full px-3 w-full lg:flex-none">
             <div class="flex flex-col h-full space-y-3 ">
