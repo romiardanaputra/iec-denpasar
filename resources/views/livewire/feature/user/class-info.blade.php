@@ -74,15 +74,39 @@
         </x-accordion>
       </x-card>
       <x-card class="mt-6">
-        <x-card.header>
+        <x-card.header class="p-8">
           <x-typography.h3>
-            Today's class
+            This week's class
           </x-typography.h3>
         </x-card.header>
-
-        <x-card.content>
-
-        </x-card.content>
+        @for ($i = 0; $i < 2; $i++)
+          <x-card.content>
+            <div class="flex gap-6 w-full items-center bg-teal-50 p-4 rounded-lg">
+              <div class="flex flex-col w-1/12 items-center">
+                <span class="font-medium text-slate-600">09.00</span>
+                <span class="font-medium text-slate-600">AM</span>
+              </div>
+              <div class="flex flex-col w-10/12">
+                <p class="font-medium">Topic {{ $i }}: Conversation with john</p>
+                <p class="text-sm font-medium text-slate-600">Chapter 6: buy to market</p>
+              </div>
+              <div class="w-1/12">
+                <x-dialog>
+                  <x-dialog.trigger>Detail</x-dialog.trigger>
+                  <x-dialog.content>
+                    <x-dialog.header>
+                      <x-dialog.title>Are you absolutely sure?</x-dialog.title>
+                      <x-dialog.description>
+                        This action cannot be undone. This will permanently delete your account
+                        and remove your data from our servers.
+                      </x-dialog.description>
+                    </x-dialog.header>
+                  </x-dialog.content>
+                </x-dialog>
+              </div>
+            </div>
+          </x-card.content>
+        @endfor
 
       </x-card>
     </section>
@@ -110,11 +134,22 @@
 
         </x-card.content>
         <x-card.footer>
-          <x-button>view profile</x-button>
+          <x-dialog>
+            <x-dialog.trigger>See Profile</x-dialog.trigger>
+            <x-dialog.content>
+              <x-dialog.header>
+                <x-dialog.title>Are you absolutely sure?</x-dialog.title>
+                <x-dialog.description>
+                  This action cannot be undone. This will permanently delete your account
+                  and remove your data from our servers.
+                </x-dialog.description>
+              </x-dialog.header>
+            </x-dialog.content>
+          </x-dialog>
         </x-card.footer>
       </x-card>
       <x-card class="flex items-center justify-center h-56 bg-blue-200/50">
-        <div id="MyClockDisplay" class="text-6xl text-blue-600/80 font-bold" onload="showTime()"></div>
+        <div id="MyClockDisplay" class="text-6xl text-blue-800 font-bold" onload="showTime()"></div>
       </x-card>
     </section>
   </div>
