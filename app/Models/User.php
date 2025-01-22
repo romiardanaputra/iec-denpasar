@@ -31,6 +31,7 @@ class User extends Authenticatable
         'password',
         'gauth_id',
         'gauth_type',
+        'role',
     ];
 
     /**

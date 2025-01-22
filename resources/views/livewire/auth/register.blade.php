@@ -10,10 +10,10 @@
       </div>
 
       <div class="mt-4">
-        <x-label htmlFor="full_name">Full Name</x-label>
+        <x-label for="full_name">Full Name</x-label>
         <div class="relative flex items-center">
           <x-input wire:model.blur="name" name="name" class="text-gray-800 rounded-full" type="text"
-            id="name" placeholder="full name" required autofocus auto autocomplete="fullname" :value="old('name')" />
+            id="name" placeholder="full name" required autofocus autocomplete="fullname" :value="old('name')" />
           <x-lucide-user class="size-4 absolute right-0 mr-4" />
         </div>
         <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -21,7 +21,7 @@
 
       <div class="grid lg:grid-cols-2 gap-4">
         <div class="mt-4">
-          <x-label htmlFor="phone">Phone Number</x-label>
+          <x-label for="phone">Phone Number</x-label>
           <div class="relative flex items-center">
             <x-input wire:model.blur="phone" name="phone" required class="text-gray-800 rounded-full" type="text"
               id="phone" placeholder="Phone Number" autocomplete="082.." :value="old('phone')" />
@@ -31,7 +31,7 @@
         </div>
 
         <div class="mt-4">
-          <x-label htmlFor="email">Email</x-label>
+          <x-label for="email">Email</x-label>
           <div class="relative flex items-center">
             <x-input wire:model.blur="email" name="email" required class="text-gray-800 rounded-full" type="email"
               id="email" placeholder="Email Address" autocomplete="email address" :value="old('email')" />
@@ -43,7 +43,7 @@
 
       <div class="grid lg:grid-cols-2 gap-4">
         <div class="mt-4">
-          <x-label htmlFor="password">Password</x-label>
+          <x-label for="password">Password</x-label>
           <div class="relative flex items-center">
             <x-input wire:model.blur="password" name="password" required class="text-gray-800 rounded-full"
               type="password" id="password" placeholder="Password" autocomplete="new password" />
@@ -53,7 +53,7 @@
         </div>
 
         <div class="mt-4">
-          <x-label htmlFor="password_confirmation">Confirm Password</x-label>
+          <x-label for="password_confirmation">Confirm Password</x-label>
           <div class="relative flex items-center">
             <x-input wire:model.blur="password_confirmation" name="password_confirmation" required
               class="text-gray-800 rounded-full" type="password" id="password_confirmation"

@@ -1,4 +1,3 @@
-<!-- sidenav  -->
 <aside
   class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 block w-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200  xl:translate-x-0 xl:bg-transparent">
 
@@ -76,11 +75,11 @@
             Grade</span>
         </a>
         <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
-              {{ Request::is('user-profile') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
-          href="{{ url('user-profile') }}">
+              {{ Request::is('class-info') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
+          href="{{ url('class-info') }}">
           <div
-            class="{{ Request::is('user-profile') ? ' bg-gradient-fuchsia' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-            <x-lucide-book-marked class="size-4" />
+            class="{{ Request::is('class-info') ? 'bg-blue-800' : 'bg-white' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
+            <x-lucide-book-marked class="size-4 {{ Request::is('class-info') ? 'text-white' : 'text-slate-800' }}" />
           </div>
           <span
             class="{{ Request::is('rtl') ? 'mr-1' : 'ml-1' }} duration-300 opacity-100 pointer-events-none ease-soft">
@@ -119,5 +118,3 @@
     </ul>
   </div>
 </aside>
-
-<!-- end sidenav -->

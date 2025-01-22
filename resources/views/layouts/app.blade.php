@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
-    <meta name="description"
-      content="IEC Denpasar menyediakan kursus bahasa Inggris profesional untuk anak, remaja, dan dewasa di Denpasar. Mulai dari program dasar hingga persiapan TOEFL.">
+    <meta name="description" content="IEC Denpasar">
     <meta name="keywords"
       content="kursus bahasa inggris denpasar, les bahasa inggris denpasar, kursus toefl denpasar, kursus ielts denpasar, iec denpasar">
     <link rel="canonical" href="https://iecdps.com/kursus-bahasa-inggris-denpasar">
@@ -23,19 +21,17 @@
     <meta name="twitter:title" content="Kursus Bahasa Inggris di Denpasar | IEC Denpasar">
     <meta name="twitter:description"
       content="Daftar kursus bahasa Inggris di IEC Denpasar untuk semua tingkatan. Mulai dari program dasar hingga persiapan TOEFL.">
+    @livewireStyles
     <meta name="twitter:image" content="https://iecdps.com/images/banner-kursus.jpg">
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <!-- Main Styling -->
     <link href="{{ asset('assets') }}/css/styles.css?v=1.0.3" rel="stylesheet" />
     @vite(['resources/css/luvi-ui.css', 'resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
-
+    @yield('css_custom')
   </head>
-
   <body class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
     <div class="w-full">
       @include('layouts.navbars.auth.sidebar')
@@ -48,15 +44,10 @@
       </main>
     </div>
     @livewireScripts
-
+    <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js" async></script>
+    <script src="{{ asset('assets') }}/js/plugins/perfect-scrollbar.min.js" async></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="{{ asset('assets') }}/js/soft-ui-dashboard-tailwind.js?v=1.0.3" async></script>
+    @yield('js_custom')
   </body>
-  <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js" async></script>
-  <!-- plugin for scrollbar  -->
-  <script src="{{ asset('assets') }}/js/plugins/perfect-scrollbar.min.js" async></script>
-  <!-- github button -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- main script file  -->
-  <script src="{{ asset('assets') }}/js/soft-ui-dashboard-tailwind.js?v=1.0.3" async></script>
-
-  @yield('js_custom')
 </html>
