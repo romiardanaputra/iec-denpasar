@@ -1,8 +1,10 @@
 import forms from "@tailwindcss/forms";
 import defaultTheme from "tailwindcss/defaultTheme";
+import preset from "./vendor/filament/support/tailwind.config.preset";
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  presets: [preset],
   darkMode: "class",
   content: [
     "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
@@ -13,12 +15,15 @@ export default {
     "./resources/**/*.js",
     "./resources/**/*.vue",
     "./node_modules/flowbite/**/*.js",
+    "./app/Filament/**/*.php",
+    "./resources/views/filament/**/*.blade.php",
+    "./vendor/filament/**/*.blade.php",
   ],
 
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "3rem",
       screens: {
         "2xl": "1400px",
       },

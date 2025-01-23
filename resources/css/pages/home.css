@@ -1,0 +1,7 @@
+@tailwind components;
+
+@layer components {
+  .hero-custom {
+    @apply w-full bg-[url('../storage/assets/user/images/home/bg-image-13.jpg')];
+  }
+}
