@@ -4,6 +4,8 @@ use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
+use App\Livewire\Feature\Payment\Invoice;
+use App\Livewire\Feature\User\Bill;
 use App\Livewire\Feature\User\ClassInfo;
 use App\Livewire\Feature\User\Dashboard;
 use App\Livewire\Feature\User\ExamGrade;
@@ -39,4 +41,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/schedule', Schedule::class)->name('schedule');
     Route::get('/exam-grade', ExamGrade::class)->name('exam-grade');
     Route::get('/class-info', ClassInfo::class)->name('class-info');
+    Route::get('/bill', Bill::class)->name('bill');
+    Route::get('/invoice', Invoice::class)->name('invoice');
 });
