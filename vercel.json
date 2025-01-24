@@ -1,32 +1,7 @@
 {
   "version": 2,
   "framework": null,
-  "builds": [
-    {
-      "src": "/api/index.php",
-      "use": "vercel-php@0.7.3"
-    },
-    {
-      "src": "/public/build/assets/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "/public/**",
-      "use": "@vercel/static"
-    }
-  ],
   "routes": [
-    {
-      "src": "/build/assets/(.*)",
-      "dest": "/public/build/assets/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "headers": {
-        "Content-Type": "image/x-icon"
-      },
-      "dest": "/public/favicon.ico"
-    },
     {
       "src": "/(.*)",
       "dest": "/api/index.php"
@@ -35,13 +10,14 @@
   "outputDirectory": "public",
   "env": {
     "APP_NAME": "iec_denpasar",
+    "APP_KEY": "base64:eCyp68hjxBKkQGpuydv5grp8+agVbrjFctOfE3ZUE6o=",
     "APP_ENV": "production",
-    "APP_DEBUG": "false",
+    "APP_DEBUG": "true",
     "APP_URL": "https://iecdps.vercel.app",
 
     "LOG_CHANNEL": "stderr",
     "CACHE_DRIVER": "array",
-    "SESSION_DRIVER": "array",
+    "SESSION_DRIVER": "cookie",
 
     "APP_CONFIG_CACHE": "/tmp/config.php",
     "APP_EVENTS_CACHE": "/tmp/events.php",
