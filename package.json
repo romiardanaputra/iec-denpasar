@@ -37,6 +37,7 @@
     },
     "dependencies": {
         "@alpinejs/anchor": "^3.14.3",
-        "@alpinejs/collapse": "^3.14.3"
+        "@alpinejs/collapse": "^3.14.3",
+        "swiper": "^11.2.1"
     }
 }
