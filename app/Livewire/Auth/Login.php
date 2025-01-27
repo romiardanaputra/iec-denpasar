@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Component;
 
+#[\Livewire\Attributes\Title('Login')]
+
 class Login extends Component
 {
     public $email = '';

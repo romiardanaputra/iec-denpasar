@@ -4,6 +4,8 @@ namespace App\Livewire\Pages;
 
 use Livewire\Component;
 
+#[\Livewire\Attributes\Title('Our teams')]
+
 class OurTeam extends Component
 {
     public $breadcrumb;

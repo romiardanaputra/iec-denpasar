@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Component;
 
+#[\Livewire\Attributes\Title('Register')]
 class Register extends Component
 {
     public $full_name;
