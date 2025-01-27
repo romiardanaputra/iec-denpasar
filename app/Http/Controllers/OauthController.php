@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
-use Auth;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
@@ -27,7 +27,7 @@ class OauthController extends Controller
                 if (is_null($finduser->email_verified_at)) {
                     $finduser->update(['email_verified_at' => now()]);
                 }
-                Auth::login($finduser);
+                auth()->login($finduser);
 
                 return redirect('/dashboard');
 
@@ -39,9 +39,11 @@ class OauthController extends Controller
                     'gauth_type' => 'google',
                     'password' => Hash::make('user@123'),
                     'email_verified_at' => now(),
-                ]);
 
-                Auth::login($newUser);
+                ]);
+                $newUser->assignRole(Role::find(2));
+
+                auth()->login($newUser);
 
                 return redirect('/dashboard');
             }

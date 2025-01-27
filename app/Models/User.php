@@ -3,16 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Traits\Uuid;
+use App\Traits\HasRoles;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, Uuid;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes;
 
     protected $table = 'users';
 
@@ -31,7 +32,6 @@ class User extends Authenticatable
         'password',
         'gauth_id',
         'gauth_type',
-        'role',
     ];
 
     /**
@@ -55,5 +55,10 @@ class User extends Authenticatable
             'email_verified_at' => 'timestamp',
             'password' => 'hashed',
         ];
+    }
+
+    public function canAccessPanel($panel): bool
+    {
+        return $this->isAdmin();
     }
 }
