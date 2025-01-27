@@ -1,4 +1,4 @@
-<x-guest-layout>
+<div>
   @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'About Us', 'title' => 'About Us'])
   <section class="py-20">
     <div class="max-w-screen-xl mx-auto">
@@ -45,4 +45,4 @@
   </section>
   @livewire('partials.team-section')
   @livewire('partials.cta-section')
-</x-guest-layout>
+</div>

@@ -1,4 +1,3 @@
-<x-guest-layout>
   <div class="min-h-screen space-y-14">
     {{-- banner here --}}
     <section class="min-h-svh flex items-center justify-center">
@@ -159,4 +158,3 @@
       </div>
     </section>
   </div>
-</x-guest-layout>

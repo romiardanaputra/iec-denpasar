@@ -1,4 +1,4 @@
-<x-guest-layout>
+<div>
   @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'Contact Us', 'title' => 'Contact Us'])
   <section class="py-16 container">
     <div class="max-w-6xl mx-auto relative bg-white rounded-lg py-6">
@@ -64,4 +64,4 @@
           href="https://www.gps.ie/">gps trackers</a></iframe></div>
   </section>
   @livewire('partials.cta-section')
-</x-guest-layout>
+</div>

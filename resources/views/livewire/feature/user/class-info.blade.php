@@ -1,13 +1,3 @@
-@section('css_custom')
-  {{-- <style>
-    .clock {
-      color: #17D4FE;
-      font-size: 60px;
-      font-family: Orbitron;
-      letter-spacing: 7px;
-    }
-  </style> --}}
-@endsection
 @section('js_custom')
   <script>
     function showTime() {
@@ -42,8 +32,7 @@
   </script>
 @endsection
 
-<x-app-layout>
-
+<div>
   <div class="flex flex-wrap">
     <section class="p-4 w-7/12 order space-y-4">
       <x-typography.h3>
@@ -153,5 +142,4 @@
       </x-card>
     </section>
   </div>
-
-</x-app-layout>
+</div>
