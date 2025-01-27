@@ -9,7 +9,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? config('app.name') }}</title>
     <meta name="description" content="IEC Denpasar">
     <meta name="keywords"
       content="kursus bahasa inggris denpasar, les bahasa inggris denpasar, kursus toefl denpasar, kursus ielts denpasar, iec denpasar">
@@ -33,7 +32,7 @@
     <!-- Main Styling -->
     <link href="{{ asset('assets') }}/css/styles.css?v=1.0.3" rel="stylesheet" />
 
-    <title>{{ $title ?? config('app.name') }}</title>
+    <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title>
 
     <style>
       [x-cloak] {
