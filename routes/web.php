@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\HasRoleAdminMiddleware;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
@@ -35,7 +36,7 @@ Route::group(['middleware' => 'guest'], function () {
 
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', HasRoleAdminMiddleware::class]], function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/profile', Profile::class)->name('profile');
     Route::get('/schedule', Schedule::class)->name('schedule');

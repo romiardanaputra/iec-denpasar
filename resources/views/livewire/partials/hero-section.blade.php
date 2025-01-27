@@ -1,6 +1,6 @@
 <section class="py-16">
   <div class="bg-cover bg-blue-800/60 bg-blend-multiply p-20 h-96 rounded-xl flex items-center justify-center"
-    style="background-image: url('{{ asset('storage/assets/user/images/about/iec-dps.jpg') }}');">
+    style="background-image: url('{{ asset('storage/assets/images/about/iec-dps.jpg') }}');">
     <div class="space-y-4">
       <div class="space-y-2 flex flex-col items-center">
         <x-breadcrumb>

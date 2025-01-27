@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
     <meta name="description"
       content="test guest IEC Denpasar menyediakan kursus bahasa Inggris profesional untuk anak, remaja, dan dewasa di Denpasar. Mulai dari program dasar hingga persiapan TOEFL.">
     <meta name="keywords"
@@ -26,17 +25,22 @@
     <meta name="twitter:image" content="https://iecdps.com/images/banner-kursus.jpg">
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>{{ $title ?? config('app.name') }}</title>
     @vite(['resources/css/luvi-ui.css', 'resources/css/app.css', 'resources/js/app.js'])
+    @yield('css_custom')
+    @livewireStyles
   </head>
 
   <body class="font-sans text-gray-900 antialiased">
     <div>
       @livewire('partials.navbar')
-      <main class="antialiased mt-36">
+      <main class="antialiased">
         {{ $slot }}
       </main>
       @livewire('partials.footer')
     </div>
+    @livewireScripts
+    @yield('js_custom')
   </body>
 
 </html>

@@ -77,8 +77,8 @@
     </x-form>
 
     <div class="h-full flex justify-center items-center">
-      <img src="https://readymadeui.com/photo.webp" class="rounded-md lg:w-4/5 md:w-11/12 z-50 relative"
-        alt="Dining Experience" />
+      <img src="{{ asset('storage/assets/vectors/mobile_login.svg') }}"
+        class="rounded-md object-cover lg:w-full md:w-11/12 z-50 relative" alt="Dining Experience" />
     </div>
   </div>
 </div>

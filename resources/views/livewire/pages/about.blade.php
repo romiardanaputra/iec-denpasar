@@ -1,41 +1,5 @@
-<div>
-  @livewire('partials.navbar')
-  <section class="py-10 mt-20">
-    <div class="max-w-screen-xl mx-auto bg-cover bg-blue-800/60 bg-blend-multiply p-20 rounded-xl"
-      style="background-image: url('{{ asset('storage/assets/user/images/about/iec-dps.jpg') }}');">
-      <div class="space-y-4">
-        <div class="space-y-2">
-          <x-breadcrumb>
-            <x-breadcrumb.list>
-              <x-breadcrumb.item>
-                <x-breadcrumb.link class="text-slate-300" href="{{ route('landing') }}"
-                  wire:navigate>Home</x-breadcrumb.link>
-              </x-breadcrumb.item>
-              <x-breadcrumb.separator class="text-slate-300" />
-              <x-breadcrumb.item>
-                <x-breadcrumb.page class="text-white">About</x-breadcrumb.page>
-              </x-breadcrumb.item>
-            </x-breadcrumb.list>
-          </x-breadcrumb>
-          <h3 class="font-bold text-slate-300 text-5xl pt-6">Learn English today</h3>
-          <p class="pt-4 text-slate-200 w-1/2 leading-relaxed">
-            The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke
-            tax.
-          </p>
-        </div>
-
-        <div>
-          <a href="#">
-            <x-button size='lg'
-              class="border border-white bg-white text-blue-800 hover:bg-blue-800 hover:border-blue-800 hover:text-white rounded-full py-6 px-8 text-sm">
-              <x-lucide-book class="mr-2 size-4" />
-              Program
-            </x-button>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+<x-guest-layout>
+  @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'About Us', 'title' => 'About Us'])
   <section class="py-20">
     <div class="max-w-screen-xl mx-auto">
       <div class="grid lg:grid-cols-2 gap-20">
@@ -57,8 +21,7 @@
           </div>
         </div>
         <div>
-          <img src="{{ asset('storage/assets/user/images/home/whyus.webp') }}" alt="about-section-2-image"
-            class="rounded-2xl">
+          <img src="{{ asset('storage/assets/images/about/iec.jpg') }}" alt="about-section-2-image" class="rounded-2xl">
         </div>
       </div>
       <div class="grid lg:grid-cols-2 gap-20 mt-10">
@@ -80,5 +43,6 @@
       </div>
     </div>
   </section>
-  @livewire('partials.footer')
-</div>
+  @livewire('partials.team-section')
+  @livewire('partials.cta-section')
+</x-guest-layout>
