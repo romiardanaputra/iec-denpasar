@@ -48,7 +48,7 @@
   <body class="antialiased">
     <div class="w-full">
 
-      @if (auth()->check() && auth()->user()->isUser())
+      @if (auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isUser())
         <div class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
           @include('layouts.navbars.auth.sidebar')
           <main class="ease-soft-in-out xl:ml-68.5 relative h-full rounded-xl transition-all duration-200">
@@ -59,17 +59,15 @@
             </div>
           </main>
         </div>
-      @endif
-
-      @guest
-        @if (!Route::is('login', 'register'))
+      @else
+        @if (!Route::is('login', 'register', 'forgot.password', 'password.reset'))
           @livewire('partials.navbar')
         @endif
         {{ $slot }}
-        @if (!Route::is('login', 'register'))
+        @if (!Route::is('login', 'register', 'forgot.password', 'password.reset'))
           @livewire('partials.footer')
         @endif
-      @endguest
+      @endif
 
     </div>
 

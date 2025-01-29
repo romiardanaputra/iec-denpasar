@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Auth;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
@@ -12,15 +13,15 @@ use Livewire\Component;
 #[\Livewire\Attributes\Title('Register')]
 class Register extends Component
 {
-    public $full_name;
+    public $name = '';
 
-    public $phone;
+    public $phone = '';
 
-    public $password;
+    public $password = '';
 
-    public $password_confirmation;
+    public $password_confirmation = '';
 
-    public $email;
+    public $email = '';
 
     public function render()
     {
@@ -30,7 +31,7 @@ class Register extends Component
     protected function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'min:4'],
             'phone' => ['required', 'phone:AUTO', 'unique:'.User::class],
             'email' => ['required', 'string', 'lowercase', 'email:dns,rfc', 'unique:'.User::class, 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -43,7 +44,8 @@ class Register extends Component
         $data['password'] = Hash::make($this->password);
         $data['phone'] = phone($this->phone)->formatE164();
         $user = User::create($data);
-        // event(new Registered($user));
+        $user->assignRole(Role::find(2));
+        event(new Registered($user));
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));

@@ -4,6 +4,8 @@ namespace App\Livewire\Auth;
 
 use Livewire\Component;
 
+#[\Livewire\Attributes\Title('logout')]
+
 class Logout extends Component
 {
     public function logout()

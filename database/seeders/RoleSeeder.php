@@ -15,14 +15,14 @@ class RoleSeeder extends Seeder
     {
 
         $user = User::create([
-            'name' => 'Mahendra Wardana',
-            'phone' => '0836678394',
-            'email' => 'romiardana1@gmail.com',
+            'name' => 'Super Admin IEC Denpasar',
+            'phone' => '+6285792479249',
+            'email' => 'romiardanaputra@gmail.com',
             'password' => bcrypt('password'),
             'email_verified_at' => now(),
         ]);
 
-        User::factory(10)->create();
+        User::factory(3)->create();
 
         collect([
             ['name' => 'admin'],

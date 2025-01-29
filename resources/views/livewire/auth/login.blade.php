@@ -1,6 +1,6 @@
 <div class="max-w-screen-xl mx-auto h-screen">
   <div class="grid md:grid-cols-2 items-center gap-8 h-full">
-    <x-form wire:submit.prevent="login" method="post" class="max-w-lg max-md:mx-auto w-full p-6" autocomplete="on">
+    <x-form wire:submit="login" method="post" class="max-w-lg max-md:mx-auto w-full p-6" autocomplete="on">
       @csrf
       <div class="mb-12">
         <h3 class="text-gray-800 text-4xl font-extrabold">Sign in</h3>
@@ -9,20 +9,20 @@
           designed login form. Effortlessly access your account.</p>
       </div>
       <div class="mt-4">
-        <x-label htmlFor="email">Email</x-label>
+        <x-label for="email">Email</x-label>
         <div class="relative flex items-center">
           <x-input wire:model.blur="email" name="email" required class="text-gray-800 rounded-full" type="email"
-            id="email" placeholder="Email Address" autocomplete="email address" :value="old('email')" />
+            id="email" placeholder="Email Address" autocomplete :value="old('email')" />
           <x-lucide-mail class="size-4 absolute right-0 mr-4" />
         </div>
         <x-input-error :messages="$errors->get('email')" class="mt-2" />
       </div>
 
       <div class="mt-4">
-        <x-label htmlFor="password">Password</x-label>
+        <x-label for="password">Password</x-label>
         <div class="relative flex items-center">
           <x-input wire:model.blur="password" name="password" required class="text-gray-800 rounded-full"
-            type="password" id="password" placeholder="Password" autocomplete="new password" />
+            type="password" id="password" placeholder="Password" />
           <x-lucide-eye class="size-4 absolute right-0 mr-4" />
         </div>
         <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -31,7 +31,7 @@
       <div class="flex flex-wrap items-center gap-4 justify-between mt-4">
         <div class="flex items-center gap-4">
           <x-checkbox id="terms1" wire:model.live="remmember" name="remmember" />
-          <x-label htmlFor="terms1"
+          <x-label for="terms1"
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             Remember Me
           </x-label>
@@ -46,11 +46,12 @@
         @endif
       </div>
 
-      <div class="mt-8 flex lg:flex-col lg:gap-4">
+      <div class="mt-8 flex space-y-4 flex-col lg:gap-4">
         <x-button type="submit" size='lg'
           class="w-full bg-blue-800  hover:bg-blue-900 text-white rounded-full px-8 py-6 ">
           <x-lucide-log-in class="mr-2 size-4" /> Log In
         </x-button>
+        <div class="text-center font-medium">Or</div>
         <a href="{{ route('oauth.google') }}"
           class="px-5 py-3 inline-flex items-center justify-center rounded-full text-[#333] text-base tracking-wider font-semibold border-none outline-none shadow-lg bg-gray-50 hover:bg-gray-100 active:bg-gray-50">
           <svg xmlns="http://www.w3.org/2000/svg" width="22px" fill="#fff" class="inline mr-3"

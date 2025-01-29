@@ -52,9 +52,4 @@ class Login extends Component
             return $this->addError('email', trans('auth.failed'));
         }
     }
-
-    public function mount()
-    {
-        $this->fill(['email' => 'email@gmail.com', 'password' => 'secret']);
-    }
 }

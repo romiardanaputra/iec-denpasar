@@ -12,6 +12,8 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+// ALREADY IMPLEMENTED IN RESET PASSWORD LIVEWIRE
+
 class NewPasswordController extends Controller
 {
     /**
