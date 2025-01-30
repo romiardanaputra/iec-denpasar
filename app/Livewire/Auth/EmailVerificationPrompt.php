@@ -22,4 +22,13 @@ class EmailVerificationPrompt extends Component
             session()->flash('status', 'Verification link sent!');
         }
     }
+
+    public function logout()
+    {
+        Auth::guard('web')->logout();
+        session()->invalidate();
+        session()->regenerateToken();
+
+        return to_route('landing');
+    }
 }

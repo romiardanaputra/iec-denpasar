@@ -60,11 +60,11 @@
           </main>
         </div>
       @else
-        @if (!Route::is('login', 'register', 'forgot.password', 'password.reset'))
+        @if (!Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
           @livewire('partials.navbar')
         @endif
         {{ $slot }}
-        @if (!Route::is('login', 'register', 'forgot.password', 'password.reset'))
+        @if (!Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
           @livewire('partials.footer')
         @endif
       @endif

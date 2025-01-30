@@ -1,4 +1,13 @@
 <div class="max-w-screen-xl mx-auto h-screen">
+  @session('error')
+    <x-alert>
+      <x-lucide-rocket class="size-4" />
+      <x-alert.title>Error Occured</x-alert.title>
+      <x-alert.description>
+        {{ session('error') }}
+      </x-alert.description>
+    </x-alert>
+  @endsession
   <div class="grid md:grid-cols-2 items-center gap-8 h-full">
     <x-form wire:submit="store" method="post" class="max-w-lg max-md:mx-auto w-full p-6" autocomplete="on">
       @csrf

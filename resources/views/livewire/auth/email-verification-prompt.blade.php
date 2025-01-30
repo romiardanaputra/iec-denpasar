@@ -12,9 +12,10 @@
       @endif
       <x-typography.h1 class="text-xl">Email Verification Required!</x-typography.h1>
       <x-typography.p class="text-center w-[80%] mx-auto"> Please verify your email address to access the
-        dashboard.</x-typography.p>
+        dashboard.
+        <x-link wire:click="logout" class="cursor-pointer">cancel</x-link>
+      </x-typography.p>
     </div>
-
     <x-button wire:click="sendVerificationEmail">Resend Verification Email</x-button>
   </x-card>
 </div>

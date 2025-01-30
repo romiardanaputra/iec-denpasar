@@ -1,14 +1,14 @@
 <?php
 
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\OauthController;
 use App\Http\Middleware\HasRoleAdminMiddleware;
+use App\Livewire\Auth\EmailVerificationPrompt;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
+use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\Feature\Payment\Invoice;
 use App\Livewire\Feature\User\Bill;
 use App\Livewire\Feature\User\ClassInfo;
@@ -39,17 +39,17 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('oauth/google/callback', [OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
 });
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
+Route::group(['middleware' => 'auth'], function (): void {
+    Route::get('verify-email', EmailVerificationPrompt::class)
         ->name('verification.notice');
 
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+    Route::get('verify-email/{id}/{hash}', VerifyEmail::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
 
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
+    // Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+    //   ->middleware('throttle:6,1')
+    //   ->name('verification.send');
 });
 
 Route::group(['middleware' => ['auth', 'verified', HasRoleAdminMiddleware::class]], function () {
