@@ -4,6 +4,7 @@ namespace App\Livewire\Feature\User;
 
 use Livewire\Component;
 
+#[\Livewire\Attributes\Title('Profile')]
 class Profile extends Component
 {
     public $name;

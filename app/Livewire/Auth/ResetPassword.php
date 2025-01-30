@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 use Livewire\Component;
 
+#[\Livewire\Attributes\Title('Reset Password')]
+
 class ResetPassword extends Component
 {
     public $token;

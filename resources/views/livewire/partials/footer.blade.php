@@ -1,9 +1,9 @@
-<footer class="bg-white dark:bg-gray-900 mt-20">
+<footer class="dark:bg-gray-900 mt-20">
   <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
     <div class="md:flex md:justify-between">
       <div class="mb-6 md:mb-0 w-full">
         <a href="{{ route('landing') }}" class="flex items-center">
-          <img src="{{ asset('storage/assets/user/images/logo/iec.jpg') }}" class="h-20  me-3" alt="IEC Denpasar" />
+          <img src="{{ asset('storage/assets/images/logo/iec.jpg') }}" class="h-20  me-3" alt="IEC Denpasar" />
         </a>
       </div>
       <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">

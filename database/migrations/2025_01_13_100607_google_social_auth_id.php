@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('gauth_id')->nullable();
             $table->string('gauth_type')->nullable();
+            $table->string('gauth_avatar')->nullable();
+            $table->string('gauth_token')->nullable();
         });
     }
 
@@ -25,6 +27,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('gauth_id');
             $table->dropColumn('gauth_type');
+            $table->dropColumn('gauth_avatar');
+            $table->dropColumn('gauth_token');
         });
     }
 };
