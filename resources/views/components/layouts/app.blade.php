@@ -32,16 +32,20 @@
     <div class="w-full">
 
       @if (auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isUser())
-        <div class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
-          @include('layouts.navbars.auth.sidebar')
-          <main class="ease-soft-in-out xl:ml-68.5 relative h-full rounded-xl transition-all duration-200">
-            @include('layouts.navbars.auth.nav')
-            <div class="w-full px-6 py-6 mx-auto">
-              {{ $slot }}
-              @include('layouts.footers.auth.footer')
-            </div>
-          </main>
-        </div>
+        @if (!Route::is('verification.notice', 'verification.verify'))
+          <div class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
+            @include('layouts.navbars.auth.sidebar')
+            <main class="ease-soft-in-out xl:ml-68.5 relative h-full rounded-xl transition-all duration-200">
+              @include('layouts.navbars.auth.nav')
+              <div class="w-full px-6 py-6 mx-auto">
+                {{ $slot }}
+                @include('layouts.footers.auth.footer')
+              </div>
+            </main>
+          </div>
+        @else
+          {{ $slot }}
+        @endif
       @else
         @if (!Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
           @livewire('partials.navbar')
