@@ -35,8 +35,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/forgot-password', ForgotPassword::class)->name('forgot.password');
     Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
     Route::get('/our-program/{slug}', ProgramDetail::class)->name('program.detail');
-    Route::get('oauth/google', [OauthController::class, 'redirectToProvider'])->name('oauth.google');
-    Route::get('oauth/google/callback', [OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
+    Route::get('/oauth/google', [OauthController::class, 'redirectToProvider'])->name('oauth.google');
+    Route::get('/oauth/google/callback', [OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
     Route::get('/sitemap', function () {
         $path = public_path('sitemap.xml');
 
@@ -54,10 +54,6 @@ Route::group(['middleware' => 'auth'], function (): void {
     Route::get('verify-email/{id}/{hash}', VerifyEmail::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
-
-    // Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-    //   ->middleware('throttle:6,1')
-    //   ->name('verification.send');
 });
 
 Route::group(['middleware' => ['auth', 'verified', HasRoleAdminMiddleware::class]], function () {
