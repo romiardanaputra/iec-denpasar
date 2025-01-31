@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Artisan;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote')->hourly();
+})->purpose('Display an inspiring quote');
 
 Artisan::command('logs:remove', function () {
     exec('rm -f '.storage_path('logs/*.log'));
