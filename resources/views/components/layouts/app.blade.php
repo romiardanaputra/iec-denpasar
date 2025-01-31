@@ -2,34 +2,17 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
     <meta charset="utf-8">
-    <meta name="description">
     <meta name="application-name" content="{{ config('app.name') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="IEC Denpasar">
-    <meta name="keywords"
-      content="kursus bahasa inggris denpasar, les bahasa inggris denpasar, kursus toefl denpasar, kursus ielts denpasar, iec denpasar">
-    <link rel="canonical" href="https://iecdps.com/kursus-bahasa-inggris-denpasar">
-    <meta property="og:title" content="Kursus Bahasa Inggris di Denpasar | IEC Denpasar">
-    <meta property="og:description"
-      content="Belajar bahasa Inggris di IEC Denpasar dengan berbagai program kursus untuk anak, remaja, dan dewasa.">
-    <meta property="og:image" content="https://iecdps.com/images/banner-kursus.jpg">
-    <meta property="og:url" content="https://iecdps.com/kursus-bahasa-inggris-denpasar">
-    <meta property="og:type" content="website">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kursus Bahasa Inggris di Denpasar | IEC Denpasar">
-    <meta name="twitter:description"
-      content="Daftar kursus bahasa Inggris di IEC Denpasar untuk semua tingkatan. Mulai dari program dasar hingga persiapan TOEFL.">
-    <meta name="twitter:image" content="https://iecdps.com/images/banner-kursus.jpg">
-    <!-- Font Awesome Icons -->
-    <!-- Popper -->
+    @if (auth()->check() && auth()->user()->isAdmin())
+      <meta name="robots" content="noindex, nofollow">
+    @elseif(Route::is('admin.*'))
+      <meta name="robots" content="noindex, nofollow">
+    @endif
+    {!! SEO::generate(true) !!}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <!-- Main Styling -->
     <link href="{{ asset('assets') }}/css/styles.css?v=1.0.3" rel="stylesheet" />
 
     <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title>
