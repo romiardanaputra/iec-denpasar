@@ -1,4 +1,4 @@
-<x-guest-layout>
+<div>
   {{-- Nothing in the world is as soft and yielding as water. --}}
   <section class="max-w-screen-xl mx-auto">
     <div class="h-[30rem] grid lg:grid-cols-4 gap-4">
@@ -101,4 +101,4 @@
     </section>
   </section>
 
-</x-guest-layout>
+  </x-guest-layout>

@@ -1,6 +1,15 @@
 <div class="max-w-screen-xl mx-auto h-screen">
+  @session('error')
+    <x-alert>
+      <x-lucide-rocket class="size-4" />
+      <x-alert.title>Error Occured</x-alert.title>
+      <x-alert.description>
+        {{ session('error') }}
+      </x-alert.description>
+    </x-alert>
+  @endsession
   <div class="grid md:grid-cols-2 items-center gap-8 h-full">
-    <x-form wire:submit.prevent="store" method="post" class="max-w-lg max-md:mx-auto w-full p-6" autocomplete="on">
+    <x-form wire:submit="store" method="post" class="max-w-lg max-md:mx-auto w-full p-6" autocomplete="on">
       @csrf
       <div class="mb-12">
         <h3 class="text-gray-800 text-4xl font-extrabold">Sign Up</h3>
@@ -10,10 +19,10 @@
       </div>
 
       <div class="mt-4">
-        <x-label for="full_name">Full Name</x-label>
+        <x-label for="name">Full Name</x-label>
         <div class="relative flex items-center">
           <x-input wire:model.blur="name" name="name" class="text-gray-800 rounded-full" type="text"
-            id="name" placeholder="full name" required autofocus autocomplete="fullname" :value="old('name')" />
+            id="name" placeholder="full name" required autofocus autocomplete value="old('name')" />
           <x-lucide-user class="size-4 absolute right-0 mr-4" />
         </div>
         <x-input-error :messages="$errors->get('name')" class="mt-2" />
@@ -23,8 +32,8 @@
         <div class="mt-4">
           <x-label for="phone">Phone Number</x-label>
           <div class="relative flex items-center">
-            <x-input wire:model.blur="phone" name="phone" required class="text-gray-800 rounded-full" type="text"
-              id="phone" placeholder="Phone Number" autocomplete="082.." :value="old('phone')" />
+            <x-input wire:model.blur="phone" name="phone" autocomplete required class="text-gray-800 rounded-full"
+              type="text" id="phone" placeholder="Phone Number" value="old('phone')" />
             <x-lucide-phone class="size-4 absolute right-0 mr-4" />
           </div>
           <x-input-error :messages="$errors->get('phone')" class="mt-2" />
@@ -33,8 +42,8 @@
         <div class="mt-4">
           <x-label for="email">Email</x-label>
           <div class="relative flex items-center">
-            <x-input wire:model.blur="email" name="email" required class="text-gray-800 rounded-full" type="email"
-              id="email" placeholder="Email Address" autocomplete="email address" :value="old('email')" />
+            <x-input wire:model.blur="email" name="email" autocomplete required class="text-gray-800 rounded-full"
+              type="email" id="email" placeholder="Email Address" value="old('email')" />
             <x-lucide-mail class="size-4 absolute right-0 mr-4" />
           </div>
           <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -46,7 +55,7 @@
           <x-label for="password">Password</x-label>
           <div class="relative flex items-center">
             <x-input wire:model.blur="password" name="password" required class="text-gray-800 rounded-full"
-              type="password" id="password" placeholder="Password" autocomplete="new password" />
+              type="password" id="password" placeholder="Password" />
             <x-lucide-eye class="size-4 absolute right-0 mr-4" />
           </div>
           <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -57,7 +66,7 @@
           <div class="relative flex items-center">
             <x-input wire:model.blur="password_confirmation" name="password_confirmation" required
               class="text-gray-800 rounded-full" type="password" id="password_confirmation"
-              placeholder="Confirm Password" autocomplete="confirmation password" />
+              placeholder="Confirm Password" />
             <x-lucide-eye-off class="size-4 absolute right-0 mr-4" />
           </div>
           <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-600" />
@@ -77,8 +86,8 @@
     </x-form>
 
     <div class="h-full flex justify-center items-center">
-      <img src="https://readymadeui.com/photo.webp" class="rounded-md lg:w-4/5 md:w-11/12 z-50 relative"
-        alt="Dining Experience" />
+      <img src="{{ asset('storage/assets/vectors/mobile_login.svg') }}"
+        class="rounded-md object-cover lg:w-full md:w-11/12 z-50 relative" alt="Dining Experience" />
     </div>
   </div>
 </div>

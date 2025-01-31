@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
-use Auth;
 use Exception;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 
 class OauthController extends Controller
@@ -22,12 +21,10 @@ class OauthController extends Controller
             $user = Socialite::driver('google')->stateless()->user();
 
             $finduser = User::where('gauth_id', $user->id)->first();
+            // dd($user);
 
             if ($finduser) {
-                if (is_null($finduser->email_verified_at)) {
-                    $finduser->update(['email_verified_at' => now()]);
-                }
-                Auth::login($finduser);
+                auth()->login($finduser);
 
                 return redirect('/dashboard');
 
@@ -35,13 +32,17 @@ class OauthController extends Controller
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
+                    'password' => bcrypt('password'),
                     'gauth_id' => $user->id,
                     'gauth_type' => 'google',
-                    'password' => Hash::make('user@123'),
-                    'email_verified_at' => now(),
+                    'gauth_token' => $user->token,
+                    'gauth_avatar' => $user->avatar,
                 ]);
 
-                Auth::login($newUser);
+                $newUser->assignRole(Role::find(2));
+                $newUser->sendEmailVerificationNotification();
+
+                auth()->login($newUser);
 
                 return redirect('/dashboard');
             }

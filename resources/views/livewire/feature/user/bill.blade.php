@@ -1,4 +1,4 @@
-<x-app-layout>
+<div>
   <div class="w-full p-6 mx-auto">
     <div class="flex flex-wrap -mx-3">
       <div class="w-full max-w-full px-3 lg:w-7/12 lg:flex-none">
@@ -245,4 +245,4 @@
 
     </div>
   </div>
-</x-app-layout>
+</div>

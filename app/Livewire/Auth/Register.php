@@ -2,24 +2,28 @@
 
 namespace App\Livewire\Auth;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules;
 use Livewire\Component;
+use Throwable;
 
+#[\Livewire\Attributes\Title('Register')]
 class Register extends Component
 {
-    public $full_name;
+    public $name = '';
 
-    public $phone;
+    public $phone = '';
 
-    public $password;
+    public $password = '';
 
-    public $password_confirmation;
+    public $password_confirmation = '';
 
-    public $email;
+    public $email = '';
 
     public function render()
     {
@@ -29,7 +33,7 @@ class Register extends Component
     protected function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'min:4'],
             'phone' => ['required', 'phone:AUTO', 'unique:'.User::class],
             'email' => ['required', 'string', 'lowercase', 'email:dns,rfc', 'unique:'.User::class, 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
@@ -38,13 +42,20 @@ class Register extends Component
 
     public function store()
     {
-        $data = $this->validate();
-        $data['password'] = Hash::make($this->password);
-        $data['phone'] = phone($this->phone)->formatE164();
-        $user = User::create($data);
-        // event(new Registered($user));
-        Auth::login($user);
+        try {
+            $data = $this->validate();
+            $data['password'] = Hash::make($this->password);
+            $data['phone'] = phone($this->phone)->formatE164();
+            $user = User::create($data);
+            $user->assignRole(Role::find(2));
+            event(new Registered($user));
+            Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+            return redirect(route('dashboard', absolute: false));
+        } catch (Throwable $e) {
+            Log::error('User registration failed', ['error' => $e->getMessage()]);
+            session()->flash('error', $e->getMessage());
+            report($e);
+        }
     }
 }

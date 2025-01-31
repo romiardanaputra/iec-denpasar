@@ -1,5 +1,6 @@
- * {
+* {
   font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
 }
 
 h1 {
@@ -18,7 +19,7 @@ h4 {
 
 h5 {
   @apply text-[1.44rem];
-} 
+}
 
 h6 {
   @apply text-[1.2rem];

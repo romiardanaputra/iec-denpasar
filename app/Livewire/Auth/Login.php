@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Component;
 
+#[\Livewire\Attributes\Title('Login')]
+
 class Login extends Component
 {
     public $email = '';
@@ -49,10 +51,5 @@ class Login extends Component
 
             return $this->addError('email', trans('auth.failed'));
         }
-    }
-
-    public function mount()
-    {
-        $this->fill(['email' => 'email@gmail.com', 'password' => 'secret']);
     }
 }

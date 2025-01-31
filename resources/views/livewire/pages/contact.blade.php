@@ -1,6 +1,5 @@
 <div>
-  @livewire('partials.navbar')
-  @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'Contact', 'title' => 'contact'])
+  @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'Contact Us', 'title' => 'Contact Us'])
   <section class="py-16 container">
     <div class="max-w-6xl mx-auto relative bg-white rounded-lg py-6">
       <div class="flex flex-col items-center justify-center text-center w-1/2 mx-auto mb-16">
@@ -64,5 +63,5 @@
         src="https://maps.google.com/maps?width=100%25&amp;height=400&amp;hl=en&amp;q=Jl.%20Jaya%20Giri%20Gg.%20XXII%20No.10x,%20Renon,%20Kec.%20Denpasar%20Tim.,%20Kota%20Denpasar,%20Bali%2080236+(IEC%20Denpasar)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a
           href="https://www.gps.ie/">gps trackers</a></iframe></div>
   </section>
-  @livewire('partials.footer')
+  @livewire('partials.cta-section')
 </div>

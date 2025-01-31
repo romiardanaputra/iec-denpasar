@@ -8,7 +8,6 @@
     calendar.render();
   });
 </script>
-<x-app-layout>
+<div>
   <div id="calendar"></div>
-
-</x-app-layout>
+</div>
