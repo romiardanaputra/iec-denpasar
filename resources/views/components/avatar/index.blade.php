@@ -4,12 +4,12 @@
     __applyState() {
         if (!$refs.image) {
             this.__showFallback = true;
-            return
+            return;
         }
-        if (!$refs.image.complete) return
+        if (!$refs.image.complete) return;
 
-        this.__showFallback = $refs.image.naturalWidth === 0 || $refs.image.naturalHeight === 0
-        this.__showImage = !this.__showFallback
+        this.__showFallback = $refs.image.naturalWidth === 0 || $refs.image.naturalHeight === 0;
+        this.__showImage = !this.__showFallback;
     },
 }" x-init="$nextTick(() => __applyState())"
   {{ $attributes->twMerge('relative flex h-14 w-14 shrink-0 overflow-hidden rounded-full') }}>
