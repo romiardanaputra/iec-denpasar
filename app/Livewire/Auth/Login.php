@@ -44,6 +44,9 @@ class Login extends Component
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remmember)) {
             $user = User::where(['email' => $this->email])->first();
             auth()->login($user, $this->remmember);
+            if (auth()->user()->isAdmin()) {
+                return redirect()->intended('/admin');
+            }
 
             return redirect()->intended(route('dashboard', absolute: false));
         } else {
