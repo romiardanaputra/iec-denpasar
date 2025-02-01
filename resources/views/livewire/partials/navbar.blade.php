@@ -1,16 +1,25 @@
-<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 ">
+<nav class="bg-white dark:bg-gray-900 fixed w-full z-50 top-0 start-0 ">
   <div class="container flex flex-wrap items-center justify-between mx-auto p-4 px-0">
     <a href="{{ route('landing') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="{{ asset('storage/assets/images/logo/iec.jpg') }}" class="h-8" alt="{{ config('app.name' . 'logo') }}">
       <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
     </a>
     <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-      <a href="{{ route('login') }}" wire:navigate>
-        <x-button size='lg'
-          class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
-          <x-lucide-log-in class="mr-2 size-4" /> Sign In
-        </x-button>
-      </a>
+      @if (auth()->check() && auth()->user()->isUser() && auth()->user()->hasVerifiedEmail())
+        <a href="{{ route('dashboard') }}" wire:navigate>
+          <x-button size='lg'
+            class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
+            <x-lucide-log-in class="mr-2 size-4" /> Dashboard
+          </x-button>
+        </a>
+      @else
+        <a href="{{ route('login') }}" wire:navigate>
+          <x-button size='lg'
+            class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
+            <x-lucide-log-in class="mr-2 size-4" /> Sign In
+          </x-button>
+        </a>
+      @endif
       <button data-collapse-toggle="navbar-sticky" type="button"
         class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
         aria-controls="navbar-sticky" aria-expanded="false">

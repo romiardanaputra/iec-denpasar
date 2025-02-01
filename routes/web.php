@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\OauthController;
-use App\Http\Middleware\HasRoleAdminMiddleware;
+use App\Http\Middleware\HasRoleUserMiddleware;
 use App\Livewire\Auth\EmailVerificationPrompt;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
@@ -24,27 +24,31 @@ use App\Livewire\Pages\ProgramDetail;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\SitemapGenerator;
 
-Route::group(['middleware' => 'guest'], function () {
+Route::get('/sitemap', function () {
+    $path = public_path('sitemap.xml');
+    SitemapGenerator::create(config('app.url'))
+        ->writeToFile($path);
+
+    return response()->json(['message' => 'Sitemap created successfully!', 'path' => $path]);
+});
+
+Route::group(['middleware' => 'web'], function () {
     Route::get('/', Index::class)->name('landing');
     Route::get('/about', About::class)->name('about');
     Route::get('/our-program', Program::class)->name('our-program');
     Route::get('/our-teams', OurTeam::class)->name('our-team');
     Route::get('/contact', Contact::class)->name('contact');
+    Route::get('/our-program/{slug}', ProgramDetail::class)->name('program.detail');
+
+});
+
+Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
     Route::get('/forgot-password', ForgotPassword::class)->name('forgot.password');
     Route::get('/reset-password/{token}', ResetPassword::class)->name('password.reset');
-    Route::get('/our-program/{slug}', ProgramDetail::class)->name('program.detail');
     Route::get('/oauth/google', [OauthController::class, 'redirectToProvider'])->name('oauth.google');
     Route::get('/oauth/google/callback', [OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
-    Route::get('/sitemap', function () {
-        $path = public_path('sitemap.xml');
-
-        SitemapGenerator::create(config('app.url'))
-            ->writeToFile($path);
-
-        return response()->json(['message' => 'Sitemap created successfully!', 'path' => $path]);
-    });
 });
 
 Route::group(['middleware' => 'auth'], function (): void {
@@ -56,7 +60,7 @@ Route::group(['middleware' => 'auth'], function (): void {
         ->name('verification.verify');
 });
 
-Route::group(['middleware' => ['auth', 'verified', HasRoleAdminMiddleware::class]], function () {
+Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]], function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/profile', Profile::class)->name('profile');
     Route::get('/schedule', Schedule::class)->name('schedule');
