@@ -17,6 +17,11 @@ class ProgramResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
 
+    protected static ?string $navigationLabel = 'Kelola Program';
+
+    // protected static ?string $navigationParentItem = 'Notifications';
+    protected static ?string $navigationGroup = 'Kelola Halaman Website';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -52,7 +57,7 @@ class ProgramResource extends Resource
 
                         Forms\Components\Section::make('Upload Image')
                             ->schema([
-                            Forms\Components\FileUpload::make('image')
+                                Forms\Components\FileUpload::make('image')
                                     ->required()
                                     ->image()
                                     ->imageEditor()
@@ -61,33 +66,33 @@ class ProgramResource extends Resource
                                         '4:3',
                                         '1:1',
                                     ]),
-                        ]),
+                            ]),
                         Forms\Components\Section::make('pricing')
                             ->schema([
-                            Forms\Components\TextInput::make('price')
+                                Forms\Components\TextInput::make('price')
                                     ->required()
                                     ->numeric(),
-                            Forms\Components\TextInput::make('register_fee')
+                                Forms\Components\TextInput::make('register_fee')
                                     ->required()
                                     ->numeric(),
-                        ])
+                            ])
                             ->columns(2),
                     ])
                     ->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make()
                     ->schema([
-                    Forms\Components\Section::make('status')
-                        ->schema([
-                            Forms\Components\Toggle::make('is_visible')
+                        Forms\Components\Section::make('status')
+                            ->schema([
+                                Forms\Components\Toggle::make('is_visible')
                                     ->label('Visible')
                                     ->helperText('This program will be hidden for all users')
                                     ->default(true),
-                            Forms\Components\DatePicker::make('published_at')
+                                Forms\Components\DatePicker::make('published_at')
                                     ->label('availability')
                                     ->default(now())
                                     ->required(),
-                        ]),
-                ])
+                            ]),
+                    ])
                     ->columnSpan(['lg' => 1]),
             ])
             ->columns(3);

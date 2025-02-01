@@ -26,6 +26,10 @@ class TeamResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationLabel = 'Team IEC Denpasar';
+
+    protected static ?string $navigationGroup = 'Kelola Halaman Website';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -76,7 +80,7 @@ class TeamResource extends Resource
                             ->columns(['md' => 2]),
                         Forms\Components\Section::make('Image IEC Member')
                             ->schema([
-                            Forms\Components\FileUpload::make('image')
+                                Forms\Components\FileUpload::make('image')
                                     ->image()
                                     ->imageEditor()
                                     ->imageEditorAspectRatios([
@@ -85,48 +89,48 @@ class TeamResource extends Resource
                                         '4:3',
                                         '1:1',
                                     ]),
-                        ]),
+                            ]),
                         Forms\Components\Section::make('Social Media IEC Team')
                             ->schema([
-                            Forms\Components\TextInput::make('facebook')
+                                Forms\Components\TextInput::make('facebook')
                                     ->nullable()
                                     ->string()
                                     ->placeholder('ex:https://www.facebook.com/romiardanap')
                                     ->helperText('optional facebook links'),
-                            Forms\Components\TextInput::make('instagram')
+                                Forms\Components\TextInput::make('instagram')
                                     ->nullable()
                                     ->string()
                                     ->placeholder('ex:https://www.instagram.com/romiardanap_/')
                                     ->helperText('optional instagram links'),
-                            Forms\Components\TextInput::make('whatsapp')
+                                Forms\Components\TextInput::make('whatsapp')
                                     ->required()
                                     ->string()
                                     ->placeholder('6285792479249')
                                     ->helperText('whatsapp phone number'),
-                            Forms\Components\TextInput::make('linkedin')
+                                Forms\Components\TextInput::make('linkedin')
                                     ->nullable()
                                     ->string()
                                     ->placeholder('ex:https://www.linkedin.com/in/romiardana/')
                                     ->helperText('optional for linekdin\'s links'),
-                        ])
+                            ])
                             ->columns(['md' => 2]),
                     ])
                     ->columnSpan(['lg' => 2]),
 
                 Forms\Components\Group::make()
                     ->schema([
-                    Forms\Components\Section::make('Status')
-                        ->schema([
-                            Forms\Components\Toggle::make('is_active')
+                        Forms\Components\Section::make('Status')
+                            ->schema([
+                                Forms\Components\Toggle::make('is_active')
                                     ->required()
                                     ->default(true)
                                     ->helperText('Determine if a team is active or not'),
-                            Forms\Components\DateTimePicker::make('join_at')
+                                Forms\Components\DateTimePicker::make('join_at')
                                     ->required()
                                     ->default(now())
                                     ->helperText('Determine if a member joined at'),
-                        ]),
-                ])
+                            ]),
+                    ])
                     ->columnSpan(['lg' => 1]),
             ])
             ->columns(3);
