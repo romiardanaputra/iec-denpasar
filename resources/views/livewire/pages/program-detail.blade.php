@@ -89,8 +89,20 @@
             <x-button>12 Level</x-button>
           </div>
         </div>
-        <div class="flex flex-col">
-
+        <div class="flex">
+          <x-button>Buy Course</x-button>
+          <x-sheet>
+            <x-sheet.trigger>Add to chart</x-sheet.trigger>
+            <x-sheet.content>
+              <x-sheet.header>
+                <x-sheet.title>are you absolutely sure?</x-sheet.title>
+                <x-sheet.description>
+                  this action cannot be undone. this will permanently delete your account
+                  and remove your data from our servers.
+                </x-sheet.description>
+              </x-sheet.header>
+            </x-sheet.content>
+          </x-sheet>
         </div>
       </div>
     </div>

@@ -12,6 +12,13 @@
             <x-lucide-log-in class="mr-2 size-4" /> Dashboard
           </x-button>
         </a>
+      @elseif(auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isAdmin())
+        <a href="/admin" wire:navigate>
+          <x-button size='lg'
+            class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
+            <x-lucide-log-in class="mr-2 size-4" /> Admin Dashboard
+          </x-button>
+        </a>
       @else
         <a href="{{ route('login') }}" wire:navigate>
           <x-button size='lg'
