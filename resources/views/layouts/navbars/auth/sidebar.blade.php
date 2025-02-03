@@ -22,7 +22,7 @@
       <li class="mt-0.5 w-full">
         <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
                 {{ Request::is('dashboard') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
-          href="{{ url('dashboard') }}">
+          href="{{ url('dashboard') }}" wire:navigate>
 
           <div
             class="{{ Request::is('dashboard') ? ' bg-blue-800' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg  bg-center stroke-0 text-center xl:p-2.5">
@@ -42,7 +42,7 @@
       <li class="mt-0.5 w-full">
         <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
               {{ Request::is('profile') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
-          href="{{ route('profile') }}">
+          href="{{ route('profile') }}" wire:navigate>
           <div
             class="{{ Request::is('profile') ? ' bg-blue-800' : 'bg-white' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg  bg-center stroke-0 text-center xl:p-2.5">
             <x-lucide-circle-user class="size-4 {{ Request::is('profile') ? 'text-white' : 'text-slate-800' }}" />
@@ -54,7 +54,7 @@
 
         <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
               {{ Request::is('schedule') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
-          href="{{ url('schedule') }}">
+          href="{{ url('schedule') }}" wire:navigate>
           <div
             class="{{ Request::is('schedule') ? 'bg-blue-800' : 'bg-white' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
             <x-lucide-calendar-check class="size-4 {{ Request::is('schedule') ? 'text-white' : 'text-slate-800' }}" />
@@ -65,7 +65,7 @@
         </a>
         <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
               {{ Request::is('exam-grade') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
-          href="{{ url('exam-grade') }}">
+          href="{{ url('exam-grade') }}" wire:navigate>
           <div
             class="{{ Request::is('exam-grade') ? 'bg-blue-800' : 'bg-white' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
             <x-lucide-book-plus class="size-4 {{ Request::is('exam-grade') ? 'text-white' : 'text-slate-800' }}" />
@@ -76,7 +76,7 @@
         </a>
         <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
               {{ Request::is('class-info') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
-          href="{{ url('class-info') }}">
+          href="{{ url('class-info') }}" wire:navigate>
           <div
             class="{{ Request::is('class-info') ? 'bg-blue-800' : 'bg-white' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-center stroke-0 text-center xl:p-2.5">
             <x-lucide-book-marked class="size-4 {{ Request::is('class-info') ? 'text-white' : 'text-slate-800' }}" />
@@ -94,7 +94,7 @@
       <li class="mt-0.5 w-full">
         <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
               {{ Request::is('bill') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
-          href="{{ url('bill') }}">
+          href="{{ url('bill') }}" wire:navigate>
           <div
             class="{{ Request::is('bill') ? 'bg-blue-800' : 'bg-white' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg  bg-center stroke-0 text-center xl:p-2.5">
             <x-lucide-receipt class="size-4 {{ Request::is('bill') ? 'text-white' : 'text-slate-800' }}" />
@@ -104,7 +104,7 @@
         </a>
         <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
               {{ Request::is('billing') ? 'shadow-soft-xl rounded-lg bg-white font-semibold text-slate-700' : '' }}"
-          href="{{ url('billing') }}">
+          href="{{ url('billing') }}" wire:navigate>
           <div
             class="{{ Request::is('billing') ? ' bg-gradient-fuchsia' : '' }} shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
             <x-lucide-receipt class="size-5" />

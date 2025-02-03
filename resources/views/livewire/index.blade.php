@@ -4,7 +4,7 @@
       <div class="flex items-center container w-full">
         <div class="space-y-8 w-full">
           <article class="space-y-8 sm:space-y-6 ">
-            <p class="text-blue-900 font-medium">Intensive English Course Denpasar</p>
+            <p class="text-blue-900 font-medium ">Intensive English Course Denpasar</p>
             <h1 class="text-6xl text-slate-700 font-medium sm:text-inherit leading-tight">More than just
               an English course</h1>
             <p class="sm:w-[80%]">Join our dynamic English courses designed for all levels. Discover the joy of learning
@@ -24,7 +24,7 @@
             </a>
           </div>
         </div>
-        <div class="w-[80%]">
+        <div class="w-[80%] tracking-in-contract-bck-top">
           <img class="size-full" src="{{ asset('storage/assets/images/home/hero.svg') }}" alt="hero.svg">
         </div>
       </div>

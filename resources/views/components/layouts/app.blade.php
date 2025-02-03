@@ -30,32 +30,39 @@
 
   <body class="antialiased">
     <div class="w-full">
-
       @if (auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isUser())
         @if (!Route::is('verification.notice', 'verification.verify'))
-          <div class="m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500">
-            @include('layouts.navbars.auth.sidebar')
-            <main class="ease-soft-in-out xl:ml-68.5 relative h-full rounded-xl transition-all duration-200">
-              @include('layouts.navbars.auth.nav')
-              <div class="w-full px-6 py-6 mx-auto">
-                {{ $slot }}
-                @include('layouts.footers.auth.footer')
-              </div>
-            </main>
+          <div
+            class="@unless (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail')) m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500 @endunless">
+            @if (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail'))
+              @livewire('partials.navbar')
+              {{ $slot }}
+              @livewire('partials.footer')
+            @else
+              @include('layouts.navbars.auth.sidebar')
+              <main class="ease-soft-in-out xl:ml-68.5 relative h-full rounded-xl transition-all duration-200">
+                @include('layouts.navbars.auth.nav')
+                <div class="w-full px-6 py-6 mx-auto">
+                  {{ $slot }}
+                  @include('layouts.footers.auth.footer')
+                </div>
+              </main>
+            @endif
           </div>
         @else
           {{ $slot }}
         @endif
       @else
-        @if (!Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
+        @unless (Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
           @livewire('partials.navbar')
-        @endif
-        {{ $slot }}
-        @if (!Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
-          @livewire('partials.footer')
-        @endif
-      @endif
+        @endunless
 
+        {{ $slot }}
+
+        @unless (Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
+          @livewire('partials.footer')
+        @endunless
+      @endif
     </div>
 
     @filamentScripts

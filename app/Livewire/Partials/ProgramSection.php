@@ -9,6 +9,8 @@ class ProgramSection extends Component
 {
     public $cards;
 
+    public $slug;
+
     public function mount()
     {
         $this->cards = [
