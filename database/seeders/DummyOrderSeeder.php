@@ -78,7 +78,7 @@ class DummyOrderSeeder extends Seeder
                 'total_price' => $totalPrice,
             ];
 
-            $order = \App\Models\Order::create($order);
+            $order = \App\Models\Transaction\Order::create($order);
 
             foreach ($item as $product) {
                 $order->items()->create($product);
