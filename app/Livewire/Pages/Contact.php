@@ -2,14 +2,57 @@
 
 namespace App\Livewire\Pages;
 
+use App\Mail\ContactMessageNotification;
+use App\Mail\UserContactMessageConfirmation;
+use App\Models\ContactMessage;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 #[\Livewire\Attributes\Title('Contact')]
 class Contact extends Component
 {
+    public $name = '';
+
+    public $email = '';
+
+    public $phone = '';
+
+    public $message = '';
+
+    protected $rules = [
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'phone' => 'nullable|string|max:20',
+        'message' => 'required|string',
+    ];
+
+    public function submit()
+    {
+        // Validasi input
+        $this->validate();
+
+        // Simpan data ke database
+        $contactMessage = ContactMessage::create([
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'message' => $this->message,
+        ]);
+
+        // dd($contactMessage);
+
+        Mail::to('romiardana21@gmail.com')->send(new ContactMessageNotification($contactMessage));
+
+        Mail::to($this->email)->send(new UserContactMessageConfirmation($contactMessage));
+
+        $this->reset(['name', 'email', 'phone', 'message']);
+
+        session()->flash('success', 'Pesan berhasil dikirim!');
+    }
+
     public function render()
     {
         SEOMeta::setTitle('Kontak IEC Denpasar | Hubungi Kami Sekarang');
