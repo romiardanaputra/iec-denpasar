@@ -9,21 +9,21 @@
         <a href="{{ route('dashboard') }}" wire:navigate>
           <x-button size='lg'
             class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
-            <x-lucide-log-in class="mr-2 size-4" /> Dashboard
+            <x-lucide-log-in class="mr-2 size-4" /> {{ __('Dashboard') }}
           </x-button>
         </a>
       @elseif(auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isAdmin())
         <a href="/admin" wire:navigate>
           <x-button size='lg'
             class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
-            <x-lucide-log-in class="mr-2 size-4" /> Admin Dashboard
+            <x-lucide-log-in class="mr-2 size-4" /> {{ __('Admin Dashboard') }}
           </x-button>
         </a>
       @else
         <a href="{{ route('login') }}" wire:navigate>
           <x-button size='lg'
             class="border border-blue-800 bg-white text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
-            <x-lucide-log-in class="mr-2 size-4" /> Sign In
+            <x-lucide-log-in class="mr-2 size-4" /> {{ __('Masuk') }}
           </x-button>
         </a>
       @endif
@@ -40,11 +40,11 @@
     <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
       <ul
         class="flex flex-col p-4 gap-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-        <x-navbar.nav-link :active="request()->routeIs('landing')" :href="route('landing')">Home</x-navbar.nav-link>
-        <x-navbar.nav-link :active="request()->routeIs('about')" :href="route('about')">About</x-navbar.nav-link>
-        <x-navbar.nav-link :active="request()->routeIs('our-program.*')" :href="route('our-program')">Our Program</x-navbar.nav-link>
-        <x-navbar.nav-link :active="request()->routeIs('our-team')" :href="route('our-team')">Our Team</x-navbar.nav-link>
-        <x-navbar.nav-link :active="request()->routeIs('contact')" :href="route('contact')">Contact</x-navbar.nav-link>
+        <x-navbar.nav-link :active="request()->routeIs('landing')" :href="route('landing')">{{ __('Beranda') }}</x-navbar.nav-link>
+        <x-navbar.nav-link :active="request()->routeIs('about')" :href="route('about')">{{ __('Tentang') }}</x-navbar.nav-link>
+        <x-navbar.nav-link :active="request()->routeIs('our-program.*')" :href="route('our-program')">{{ __('Program Kami') }}</x-navbar.nav-link>
+        <x-navbar.nav-link :active="request()->routeIs('our-team')" :href="route('our-team')">{{ __('Team Kami') }}</x-navbar.nav-link>
+        <x-navbar.nav-link :active="request()->routeIs('contact')" :href="route('contact')">{{ __('Kontak') }}</x-navbar.nav-link>
       </ul>
     </div>
   </div>

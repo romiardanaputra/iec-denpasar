@@ -72,7 +72,9 @@ class ProgramResource extends Resource
                                         '16:9',
                                         '4:3',
                                         '1:1',
-                                    ]),
+                                    ])
+                                    ->directory('program')
+                                    ->visibility('public'),
                             ]),
                         Forms\Components\Section::make('Pricing')
                             ->schema([
