@@ -16,7 +16,7 @@ class ClassTimeCodeResource extends Resource
 {
     protected static ?string $model = ClassTimeCode::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     protected static ?string $navigationGroup = 'Kelola Jadwal Less';
 

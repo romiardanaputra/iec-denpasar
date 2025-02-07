@@ -25,7 +25,7 @@ class LinkResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-link';
 
-    protected static ?string $navigationGroup = 'Blog';
+    protected static ?string $navigationGroup = 'Kelola Blog';
 
     protected static ?int $navigationSort = 3;
 

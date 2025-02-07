@@ -16,6 +16,12 @@ class ImageResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Kelola Program';
+
+    protected static ?string $navigationLabel = 'Gambar Detail Program';
+
+    protected static ?string $pluralModelLabel = 'Gambar Detail Program';
+
     public static function form(Form $form): Form
     {
         return $form

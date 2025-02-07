@@ -28,7 +28,7 @@ class PostResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
-    protected static ?string $navigationGroup = 'Blog';
+    protected static ?string $navigationGroup = 'Kelola Blog';
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
@@ -155,13 +155,13 @@ class PostResource extends Resource
                     }),
             ])
             ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
 
-        ])
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->action(function () {
                             Notification::make()
@@ -169,8 +169,8 @@ class PostResource extends Resource
                                 ->warning()
                                 ->send();
                         }),
-            ]),
-        ]);
+                ]),
+            ]);
     }
 
     public static function infolist(Infolist $infolist): Infolist

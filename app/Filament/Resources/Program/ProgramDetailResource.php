@@ -19,7 +19,13 @@ class ProgramDetailResource extends Resource
 {
     protected static ?string $model = ProgramDetail::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-document-magnifying-glass';
+
+    protected static ?string $navigationGroup = 'Kelola Program';
+
+    protected static ?string $navigationLabel = 'Detail Program';
+
+    protected static ?string $pluralModelLabel = 'Detail Program';
 
     public static function form(Form $form): Form
     {
@@ -69,18 +75,18 @@ class ProgramDetailResource extends Resource
                     }),
             ])
             ->filters([
-            //
-        ])
+                //
+            ])
             ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+                ]),
+            ]);
     }
 
     public static function getRelations(): array
