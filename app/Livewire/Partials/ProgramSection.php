@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Partials;
 
-use App\Models\Program;
+use App\Models\Program\Program;
 use App\Models\Team;
 use Livewire\Component;
 

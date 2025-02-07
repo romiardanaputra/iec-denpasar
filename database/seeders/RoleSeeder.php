@@ -13,7 +13,6 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-
         $user = User::create([
             'name' => 'Super Admin IEC Denpasar',
             'phone' => '+6285792479249',

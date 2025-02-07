@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Schedule;
 
 use App\Filament\Resources\Schedule\ClassScheduleResource\Pages;
-use App\Models\BookProgram;
-use App\Models\Program;
+use App\Models\Program\Book;
+use App\Models\Program\Program;
 use App\Models\Schedule\ClassDayCode;
 use App\Models\Schedule\ClassSchedule;
 use App\Models\Schedule\ClassTimeCode;
@@ -49,7 +49,7 @@ class ClassScheduleResource extends Resource
                     ->label('Nama buku')
                     ->helperText('Nama buku mengikuti program dan level')
                     ->searchable()
-                    ->options(BookProgram::pluck('book_name', 'book_id')->toArray())
+                    ->options(Book::pluck('book_name', 'book_id')->toArray())
                     ->native(false)
                     ->required()
                     ->afterStateUpdated(function (Set $set, Get $get) {
@@ -124,7 +124,7 @@ class ClassScheduleResource extends Resource
         if ($dayCodeId && $bookId && $timeCodeId) {
             // Mengambil model dari ID yang dipilih
             $dayCode = ClassDayCode::find($dayCodeId);
-            $book = BookProgram::find($bookId);
+            $book = Book::find($bookId);
             $timeCode = ClassTimeCode::find($timeCodeId);
 
             Log::info('dayCode: '.($dayCode ? $dayCode->day_code : 'null'));
@@ -195,17 +195,17 @@ class ClassScheduleResource extends Resource
             ])
             ->filters([
 
-            ])
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ]),
+        ]);
     }
 
     public static function getPages(): array

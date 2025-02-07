@@ -2,8 +2,8 @@
 
 namespace App\Models\Schedule;
 
-use App\Models\BookProgram;
-use App\Models\Program;
+use App\Models\Program\Book;
+use App\Models\Program\Program;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,7 +36,7 @@ class ClassSchedule extends Model
 
     public function book()
     {
-        return $this->belongsTo(BookProgram::class, 'book_id');
+        return $this->belongsTo(Book::class, 'book_id');
     }
 
     public function time()

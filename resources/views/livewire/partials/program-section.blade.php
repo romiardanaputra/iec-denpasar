@@ -33,7 +33,6 @@
             <div class="flex items-center">
               <div class="flex items-center gap-1">
                 @for ($i = 0; $i < $program->rate; $i++)
-                  {{-- <x-lucide-star class="mr-1 size-4 text-yellow-400" /> --}}
                   <svg class="w-3.5 h-3.5 fill-blue-600" viewBox="0 0 14 13" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path

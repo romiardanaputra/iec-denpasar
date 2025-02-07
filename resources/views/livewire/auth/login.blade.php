@@ -46,7 +46,7 @@
         @endif
       </div>
 
-      <div class="mt-8 flex space-y-4 flex-col lg:gap-4">
+      <div class="mt-8 flex flex-col lg:gap-4">
         <x-button type="submit" size='lg'
           class="w-full bg-blue-800  hover:bg-blue-900 text-white rounded-full px-8 py-6 ">
           <x-lucide-log-in class="mr-2 size-4" /> Log In
