@@ -19,6 +19,10 @@ class ProgramDetail extends Model
         'benefits',
     ];
 
+    protected $casts = [
+        'benefits' => 'array', // Pastikan benefits disimpan sebagai array
+    ];
+
     public function program()
     {
         return $this->belongsTo(Program::class, 'program_id');

@@ -3,6 +3,9 @@
 namespace App\Filament\Resources\Program;
 
 use App\Filament\Resources\Program\ProgramResource\Pages;
+use App\Filament\Resources\Program\ProgramResource\RelationManagers\ClassScheduleRelationManager;
+use App\Filament\Resources\Program\ProgramResource\RelationManagers\DetailRelationManager;
+use App\Filament\Resources\Program\ProgramResource\RelationManagers\ImageRelationManager;
 use App\Models\Program\Program;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -235,7 +238,9 @@ class ProgramResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ClassScheduleRelationManager::class,
+            DetailRelationManager::class,
+            ImageRelationManager::class,
         ];
     }
 

@@ -3,11 +3,16 @@
 namespace App\Filament\Resources\Program;
 
 use App\Filament\Resources\Program\ProgramDetailResource\Pages;
-use App\Models\ProgramDetail;
-use Filament\Forms;
+use App\Models\Program\Program;
+use App\Models\Program\ProgramDetail;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class ProgramDetailResource extends Resource
@@ -20,16 +25,25 @@ class ProgramDetailResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('program_id')
+                Select::make('program_id')
                     ->relationship('program', 'name')
-                    ->required(),
-                Forms\Components\Textarea::make('long_description')
+                    ->label('Nama program')
+                    ->helperText('Pilih nama program untuk ditampilkan pada detail')
+                    ->required()
+                    ->options(Program::pluck('name', 'program_id')->toArray())
+                    ->searchable()
+                    ->native(false),
+                Textarea::make('long_description')
+                    ->label('Deskripsi Panjang')
                     ->maxLength(65535),
-                Forms\Components\TextInput::make('level')
+                TextInput::make('level')
+                    ->label('Level Kursus')
                     ->maxLength(255),
-                Forms\Components\Repeater::make('benefits')
+                Repeater::make('benefits')
+                    ->label('Benefit')
                     ->schema([
-                        Forms\Components\TextInput::make('item')
+                        TextInput::make('item')
+                            ->label('Benefit')
                             ->required()
                             ->maxLength(255),
                     ]),
@@ -40,12 +54,16 @@ class ProgramDetailResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('program.name')
+                TextColumn::make('program.name')
+                    ->label('Nama Program')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('long_description')
+                TextColumn::make('long_description')
+                    ->label('Deskripsi Panjang')
                     ->limit(50),
-                Tables\Columns\TextColumn::make('level'),
-                Tables\Columns\TextColumn::make('benefits')
+                TextColumn::make('level')
+                    ->label('Level Kursus'),
+                TextColumn::make('benefits')
+                    ->label('Benefit')
                     ->getStateUsing(function ($record) {
                         return implode(', ', array_column($record->benefits, 'item'));
                     }),
@@ -54,7 +72,9 @@ class ProgramDetailResource extends Resource
             //
         ])
             ->actions([
+            Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
         ])
             ->bulkActions([
             Tables\Actions\BulkActionGroup::make([
