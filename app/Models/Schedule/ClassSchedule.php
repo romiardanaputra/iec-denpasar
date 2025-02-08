@@ -31,26 +31,21 @@ class ClassSchedule extends Model
 
     public function program()
     {
-        return $this->belongsTo(Program::class, 'program_id');
+        return $this->belongsTo(Program::class, 'program_id', 'program_id');
     }
 
     public function book()
     {
-        return $this->belongsTo(Book::class, 'book_id');
+        return $this->belongsTo(Book::class, 'book_id', 'book_id');
     }
 
     public function time()
     {
-        return $this->belongsTo(ClassTimeCode::class, 'time_code_id');
-    }
-
-    public function classDaySchedules()
-    {
-        return $this->hasMany(ClassDaySchedule::class);
+        return $this->belongsTo(ClassTimeCode::class, 'time_code_id', 'time_code_id');
     }
 
     public function day()
     {
-        return $this->belongsTo(ClassDayCode::class, 'day_code_id');
+        return $this->belongsTo(ClassDayCode::class, 'day_code_id', 'day_code_id');
     }
 }

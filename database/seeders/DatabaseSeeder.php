@@ -10,6 +10,7 @@ use Closure;
 use Database\Seeders\Program\BookSeeder;
 use Database\Seeders\Program\ProgramSeeder;
 use Database\Seeders\Schedule\ClassDayCodeSeeder;
+use Database\Seeders\Schedule\ClassScheduleSeeder;
 use Database\Seeders\Schedule\ClassTimeCodeSeeder;
 use Database\Seeders\Transaction\DummyOrderSeeder;
 use Illuminate\Database\Eloquent\Collection;
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             ProgramSeeder::class,
             TeamSeeder::class,
             DummyOrderSeeder::class,
+            ClassScheduleSeeder::class,
         ]);
 
         $this->command->warn(PHP_EOL.'Creating blog categories...');

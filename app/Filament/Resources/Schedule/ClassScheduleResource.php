@@ -88,7 +88,7 @@ class ClassScheduleResource extends Resource
                     ->searchable()
                     ->options(
                         ClassDayCode::query()
-                            ->orderBy('day_code')
+                            ->orderBy('day_code_id')
                             ->get()
                             ->map(function ($dayCode) {
                                 return [
@@ -108,9 +108,11 @@ class ClassScheduleResource extends Resource
                     ->label('Kode Kelas (per hari)')
                     ->helperText('Kode digenerate secara otomatis oleh sistem')
                     ->disabled()
+                    ->unique(ClassSchedule::class)
                     ->placeholder('Kode digenerate secara otomatis oleh sistem!')
                     ->dehydrated(),
-            ]);
+            ])
+            ->columns(2);
     }
 
     protected static function generateClassCode(Set $set, Get $get)
@@ -122,7 +124,6 @@ class ClassScheduleResource extends Resource
         Log::info("dayCodeId: $dayCodeId, bookId: $bookId, timeCodeId: $timeCodeId");
 
         if ($dayCodeId && $bookId && $timeCodeId) {
-            // Mengambil model dari ID yang dipilih
             $dayCode = ClassDayCode::find($dayCodeId);
             $book = Book::find($bookId);
             $timeCode = ClassTimeCode::find($timeCodeId);
@@ -132,28 +133,16 @@ class ClassScheduleResource extends Resource
             Log::info('timeCode: '.($timeCode ? $timeCode->time_code : 'null'));
 
             if ($dayCode && $book && $timeCode) {
-                // Mengambil huruf pertama dari day_code
                 $dayCodePart = strtoupper(substr($dayCode->day_code, 0, 2));
-
-                // Mengambil dua huruf pertama dari book_name
                 $bookNamePart = strtoupper(substr($book->book_code, 0, 3));
-
-                // Mengambil satu huruf pertama dari time_code
                 $timeCodePart = strtoupper(substr($timeCode->time_code, 0, 1));
-
-                // Menggabungkan semua bagian menjadi satu string
                 $classCode = $dayCodePart.$bookNamePart.$timeCodePart;
-
                 Log::info("classCode: $classCode");
-
-                // Menetapkan nilai ke class_code
                 $set('class_code', $classCode);
             } else {
-                // Jika salah satu model tidak ditemukan, bersihkan class_code
                 $set('class_code', '');
             }
         } else {
-            // Jika salah satu ID tidak ada, bersihkan class_code
             $set('class_code', '');
         }
     }
@@ -195,17 +184,17 @@ class ClassScheduleResource extends Resource
             ])
             ->filters([
 
-            ])
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ]),
+        ]);
     }
 
     public static function getPages(): array

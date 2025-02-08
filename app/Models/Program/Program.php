@@ -34,7 +34,7 @@ class Program extends Model
 
     public function classes()
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(ClassSchedule::class, 'program_id', 'program_id');
     }
 
     public function detail()
@@ -45,5 +45,10 @@ class Program extends Model
     public function images()
     {
         return $this->hasMany(Image::class, 'program_id');
+    }
+
+    public function books()
+    {
+        return $this->hasMany(Book::class, 'program_id');
     }
 }

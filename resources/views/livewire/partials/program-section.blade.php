@@ -4,7 +4,7 @@
     <h1 class="lg:text-4xl font-medium sm:text-inherit leading-tight mb-5 ">{{ __('Program Kami') }}</h1>
     <div class="sm:flex justify-between gap-5">
       <p class="mb-4 sm:w-8/12 text-slate-600">
-        {{ __('Tingkatkan potensi Anda bersama beragam kursus bahasa Inggris yang kami tawarkan, dirancang khusus untuk semua level. Apakah Anda baru memulai atau ingin mengasah kemampuan hingga mahir, kami punya program yang tepat untuk membantu Anda mencapai tujuan! Bergabunglah sekarang dan mulailah perjalanan menuju kesuksesan bersama kami.') }}
+        {{ __('Tingkatkan potensi Anda dengan kursus bahasa Inggris kami, dirancang untuk semua level. Apapun tujuan Anda, kami siap membantu. Bergabunglah sekarang!') }}
       </p>
       <a href="#">
         <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">

@@ -6,8 +6,8 @@ use App\Filament\Resources\Program\ProgramDetailResource\Pages;
 use App\Models\Program\Program;
 use App\Models\Program\ProgramDetail;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -39,12 +39,13 @@ class ProgramDetailResource extends Resource
                     ->options(Program::pluck('name', 'program_id')->toArray())
                     ->searchable()
                     ->native(false),
-                Textarea::make('long_description')
-                    ->label('Deskripsi Panjang')
-                    ->maxLength(65535),
                 TextInput::make('level')
                     ->label('Level Kursus')
                     ->maxLength(255),
+                RichEditor::make('long_description')
+                    ->label('Deskripsi Panjang')
+                    ->maxLength(65535)
+                    ->columnSpanFull(), // Memperluas kolom untuk editor
                 Repeater::make('benefits')
                     ->label('Benefit')
                     ->schema([
@@ -52,8 +53,10 @@ class ProgramDetailResource extends Resource
                             ->label('Benefit')
                             ->required()
                             ->maxLength(255),
-                    ]),
-            ]);
+                    ])
+                    ->columnSpanFull(), // Memperluas kolom untuk repeater
+            ])
+            ->columns(2); // Mengatur kolom menjadi 2 kolom
     }
 
     public static function table(Table $table): Table
@@ -75,18 +78,18 @@ class ProgramDetailResource extends Resource
                     }),
             ])
             ->filters([
-                //
-            ])
+            //
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ]),
+        ]);
     }
 
     public static function getRelations(): array
