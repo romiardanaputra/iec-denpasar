@@ -15,8 +15,10 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Order::class, 'order_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->string('payment_id')->unique();
+            $table->double('amount');
             $table->string('snap_token')->nullable();
-            $table->string('status', 32)->default('pending');
+            $table->enum('status', ['PENDING', 'PAID', 'FAILED', 'EXPIRE', 'CANCEL'])->default('PENDING');
             $table->dateTime('paid_at')->nullable();
             $table->timestamps();
         });

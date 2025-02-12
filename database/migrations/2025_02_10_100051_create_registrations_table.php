@@ -12,16 +12,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignid('user_id')->constrained()->onDelete('cascade');
             $table->foreignIdFor(Program::class, 'program_id')->constrained()->onDelete('cascade');
-            $table->string('order_id', 32)->unique();
-            $table->double('total_price');
-            $table->enum('status', ['pending', 'processing', 'completed', 'failed', 'cancelled'])->default('pending');
-            $table->enum('payment_status', ['unpaid', 'paid', 'expired', 'cancelled', 'failed'])
-                ->default('unpaid');
+            $table->string('student_name');
+            $table->string('birthplace');
+            $table->date('birthdate');
+            $table->text('address');
+            $table->string('education');
+            $table->string('job');
+            $table->string('market');
+            $table->string('parent_guardian')->nullable();
             $table->timestamps();
+
         });
     }
 
@@ -30,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('registrations');
     }
 };

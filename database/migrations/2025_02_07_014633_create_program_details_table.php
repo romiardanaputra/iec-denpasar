@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('program_id')->constrained('programs', 'program_id')->onDelete('cascade');
             $table->text('long_description')->nullable();
-            $table->string('level')->nullable(); // Anda bisa menyesuaikan tipe data sesuai kebutuhan
-            $table->json('benefits')->nullable(); // Menyimpan daftar benefit sebagai JSON
+            $table->string('level')->nullable();
+            $table->json('benefits')->nullable();
             $table->timestamps();
         });
     }
