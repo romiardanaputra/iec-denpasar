@@ -19,7 +19,7 @@
         <x-card class="min-w-[300px] hover:-translate-y-2 transition-all cursor-pointer will-change-transform">
           <x-card.header class="pb-4">
             <img class="w-100 h-[210px] object-cover object-center rounded-xl"
-              src="{{ asset('storage/' . $program->image) }}" alt="course-image">
+              src="{{ asset('storage/' . $program->image ?? $program->image) }}" alt="{{ $program->name }}">
             <x-typography.h4 class="pt-4 px-6">
               {{ $program->name }}
             </x-typography.h4>

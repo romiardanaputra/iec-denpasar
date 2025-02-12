@@ -2,10 +2,12 @@
   <div class="bg-white dark:bg-gray-800 h-full py-6 sm:py-8 lg:py-12">
     <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
       <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
-        @forelse ($program->images as $key => $image)
+        @forelse ($program->images->take(4) as $key => $image)
           <a href="#"
             class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80 {{ $key == 1 || $key == 2 ? 'md:col-span-2' : '' }}">
-            <img src="{{ asset('storage/' . $image->path) }}" loading="lazy" alt="{{ $program->name . '-' . $key }}"
+            <img
+              src="{{ Storage::exists('public/' . $image->path) ? asset('storage/' . $image->path) : 'https://picsum.photos/seed/picsum/200/300' }}"
+              loading="lazy" alt="{{ $program->name . '-' . $key }}"
               class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
             <div
               class="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent opacity-50">
@@ -56,7 +58,110 @@
           </div>
         </div>
         <div class="flex w-full">
-          <x-button type="submit" class="w-full py-6 ">Buy Now</x-button>
+          @guest
+            <x-button wire:click="checkBeforeRegisterProgram">Daftar Kursus Sekarang</x-button>
+          @endguest
+          @auth
+            <x-dialog>
+              <x-dialog.trigger class="w-full p-6">
+                Daftar Kursus Sekarang!
+              </x-dialog.trigger>
+              <x-dialog.content class="sm:max-w-xl">
+                <form id="payment-form" method="POST"
+                  action="{{ route('program.checkout', ['program' => $program->program_id]) }}" autocomplete="on">
+                  @csrf
+                  <div class="grid gap-4">
+                    <x-dialog.header>
+                      <x-dialog.title>
+                        Daftar Program {{ $program->name }}
+                      </x-dialog.title>
+                      <x-dialog.description>
+                        Isi data pendaftaran dibawah ini dengan benar!
+                      </x-dialog.description>
+                    </x-dialog.header>
+
+                    <div class="grid gap-4 py-4">
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <x-label htmlFor="student_name" class="text-right">
+                          Nama
+                        </x-label>
+                        <x-input name="student_name" id="student_name" placeholder='Masukan Nama Lengkap'
+                          class="col-span-3" value="{{ auth()->user()->name }}" required autocomplete />
+                      </div>
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <x-label htmlFor="birthplace" class="text-right">
+                          Tempat Lahir
+                        </x-label>
+                        <x-input name="birthplace" id="birthplace" placeholder="Denpasar" class="col-span-3" required
+                          autocomplete />
+                      </div>
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <x-label htmlFor="birthdate" class="text-right">
+                          Tanggal Lahir
+                        </x-label>
+                        <x-input name="birthdate" id="birthdate" type="date" class="col-span-3" required
+                          autocomplete />
+                      </div>
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <x-label htmlFor="address" class="text-right">
+                          Alamat
+                        </x-label>
+                        <x-input name="address" id="address" placeholder="Masukan Alamat tinggal" class="col-span-3"
+                          required autocomplete />
+                      </div>
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <x-label htmlFor="education" class="text-right">
+                          Pendidikan
+                        </x-label>
+                        <select name="education" id="education" wire:model="education"
+                          class="col-span-3 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
+                          required>
+                          @foreach ($educationOptions as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <x-label htmlFor="job" class="text-right">
+                          Pekerjaan
+                        </x-label>
+                        <select name="job" id="job" wire:model="job"
+                          class="col-span-3 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
+                          required>
+                          @foreach ($jobOptions as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <x-label htmlFor="market" class="text-right">
+                          Mengenal IEC Dari
+                        </x-label>
+                        <select name="market" id="market" wire:model="market"
+                          class="col-span-3 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm w-full"
+                          required>
+                          @foreach ($marketOptions as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="grid grid-cols-4 items-center gap-4">
+                        <x-label htmlFor="parent_guardian" class="text-right">
+                          Nama Orang tua/wali
+                        </x-label>
+                        <x-input name="parent_guardian" id="parent_guardian"
+                          placeholder="Orang tua / wali yang mendampingi" class="col-span-3" required autocomplete />
+                      </div>
+                    </div>
+                    <x-dialog.footer>
+                      <x-button variant="default" type="submit" id="orderButton">Daftar Sekarang</x-button>
+                    </x-dialog.footer>
+                  </div>
+                </form>
+              </x-dialog.content>
+            </x-dialog>
+          @endauth
+
         </div>
       </div>
     </div>
@@ -72,7 +177,8 @@
         <x-tabs.content class="text-justify leading-7" value="overview">{!! __($program->detail->long_description) !!}.</x-tabs.content>
         <x-tabs.content value="schedule">
           <div>
-            <input type="text" wire:model.live="search" placeholder="Cari jadwal kelas..." class="form-control">
+            <input id="searchSchedule" type="text" wire:model.live="search" placeholder="Cari jadwal kelas..."
+              class="form-control">
           </div>
           <div class="font-[sans-serif] overflow-x-auto">
             <table class="min-w-full bg-white ">
@@ -143,47 +249,52 @@
                                 ({{ $class->class_code }})
                               </x-dialog.description>
                             </x-dialog.header>
-                            <div class="grid grid-cols-4 items-center gap-4">
-                              <x-label htmlFor="name" class="text-right">
-                                Nama Program
-                              </x-label>
-                              <x-input id="name" value="{{ $class->program->name }}" class="col-span-3"
-                                readonly />
-                            </div>
-                            <div class="grid grid-cols-4 items-center gap-4">
-                              <x-label htmlFor="book" class="text-right">
-                                Buku
-                              </x-label>
-                              <x-input id="book" value="{{ $class->book->book_name }}" class="col-span-3"
-                                readonly />
-                            </div>
-                            <div class="grid grid-cols-4 items-center gap-4">
-                              <x-label htmlFor="book" class="text-right">
-                                Jadwal Hari
-                              </x-label>
-                              <x-input id="book" value="{{ $class->day->day_name }}" class="col-span-3"
-                                readonly />
-                            </div>
-                            <div class="grid grid-cols-4 items-center gap-4">
-                              <x-label htmlFor="book" class="text-right">
-                                Jadwal Jam
-                              </x-label>
-                              <x-input id="book"
-                                value="{{ $class->time->time_start . ' s/d ' . $class->time->time_end }}"
-                                class="col-span-3" readonly />
-                            </div>
-                            <div class="grid grid-cols-4 items-center gap-4">
-                              <x-label htmlFor="book" class="text-right">
-                                Mentor Kelas
-                              </x-label>
-                              <x-input id="book" value="{{ 'MR. Wi' }}" class="col-span-3" readonly />
-                            </div>
-                            <div class="grid grid-cols-4 items-center gap-4">
-                              <x-label htmlFor="book" class="text-right">
-                                Ruangan Kelas
-                              </x-label>
-                              <x-input id="book" value="{{ 'IV (20 orang)' }}" class="col-span-3" readonly />
-                            </div>
+                            <form id="detail_info_class">
+                              <div class="grid grid-cols-4 items-center gap-4">
+                                <x-label htmlFor="program_name" class="text-right">
+                                  Nama Program
+                                </x-label>
+                                <x-input id="program_name" value="{{ $class->program->name }}" class="col-span-3"
+                                  readonly />
+                              </div>
+                              <div class="grid grid-cols-4 items-center gap-4">
+                                <x-label htmlFor="book_name_display" class="text-right">
+                                  Buku
+                                </x-label>
+                                <x-input id="book_name_display" value="{{ $class->book->book_name }}"
+                                  class="col-span-3" readonly />
+                              </div>
+                              <div class="grid grid-cols-4 items-center gap-4">
+                                <x-label htmlFor="day_name" class="text-right">
+                                  Jadwal Hari
+                                </x-label>
+                                <x-input id="day_name" value="{{ $class->day->day_name }}" class="col-span-3"
+                                  readonly />
+                              </div>
+                              <div class="grid grid-cols-4 items-center gap-4">
+                                <x-label htmlFor="time_schedule" class="text-right">
+                                  Jadwal Jam
+                                </x-label>
+                                <x-input id="time_schedule"
+                                  value="{{ $class->time->time_start . ' s/d ' . $class->time->time_end }}"
+                                  class="col-span-3" readonly />
+                              </div>
+                              <div class="grid grid-cols-4 items-center gap-4">
+                                <x-label htmlFor="class_mentor" class="text-right">
+                                  Mentor Kelas
+                                </x-label>
+                                <x-input id="class_mentor" value="{{ 'MR. Wi' }}" class="col-span-3"
+                                  readonly />
+                              </div>
+                              <div class="grid grid-cols-4 items-center gap-4">
+                                <x-label htmlFor="class_room" class="text-right">
+                                  Ruangan Kelas
+                                </x-label>
+                                <x-input id="class_room" value="{{ 'IV (20 orang)' }}" class="col-span-3"
+                                  readonly />
+                              </div>
+                            </form>
+
                             <x-dialog.footer>
                               @php
                                 $whatsappMessage = "Halo, saya ingin membagikan detail program *{$program->name}* kepada Anda:\n\n";
@@ -232,3 +343,56 @@
     </x-tabs>
   </div>
 </section>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+</script>
+<script>
+  document.getElementById('payment-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const form = this;
+    const formData = new FormData(form);
+    const orderButton = document.getElementById('orderButton');
+
+    orderButton.disabled = true;
+    orderButton.textContent = 'Processing...';
+
+
+    fetch(form.action, {
+        method: form.method,
+        headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: formData,
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.snap_token) {
+          snap.pay(result.snap_token, {
+            onSuccess: function(result) {
+              console.log(result);
+              alert('success payment');
+            },
+            onPending: function(result) {
+              console.log(result);
+              alert('pending payment');
+            },
+            onError: function(result) {
+              console.log(result);
+              alert('error payment');
+            }
+          });
+        } else {
+          alert('failed to create order')
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while creating the order');
+      })
+      .finally(() => {
+        orderButton.disabled = false;
+        orderButton.textContent = 'Order now!'
+      })
+  });
+</script>

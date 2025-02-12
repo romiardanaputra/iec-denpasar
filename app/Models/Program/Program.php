@@ -3,6 +3,8 @@
 namespace App\Models\Program;
 
 use App\Models\Schedule\ClassSchedule;
+use App\Models\Transaction\Order;
+use App\Models\Transaction\Registration;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,5 +52,15 @@ class Program extends Model
     public function books()
     {
         return $this->hasMany(Book::class, 'program_id');
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }

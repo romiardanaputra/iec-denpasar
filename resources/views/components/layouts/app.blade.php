@@ -12,9 +12,11 @@
       <meta name="robots" content="noindex, nofollow">
     @endif
     {!! SEO::generate(true) !!}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link href="{{ asset('assets') }}/css/styles.css?v=1.0.3" rel="stylesheet" />
+    @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice'))
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+      <link href="{{ asset('assets') }}/css/styles.css?v=1.0.3" rel="stylesheet" />
+    @endif
 
     <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title>
 

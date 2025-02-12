@@ -12,15 +12,15 @@ class ProgramDetail extends Model
 
     protected $table = 'program_details';
 
+    protected $casts = [
+        'benefits' => 'array',
+    ];
+
     protected $fillable = [
         'program_id',
         'long_description',
         'level',
         'benefits',
-    ];
-
-    protected $casts = [
-        'benefits' => 'array', // Pastikan benefits disimpan sebagai array
     ];
 
     public function program()

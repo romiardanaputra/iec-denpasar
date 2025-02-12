@@ -45,7 +45,7 @@ class ProgramDetailResource extends Resource
                 RichEditor::make('long_description')
                     ->label('Deskripsi Panjang')
                     ->maxLength(65535)
-                    ->columnSpanFull(), // Memperluas kolom untuk editor
+                    ->columnSpanFull(),
                 Repeater::make('benefits')
                     ->label('Benefit')
                     ->schema([
@@ -54,9 +54,9 @@ class ProgramDetailResource extends Resource
                             ->required()
                             ->maxLength(255),
                     ])
-                    ->columnSpanFull(), // Memperluas kolom untuk repeater
+                    ->columnSpanFull(),
             ])
-            ->columns(2); // Mengatur kolom menjadi 2 kolom
+            ->columns(2);
     }
 
     public static function table(Table $table): Table
@@ -74,22 +74,24 @@ class ProgramDetailResource extends Resource
                 TextColumn::make('benefits')
                     ->label('Benefit')
                     ->getStateUsing(function ($record) {
-                        return implode(', ', array_column($record->benefits, 'item'));
+                        $benefits = is_array($record->benefits) ? $record->benefits : json_decode($record->benefits, true);
+
+                        return implode(', ', array_column($benefits, 'item'));
                     }),
             ])
             ->filters([
-            //
-        ])
+                //
+            ])
             ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+                ]),
+            ]);
     }
 
     public static function getRelations(): array
