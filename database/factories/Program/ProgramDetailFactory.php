@@ -2,6 +2,8 @@
 
 namespace Database\Factories\Program;
 
+use App\Models\Program\Program;
+use App\Models\Program\ProgramDetail;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,10 +16,21 @@ class ProgramDetailFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    protected $model = ProgramDetail::class;
+
+    public function definition()
     {
+
+        $benefits = [];
+        for ($i = 0; $i < 3; $i++) {
+            $benefits[] = ['item' => $this->faker->sentence];
+        }
+
         return [
-            //
+            'program_id' => Program::factory(),
+            'long_description' => $this->faker->paragraphs(3, true),
+            'level' => $this->faker->randomElement(['Beginner', 'Intermediate', 'Advanced']),
+            'benefits' => $benefits,
         ];
     }
 }
