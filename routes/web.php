@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OauthController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Middleware\HasRoleUserMiddleware;
 use App\Livewire\Auth\EmailVerificationPrompt;
 use App\Livewire\Auth\ForgotPassword;
@@ -21,6 +22,7 @@ use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\OurTeam;
 use App\Livewire\Pages\Program;
 use App\Livewire\Pages\ProgramDetail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\SitemapGenerator;
 
@@ -32,10 +34,9 @@ Route::get('/sitemap', function () {
     return response()->json(['message' => 'Sitemap created successfully!', 'path' => $path]);
 });
 
-Route::get('/customer/orders', [App\Http\Controllers\Customer\OrderController::class, 'index'])->name('customer.orders.index');
-Route::get('/customer/orders/{order}', [App\Http\Controllers\Customer\OrderController::class, 'show'])->name('customer.orders.show');
-
-Route::post('/payment/midtrans-callback', [App\Http\Controllers\PaymentController::class, 'midtransCallback']);
+// Route::get('/customer/orders', [App\Http\Controllers\Customer\OrderController::class, 'index'])->name('customer.orders.index');
+// Route::get('/customer/orders/{order}', [App\Http\Controllers\Customer\OrderController::class, 'show'])->name('customer.orders.show');
+// Route::post('/payment/midtrans-callback', [App\Http\Controllers\PaymentController::class, 'midtransCallback']);
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', Index::class)->name('landing');
@@ -73,4 +74,8 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
     Route::get('/class-info', ClassInfo::class)->name('class-info');
     Route::get('/bill', Bill::class)->name('bill');
     Route::get('/invoice', Invoice::class)->name('invoice');
+
+    Route::post('/midtrans/callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
+    Route::post('/program/{program}/checkout', [PaymentController::class, 'checkout'])->name('program.checkout');
+    Log::info('Route /program/{program}/checkout registered');
 });
