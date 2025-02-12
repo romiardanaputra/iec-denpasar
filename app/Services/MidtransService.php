@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Order;
+use App\Models\Transaction\Order;
 use Exception;
 use Midtrans\Config;
 use Midtrans\Notification;

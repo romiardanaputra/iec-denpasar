@@ -7,15 +7,15 @@
           <x-breadcrumb.list>
             <x-breadcrumb.item>
               <x-breadcrumb.link class="text-slate-300" href="{{ route($routeName) }}"
-                wire:navigate>Home</x-breadcrumb.link>
+                wire:navigate>{{ __('Beranda') }}</x-breadcrumb.link>
             </x-breadcrumb.item>
             <x-breadcrumb.separator class="text-slate-300" />
             <x-breadcrumb.item>
-              <x-breadcrumb.page class="text-white">{{ $breadcrumb }}</x-breadcrumb.page>
+              <x-breadcrumb.page class="text-white">{{ __($breadcrumb) }}</x-breadcrumb.page>
             </x-breadcrumb.item>
           </x-breadcrumb.list>
         </x-breadcrumb>
-        <h3 class="font-bold text-slate-300 text-5xl pt-6">{{ $title }}</h3>
+        <h3 class="font-bold text-slate-300 text-5xl pt-6">{{ __($title) }}</h3>
       </div>
     </div>
   </div>

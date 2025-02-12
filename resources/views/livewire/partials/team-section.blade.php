@@ -4,7 +4,7 @@
       <div>
         <p
           class="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-teal-900 uppercase rounded-full bg-teal-accent-400">
-          Core Team
+          {{ __('Team IEC Denpasar') }}
         </p>
       </div>
       <h2
@@ -19,13 +19,11 @@
             </defs>
             <rect fill="url(#1d4040f3-9f3e-4ac7-b117-7d4009658ced)" width="52" height="24"></rect>
           </svg>
-          <span class="relative">Welcome</span>
         </span>
-        our talented team of professionals
+        {{ __('Tim dan Mentor Profesional IEC Denpasar') }}
       </h2>
       <p class="text-base text-gray-700 md:text-lg">
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque rem aperiam, eaque ipsa
-        quae.
+        {{ __(' Kami bangga memiliki tim profesional yang berdedikasi untuk membantu siswa mencapai tujuan pendidikan mereka.') }}
       </p>
     </div>
     <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -34,13 +32,13 @@
           <div
             class="relative overflow-hidden transition duration-300 transform rounded shadow-lg lg:hover:-translate-y-2 hover:shadow-2xl">
             <img class="object-cover w-full h-56 md:h-64 xl:h-80" src="{{ asset('storage/' . $team->image) }}"
-              alt="{{ $team->name }}" />
+              alt="{{ __($team->name) }}" />
             <div
               class="absolute inset-0 flex flex-col justify-center px-5 py-4 text-center transition-opacity duration-300 bg-black bg-opacity-75 opacity-0 hover:opacity-100">
               <p class="mb-1 text-lg font-bold text-gray-100">{{ $team->name }}</p>
               <p class="mb-4 text-xs text-gray-100">{{ $team->mentor_class }}</p>
               <p class="mb-4 text-xs tracking-wide text-gray-400">
-                {{ $team->short_description }}
+                {{ __($team->short_description) }}
               </p>
               <div class="flex items-center justify-center space-x-3">
                 <a href="/{{ $team->linkedin }}"
@@ -64,7 +62,7 @@
           </div>
         </div>
       @empty
-        <div>no data found</div>
+        <div>{{ __('Tidak ada data ditemukan') }}</div>
       @endforelse
     </div>
   </div>

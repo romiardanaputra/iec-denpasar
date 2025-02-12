@@ -1,5 +1,5 @@
 <div>
-  @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'Our Program', 'title' => 'Our Program'])
+  @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'Program Kami', 'title' => 'Program Kami'])
   @livewire('partials.program-section')
   @livewire('partials.testimonial-section')
   @livewire('partials.faq-section')

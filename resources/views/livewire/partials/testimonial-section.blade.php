@@ -1,6 +1,7 @@
 <section class="bg-white dark:bg-gray-900">
   <div class="swiper">
-    <div class=" px-4 py-8 mx-auto text-center lg:py-16 lg:px-6 swiper-wrapper">
+    <div class="px-4 py-8 mx-auto text-center lg:py-16 lg:px-6 swiper-wrapper">
+      <!-- Testimonial Slide 1 -->
       <div class="swiper-slide">
         <figure class="max-w-screen-md mx-auto">
           <svg class="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600" viewBox="0 0 24 27" fill="none"
@@ -10,24 +11,23 @@
               fill="currentColor" />
           </svg>
           <blockquote>
-            <p class="text-2xl font-medium text-gray-900 dark:text-white">"Flowbite is just awesome. It contains
-              tons
-              of
-              predesigned components and pages starting from login screen to complex dashboard. Perfect choice for
-              your
-              next SaaS application."</p>
+            <p class="text-2xl font-medium text-gray-900 dark:text-white">
+              "{{ __('Belajar di IEC Denpasar benar-benar mengubah hidup saya. Metode pembelajaran yang interaktif dan mentor yang berdedikasi membuat saya percaya diri berbicara bahasa Inggris.') }}"
+            </p>
           </blockquote>
           <figcaption class="flex items-center justify-center mt-6 space-x-3">
-            <img class="w-6 h-6 rounded-full"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
-              alt="profile picture">
+            <img class="w-6 h-6 rounded-full" src="{{ asset('storage/assets/images/testimonials/alumni-1.jpg') }}"
+              alt="{{ __('Foto Profil Alumni 1') }}">
             <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-              <div class="pr-3 font-medium text-gray-900 dark:text-white">Micheal Gough</div>
-              <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">CEO at Google</div>
+              <div class="pr-3 font-medium text-gray-900 dark:text-white">{{ __('Ni Made Ayu') }}</div>
+              <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">{{ __('Alumni IEC Denpasar') }}
+              </div>
             </div>
           </figcaption>
         </figure>
       </div>
+
+      <!-- Testimonial Slide 2 -->
       <div class="swiper-slide">
         <figure class="max-w-screen-md mx-auto">
           <svg class="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600" viewBox="0 0 24 27" fill="none"
@@ -37,20 +37,17 @@
               fill="currentColor" />
           </svg>
           <blockquote>
-            <p class="text-2xl font-medium text-gray-900 dark:text-white">"Flowbite is just awesome. It contains
-              tons
-              of
-              predesigned components and pages starting from login screen to complex dashboard. Perfect choice for
-              your
-              next SaaS application."</p>
+            <p class="text-2xl font-medium text-gray-900 dark:text-white">
+              "{{ __('Saya sangat bersyukur telah memilih IEC Denpasar. Programnya fleksibel dan hasilnya luar biasa. Sekarang saya bisa berkomunikasi dengan lancar di tempat kerja.') }}"
+            </p>
           </blockquote>
           <figcaption class="flex items-center justify-center mt-6 space-x-3">
-            <img class="w-6 h-6 rounded-full"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
-              alt="profile picture">
+            <img class="w-6 h-6 rounded-full" src="{{ asset('storage/assets/images/testimonials/alumni-2.jpg') }}"
+              alt="{{ __('Foto Profil Alumni 2') }}">
             <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-              <div class="pr-3 font-medium text-gray-900 dark:text-white">Micheal Gough</div>
-              <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">CEO at Google</div>
+              <div class="pr-3 font-medium text-gray-900 dark:text-white">{{ __('I Gede Putu') }}</div>
+              <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">
+                {{ __('Profesional di Bidang Pariwisata') }}</div>
             </div>
           </figcaption>
         </figure>

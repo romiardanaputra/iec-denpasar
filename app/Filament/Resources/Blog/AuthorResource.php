@@ -19,7 +19,7 @@ class AuthorResource extends Resource
 
     protected static ?string $slug = 'blog/authors';
 
-    protected static ?string $navigationGroup = 'Blog';
+    protected static ?string $navigationGroup = 'Kelola Blog';
 
     protected static ?string $recordTitleAttribute = 'name';
 

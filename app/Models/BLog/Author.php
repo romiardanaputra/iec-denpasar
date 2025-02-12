@@ -10,12 +10,8 @@ class Author extends Model
 {
     use HasFactory;
 
-    /**
-     * @var string
-     */
     protected $table = 'blog_authors';
 
-    /** @return HasMany<Post> */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'blog_author_id');

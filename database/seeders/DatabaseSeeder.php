@@ -6,8 +6,15 @@ use App\Models\Blog\Author;
 use App\Models\Blog\Category as BlogCategory;
 use App\Models\Blog\Link;
 use App\Models\Blog\Post;
-use App\Models\User;
 use Closure;
+use Database\Seeders\Program\BookSeeder;
+use Database\Seeders\Program\ImageSeeder;
+use Database\Seeders\Program\ProgramDetailSeeder;
+use Database\Seeders\Program\ProgramSeeder;
+use Database\Seeders\Schedule\ClassDayCodeSeeder;
+use Database\Seeders\Schedule\ClassScheduleSeeder;
+use Database\Seeders\Schedule\ClassTimeCodeSeeder;
+use Database\Seeders\Transaction\DummyOrderSeeder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,9 +29,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Storage::deleteDirectory('app/public');
-        // User::factory(10)->create()
+
         $this->call([
             RoleSeeder::class,
+            ClassDayCodeSeeder::class,
+            ClassTimeCodeSeeder::class,
+            BookSeeder::class,
+            ProgramSeeder::class,
+            TeamSeeder::class,
+            // DummyOrderSeeder::class,
+            ClassScheduleSeeder::class,
+            ProgramDetailSeeder::class,
+            ImageSeeder::class,
         ]);
 
         $this->command->warn(PHP_EOL.'Creating blog categories...');

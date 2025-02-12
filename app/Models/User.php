@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Transaction\Registration;
 use App\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -63,5 +64,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     public function canAccessPanel($panel): bool
     {
         return $this->isAdmin();
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
     }
 }

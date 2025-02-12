@@ -9,13 +9,6 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\QueryBuilder;
-use Filament\Tables\Filters\QueryBuilder\Constraints\BooleanConstraint;
-use Filament\Tables\Filters\QueryBuilder\Constraints\DateConstraint;
-use Filament\Tables\Filters\QueryBuilder\Constraints\NumberConstraint;
-use Filament\Tables\Filters\QueryBuilder\Constraints\SelectConstraint;
-use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -24,7 +17,7 @@ class TeamResource extends Resource
 {
     protected static ?string $model = Team::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $navigationLabel = 'Team IEC Denpasar';
 
@@ -34,53 +27,57 @@ class TeamResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\Section::make()
+                Forms\Components\Tabs::make('Team Details')
+                    ->tabs([
+                        Forms\Components\Tabs\Tab::make('General Information')
                             ->schema([
                                 Forms\Components\TextInput::make('name')
+                                    ->label(__('Name'))
                                     ->required()
                                     ->minLength(2)
-                                    ->live(onBlur: true)
                                     ->maxLength(255)
+                                    ->live(onBlur: true)
                                     ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
                                         if ($operation !== 'create') {
                                             return;
                                         }
-
                                         $set('slug', Str::slug($state));
                                     }),
                                 Forms\Components\TextInput::make('slug')
+                                    ->label(__('Slug'))
                                     ->disabled()
                                     ->required()
-                                    ->dehydrated()
-                                    ->maxLength(255)
                                     ->unique(Team::class, 'slug', ignoreRecord: true),
                                 Forms\Components\TextInput::make('mentor_class')
+                                    ->label(__('Mentor Class'))
                                     ->required()
                                     ->minLength(2)
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('age')
-                                    ->required()
-                                    ->numeric(),
+                                    ->label(__('Age'))
+                                    ->numeric()
+                                    ->required(),
                                 Forms\Components\Select::make('gender')
+                                    ->label(__('Gender'))
                                     ->options([
-                                        'male' => 'Male',
-                                        'female' => 'Female',
+                                        'male' => __('Male'),
+                                        'female' => __('Female'),
                                     ])
                                     ->native(false)
                                     ->required(),
                                 Forms\Components\Textarea::make('short_description')
+                                    ->label(__('Short Description'))
                                     ->required()
                                     ->minLength(2)
                                     ->maxLength(500)
                                     ->autosize()
                                     ->columnSpanFull(),
-                            ])
-                            ->columns(['md' => 2]),
-                        Forms\Components\Section::make('Image IEC Member')
+                            ]),
+
+                        Forms\Components\Tabs\Tab::make('Media')
                             ->schema([
                                 Forms\Components\FileUpload::make('image')
+                                    ->label(__('Image'))
                                     ->image()
                                     ->imageEditor()
                                     ->imageEditorAspectRatios([
@@ -90,50 +87,52 @@ class TeamResource extends Resource
                                         '1:1',
                                     ]),
                             ]),
-                        Forms\Components\Section::make('Social Media IEC Team')
+
+                        Forms\Components\Tabs\Tab::make('Social Media')
                             ->schema([
                                 Forms\Components\TextInput::make('facebook')
+                                    ->label(__('Facebook'))
                                     ->nullable()
-                                    ->string()
-                                    ->placeholder('ex:https://www.facebook.com/romiardanap')
-                                    ->helperText('optional facebook links'),
+                                    ->placeholder(__('ex: https://www.facebook.com/romiardanap'))
+                                    ->helperText(__('Optional Facebook links')),
                                 Forms\Components\TextInput::make('instagram')
+                                    ->label(__('Instagram'))
                                     ->nullable()
-                                    ->string()
-                                    ->placeholder('ex:https://www.instagram.com/romiardanap_/')
-                                    ->helperText('optional instagram links'),
+                                    ->placeholder(__('ex: https://www.instagram.com/romiardanap_/'))
+                                    ->helperText(__('Optional Instagram links')),
                                 Forms\Components\TextInput::make('whatsapp')
+                                    ->label(__('WhatsApp'))
                                     ->required()
-                                    ->string()
-                                    ->placeholder('6285792479249')
-                                    ->helperText('whatsapp phone number'),
+                                    ->placeholder(__('6285792479249'))
+                                    ->helperText(__('WhatsApp phone number')),
                                 Forms\Components\TextInput::make('linkedin')
+                                    ->label(__('LinkedIn'))
                                     ->nullable()
-                                    ->string()
-                                    ->placeholder('ex:https://www.linkedin.com/in/romiardana/')
-                                    ->helperText('optional for linekdin\'s links'),
-                            ])
-                            ->columns(['md' => 2]),
-                    ])
-                    ->columnSpan(['lg' => 2]),
+                                    ->placeholder(__('ex: https://www.linkedin.com/in/romiardana/'))
+                                    ->helperText(__('Optional LinkedIn links')),
+                            ]),
 
-                Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\Section::make('Status')
+                        Forms\Components\Tabs\Tab::make('Status')
                             ->schema([
                                 Forms\Components\Toggle::make('is_active')
+                                    ->label(__('Is Active?'))
                                     ->required()
                                     ->default(true)
-                                    ->helperText('Determine if a team is active or not'),
+                                    ->helperText(__('Determine if a team is active or not')),
                                 Forms\Components\DateTimePicker::make('join_at')
+                                    ->label(__('Join Date'))
                                     ->required()
                                     ->default(now())
-                                    ->helperText('Determine if a member joined at'),
+                                    ->helperText(__('Determine when a member joined')),
                             ]),
                     ])
-                    ->columnSpan(['lg' => 1]),
-            ])
-            ->columns(3);
+                    ->columns([
+                        'sm' => 1,
+                        'md' => 2,
+                        'lg' => 3,
+                    ])
+                    ->columnSpanFull(),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -141,61 +140,67 @@ class TeamResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
+                    ->label(__('Image'))
                     ->circular(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label(__('Name'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
+                    ->label(__('Slug'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('age')
+                    ->label(__('Age'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('gender')
+                    ->label(__('Gender'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('linkedin'),
-                Tables\Columns\TextColumn::make('instagram'),
                 Tables\Columns\TextColumn::make('whatsapp')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('join_at')
+                    ->label(__('WhatsApp'))
                     ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('join_at')
+                    ->label(__('Join Date'))
                     ->since()
                     ->sortable(),
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label(__('Is Active?'))
                     ->boolean()
-                    ->label('Is Active ?')
                     ->sortable()
                     ->toggleable(),
             ])
-            ->searchOnBlur()
             ->filters([
-                Filter::make('is_active')
-                    ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
-                QueryBuilder::make()
+                Tables\Filters\Filter::make('is_active')
+                    ->query(fn (Builder $query) => $query->where('is_active', true))
+                    ->label(__('Active Teams')),
+                Tables\Filters\QueryBuilder::make()
                     ->constraints([
-                        TextConstraint::make('name'),
-                        TextConstraint::make('slug'),
-                        NumberConstraint::make('age')
-                            ->label('Filter Age by inputing number'),
-                        TextConstraint::make('mentor_class')
-                            ->label('Filter by class'),
-                        SelectConstraint::make('gender')
-                            ->label('filter by gender (male, female)')
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('name'),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('slug'),
+                        Tables\Filters\QueryBuilder\Constraints\NumberConstraint::make('age')
+                            ->label(__('Filter by Age')),
+                        Tables\Filters\QueryBuilder\Constraints\TextConstraint::make('mentor_class')
+                            ->label(__('Filter by Mentor Class')),
+                        Tables\Filters\QueryBuilder\Constraints\SelectConstraint::make('gender')
+                            ->label(__('Filter by Gender'))
                             ->options([
-                                'male' => 'Male',
-                                'female' => 'Female',
+                                'male' => __('Male'),
+                                'female' => __('Female'),
                             ])
                             ->multiple(),
-                        BooleanConstraint::make('is_active')
-                            ->label('Active team'),
-                        DateConstraint::make('join_at'),
+                        Tables\Filters\QueryBuilder\Constraints\BooleanConstraint::make('is_active')
+                            ->label(__('Active Teams')),
+                        Tables\Filters\QueryBuilder\Constraints\DateConstraint::make('join_at'),
                     ])
                     ->constraintPickerColumns(2),
             ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)
             ->deferFilters()
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -213,9 +218,7 @@ class TeamResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

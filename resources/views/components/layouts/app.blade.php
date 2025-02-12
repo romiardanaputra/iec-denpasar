@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="application-name" content="{{ config('app.name') }}">
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,9 +12,11 @@
       <meta name="robots" content="noindex, nofollow">
     @endif
     {!! SEO::generate(true) !!}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link href="{{ asset('assets') }}/css/styles.css?v=1.0.3" rel="stylesheet" />
+    @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice'))
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
+      <link href="{{ asset('assets') }}/css/styles.css?v=1.0.3" rel="stylesheet" />
+    @endif
 
     <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title>
 
