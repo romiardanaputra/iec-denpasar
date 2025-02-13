@@ -16,7 +16,6 @@ class PaymentController extends Controller
     public function midtransCallback(Request $request, MidtransService $midtransService)
     {
         Log::info('Midtrans callback received');
-
         if ($midtransService->isSignatureKeyVerified()) {
             $order = $midtransService->getOrder();
             if (! $order) {
@@ -27,7 +26,6 @@ class PaymentController extends Controller
                     'message' => 'Order not found',
                 ], 404);
             }
-
             $status = $midtransService->getStatus();
             switch ($status) {
                 case 'success':
@@ -89,15 +87,13 @@ class PaymentController extends Controller
         }
     }
 
-    public function checkout(Request $request, Program $program)
+    public function checkout(Request $request, Program $program, MidtransService $midtransService)
     {
-
         Log::info('checkout method is called');
         $user = Auth::user();
         if (! $user) {
             return response()->json(['message' => 'User not authenticated'], 401);
         }
-
         $data = $request->validate([
             'student_name' => 'required|string|max:255',
             'birthplace' => 'required|string|max:255',
@@ -108,20 +104,17 @@ class PaymentController extends Controller
             'market' => 'required|string|max:255',
             'parent_guardian' => 'nullable|string|max:255',
         ]);
-
-        $registration = Registration::create([
+        Registration::create([
             'user_id' => $user->id,
             'program_id' => $program->program_id,
             ...$data,
         ]);
-
         $order = Order::create([
             'user_id' => $user->id,
             'program_id' => $program->program_id,
             'order_id' => uniqid('ORD-'),
             'total_price' => $program->price,
         ]);
-
         OrderItem::create([
             'order_id' => $order->id,
             'program_id' => $program->program_id,
@@ -129,15 +122,11 @@ class PaymentController extends Controller
             'price' => $program->price,
             'product_name' => $program->name,
         ]);
-
-        $midtransService = new MidtransService;
         $snapToken = $midtransService->createSnapToken($order);
-
-        Log::info('snaptoken created'.$snapToken);
+        Log::info('snaptoken created: '.$snapToken);
 
         return response()->json([
             'snap_token' => $snapToken,
         ]);
-
     }
 }

@@ -22,7 +22,7 @@ use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\OurTeam;
 use App\Livewire\Pages\Program;
 use App\Livewire\Pages\ProgramDetail;
-use Illuminate\Support\Facades\Log;
+use App\Livewire\Partials\Transaction\PaymentSuccess;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\SitemapGenerator;
 
@@ -34,10 +34,6 @@ Route::get('/sitemap', function () {
     return response()->json(['message' => 'Sitemap created successfully!', 'path' => $path]);
 });
 
-// Route::get('/customer/orders', [App\Http\Controllers\Customer\OrderController::class, 'index'])->name('customer.orders.index');
-// Route::get('/customer/orders/{order}', [App\Http\Controllers\Customer\OrderController::class, 'show'])->name('customer.orders.show');
-// Route::post('/payment/midtrans-callback', [App\Http\Controllers\PaymentController::class, 'midtransCallback']);
-
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', Index::class)->name('landing');
     Route::get('/about', About::class)->name('about');
@@ -45,7 +41,6 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/our-teams', OurTeam::class)->name('our-team');
     Route::get('/contact', Contact::class)->name('contact');
     Route::get('/our-program/{slug}', ProgramDetail::class)->name('program.detail');
-
 });
 
 Route::group(['middleware' => 'guest'], function () {
@@ -60,7 +55,6 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function (): void {
     Route::get('verify-email', EmailVerificationPrompt::class)
         ->name('verification.notice');
-
     Route::get('verify-email/{id}/{hash}', VerifyEmail::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
@@ -74,8 +68,13 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
     Route::get('/class-info', ClassInfo::class)->name('class-info');
     Route::get('/bill', Bill::class)->name('bill');
     Route::get('/invoice', Invoice::class)->name('invoice');
-
-    Route::post('/midtrans/callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
     Route::post('/program/{program}/checkout', [PaymentController::class, 'checkout'])->name('program.checkout');
-    Log::info('Route /program/{program}/checkout registered');
+    Route::get('/transaction/success', PaymentSuccess::class)->name('payment.success');
+
 });
+
+Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
+
+// Route::get('/customer/orders', [App\Http\Controllers\Customer\OrderController::class, 'index'])->name('customer.orders.index');
+// Route::get('/customer/orders/{order}', [App\Http\Controllers\Customer\OrderController::class, 'show'])->name('customer.orders.show');
+// Route::post('/payment/midtrans-callback', [App\Http\Controllers\PaymentController::class, 'midtransCallback']);

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->double('amount');
             $table->string('snap_token')->nullable();
             $table->enum('status', ['PENDING', 'PAID', 'FAILED', 'EXPIRE', 'CANCEL'])->default('PENDING');
+            $table->dateTime('expired_at')->nullable();
             $table->dateTime('paid_at')->nullable();
             $table->timestamps();
         });

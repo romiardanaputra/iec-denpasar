@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Transaction\Order;
+use App\Models\Transaction\Payment;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Midtrans\Config;
@@ -102,7 +103,7 @@ class MidtransService
                 'id' => $item->id,
                 'price' => $item->price,
                 'quantity' => $item->quantity,
-                'name' => $item->product_name ?? 'program kursus test',
+                'name' => $item->program->name,
             ];
         })->toArray();
     }
@@ -115,6 +116,22 @@ class MidtransService
             'name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
+            'address' => $user->address,
+            'city' => $user->city,
+            'postal_code' => $user->postal_code,
+            'country_code' => $user->country_code,
         ];
     }
+
+    // public function savePayment(Order $order, string $paymentId, string $status, float $amount, ?string $snapToken = null): Payment
+    // {
+    //   return Payment::create([
+    //     'order_id' => $order->order_id,
+    //     'payment_id' => $paymentId,
+    //     'amount' => $amount,
+    //     'snap_token' => $snapToken,
+    //     'status' => strtoupper($status),
+    //     'paid_at' => $status === 'success' ? now() : null,
+    //   ]);
+    // }
 }

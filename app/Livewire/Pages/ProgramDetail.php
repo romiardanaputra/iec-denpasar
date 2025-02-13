@@ -7,16 +7,11 @@ use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 #[\Livewire\Attributes\Title('Detail Program Kami')]
 
 class ProgramDetail extends Component
 {
-    // public $program;
-
-    use WithPagination;
-
     public $slug;
 
     public $program;
@@ -25,49 +20,11 @@ class ProgramDetail extends Component
 
     public $perPage = 5;
 
-    public $student_name;
-
-    public $birthdate;
-
-    public $address;
-
-    public $education;
-
-    public $job;
-
-    public $parent_guardian;
-
-    public $educationOptions = [
-        'SD' => 'Sekolah Dasar',
-        'SMP' => 'Sekolah Menengah Pertama',
-        'SMA' => 'Sekolah Menengah Atas',
-        'D3' => 'Diploma 3',
-        'S1' => 'Sarjana 1',
-        'S2' => 'Magister',
-        'S3' => 'Doktor',
-    ];
-
-    public $jobOptions = [
-        'Pelajar' => 'Pelajar',
-        'Mahasiswa' => 'Mahasiswa',
-        'Karyawan Swasta' => 'Karyawan Swasta',
-        'Wiraswasta' => 'Wiraswasta',
-        'Guru/Dosen' => 'Guru/Dosen',
-        'Pensiunan' => 'Pensiunan',
-        'Lainnya' => 'Lainnya',
-    ];
-
-    public $marketOptions = [
-        'teman' => 'Teman',
-        'family' => 'Family',
-        'papan nama' => 'Papan Nama',
-        'medsos' => 'Medsos',
-    ];
-
     public function mount($slug)
     {
         $this->slug = $slug;
         $this->loadProgram();
+        $this->SeoTag();
     }
 
     public function checkBeforeRegisterProgram()
@@ -86,18 +43,9 @@ class ProgramDetail extends Component
         }
     }
 
-    public function loadProgram()
-    {
-        $this->program = Program::with(['detail', 'images', 'classes'])->where('slug', $this->slug)->firstOrFail();
-        if (! $this->program) {
-            abort(404);
-        }
-    }
-
-    public function render()
+    public function SeoTag()
     {
         $program = $this->program;
-
         SEOMeta::setTitle($program->name.' | Kursus Bahasa Inggris di IEC Denpasar');
         SEOMeta::setDescription($program->short_description ?? 'Pelajari lebih lanjut tentang '.$program->name.' di IEC Denpasar. Program terbaik untuk meningkatkan kemampuan bahasa Inggris Anda.');
         SEOMeta::addMeta('article:published_time', $program->created_at->toW3CString(), 'property');
@@ -122,34 +70,24 @@ class ProgramDetail extends Component
             'name' => 'IEC Denpasar',
             'url' => 'https://iecdenpasar.com',
         ]);
+    }
 
-        $this->program->classes = $this->program->classes()
-            ->when($this->search, function ($query) {
-                return $query->where(function ($q) {
-                    $q->where('class_code', 'like', '%'.$this->search.'%')
-                        ->orWhereHas('program', function ($qr) {
-                            $qr->where('name', 'like', '%'.$this->search.'%');
-                        })
-                        ->orWhereHas('book', function ($qr) {
-                            $qr->where('book_name', 'like', '%'.$this->search.'%');
-                        })
-                        ->orWhereHas('day', function ($qr) {
-                            $qr->where('day_name', 'like', '%'.$this->search.'%');
-                        });
-                });
-            })
-            ->paginate($this->perPage);
+    public function loadProgram()
+    {
+        try {
+            $this->program = Program::with(['detail', 'images', 'classes'])->where('slug', $this->slug)->firstOrFail();
+            if (! $this->program) {
+                abort(404);
+            }
+        } catch (\Exception $e) {
+            report($e);
+            abort(404);
+        }
 
-        // dd($user);
-        $data = [
-            'program' => $program,
-            'classes' => $this->program->classes,
-        ];
+    }
 
-        // dd(get_class($classes));
-
-        // dd($data['program']);
-
-        return view('livewire.pages.program-detail', $data);
+    public function render()
+    {
+        return view('livewire.pages.program-detail');
     }
 }
