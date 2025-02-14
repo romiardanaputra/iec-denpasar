@@ -91,7 +91,7 @@
     <script src="{{ asset('assets') }}/js/plugins/perfect-scrollbar.min.js" async></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="{{ asset('assets') }}/js/soft-ui-dashboard-tailwind.js?v=1.0.3" async></script>
-    @yield('js_custom')
     @vite('resources/js/app.js')
+    @yield('js_custom')
   </body>
 </html>

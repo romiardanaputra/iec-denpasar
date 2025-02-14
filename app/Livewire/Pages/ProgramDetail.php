@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages;
 
 use App\Models\Program\Program;
+use App\Models\Transaction\Order;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
@@ -19,6 +20,8 @@ class ProgramDetail extends Component
     public $search = '';
 
     public $perPage = 5;
+
+    public $latestOrder;
 
     public function mount($slug)
     {
@@ -83,11 +86,26 @@ class ProgramDetail extends Component
             report($e);
             abort(404);
         }
+    }
 
+    public function redirectToBill()
+    {
+        return redirect()->route('bill');
     }
 
     public function render()
     {
+        $latestOrder = Order::where('user_id', auth()->user()->id)
+            ->where(function ($query) {
+                $query->where('payment_status', 'unpaid')
+                    ->orWhere('status', 'pending');
+            })
+            ->latest()
+            ->first();
+
+        $this->latestOrder = $latestOrder;
+
+        // dd($latestOrder);
         return view('livewire.pages.program-detail');
     }
 }

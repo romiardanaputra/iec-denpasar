@@ -75,9 +75,11 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
         [PaymentController::class, 'checkout']
     )->name('program.checkout');
 
+    // handling transaction route
     Route::get('/transaction/success', PaymentSuccess::class)->name('payment.success');
     Route::get('/transaction/pending', PendingPayment::class)->name('payment.pending');
-    Route::get('transaction/failed', FailedPayment::class)->name('payment.failed');
+    Route::get('/transaction/failed', FailedPayment::class)->name('payment.failed');
+    Route::get('/check-order-status', [PaymentController::class, 'checkOrderStatus'])->name('check.order.status');
     Route::post('/save-error-data', [PaymentController::class, 'saveErrorData'])->name('save_error_data');
 
 });

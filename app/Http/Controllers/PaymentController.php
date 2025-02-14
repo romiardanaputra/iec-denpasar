@@ -28,6 +28,20 @@ class PaymentController extends Controller
         return view('livewire.partials.transaction.failed-payment');
     }
 
+    public function checkOrderStatus()
+    {
+        $user = Auth::user();
+        if (! $user) {
+            return response()->json(['has_unpaid_order' => false]);
+        }
+
+        $unpaidOrder = Order::where('user_id', $user->id)
+            ->where('payment_status', 'unpaid')
+            ->first();
+
+        return response()->json(['has_unpaid_order' => $unpaidOrder !== null]);
+    }
+
     public function saveErrorData(Request $request)
     {
         $errorData = $request->validate([

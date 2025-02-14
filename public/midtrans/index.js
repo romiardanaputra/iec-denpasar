@@ -8,7 +8,7 @@ document.getElementById('payment-form').addEventListener('submit', function(even
 
   orderButton.disabled = true;
   orderButton.textContent = 'Processing...';
-
+  registransForm.setAttribute('class', '-z-50')
 
   fetch(form.action, {
       method: form.method,
@@ -53,7 +53,6 @@ document.getElementById('payment-form').addEventListener('submit', function(even
     .finally(() => {
       orderButton.disabled = false;
       orderButton.textContent = 'Lanjut ke pembayaran';
-      registransForm.setAttribute('class', 'hidden')
     })
 });
 

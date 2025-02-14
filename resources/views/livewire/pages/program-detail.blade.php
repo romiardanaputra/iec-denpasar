@@ -62,9 +62,15 @@
             <x-button wire:click="checkBeforeRegisterProgram">Daftar Kursus Sekarang</x-button>
           @endguest
           @auth
-            <div class="block" id="registransForm">
-              @livewire('partials.program.registrans-form', ['program' => $program])
-            </div>
+            {{-- if the user already make order then change the button to go to dashboard to proceed further payment --}}
+            @if ($this->latestOrder)
+              <x-button wire:click="redirectToBill">Lihat Riwayat Pembelian</x-button>
+            @else
+              <div class="block" id="registransForm">
+                @livewire('partials.program.registrans-form', ['program' => $program])
+              </div>
+            @endif
+
           @endauth
         </div>
       </div>
@@ -88,6 +94,10 @@
   </div>
 </section>
 
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
-</script>
-<script type="module" src="{{ asset('midtrans/index.js') }}"></script>
+@section('js_custom')
+  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+  </script>
+  @if (!$this->latestOrder)
+    <script type="module" src="{{ asset('midtrans/index.js') }}" defer></script>
+  @endif
+@endsection

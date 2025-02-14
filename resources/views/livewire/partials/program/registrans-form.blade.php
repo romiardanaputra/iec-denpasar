@@ -2,7 +2,7 @@
   <x-dialog.trigger class="w-full p-6">
     Daftar Kursus Sekarang!
   </x-dialog.trigger>
-  <x-dialog.content class="sm:max-w-xl" id="dialogRegistransContent">
+  <x-dialog.content class="sm:max-w-xl">
     <form id="payment-form" method="POST" action="{{ route('program.checkout', ['program' => $program->program_id]) }}"
       autocomplete="on">
       @csrf

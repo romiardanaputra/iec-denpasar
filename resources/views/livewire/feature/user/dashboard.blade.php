@@ -1,33 +1,41 @@
   <div>
     <!-- cards row 2 -->
     <div class="flex flex-wrap mt-6 -mx-3">
-      <div class="w-full px-3 mb-6 lg:mb-0 lg:w-7/12 lg:flex-none">
-        <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+      <div class="w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
+        <div class=" flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
           <div class="flex-auto p-4">
             <div class="flex flex-wrap -mx-3">
-              <div class="max-w-full px-3 lg:w-1/2 lg:flex-none">
+              <div class="max-w-full px-3 lg:flex-none">
                 <div class="flex flex-col h-full">
                   <p class="pt-2 mb-1 font-semibold">Welcome back to IEC</p>
-                  <h5 class="font-bold">Kadek Romi Ardana Putra</h5>
+                  <h5 class="font-bold">{{ $user->name }}</h5>
                   <p class="mb-12">Don't forget to attend you schedule class on Monday and Wednesday ya!</p>
-                  <x-button class="bg-blue-800 p-2 rounded-lg py-6">Check Schedule! </x-button>
-                </div>
-              </div>
-              <div class="max-w-full px-3 mt-12 ml-auto text-center lg:mt-0 lg:w-5/12 lg:flex-none">
-                <div class="h-full bg-gradient-fuchsia rounded-xl">
-                  <img src="../assets/img/shapes/waves-white.svg" class="absolute top-0 hidden w-1/2 h-full lg:block"
-                    alt="waves" />
-                  <div class="relative flex items-center justify-center h-full">
-                    <img class="relative z-20 w-full pt-6" src="../assets/img/illustrations/rocket-white.png"
-                      alt="rocket" />
-                  </div>
+                  <x-button class="bg-blue-800 p-2 rounded-lg py-6">Check Schedule!</x-button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="w-full max-w-full px-3 lg:w-5/12 lg:flex-none">
+      <div class="w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
+        <div class=" flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+          <div class="flex-auto p-4">
+            <div class="flex flex-wrap -mx-3">
+              <div class="max-w-full px-3 lg:flex-none">
+                <div class="flex flex-col h-full">
+                  <p class="pt-2 mb-1 font-semibold">Welcome back to IEC</p>
+                  <h5 class="font-bold">{{ $user->name }}</h5>
+                  <p class="mb-12">Don't forget to attend you schedule class on Monday and Wednesday ya!</p>
+                  <x-button wire:click="redirectToProgram"
+                    class="bg-blue-800 p-2 rounded-lg py-6">{{ __('Lihat Program') }}</x-button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full max-w-full px-3 lg:w-4/12 lg:flex-none">
         <div
           class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-4">
           <div class="relative h-full overflow-hidden bg-cover rounded-xl"
@@ -63,7 +71,6 @@
                 <p class="mb-0 leading-normal text-size-sm">
                   <i class="fa fa-check text-cyan-500"></i>
                   <span class="ml-1 font-semibold">English For Children</span>
-
                 </p>
               </div>
               <div class="flex-none w-5/12 max-w-full px-3 my-auto text-right lg:w-1/2 lg:flex-none">
@@ -130,7 +137,7 @@
                               alt="xd" />
                           </div>
                           <div class="flex flex-col justify-center">
-                            <h6 class="mb-0 leading-normal text-size-sm">Kadek Romi Ardana Putra
+                            <h6 class="mb-0 leading-normal text-size-sm">{{ $user->name }}
                             </h6>
                           </div>
                         </div>
