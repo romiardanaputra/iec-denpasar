@@ -4,6 +4,7 @@ namespace App\Models\Schedule;
 
 use App\Models\Program\Book;
 use App\Models\Program\Program;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,6 +27,7 @@ class ClassSchedule extends Model
         'book_id',
         'time_code_id',
         'day_code_id',
+        'team_id',
         'class_code',
     ];
 
@@ -47,5 +49,10 @@ class ClassSchedule extends Model
     public function day()
     {
         return $this->belongsTo(ClassDayCode::class, 'day_code_id', 'day_code_id');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class, 'team_id', 'team_id');
     }
 }

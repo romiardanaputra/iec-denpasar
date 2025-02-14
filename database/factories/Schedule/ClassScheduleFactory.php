@@ -7,6 +7,7 @@ use App\Models\Program\Program;
 use App\Models\Schedule\ClassDayCode;
 use App\Models\Schedule\ClassSchedule;
 use App\Models\Schedule\ClassTimeCode;
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -46,12 +47,40 @@ class ClassScheduleFactory extends Factory
 
     public function definition(): array
     {
+        $programId = Program::inRandomOrder()->first()->program_id;
+        $bookId = Book::inRandomOrder()->first()->book_id;
+        $timeCodeId = ClassTimeCode::inRandomOrder()->first()->time_code_id;
+        $dayCodeId = ClassDayCode::inRandomOrder()->first()->day_code_id;
+        $teamId = Team::inRandomOrder()->first()->team_id;
+
+        $classCode = $this->generateUniqueClassCode($dayCodeId, $bookId, $timeCodeId);
+
         return [
-            'program_id' => Program::factory(),
-            'book_id' => Book::factory(),
-            'time_code_id' => ClassTimeCode::factory(),
-            'day_code_id' => ClassDayCode::factory(),
-            'class_code' => $this->faker->unique()->bothify('?????##'),
+            'program_id' => $programId,
+            'book_id' => $bookId,
+            'time_code_id' => $timeCodeId,
+            'day_code_id' => $dayCodeId,
+            'team_id' => $teamId,
+            'class_code' => $classCode,
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
+    }
+
+    private function generateUniqueClassCode($dayCodeId, $bookId, $timeCodeId)
+    {
+        do {
+            // Fetch the relevant codes
+            $dayCode = ClassDayCode::find($dayCodeId)->day_code;
+            $timeCode = ClassTimeCode::find($timeCodeId)->time_code;
+            $bookCode = Book::find($bookId)->book_code;
+
+            // Generate the class code
+            $classCode = strtoupper(substr($dayCode, 0, 1).substr($bookCode, 0, 3).substr($timeCode, 0, 1));
+
+            // Check if the class code already exists
+        } while (ClassSchedule::where('class_code', $classCode)->exists());
+
+        return $classCode;
     }
 }

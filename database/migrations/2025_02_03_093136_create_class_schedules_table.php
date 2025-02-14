@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('book_id');
             $table->unsignedBigInteger('time_code_id');
             $table->unsignedBigInteger('day_code_id');
+            $table->unsignedBigInteger('team_id');
             $table->string('class_code', 10)->unique();
             $table->timestamps();
 
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->foreign('book_id')->references('book_id')->on('books')->onDelete('cascade');
             $table->foreign('time_code_id')->references('time_code_id')->on('class_time_codes')->onDelete('cascade');
             $table->foreign('day_code_id')->references('day_code_id')->on('class_day_codes')->onDelete('cascade');
+            $table->foreign('team_id')->references('team_id')->on('teams')->onDelete('cascade');
 
         });
     }

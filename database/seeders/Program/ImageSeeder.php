@@ -21,28 +21,78 @@ class ImageSeeder extends Seeder
 
         // Atau jika Anda ingin menambahkan gambar secara manual
         // $images = [
-        //     [
-        //         'program_id' => 1,
-        //         'path' => 'https://via.placeholder.com/640x480?text=Image+1',
-        //     ],
-        //     [
-        //         'program_id' => 1,
-        //         'path' => 'https://via.placeholder.com/640x480?text=Image+2',
-        //     ],
-        //     // tambahkan gambar lainnya untuk program 1
-        //     [
-        //         'program_id' => 2,
-        //         'path' => 'https://via.placeholder.com/640x480?text=Image+1',
-        //     ],
-        //     [
-        //         'program_id' => 2,
-        //         'path' => 'https://via.placeholder.com/640x480?text=Image+2',
-        //     ],
-        //     // tambahkan gambar lainnya untuk program 2
+        //   [
+        //     'program_id' => 1,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-3.png?updatedAt=1739430767472',
+        //   ],
+        //   [
+        //     'program_id' => 1,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-6.png?updatedAt=1739430767446',
+        //   ],
+        //   [
+        //     'program_id' => 1,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-5.png?updatedAt=1739430767449',
+        //   ],
+        //   [
+        //     'program_id' => 1,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-8.png?updatedAt=1739430767253'
+        //   ],
+        //   // tambahkan gambar lainnya untuk program 1
+        //   [
+        //     'program_id' => 2,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-1.png?updatedAt=1739430767392',
+        //   ],
+        //   [
+        //     'program_id' => 2,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-8.png?updatedAt=1739430767253',
+        //   ],
+        //   [
+        //     'program_id' => 2,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-1.png?updatedAt=1739430767392',
+        //   ],
+        //   [
+        //     'program_id' => 2,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-8.png?updatedAt=1739430767253',
+        //   ],
+        //   // tambahkan gambar lainnya untuk program 2
+
+        //   [
+        //     'program_id' => 3,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-8.png?updatedAt=1739430767253',
+        //   ],
+        //   [
+        //     'program_id' => 3,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-1.png?updatedAt=1739430767392',
+        //   ],
+        //   [
+        //     'program_id' => 3,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-5.png?updatedAt=1739430767449',
+        //   ],
+        //   [
+        //     'program_id' => 3,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-8.png?updatedAt=1739430767253'
+        //   ],
+
+        //   [
+        //     'program_id' => 4,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-8.png?updatedAt=1739430767253',
+        //   ],
+        //   [
+        //     'program_id' => 4,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-1.png?updatedAt=1739430767392',
+        //   ],
+        //   [
+        //     'program_id' => 4,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-5.png?updatedAt=1739430767449',
+        //   ],
+        //   [
+        //     'program_id' => 4,
+        //     'path' => 'https://ik.imagekit.io/kht744nua/iec_dps/iec-8.png?updatedAt=1739430767253'
+        //   ],
         // ];
 
         // foreach ($images as $image) {
-        //     Image::factory()->create($image);
+        //   Image::factory()->create($image);
         // }
     }
 }
