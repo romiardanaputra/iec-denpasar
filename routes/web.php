@@ -22,7 +22,9 @@ use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\OurTeam;
 use App\Livewire\Pages\Program;
 use App\Livewire\Pages\ProgramDetail;
+use App\Livewire\Partials\Transaction\FailedPayment;
 use App\Livewire\Partials\Transaction\PaymentSuccess;
+use App\Livewire\Partials\Transaction\PendingPayment;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\SitemapGenerator;
 
@@ -68,8 +70,15 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
     Route::get('/class-info', ClassInfo::class)->name('class-info');
     Route::get('/bill', Bill::class)->name('bill');
     Route::get('/invoice', Invoice::class)->name('invoice');
-    Route::post('/program/{program}/checkout', [PaymentController::class, 'checkout'])->name('program.checkout');
+    Route::post(
+        '/program/{program}/checkout',
+        [PaymentController::class, 'checkout']
+    )->name('program.checkout');
+
     Route::get('/transaction/success', PaymentSuccess::class)->name('payment.success');
+    Route::get('/transaction/pending', PendingPayment::class)->name('payment.pending');
+    Route::get('transaction/failed', FailedPayment::class)->name('payment.failed');
+    Route::post('/save-error-data', [PaymentController::class, 'saveErrorData'])->name('save_error_data');
 
 });
 

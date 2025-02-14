@@ -13,6 +13,33 @@ use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
+    public function success()
+    {
+        return view('livewire.partials.transaction.payment-success');
+    }
+
+    public function pending()
+    {
+        return view('livewire.partials.transaction.pending-payment');
+    }
+
+    public function error()
+    {
+        return view('livewire.partials.transaction.failed-payment');
+    }
+
+    public function saveErrorData(Request $request)
+    {
+        $errorData = $request->validate([
+            'code' => 'required|string',
+            'message' => 'required|string',
+        ]);
+
+        $request->session()->put('error_data', $errorData);
+
+        return response()->json(['status' => 'success']);
+    }
+
     public function midtransCallback(Request $request, MidtransService $midtransService)
     {
         Log::info('Midtrans callback received');
