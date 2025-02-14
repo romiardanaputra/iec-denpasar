@@ -6,7 +6,7 @@
           <a href="#"
             class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80 {{ $key == 1 || $key == 2 ? 'md:col-span-2' : '' }}">
             <img
-              src="{{ Storage::exists('public/' . $image->path) ? asset('storage/' . $image->path) : 'https://picsum.photos/seed/picsum/200/300' }}"
+              src="{{ $image->path ? (Str::startsWith($image->path, 'http') ? $image->path : asset('storage/' . $image->path)) : asset('images/default.png') }}"
               loading="lazy" alt="{{ $program->name . '-' . $key }}"
               class="absolute inset-0 h-full w-full object-cover object-center transition duration-200 group-hover:scale-110" />
             <div
@@ -62,7 +62,7 @@
             <x-button wire:click="checkBeforeRegisterProgram">Daftar Kursus Sekarang</x-button>
           @endguest
           @auth
-            <div>
+            <div class="block" id="registransForm">
               @livewire('partials.program.registrans-form', ['program' => $program])
             </div>
           @endauth
