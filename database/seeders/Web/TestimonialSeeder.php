@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Web;
 
+use App\Models\Web\Testimonial;
 use Illuminate\Database\Seeder;
 
 class TestimonialSeeder extends Seeder

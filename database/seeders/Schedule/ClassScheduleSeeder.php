@@ -38,6 +38,6 @@ class ClassScheduleSeeder extends Seeder
         //   }
         // }
 
-        ClassSchedule::factory()->count(30)->create();
+        ClassSchedule::factory()->count(20)->create();
     }
 }

@@ -15,6 +15,8 @@ use Database\Seeders\Schedule\ClassDayCodeSeeder;
 use Database\Seeders\Schedule\ClassScheduleSeeder;
 use Database\Seeders\Schedule\ClassTimeCodeSeeder;
 use Database\Seeders\Transaction\DummyOrderSeeder;
+use Database\Seeders\Web\FaqSeeder;
+use Database\Seeders\Web\TestimonialSeeder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Seeder;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
