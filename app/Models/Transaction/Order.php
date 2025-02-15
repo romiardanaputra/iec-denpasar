@@ -14,6 +14,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'program_id',
+        'registration_id',
         'order_id',
         'total_price',
         'status',
@@ -37,6 +38,11 @@ class Order extends Model
 
     public function program()
     {
-        return $this->belongsTo(Program::class);
+        return $this->belongsTo(Program::class, 'program_id');
+    }
+
+    public function registran()
+    {
+        return $this->belongsTo(Registration::class);
     }
 }

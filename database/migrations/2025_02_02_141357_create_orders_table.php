@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignIdFor(Program::class, 'program_id')->constrained()->onDelete('cascade');
+            $table->foreignId('registration_id')->constrained()->onDelete('cascade');
             $table->string('order_id', 32)->unique();
             $table->double('total_price');
             $table->enum('status', ['pending', 'processing', 'completed', 'failed', 'cancelled'])->default('pending');

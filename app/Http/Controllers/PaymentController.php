@@ -145,7 +145,7 @@ class PaymentController extends Controller
             'market' => 'required|string|max:255',
             'parent_guardian' => 'nullable|string|max:255',
         ]);
-        Registration::create([
+        $registran = Registration::create([
             'user_id' => $user->id,
             'program_id' => $program->program_id,
             ...$data,
@@ -153,6 +153,7 @@ class PaymentController extends Controller
         $order = Order::create([
             'user_id' => $user->id,
             'program_id' => $program->program_id,
+            'registration_id' => $registran->id,
             'order_id' => uniqid('ORD-'),
             'total_price' => $program->price,
         ]);

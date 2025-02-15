@@ -95,15 +95,18 @@ class ProgramDetail extends Component
 
     public function render()
     {
-        $latestOrder = Order::where('user_id', auth()->user()->id)
-            ->where(function ($query) {
-                $query->where('payment_status', 'unpaid')
-                    ->orWhere('status', 'pending');
-            })
-            ->latest()
-            ->first();
-
-        $this->latestOrder = $latestOrder;
+        if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
+            $latestOrder = Order::where('user_id', auth()->user()->id)
+                ->where(function ($query) {
+                    $query->where('payment_status', 'unpaid')
+                        ->orWhere('status', 'pending');
+                })
+                ->latest()
+                ->first();
+            $this->latestOrder = $latestOrder;
+        } else {
+            $this->latestOrder = null;
+        }
 
         // dd($latestOrder);
         return view('livewire.pages.program-detail');
