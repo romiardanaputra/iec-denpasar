@@ -45,6 +45,7 @@
         <x-navbar.nav-link :active="request()->routeIs('our-program.*')" :href="route('our-program')">{{ __('Program Kami') }}</x-navbar.nav-link>
         <x-navbar.nav-link :active="request()->routeIs('our-team')" :href="route('our-team')">{{ __('Team Kami') }}</x-navbar.nav-link>
         <x-navbar.nav-link :active="request()->routeIs('contact')" :href="route('contact')">{{ __('Kontak') }}</x-navbar.nav-link>
+        <x-navbar.nav-link :active="request()->routeIs('blog')" :href="route('blog')">{{ __('Blog') }}</x-navbar.nav-link>
       </ul>
     </div>
   </div>

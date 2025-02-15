@@ -32,11 +32,11 @@
                 </svg>
               </div>
               <div class="w-full">
-                <h4 class="mt-1 text-lg font-semibold text-dark dark:text-white">{{ $faq->question }}</h4>
+                <h4 class="mt-1 text-lg font-semibold text-dark dark:text-white">{{ __($faq->question) }}</h4>
               </div>
             </button>
             <div id="faq-content-{{ $index }}" class="faq-content pl-[62px]" style="display: none;">
-              <p class="py-3 text-base leading-relaxed text-body-color dark:text-dark-6">{{ $faq->answer }}</p>
+              <p class="py-3 text-base leading-relaxed text-body-color dark:text-dark-6">{{ __($faq->answer) }}</p>
             </div>
           </div>
         </div>
@@ -45,17 +45,19 @@
   </div>
 </section>
 
-<script>
-  function toggleFaq(index) {
-    var content = document.getElementById('faq-content-' + index);
-    var icon = document.getElementById('faq-icon-' + index);
+@section('js_custom')
+  <script>
+    function toggleFaq(index) {
+      var content = document.getElementById('faq-content-' + index);
+      var icon = document.getElementById('faq-icon-' + index);
 
-    if (content.style.display === 'none' || content.style.display === '') {
-      content.style.display = 'block';
-      icon.classList.add('rotate-180');
-    } else {
-      content.style.display = 'none';
-      icon.classList.remove('rotate-180');
+      if (content.style.display === 'none' || content.style.display === '') {
+        content.style.display = 'block';
+        icon.classList.add('rotate-180');
+      } else {
+        content.style.display = 'none';
+        icon.classList.remove('rotate-180');
+      }
     }
-  }
-</script>
+  </script>
+@endsection

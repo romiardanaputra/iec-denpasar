@@ -18,6 +18,8 @@ use App\Livewire\Feature\User\Profile;
 use App\Livewire\Feature\User\Schedule;
 use App\Livewire\Index;
 use App\Livewire\Pages\About;
+use App\Livewire\Pages\Blog;
+use App\Livewire\Pages\BlogDetail;
 use App\Livewire\Pages\Contact;
 use App\Livewire\Pages\OurTeam;
 use App\Livewire\Pages\Program;
@@ -43,6 +45,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/our-teams', OurTeam::class)->name('our-team');
     Route::get('/contact', Contact::class)->name('contact');
     Route::get('/our-program/{slug}', ProgramDetail::class)->name('program.detail');
+    Route::get('/blog', Blog::class)->name('blog');
+    Route::get('/blog/{slug}', BlogDetail::class)->name('blog.detail');
 });
 
 Route::group(['middleware' => 'guest'], function () {
