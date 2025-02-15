@@ -8,6 +8,7 @@ use App\Models\Program\Program;
 use App\Models\Schedule\ClassDayCode;
 use App\Models\Schedule\ClassSchedule;
 use App\Models\Schedule\ClassTimeCode;
+use App\Models\Team;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -103,6 +104,14 @@ class ClassScheduleResource extends Resource
                     ->afterStateUpdated(function (Set $set, Get $get) {
                         self::generateClassCode($set, $get);
                     }),
+                Select::make('team_id')
+                    ->required()
+                    ->relationship('team', 'name')
+                    ->label('Nama Mentor')
+                    ->helperText('Pilih nama mentor')
+                    ->searchable()
+                    ->options(Team::pluck('name', 'team_id')->toArray())
+                    ->native(false),
 
                 TextInput::make('class_code')
                     ->label('Kode Kelas (per hari)')
@@ -175,6 +184,11 @@ class ClassScheduleResource extends Resource
                     }),
                 TextColumn::make('class_code')
                     ->label('Kode Kelas')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('team.name')
+                    ->label('Nama Mentor')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')

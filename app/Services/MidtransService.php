@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Transaction\Order;
+use App\Models\Transaction\Payment;
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Midtrans\Config;
 use Midtrans\Notification;
 use Midtrans\Snap;
@@ -34,6 +36,15 @@ class MidtransService
 
     public function createSnapToken(Order $order): string
     {
+
+        $itemDetails = $this->mapItemToDetails($order);
+        $totalAmount = array_sum(array_map(function ($item) {
+            return $item['price'] * $item['quantity'];
+        }, $itemDetails));
+
+        if ($totalAmount !== $order->total_price) {
+            throw new Exception('Total amount mismatch between order and item details');
+        }
         $params = [
             'transaction_details' => [
                 'order_id' => $order->order_id,
@@ -43,8 +54,12 @@ class MidtransService
             'customer_details' => $this->getCustomerDetails($order),
         ];
 
+        Log::info('Midtrans params: '.json_encode($params));
+
         try {
-            return Snap::getSnapToken($params);
+            $snapToken = Snap::getSnapToken($params);
+
+            return $snapToken;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -88,16 +103,35 @@ class MidtransService
                 'id' => $item->id,
                 'price' => $item->price,
                 'quantity' => $item->quantity,
-                'name' => $item->product_name,
+                'name' => $item->program->name,
             ];
         })->toArray();
     }
 
     protected function getCustomerDetails(Order $order): array
     {
+        $user = $order->user;
+
         return [
-            'name' => 'romi',
-            'phone' => '1234',
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'address' => $user->address,
+            'city' => $user->city,
+            'postal_code' => $user->postal_code,
+            'country_code' => $user->country_code,
         ];
     }
+
+    // public function savePayment(Order $order, string $paymentId, string $status, float $amount, ?string $snapToken = null): Payment
+    // {
+    //   return Payment::create([
+    //     'order_id' => $order->order_id,
+    //     'payment_id' => $paymentId,
+    //     'amount' => $amount,
+    //     'snap_token' => $snapToken,
+    //     'status' => strtoupper($status),
+    //     'paid_at' => $status === 'success' ? now() : null,
+    //   ]);
+    // }
 }

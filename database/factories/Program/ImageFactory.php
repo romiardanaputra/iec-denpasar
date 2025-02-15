@@ -22,7 +22,18 @@ class ImageFactory extends Factory
     {
         return [
             'program_id' => Program::factory(),
-            'path' => 'https://picsum.photos/seed/picsum/200/300',
+            'path' => $this->faker->randomElement([
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-3.png?updatedAt=1739430767472',
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-6.png?updatedAt=1739430767446',
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-5.png?updatedAt=1739430767449',
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-8.png?updatedAt=1739430767253',
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-1.png?updatedAt=1739430767392',
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-2.png?updatedAt=1739430767249',
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-4.png?updatedAt=1739430767400',
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-7.png?updatedAt=1739430767446',
+                'https://ik.imagekit.io/kht744nua/iec_dps/iec-9.png?updatedAt=1739430767402',
+                // tambahkan path-path lainnya
+            ]),
         ];
     }
 }

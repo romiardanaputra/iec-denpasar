@@ -22,7 +22,7 @@ class ProgramDetailSeeder extends Seeder
             ProgramDetail::create([
                 'program_id' => $program->program_id,
                 'long_description' => fake()->paragraphs(3, true),
-                'level' => fake()->randomElement(['Beginner', 'Intermediate', 'Advanced']),
+                'level' => fake()->randomElement(['1', '2', '3', '4', '5', '6']),
                 'benefits' => $benefits,
             ]);
         });

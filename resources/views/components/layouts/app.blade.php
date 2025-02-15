@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="application-name" content="{{ config('app.name') }}">
     {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,39 +43,55 @@
               {{ $slot }}
               @livewire('partials.footer')
             @else
-              @include('layouts.navbars.auth.sidebar')
-              <main class="ease-soft-in-out xl:ml-68.5 relative h-full rounded-xl transition-all duration-200">
-                @include('layouts.navbars.auth.nav')
-                <div class="w-full px-6 py-6 mx-auto">
-                  {{ $slot }}
-                  @include('layouts.footers.auth.footer')
-                </div>
-              </main>
+              @if (Route::is('payment.success', 'payment.pending'))
+                {{ $slot }}
+              @else
+                @include('layouts.navbars.auth.sidebar')
+                <main class="ease-soft-in-out xl:ml-68.5 relative h-full rounded-xl transition-all duration-200">
+                  @include('layouts.navbars.auth.nav')
+                  <div class="w-full px-6 py-6 mx-auto">
+                    {{ $slot }}
+                    @include('layouts.footers.auth.footer')
+                  </div>
+                </main>
+              @endif
+
             @endif
           </div>
         @else
           {{ $slot }}
         @endif
       @else
-        @unless (Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
+        @unless (Route::is(
+                'login',
+                'register',
+                'forgot.password',
+                'password.reset',
+                'verification.notice',
+                'verification.verify',
+                'payment.success'))
           @livewire('partials.navbar')
         @endunless
-
         {{ $slot }}
-
-        @unless (Route::is('login', 'register', 'forgot.password', 'password.reset', 'verification.notice', 'verification.verify'))
+        @unless (Route::is(
+                'login',
+                'register',
+                'forgot.password',
+                'password.reset',
+                'verification.notice',
+                'verification.verify',
+                'payment.success'))
           @livewire('partials.footer')
         @endunless
       @endif
     </div>
-
     @filamentScripts
     @livewireScripts
     <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js" async></script>
     <script src="{{ asset('assets') }}/js/plugins/perfect-scrollbar.min.js" async></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="{{ asset('assets') }}/js/soft-ui-dashboard-tailwind.js?v=1.0.3" async></script>
-    @yield('js_custom')
     @vite('resources/js/app.js')
+    @yield('js_custom')
   </body>
 </html>
