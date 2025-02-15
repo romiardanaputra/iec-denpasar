@@ -41,6 +41,8 @@ class DatabaseSeeder extends Seeder
             ClassScheduleSeeder::class,
             ProgramDetailSeeder::class,
             ImageSeeder::class,
+            FaqSeeder::class,
+            TestimonialSeeder::class,
         ]);
 
         $this->command->warn(PHP_EOL.'Creating blog categories...');
