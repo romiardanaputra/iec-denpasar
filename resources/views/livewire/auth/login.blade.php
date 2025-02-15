@@ -22,9 +22,10 @@
         <x-label for="password">{{ __('Password') }}</x-label>
         <div class="relative flex items-center">
           <x-input wire:model.blur="password" name="password" required class="text-gray-800 rounded-full"
-            type="password" id="password" placeholder="Password" />
-          <button type="button" class="absolute right-0 mr-4 focus:outline-none" onclick="togglePasswordVisibility()">
-            <x-lucide-eye class="size-4" id="password-toggle-icon" />
+            :type="$showPassword ? 'text' : 'password'" id="password" placeholder="Password" />
+          <button type="button" class="absolute right-0 mr-4 focus:outline-none" wire:click="togglePasswordVisibility">
+            <x-lucide-eye class="{{ $showPassword ? 'hidden' : '' }} size-4" id="password-toggle-icon" />
+            <x-lucide-eye-off class="{{ $showPassword ? '' : 'hidden' }} size-4" id="password-toggle-icon-off" />
           </button>
         </div>
         <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -91,25 +92,4 @@
         class="rounded-md object-cover lg:w-full md:w-11/12 z-50 relative" alt="login-image" />
     </div>
   </div>
-
-  @section('js_custom')
-    <script>
-      let showPassword = false;
-
-      function togglePasswordVisibility() {
-        const passwordInput = document.getElementById('password');
-        const passwordIcon = document.getElementById('password-toggle-icon');
-
-        showPassword = !showPassword;
-        passwordInput.type = showPassword ? 'text' : 'password';
-
-        if (showPassword) {
-          passwordIcon.classList.remove('lucide-eye');
-          passwordIcon.classList.add('lucide-eye-off');
-        } else {
-          passwordIcon.classList.remove('lucide-eye-off');
-          passwordIcon.classList.add('lucide-eye');
-        }
-      }
-    </script>
-  @endsection
+</div>
