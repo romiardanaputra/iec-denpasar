@@ -1,4 +1,4 @@
-<div class="max-w-screen-xl mx-auto h-screen">
+<div class="max-w-screen-xl container mx-auto h-screen">
   @session('error')
     <x-alert>
       <x-lucide-rocket class="size-4" />
@@ -13,9 +13,9 @@
       @csrf
       <div class="mb-12">
         <h3 class="text-gray-800 text-4xl font-extrabold">Sign Up</h3>
-        <p class="text-gray-800 text-sm mt-6">Immerse yourself in a hassle-free login journey with our
-          intuitively
-          designed login form. Effortlessly access your account.</p>
+        <p class="text-gray-800 text-sm mt-6">
+          {{ __('Benamkan diri Anda dalam pengalaman pendaftaran tanpa hambatan dengan formulir registrasi kami yang intuitif. Bergabunglah dengan IEC Denpasar dan akses berbagai program kursus dengan mudah.') }}
+        </p>
       </div>
 
       <div class="mt-4">
@@ -52,11 +52,14 @@
 
       <div class="grid lg:grid-cols-2 gap-4">
         <div class="mt-4">
-          <x-label for="password">Password</x-label>
+          <x-label for="password">{{ __('Password') }}</x-label>
           <div class="relative flex items-center">
             <x-input wire:model.blur="password" name="password" required class="text-gray-800 rounded-full"
               type="password" id="password" placeholder="Password" />
-            <x-lucide-eye class="size-4 absolute right-0 mr-4" />
+            <button type="button" class="absolute right-0 mr-4 focus:outline-none"
+              onclick="togglePasswordVisibility()">
+              <x-lucide-eye class="size-4" id="password-toggle-icon" />
+            </button>
           </div>
           <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -85,9 +88,31 @@
       </p>
     </x-form>
 
-    <div class="h-full flex justify-center items-center">
+    <div class="h-full md:flex justify-center items-center hidden">
       <img src="{{ asset('storage/assets/vectors/mobile_login.svg') }}"
         class="rounded-md object-cover lg:w-full md:w-11/12 z-50 relative" alt="Dining Experience" />
     </div>
   </div>
 </div>
+
+@section('js_custom')
+  <script>
+    let showPassword = false;
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById('password');
+      const passwordIcon = document.getElementById('password-toggle-icon');
+
+      showPassword = !showPassword;
+      passwordInput.type = showPassword ? 'text' : 'password';
+
+      if (showPassword) {
+        passwordIcon.classList.remove('lucide-eye');
+        passwordIcon.classList.add('lucide-eye-off');
+      } else {
+        passwordIcon.classList.remove('lucide-eye-off');
+        passwordIcon.classList.add('lucide-eye');
+      }
+    }
+  </script>
+@endsection

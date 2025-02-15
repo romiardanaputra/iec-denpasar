@@ -13,10 +13,10 @@
       </a>
     </div>
   </article>
-  <article class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full my-8 mt-12 ">
+  <article class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 w-full my-8 mt-12 ">
     @forelse ($programs as $program)
       <a href="{{ route('program.detail', ['slug' => $program->slug]) }}" wire:navigate>
-        <x-card class="min-w-[300px] hover:-translate-y-2 transition-all cursor-pointer will-change-transform">
+        <x-card class=" hover:-translate-y-2 transition-all cursor-pointer will-change-transform">
           <x-card.header class="pb-4">
             <img class="w-100 h-[210px] object-cover object-center rounded-xl"
               src="{{ $program->image ? (Str::startsWith($program->image, 'http') ? $program->image : asset('storage/' . $program->image)) : asset('images/default.png') }}"
