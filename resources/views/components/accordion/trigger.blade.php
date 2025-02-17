@@ -1,4 +1,4 @@
-<h3 x-accordion:trigger class="flex" @click="__toggle(item)" :data-state="__getDataState(item)">
+<h3 x-accordion:trigger class="flex" x-on:click="__toggle(item)" :data-state="__getDataState(item)">
   <button :data-state="__getDataState(item)"
     class="flex flex-1 items-center justify-between py-4 text-base font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180">
     {{ $slot }}

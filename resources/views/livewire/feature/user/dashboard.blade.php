@@ -29,7 +29,7 @@
                   <h5 class="font-bold">{{ $user->name }}</h5>
                   <p class="mb-12 mt-2">
                     {{ __(' Tingkatkan skill dan wawasanmu dengan berbagai program unggulan dari IEC Denpasar!
-                                                                                                                                                                                                                                                                                                                                              Temukan peluang belajar yang sesuai dengan minat dan tujuanmu. 🌟  ') }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Temukan peluang belajar yang sesuai dengan minat dan tujuanmu. 🌟  ') }}
                   </p>
                   <x-button wire:click="redirectToProgram"
                     class="bg-blue-800 p-2 rounded-lg py-6">{{ __('Lihat Program') }}</x-button>
@@ -184,45 +184,53 @@
       <!-- card 2 -->
 
       <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
-        <div
-          class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
-          <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
-            <h6>Transaksi</h6>
-            <p class="leading-normal text-size-sm">
-              <i class="fa fa-arrow-up text-lime-500"></i>
-              {{ $order->program->name }} - #{{ $order->order_id }}
-            </p>
-          </div>
-          <div class="flex-auto p-4">
-            <div
-              class="before:border-r-solid relative before:absolute before:top-0 before:left-4 before:h-full before:border-r-2 before:border-r-slate-100 before:content-[''] before:lg:-ml-px">
-              <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
-                <span
-                  class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-
-                  @if ($order->status == 'pending')
-                    <x-lucide-history class="size-5 text-yellow-600" />
-                  @else
-                    <x-lucide-circle-check class="size-5 text-green-600" />
-                  @endif
-
-                </span>
-                <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto space-y-3">
-                  <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Order id :
-                    {{ $order->order_id }}</h6>
-                  <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Harga :
-                    Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
-                  <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Order :
-                    {{ $order->status }}</p>
-                  <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Pembayaran :
-                    {{ $order->payment_status }}</p>
-                  <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Waktu Pemesanan :
-                    {{ $order->created_at->translatedFormat('l, d F Y H:i:s') }}</p>
+        @if ($order && $order->program)
+          <div
+            class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+            <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
+              <h6>Transaksi</h6>
+              <p class="leading-normal text-size-sm">
+                <i class="fa fa-arrow-up text-lime-500"></i>
+                {{ $order->program->name }} - #{{ $order->order_id }}
+              </p>
+            </div>
+            <div class="flex-auto p-4">
+              <div
+                class="before:border-r-solid relative before:absolute before:top-0 before:left-4 before:h-full before:border-r-2 before:border-r-slate-100 before:content-[''] before:lg:-ml-px">
+                <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
+                  <span
+                    class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
+                    @if ($order->status == 'pending')
+                      <x-lucide-history class="size-5 text-yellow-600" />
+                    @else
+                      <x-lucide-circle-check class="size-5 text-green-600" />
+                    @endif
+                  </span>
+                  <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto space-y-3">
+                    <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Order id :
+                      {{ $order->order_id }}</h6>
+                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Harga :
+                      Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Order :
+                      {{ $order->status }}</p>
+                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Pembayaran :
+                      {{ $order->payment_status }}</p>
+                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Waktu Pemesanan :
+                      {{ $order->created_at->translatedFormat('l, d F Y H:i:s') }}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        @else
+          <div
+            class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+            <div
+              class="border-black/12.5 mb-0 rounded-t-2xl h-full border-b-0 border-solid bg-white p-6 pb-0 flex items-center justify-center">
+              <h6>Tidak ada riwayat transaksi</h6>
+            </div>
+          </div>
+        @endif
       </div>
     </div>
   </div>

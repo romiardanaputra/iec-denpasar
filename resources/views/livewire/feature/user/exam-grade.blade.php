@@ -9,7 +9,7 @@
         <x-card.content class="space-y-4 pt-6">
           <x-progress-bar title="Reading" grade="80" />
           <x-progress-bar title="Speaking" grade="50" />
-          <x-progress-bar title="Writting" grade="70" />
+          <x-progress-bar title=  "Writting" grade="70" />
           <x-progress-bar title="Grammar" grade="90" />
         </x-card.content>
         <x-card.footer class="justify-between gap-4">
@@ -59,4 +59,5 @@
       </x-card>
     </div>
   </section>
+
 </div>
