@@ -17,9 +17,9 @@
 
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice'))
+    @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
-      <link href="{{ asset('assets/css/styles.css?v=1.0.3') }}" rel="stylesheet" />
+      <link href="{{ asset('assets/css/styles.min.css') }}" rel="stylesheet" />
     @endif
 
     <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title>

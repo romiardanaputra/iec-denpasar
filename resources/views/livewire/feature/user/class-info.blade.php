@@ -38,7 +38,7 @@
       <x-typography.h3>
         Important update!
       </x-typography.h3>
-      <x-card class="p-8">
+      {{-- <x-card class="p-8">
         <x-accordion type="single" collapsible class="w-full">
           @for ($i = 1; $i <= 6; $i++)
             <x-accordion.item value="item-{{ $i }}">
@@ -61,7 +61,7 @@
             </x-accordion.item>
           @endfor
         </x-accordion>
-      </x-card>
+      </x-card> --}}
       <x-card class="mt-6">
         <x-card.header class="p-8">
           <x-typography.h3>

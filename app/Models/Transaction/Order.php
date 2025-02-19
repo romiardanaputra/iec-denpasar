@@ -41,7 +41,7 @@ class Order extends Model
         return $this->belongsTo(Program::class, 'program_id');
     }
 
-    public function registran()
+    public function registration()
     {
         return $this->belongsTo(Registration::class);
     }
