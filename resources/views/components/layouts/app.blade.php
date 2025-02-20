@@ -52,7 +52,6 @@
                 <main class="ease-soft-in-out xl:ml-68.5 relative h-full rounded-xl transition-all duration-200">
                   @include('layouts.navbars.auth.nav')
                   <div class="w-full px-6 py-6 mx-auto">
-
                     {{ $slot }}
                     @include('layouts.footers.auth.footer')
                   </div>

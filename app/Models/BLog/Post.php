@@ -18,6 +18,16 @@ class Post extends Model
         'published_at' => 'date',
     ];
 
+    protected $fillable = [
+        'title',
+        'content',
+        'image',
+        'blog_author_id',
+        'blog_category_id',
+        'created_at',
+        'updated_at',
+    ];
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(Author::class, 'blog_author_id');

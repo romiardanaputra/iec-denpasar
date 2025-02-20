@@ -3,7 +3,6 @@
 namespace App\Livewire\Feature\User;
 
 use App\Models\Feature\Grade;
-use App\Models\Transaction\Registration;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -13,17 +12,18 @@ class ExamGrade extends Component
     #[Computed]
     public function getExamGrade()
     {
-        // Enable query logging
 
-        // Get the authenticated user's ID
         $userId = auth()->id();
 
-        // Query with whereHas for registration.program
         $grades = Grade::with([
             'registration.program' => function ($query) {
                 $query->where('is_visible', 1);
             },
-            'registration.orders',
+            'registration.orders' => function ($query) use ($userId) {
+                $query->where('status', 'completed')
+                    ->where('payment_status', 'paid')
+                    ->where('user_id', $userId);
+            },
             'user',
         ])
             ->orderBy('level_name', 'ASC')
@@ -38,14 +38,8 @@ class ExamGrade extends Component
             ->where('user_id', $userId)
             ->get();
 
-        // Dump the executed queries
-        // dd($grades);
-
         return $grades;
     }
-
-    // padi active program only shoe once and then admin must be updated the data
-    public function getProgram() {}
 
     public function mount()
     {
