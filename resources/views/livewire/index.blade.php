@@ -1,11 +1,11 @@
-  <div class="min-h-screen space-y-14">
+  <div class="min-h-screen space-y-14 ">
     {{-- banner here --}}
-    <section class="min-h-svh flex items-center justify-center">
-      <div class="flex items-center container w-full">
+    <section class="min-h-svh flex items-center justify-center sm:mt-20 lg:mt-0">
+      <div class="flex items-center container w-full flex-col lg:flex-row">
         <div class="space-y-8 w-full">
           <article class="space-y-8 sm:space-y-6 ">
             <p class="text-blue-900 font-medium ">{{ __('Intensive English Course Denpasar') }}</p>
-            <h1 class="text-6xl text-slate-700 font-medium sm:text-inherit leading-tight">
+            <h1 class="text-2xl lg:text-6xl text-slate-700 font-medium sm:text-inherit leading-tight">
               {{ __('Lebih dari sekedar kursus bahasa Inggris') }}</h1>
             <p class="sm:w-[80%]">
               {{ __('Bergabunglah dengan kursus bahasa Inggris dinamis kami yang dirancang untuk semua tingkatan. Temukan kegembiraan belajar') }}
@@ -20,12 +20,12 @@
             <a href="#">
               <x-button size='lg'
                 class="border border-blue-800 bg-transparent text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
-                <x-lucide-user-round-plus class="mr-2 size-4" /> {{ __('Daftar Sekarang') }}
+                <x-lucide-user-round-plus class="mr-2 size-4" /> {{ __('Daftar') }}
               </x-button>
             </a>
           </div>
         </div>
-        <div class="w-[80%] tracking-in-contract-bck-top">
+        <div class="sm:w-[90%] md:w-[80%] tracking-in-contract-bck-top mt-10 md:mt-0">
           <img class="size-full" src="{{ asset('storage/assets/images/home/hero.svg') }}" alt="hero.svg">
         </div>
       </div>
@@ -134,27 +134,5 @@
     @livewire('partials.testimonial-section')
 
     {{-- cta home section --}}
-    <section class="bg-white dark:bg-gray-900 pb-20">
-      <div class="gap-8 items-center py-8 mx-auto max-w-screen-xl xl:gap-20 md:grid md:grid-cols-2 sm:py-16 ">
-        <div class="relative overflow-hidden rounded-2xl">
-          <img src="{{ asset('storage/assets/images/about/iec-2.jpg') }}"
-            class="object-cover hover:scale-110 transition-all" alt="cta-image-section">
-        </div>
-
-        <article class="mt-4 md:mt-0">
-          <h1 class="mb-6 text-4xl font-medium text-gray-900 dark:text-white">
-            {{ __('Tunggu Apalagi? Mulai Perjalanan Bahasa Inggris Anda Sekarang!') }}
-          </h1>
-          <p class="mb-8 font-normal tracking-tight leading-relaxed text-gray-500 dark:text-gray-400 ">
-            {{ __('Di IEC Denpasar, kami percaya bahwa belajar bahasa Inggris adalah langkah penting menuju kesuksesan. Dengan mentor profesional dan program yang dirancang khusus, kami siap membantu Anda mencapai tujuan.') }}
-          </p>
-          <a href="#">
-            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
-              <x-lucide-library class="mr-2 size-4" />
-              {{ __('Daftar Sekarang') }}
-            </x-button>
-          </a>
-        </article>
-      </div>
-    </section>
+    @livewire('partials.cta-section')
   </div>

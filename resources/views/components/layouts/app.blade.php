@@ -5,18 +5,21 @@
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="application-name" content="{{ config('app.name') }}">
-    {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     @if (auth()->check() && auth()->user()->isAdmin())
       <meta name="robots" content="noindex, nofollow">
     @elseif(Route::is('admin.*'))
       <meta name="robots" content="noindex, nofollow">
     @endif
+
     {!! SEO::generate(true) !!}
+
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice'))
+
+    @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
-      <link href="{{ asset('assets') }}/css/styles.css?v=1.0.3" rel="stylesheet" />
+      <link href="{{ asset('assets/css/styles.min.css') }}" rel="stylesheet" />
     @endif
 
     <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title>
@@ -27,18 +30,17 @@
       }
     </style>
 
-    @livewireStyles
-    @filamentStyles
     @vite(['resources/css/luvi-ui.css', 'resources/css/app.css', 'resources/js/app.js'])
+    @filamentStyles
+    @livewireStyles
   </head>
-
   <body class="antialiased">
     <div class="w-full">
       @if (auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isUser())
         @if (!Route::is('verification.notice', 'verification.verify'))
           <div
             class="@unless (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail')) m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500 @endunless">
-            @if (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail'))
+            @if (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail', 'blog'))
               @livewire('partials.navbar')
               {{ $slot }}
               @livewire('partials.footer')
@@ -55,7 +57,6 @@
                   </div>
                 </main>
               @endif
-
             @endif
           </div>
         @else
@@ -85,13 +86,14 @@
         @endunless
       @endif
     </div>
+    @vite('resources/js/app.js')
     @filamentScripts
     @livewireScripts
-    <script src="{{ asset('assets') }}/js/plugins/chartjs.min.js" async></script>
-    <script src="{{ asset('assets') }}/js/plugins/perfect-scrollbar.min.js" async></script>
+
+    <script src=" {{ asset('assets/js/plugins/chartjs.min.js') }}" async></script>
+    <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}" async></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="{{ asset('assets') }}/js/soft-ui-dashboard-tailwind.js?v=1.0.3" async></script>
-    @vite('resources/js/app.js')
+    <script src="{{ asset('assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}" async></script>
     @yield('js_custom')
   </body>
 </html>

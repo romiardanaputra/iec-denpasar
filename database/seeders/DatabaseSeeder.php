@@ -7,6 +7,7 @@ use App\Models\Blog\Category as BlogCategory;
 use App\Models\Blog\Link;
 use App\Models\Blog\Post;
 use Closure;
+use Database\Seeders\Feature\GradeSeeder;
 use Database\Seeders\Program\BookSeeder;
 use Database\Seeders\Program\ImageSeeder;
 use Database\Seeders\Program\ProgramDetailSeeder;
@@ -15,6 +16,7 @@ use Database\Seeders\Schedule\ClassDayCodeSeeder;
 use Database\Seeders\Schedule\ClassScheduleSeeder;
 use Database\Seeders\Schedule\ClassTimeCodeSeeder;
 use Database\Seeders\Transaction\DummyOrderSeeder;
+use Database\Seeders\Transaction\TransactionSeeder;
 use Database\Seeders\Web\FaqSeeder;
 use Database\Seeders\Web\TestimonialSeeder;
 use Illuminate\Database\Eloquent\Collection;
@@ -45,6 +47,8 @@ class DatabaseSeeder extends Seeder
             ImageSeeder::class,
             FaqSeeder::class,
             TestimonialSeeder::class,
+            // TransactionSeeder::class,
+            // GradeSeeder::class
         ]);
 
         $this->command->warn(PHP_EOL.'Creating blog categories...');

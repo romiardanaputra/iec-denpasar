@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Feature\Grade;
 use App\Models\Transaction\Registration;
 use App\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
@@ -32,6 +33,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'phone',
         'email',
         'address',
+        'about',
         'city',
         'postal_code',
         'country_code',
@@ -73,5 +75,10 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     public function registrations()
     {
         return $this->hasMany(Registration::class);
+    }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
     }
 }

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('job');
             $table->string('market');
             $table->string('parent_guardian')->nullable();
+            $table->boolean('is_visible')->default(false);
             $table->timestamps();
         });
     }
