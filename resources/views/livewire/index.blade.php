@@ -1,30 +1,31 @@
-  <div class="min-h-screen space-y-14">
+  <div class="min-h-screen space-y-14 ">
     {{-- banner here --}}
-    <section class="min-h-svh flex items-center justify-center">
-      <div class="flex items-center container w-full">
+    <section class="min-h-svh flex items-center justify-center sm:mt-20 lg:mt-0">
+      <div class="flex items-center container w-full flex-col lg:flex-row">
         <div class="space-y-8 w-full">
           <article class="space-y-8 sm:space-y-6 ">
-            <p class="text-blue-900 font-medium">Intensive English Course Denpasar</p>
-            <h1 class="text-6xl text-slate-700 font-medium sm:text-inherit leading-tight">More than just
-              an English course</h1>
-            <p class="sm:w-[80%]">Join our dynamic English courses designed for all levels. Discover the joy of learning
+            <p class="text-blue-900 font-medium ">{{ __('Intensive English Course Denpasar') }}</p>
+            <h1 class="text-2xl lg:text-6xl text-slate-700 font-medium sm:text-inherit leading-tight">
+              {{ __('Lebih dari sekedar kursus bahasa Inggris') }}</h1>
+            <p class="sm:w-[80%]">
+              {{ __('Bergabunglah dengan kursus bahasa Inggris dinamis kami yang dirancang untuk semua tingkatan. Temukan kegembiraan belajar') }}
             </p>
           </article>
           <div class="flex gap-5">
             <a href="#">
               <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
-                <x-lucide-search class="mr-2 size-4" /> Explore
+                <x-lucide-search class="mr-2 size-4" /> {{ __('Jelajah') }}
               </x-button>
             </a>
             <a href="#">
               <x-button size='lg'
                 class="border border-blue-800 bg-transparent text-blue-800 hover:bg-blue-800 hover:text-white rounded-full px-8 py-6 ">
-                <x-lucide-user-round-plus class="mr-2 size-4" /> Enroll
+                <x-lucide-user-round-plus class="mr-2 size-4" /> {{ __('Daftar') }}
               </x-button>
             </a>
           </div>
         </div>
-        <div class="w-[80%]">
+        <div class="sm:w-[90%] md:w-[80%] tracking-in-contract-bck-top mt-10 md:mt-0">
           <img class="size-full" src="{{ asset('storage/assets/images/home/hero.svg') }}" alt="hero.svg">
         </div>
       </div>
@@ -40,11 +41,10 @@
           <span
             class="py-1 px-4 bg-indigo-100 rounded-full text-xs font-medium text-indigo-600 text-center">Features</span>
           <h2 class="text-4xl text-center font-bold text-gray-900 py-5">
-            Why choose us
+            {{ __('Mengapa memilih IEC Denpasar? ') }}
           </h2>
           <p class="text-lg font-normal text-gray-500 max-w-md md:max-w-2xl mx-auto">
-            Provides advanced features like time tracking, integrating with
-            third party apps (calendar / Google drive), creating subtasks.
+            {{ __('Kami menyediakan program pembelajaran bahasa Inggris yang inovatif, terstruktur, dan sesuai dengan kebutuhan Anda. Dari pemula hingga mahir, kami siap membantu Anda mencapai tujuan.') }}
           </p>
         </div>
         <div
@@ -60,10 +60,10 @@
               </svg>
             </div>
             <h4 class="text-lg font-medium text-gray-900 mb-3 capitalize">
-              Revolutionary Projectview
+              {{ __('Pembelajaran Terstruktur') }}
             </h4>
             <p class="text-sm font-normal text-gray-500">
-              plan and structure work how you want. Quickly organizing tasks.
+              {{ __('Program kami dirancang untuk membantu anda belajar secara sistematis, mulai dari dasar hingga mahir') }}
             </p>
           </div>
           <div class="relative w-full text-center max-md:max-w-sm max-md:mx-auto group md:w-2/5 lg:w-1/4">
@@ -86,11 +86,10 @@
               </svg>
             </div>
             <h4 class="text-lg font-medium text-gray-900 mb-3 capitalize">
-              App Integrations
+              {{ __('Integrasi Teknologi') }}
             </h4>
             <p class="text-sm font-normal text-gray-500">
-              Bring all your tools and data together. Also join with hundreds of
-              other apps.
+              {{ __('Kami memberikan akses informasi mengenai kursus, pendaftaran serta pembayaran terintegrasi untuk memudahkan anda dalam bergabung bersama kami') }}
             </p>
           </div>
           <div class="relative w-full text-center max-md:max-w-sm max-md:mx-auto group md:w-2/5 lg:w-1/4">
@@ -104,11 +103,10 @@
               </svg>
             </div>
             <h4 class="text-lg font-medium text-gray-900 mb-3 capitalize">
-              Data Reporting
+              {{ __('Laporan kemajuan belajar') }}
             </h4>
             <p class="text-sm font-normal text-gray-500">
-              Get real time insight into progress and allows teams to track
-              their work habits
+              {{ __('Pantau kemajuan belajar anda secara realtime melalui laporan berkala yang dapat diakses pada dashboard') }}
             </p>
           </div>
           <div class="relative w-full text-center max-md:max-w-sm max-md:mx-auto group md:w-2/5 lg:w-1/4">
@@ -122,11 +120,10 @@
               </svg>
             </div>
             <h4 class="text-lg font-medium text-gray-900 mb-3 capitalize">
-              Workflow Builder
+              {{ __('Metode pembalajaran interaktif') }}
             </h4>
             <p class="text-sm font-normal text-gray-500">
-              Automated processes to coordinate your teams and increase
-              communication.
+              {{ __('Nikmati pengalaman belajar yang menyenangkan dengan metode interaktif seperti role-play, diskusi, dan simulasi.') }}
             </p>
           </div>
         </div>
@@ -137,24 +134,5 @@
     @livewire('partials.testimonial-section')
 
     {{-- cta home section --}}
-    <section class="bg-white dark:bg-gray-900 pb-20">
-      <div class="gap-8 items-center py-8 mx-auto max-w-screen-xl xl:gap-20 md:grid md:grid-cols-2 sm:py-16 ">
-        <div class="relative overflow-hidden rounded-2xl">
-          <img src="{{ asset('storage/assets/images/about/iec-2.jpg') }}"
-            class="object-cover hover:scale-110 transition-all" alt="cta-image-section">
-        </div>
-
-        <article class="mt-4 md:mt-0">
-          <h1 class="mb-4 text-4xl tracking-tight font-medium text-gray-900 dark:text-white">Waiting for what? Let's
-            enroll and find your own joy</h1>
-          <p class="mb-6 font-light text-gray-500 md:text-lg dark:text-gray-400">IEC denpasar is more than just English
-            course. Educate everyone with our professional mentors</p>
-          <a href="#">
-            <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
-              <x-lucide-library class="mr-2 size-4" /> Enroll Now
-            </x-button>
-          </a>
-        </article>
-      </div>
-    </section>
+    @livewire('partials.cta-section')
   </div>

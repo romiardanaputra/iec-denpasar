@@ -23,6 +23,7 @@ class TeamStats extends BaseWidget
         return [
             Stat::make('total teams', $this->getPageTableQuery()->count()),
             Stat::make('total active', $this->getPageTableQuery()->where('is_active', 1)->count()),
+            Stat::make('total inactive', $this->getPageTableQuery()->where('is_active', 0)->count()),
         ];
     }
 }

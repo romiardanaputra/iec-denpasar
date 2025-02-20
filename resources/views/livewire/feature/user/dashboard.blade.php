@@ -1,33 +1,46 @@
   <div>
     <!-- cards row 2 -->
     <div class="flex flex-wrap mt-6 -mx-3">
-      <div class="w-full px-3 mb-6 lg:mb-0 lg:w-7/12 lg:flex-none">
-        <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+      <div class="w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
+        <div class=" flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
           <div class="flex-auto p-4">
             <div class="flex flex-wrap -mx-3">
-              <div class="max-w-full px-3 lg:w-1/2 lg:flex-none">
+              <div class="max-w-full px-3 lg:flex-none">
                 <div class="flex flex-col h-full">
-                  <p class="pt-2 mb-1 font-semibold">Welcome back to IEC</p>
-                  <h5 class="font-bold">Kadek Romi Ardana Putra</h5>
-                  <p class="mb-12">Don't forget to attend you schedule class on Monday and Wednesday ya!</p>
-                  <x-button class="bg-blue-800 p-2 rounded-lg py-6">Check Schedule! </x-button>
-                </div>
-              </div>
-              <div class="max-w-full px-3 mt-12 ml-auto text-center lg:mt-0 lg:w-5/12 lg:flex-none">
-                <div class="h-full bg-gradient-fuchsia rounded-xl">
-                  <img src="../assets/img/shapes/waves-white.svg" class="absolute top-0 hidden w-1/2 h-full lg:block"
-                    alt="waves" />
-                  <div class="relative flex items-center justify-center h-full">
-                    <img class="relative z-20 w-full pt-6" src="../assets/img/illustrations/rocket-white.png"
-                      alt="rocket" />
-                  </div>
+                  <p class="pt-2 mb-1 font-semibold">Hi, Student!</p>
+                  <h5 class="font-bold">{{ $user->name }}</h5>
+                  <p class="mb-12 mt-2">
+                    {{ __('Lihat jadwal les kamu sekarang!, Jika masih terdapat kendala silahkan hubungi admin IEC Denpasar pada nomor berikut') }}
+                  </p>
+                  <x-button class="bg-blue-800 p-2 rounded-lg py-6">{{ __('Lihat Jadwal') }}</x-button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="w-full max-w-full px-3 lg:w-5/12 lg:flex-none">
+      <div class="w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
+        <div class=" flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+          <div class="flex-auto p-4">
+            <div class="flex flex-wrap -mx-3">
+              <div class="max-w-full px-3 lg:flex-none">
+                <div class="flex flex-col h-full">
+                  <p class="pt-2 mb-1 font-semibold">Welcome to IEC Denpasar</p>
+                  <h5 class="font-bold">{{ $user->name }}</h5>
+                  <p class="mb-12 mt-2">
+                    {{ __(' Tingkatkan skill dan wawasanmu dengan berbagai program unggulan dari IEC Denpasar!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Temukan peluang belajar yang sesuai dengan minat dan tujuanmu. 🌟  ') }}
+                  </p>
+                  <x-button wire:click="redirectToProgram"
+                    class="bg-blue-800 p-2 rounded-lg py-6">{{ __('Lihat Program') }}</x-button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="w-full max-w-full px-3 lg:w-4/12 lg:flex-none">
         <div
           class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-4">
           <div class="relative h-full overflow-hidden bg-cover rounded-xl"
@@ -36,9 +49,10 @@
               class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-dark-gray opacity-80"></span>
             <div class="relative z-10 flex flex-col flex-auto h-full p-8">
               <h5 class="pt-2 mb-6 font-bold text-white">Quotes For Today</h5>
-              <p class="text-white">"Sekali Menyala Tetap Menyala Wii.. Agus ni bos tamplig dong".</p>
+              <p class="text-white">"It is not the man who has too little, but the man who craves more, that is poor.".
+              </p>
               <a class="mt-auto mb-0 font-semibold leading-normal text-white group text-size-sm" href="javascript:;">
-                ~ Agus Lombok Tanpa Armor
+                ~ Seneca
                 <i
                   class="fas fa-arrow-right ease-bounce text-size-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
               </a>
@@ -63,7 +77,6 @@
                 <p class="mb-0 leading-normal text-size-sm">
                   <i class="fa fa-check text-cyan-500"></i>
                   <span class="ml-1 font-semibold">English For Children</span>
-
                 </p>
               </div>
               <div class="flex-none w-5/12 max-w-full px-3 my-auto text-right lg:w-1/2 lg:flex-none">
@@ -130,7 +143,7 @@
                               alt="xd" />
                           </div>
                           <div class="flex flex-col justify-center">
-                            <h6 class="mb-0 leading-normal text-size-sm">Kadek Romi Ardana Putra
+                            <h6 class="mb-0 leading-normal text-size-sm">{{ $user->name }}
                             </h6>
                           </div>
                         </div>
@@ -171,36 +184,53 @@
       <!-- card 2 -->
 
       <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
-        <div
-          class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
-          <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
-            <h6>Transaction Overview</h6>
-            <p class="leading-normal text-size-sm">
-              <i class="fa fa-arrow-up text-lime-500"></i>
-              English For Children - Subscription
-            </p>
-          </div>
-          <div class="flex-auto p-4">
-            <div
-              class="before:border-r-solid relative before:absolute before:top-0 before:left-4 before:h-full before:border-r-2 before:border-r-slate-100 before:content-[''] before:lg:-ml-px">
-              @for ($i = 0; $i < 6; $i++)
+        @if ($order && $order->program)
+          <div
+            class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+            <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
+              <h6>Transaksi</h6>
+              <p class="leading-normal text-size-sm">
+                <i class="fa fa-arrow-up text-lime-500"></i>
+                {{ $order->program->name }} - #{{ $order->order_id }}
+              </p>
+            </div>
+            <div class="flex-auto p-4">
+              <div
+                class="before:border-r-solid relative before:absolute before:top-0 before:left-4 before:h-full before:border-r-2 before:border-r-slate-100 before:content-[''] before:lg:-ml-px">
                 <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
                   <span
                     class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-
-                    <x-lucide-circle-check class="size-5 text-green-600" />
+                    @if ($order->status == 'pending')
+                      <x-lucide-history class="size-5 text-yellow-600" />
+                    @else
+                      <x-lucide-circle-check class="size-5 text-green-600" />
+                    @endif
                   </span>
-                  <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto">
-                    <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Rp. 300.000,
-                      First Month</h6>
-                    <p class="mt-1 mb-0 font-semibold leading-tight text-size-xs text-slate-400">22-11-2025
-                      19.30</p>
+                  <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto space-y-3">
+                    <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Order id :
+                      {{ $order->order_id }}</h6>
+                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Harga :
+                      Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Order :
+                      {{ $order->status }}</p>
+                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Pembayaran :
+                      {{ $order->payment_status }}</p>
+                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Waktu Pemesanan :
+                      {{ $order->created_at->translatedFormat('l, d F Y H:i:s') }}</p>
                   </div>
                 </div>
-              @endfor
+              </div>
             </div>
           </div>
-        </div>
+        @else
+          <div
+            class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+            <div
+              class="border-black/12.5 mb-0 rounded-t-2xl h-full border-b-0 border-solid bg-white p-6 pb-0 flex items-center justify-center">
+              <h6>Tidak ada riwayat transaksi</h6>
+            </div>
+          </div>
+        @endif
       </div>
     </div>
   </div>

@@ -10,16 +10,13 @@ use Livewire\Component;
 
 class Login extends Component
 {
-    public $email = '';
+    public $email;
 
-    public $password = '';
+    public $password;
 
     public $remmember = false;
 
-    public function render()
-    {
-        return view('livewire.auth.login');
-    }
+    public $showPassword = false;
 
     protected function rules()
     {
@@ -27,6 +24,11 @@ class Login extends Component
             'email' => ['required', 'string', 'lowercase', 'email:rfc,dns'],
             'password' => ['required'],
         ];
+    }
+
+    public function togglePasswordVisibility()
+    {
+        $this->showPassword = ! $this->showPassword;
     }
 
     public function login()
@@ -44,6 +46,9 @@ class Login extends Component
         if (auth()->attempt(['email' => $this->email, 'password' => $this->password], $this->remmember)) {
             $user = User::where(['email' => $this->email])->first();
             auth()->login($user, $this->remmember);
+            if (auth()->user()->isAdmin()) {
+                return redirect()->intended('/admin');
+            }
 
             return redirect()->intended(route('dashboard', absolute: false));
         } else {
@@ -51,5 +56,10 @@ class Login extends Component
 
             return $this->addError('email', trans('auth.failed'));
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.auth.login');
     }
 }

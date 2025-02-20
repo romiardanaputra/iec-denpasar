@@ -18,8 +18,8 @@ return new class extends Migration
             $table->longText('short_description');
             $table->string('image');
             $table->string('rate');
-            $table->decimal('price');
-            $table->decimal('register_fee');
+            $table->float('price');
+            $table->float('register_fee');
             $table->boolean('is_visible')->default(false);
             $table->date('published_at')->nullable();
             $table->timestamps();

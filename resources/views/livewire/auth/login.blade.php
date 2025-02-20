@@ -1,15 +1,15 @@
-<div class="max-w-screen-xl mx-auto h-screen">
+<div class="max-w-screen-xl container mx-auto h-screen">
   <div class="grid md:grid-cols-2 items-center gap-8 h-full">
     <x-form wire:submit="login" method="post" class="max-w-lg max-md:mx-auto w-full p-6" autocomplete="on">
       @csrf
       <div class="mb-12">
-        <h3 class="text-gray-800 text-4xl font-extrabold">Sign in</h3>
-        <p class="text-gray-800 text-sm mt-6">Immerse yourself in a hassle-free login journey with our
-          intuitively
-          designed login form. Effortlessly access your account.</p>
+        <h3 class="text-gray-800 text-4xl font-extrabold">{{ __('Login') }}</h3>
+        <p class="text-gray-800 text-sm mt-6">
+          {{ __('Benamkan diri Anda dalam perjalanan login tanpa kerumitan dengan formulir login kami yang dirancang secara intuitif. Akses akun Anda dengan mudah.') }}
+        </p>
       </div>
       <div class="mt-4">
-        <x-label for="email">Email</x-label>
+        <x-label for="email">{{ __('Email') }}</x-label>
         <div class="relative flex items-center">
           <x-input wire:model.blur="email" name="email" required class="text-gray-800 rounded-full" type="email"
             id="email" placeholder="Email Address" autocomplete :value="old('email')" />
@@ -19,11 +19,14 @@
       </div>
 
       <div class="mt-4">
-        <x-label for="password">Password</x-label>
+        <x-label for="password">{{ __('Password') }}</x-label>
         <div class="relative flex items-center">
           <x-input wire:model.blur="password" name="password" required class="text-gray-800 rounded-full"
-            type="password" id="password" placeholder="Password" />
-          <x-lucide-eye class="size-4 absolute right-0 mr-4" />
+            :type="$showPassword ? 'text' : 'password'" id="password" placeholder="Password" />
+          <button type="button" class="absolute right-0 mr-4 focus:outline-none" wire:click="togglePasswordVisibility">
+            <x-lucide-eye class="{{ $showPassword ? 'hidden' : '' }} size-4" id="password-toggle-icon" />
+            <x-lucide-eye-off class="{{ $showPassword ? '' : 'hidden' }} size-4" id="password-toggle-icon-off" />
+          </button>
         </div>
         <x-input-error :messages="$errors->get('password')" class="mt-2" />
       </div>
@@ -33,25 +36,25 @@
           <x-checkbox id="terms1" wire:model.live="remmember" name="remmember" />
           <x-label for="terms1"
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            Remember Me
+            {{ __('Ingat saya') }}
           </x-label>
         </div>
 
         @if (Route::has('forgot.password'))
           <div class="text-sm">
             <a href="{{ route('forgot.password') }}" class="text-blue-600 font-semibold hover:underline">
-              Forgot your password?
+              {{ __('Lupa password?') }}
             </a>
           </div>
         @endif
       </div>
 
-      <div class="mt-8 flex space-y-4 flex-col lg:gap-4">
+      <div class="mt-8 flex flex-col gap-4">
         <x-button type="submit" size='lg'
           class="w-full bg-blue-800  hover:bg-blue-900 text-white rounded-full px-8 py-6 ">
-          <x-lucide-log-in class="mr-2 size-4" /> Log In
+          <x-lucide-log-in class="mr-2 size-4" /> {{ __('Login') }}
         </x-button>
-        <div class="text-center font-medium">Or</div>
+        <div class="text-center font-medium md:py-0">{{ __('Atau') }}</div>
         <a href="{{ route('oauth.google') }}"
           class="px-5 py-3 inline-flex items-center justify-center rounded-full text-[#333] text-base tracking-wider font-semibold border-none outline-none shadow-lg bg-gray-50 hover:bg-gray-100 active:bg-gray-50">
           <svg xmlns="http://www.w3.org/2000/svg" width="22px" fill="#fff" class="inline mr-3"
@@ -75,17 +78,18 @@
               d="M256 120V0C187.62 0 123.333 26.629 74.98 74.98a259.849 259.849 0 0 0-22.158 25.235l86.308 86.308C162.883 146.72 206.376 120 256 120z"
               data-original="#eb4132" />
           </svg>
-          Continue with Google
+          {{ __('Lanjutkan dengan google') }}
         </a>
       </div>
-      <p class="text-sm mt-8 text-center text-gray-800">Don't have an account?
+      <p class="text-sm mt-8 text-center text-gray-800">{{ __('Tidak punya akun?') }}
         <a href="{{ route('register') }}" wire:navigate
-          class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">Sign Up</a>
+          class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">{{ __('Daftar') }}</a>
       </p>
     </x-form>
 
-    <div class="h-full flex justify-center items-center">
+    <div class="h-full md:flex justify-center items-center hidden ">
       <img src="{{ asset('storage/assets/vectors/mobile_login.svg') }}"
-        class="rounded-md object-cover lg:w-full md:w-11/12 z-50 relative" alt="Dining Experience" />
+        class="rounded-md object-cover lg:w-full md:w-11/12 z-50 relative" alt="login-image" />
     </div>
   </div>
+</div>

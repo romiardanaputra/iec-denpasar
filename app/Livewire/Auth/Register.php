@@ -25,10 +25,9 @@ class Register extends Component
 
     public $email = '';
 
-    public function render()
-    {
-        return view('livewire.auth.register');
-    }
+    public $showPassword = false;
+
+    public $showConfirmPassword = false;
 
     protected function rules()
     {
@@ -38,6 +37,16 @@ class Register extends Component
             'email' => ['required', 'string', 'lowercase', 'email:dns,rfc', 'unique:'.User::class, 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
+    }
+
+    public function togglePasswordVisibility()
+    {
+        $this->showPassword = ! $this->showPassword;
+    }
+
+    public function toggleConfirmPasswordVisibility()
+    {
+        $this->showConfirmPassword = ! $this->showConfirmPassword;
     }
 
     public function store()
@@ -57,5 +66,10 @@ class Register extends Component
             session()->flash('error', $e->getMessage());
             report($e);
         }
+    }
+
+    public function render()
+    {
+        return view('livewire.auth.register');
     }
 }

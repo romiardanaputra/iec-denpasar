@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Feature\Grade;
+use App\Models\Transaction\Registration;
 use App\Traits\HasRoles;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -30,6 +32,11 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'name',
         'phone',
         'email',
+        'address',
+        'about',
+        'city',
+        'postal_code',
+        'country_code',
         'password',
         'gauth_id',
         'gauth_type',
@@ -63,5 +70,15 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
     public function canAccessPanel($panel): bool
     {
         return $this->isAdmin();
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(Registration::class);
+    }
+
+    public function grades()
+    {
+        return $this->hasMany(Grade::class);
     }
 }

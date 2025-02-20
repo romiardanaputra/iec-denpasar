@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class RoleSeeder extends Seeder
 {
@@ -14,24 +15,55 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
 
-        $user = User::create([
-            'name' => 'Super Admin IEC Denpasar',
-            'phone' => '+6285792479249',
-            'email' => 'romiardanaputra@gmail.com',
-            'password' => bcrypt('password'),
-            'email_verified_at' => now(),
-        ]);
+        $adminRole = Role::create(['name' => 'admin']);
+        $userRole = Role::create(['name' => 'user']);
 
-        User::factory(3)->create();
+        $customUsers = [
+            [
+                'name' => 'Kadek Romi Ardana Putra (S.Admin)',
+                'phone' => '+6285792479249',
+                'email' => 'romiardanaputra@gmail.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'address' => 'Jl. Merdeka No. 123, Denpasar',
+                'city' => 'Denpasar',
+                'postal_code' => '80361',
+                'country_code' => 'ID',
+                'about' => 'Saya adalah seorang developer web profesional.',
+            ],
+            [
+                'name' => 'John Doe',
+                'phone' => '+6281234567890',
+                'email' => 'johndoe@gmail.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'address' => 'Jl. Gajah Mada No. 456, Bali',
+                'city' => 'Denpasar',
+                'postal_code' => '80234',
+                'country_code' => 'ID',
+                'about' => 'Saya adalah seorang desainer grafis.',
+            ],
+            [
+                'name' => 'Jane Smith',
+                'phone' => '+6289876543210',
+                'email' => 'janesmith@gmail.com',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'address' => 'Jl. Bypass Ngurah Rai No. 789, Denpasar',
+                'city' => 'Denpasar',
+                'postal_code' => '80123',
+                'country_code' => 'ID',
+                'about' => 'Saya adalah seorang manajer proyek.',
+            ],
+        ];
 
-        collect([
-            ['name' => 'admin'],
-            ['name' => 'user'],
-        ])->each(fn ($role) => Role::create($role));
-
-        $user2 = User::find(2);
-
-        $user->assignRole(Role::find(1));
-        $user2->assignRole(Role::find(2));
+        foreach ($customUsers as $key => $userData) {
+            $user = User::create($userData);
+            if ($key === 0) {
+                $user->assignRole($adminRole);
+            } else {
+                $user->assignRole($userRole);
+            }
+        }
     }
 }

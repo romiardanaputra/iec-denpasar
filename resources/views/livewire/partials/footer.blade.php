@@ -8,7 +8,7 @@
       </div>
       <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
         <div>
-          <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Our Program</h2>
+          <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{{ __('Program Kami') }}</h2>
           <ul class="text-gray-500 dark:text-gray-400 font-medium">
             @php
               $programs = [
@@ -28,16 +28,16 @@
             @endphp
             @forelse ($programs as $program)
               <li class="mb-4">
-                <a href="https://flowbite.com/" class="hover:underline">{{ $program->name }}</a>
+                <a href="https://flowbite.com/" class="hover:underline">{{ __($program->name) }}</a>
               </li>
             @empty
-              <div> no data found</div>
+              <div> {{ __('Data tidak ditemukan') }}</div>
             @endforelse
 
           </ul>
         </div>
         <div>
-          <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Qucik navigation</h2>
+          <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{{ __('Navigasi Cepat') }}</h2>
           <ul class="text-gray-500 dark:text-gray-400 font-medium">
             @php
               $quickNavs = [
@@ -61,7 +61,7 @@
             @endphp
             @forelse ($quickNavs as $quickNav)
               <li class="mb-4">
-                <a href="{{ 'none' }}" class="hover:underline">{{ $quickNav->name }}</a>
+                <a href="{{ 'none' }}" class="hover:underline">{{ __($quickNav->name) }}</a>
               </li>
             @empty
             @endforelse
@@ -69,9 +69,9 @@
           </ul>
         </div>
         <div>
-          <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Contact Information</h2>
+          <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{{ __('Informasi Kontak') }}
+          </h2>
           <ul class="text-gray-500 dark:text-gray-400 font-medium">
-
             @php
               $contacts = [
                   (object) [
@@ -94,11 +94,11 @@
             @endphp
             @forelse ($contacts as $contact)
               <li class="mb-4">
-                <a href="https://github.com/themesberg/flowbite" class="hover:underline ">{{ $contact->name }} :
+                <a href="https://github.com/themesberg/flowbite" class="hover:underline ">{{ __($contact->name) }} :
                   {{ $contact->value }}</a>
               </li>
             @empty
-              <span>No data found</span>
+              <span>{{ __('Tidak terdapat data yang ditemukan') }}</span>
             @endforelse
           </ul>
         </div>
