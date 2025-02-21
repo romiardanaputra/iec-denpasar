@@ -51,32 +51,36 @@
       <!-- Main Content -->
       <div class="w-full lg:w-7/12 space-y-8">
         @foreach ($blogs as $key => $blog)
-          <x-card wire:key="{{ $blog->id }}" class="p-4">
-            <div class="flex items-center gap-4 mb-8">
-              <x-avatar class="size-8">
-                <x-avatar.image src="https://github.com/shadcn.png" />
-                <x-avatar.fallback>{{ $blog->author->name }}</x-avatar.fallback>
-              </x-avatar>
-              <span class="text-slate-700 font-medium text-sm">{{ $blog->author->name }}</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="w-8/12 space-y-4">
-                <h1 class="font-bold text-2xl">{{ $blog->title }}</h1>
-                <p class="text-slate-700 text-sm leading-relaxed tracking-wide">
-                  {{ Str::limit($blog->content, 100) }}
-                </p>
-                <div class="flex gap-4 items-center">
-                  <p class="text-slate-700 text-sm font-medium">{{ $blog->created_at->format('F j, Y g:i A') }}</p>
-                  <span>-</span>
-                  <p class="text-slate-700 text-sm font-medium">{{ $blog->category->name }}</p>
+          <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" wire:navigate wire:key="{{ $blog->id }}">
+            <x-card class="p-4">
+              <div class="flex items-center gap-4 mb-8">
+                <x-avatar class="size-8">
+                  <x-avatar.image
+                    src="{{ $blog->author->image ? (Str::startsWith($blog->author->image, 'http') ? $blog->author->image : asset('storage/' . $blog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
+                    alt="{{ $blog->author->name }}" />
+                  <x-avatar.fallback>{{ $blog->author->name }}</x-avatar.fallback>
+                </x-avatar>
+                <span class="text-slate-700 font-medium text-sm">{{ $blog->author->name }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="w-8/12 space-y-4">
+                  <h1 class="font-bold text-2xl">{{ $blog->title }}</h1>
+                  <p class="text-slate-700 text-sm leading-relaxed tracking-wide">
+                    {{ Str::limit($blog->content, 100) }}
+                  </p>
+                  <div class="flex gap-4 items-center">
+                    <p class="text-slate-700 text-sm font-medium">{{ $blog->created_at->format('F j, Y g:i A') }}</p>
+                    <span>-</span>
+                    <p class="text-slate-700 text-sm font-medium">{{ $blog->category->name }}</p>
+                  </div>
+                </div>
+                <div class="w-2/12">
+                  <img class="aspect-video object-cover h-24" src="{{ asset('storage/' . $blog->image) }}"
+                    alt="{{ $blog->title }}">
                 </div>
               </div>
-              <div class="w-2/12">
-                <img class="aspect-video object-cover h-24" src="{{ asset('storage/' . $blog->image) }}"
-                  alt="{{ $blog->title }}">
-              </div>
-            </div>
-          </x-card>
+            </x-card>
+          </a>
         @endforeach
 
         <!-- Pagination Links -->
@@ -135,29 +139,33 @@
         <x-card class="p-8 px-4">
           <span class="font-medium text-lg">Rekomendasi Berita</span>
           @foreach ($recommendedBlogs as $key => $recommendedBlog)
-            <x-card class="p-4 mt-4" wire:key="{{ $recommendedBlog->id }}">
-              <div class="flex items-center gap-4 mb-2">
-                <x-avatar class="size-6">
-                  <x-avatar.image src="https://github.com/shadcn.png" />
-                  <x-avatar.fallback>{{ $recommendedBlog->author->name }}</x-avatar.fallback>
-                </x-avatar>
-                <span class="text-slate-700 font-medium text-[13px]">{{ $recommendedBlog->author->name }}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <div class="w-full space-y-2">
-                  <h1 class="font-bold text-base">{{ $recommendedBlog->title }}</h1>
-                  <p class="text-slate-700 text-[13px] leading-relaxed tracking-wide">
-                    {{ Str::limit($recommendedBlog->content, 50) }}
-                  </p>
-                  <div class="flex gap-4 items-center">
-                    <p class="text-slate-700 text-[13px] font-medium">
-                      {{ $recommendedBlog->created_at->format('F j, Y g:i A') }}</p>
-                    <span>-</span>
-                    <p class="text-slate-700 text-[13px] font-medium">{{ $recommendedBlog->category->name }}</p>
+            <a href="{{ route('blog.detail', ['slug' => $recommendedBlog->slug]) }}">
+              <x-card class="p-4 mt-4" wire:key="{{ $recommendedBlog->id }}">
+                <div class="flex items-center gap-4 mb-2">
+                  <x-avatar class="size-6">
+                    <x-avatar.image
+                      src="{{ $recommendedBlog->author->image ? (Str::startsWith($recommendedBlog->author->image, 'http') ? $recommendedBlog->author->image : asset('storage/' . $recommendedBlog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
+                      alt="{{ $recommendedBlog->author->name }}" />
+                    <x-avatar.fallback>{{ $recommendedBlog->author->name }}</x-avatar.fallback>
+                  </x-avatar>
+                  <span class="text-slate-700 font-medium text-[13px]">{{ $recommendedBlog->author->name }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="w-full space-y-2">
+                    <h1 class="font-bold text-base">{{ $recommendedBlog->title }}</h1>
+                    <p class="text-slate-700 text-[13px] leading-relaxed tracking-wide">
+                      {{ Str::limit($recommendedBlog->content, 50) }}
+                    </p>
+                    <div class="flex gap-4 items-center">
+                      <p class="text-slate-700 text-[13px] font-medium">
+                        {{ $recommendedBlog->created_at->format('F j, Y g:i A') }}</p>
+                      <span>-</span>
+                      <p class="text-slate-700 text-[13px] font-medium">{{ $recommendedBlog->category->name }}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </x-card>
+              </x-card>
+            </a>
           @endforeach
         </x-card>
       </div>
