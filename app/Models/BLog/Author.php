@@ -15,6 +15,7 @@ class Author extends Model
 
     protected $fillable = [
         'team_id',
+        'bio',
         'email',
     ];
 

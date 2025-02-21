@@ -27,6 +27,7 @@ class Post extends Model
         'seo_description',
         'blog_author_id',
         'blog_category_id',
+        'published_at',
         'created_at',
         'updated_at',
     ];

@@ -59,8 +59,8 @@ class CategoryResource extends Resource
 
                 Forms\Components\Section::make('SEO')
                     ->schema([
-                        Forms\Components\TextInput::make('seo_meta')
-                            ->label('SEO Meta')
+                        Forms\Components\TextInput::make('seo_title')
+                            ->label('SEO Title')
                             ->maxLength(255),
                         Forms\Components\Textarea::make('seo_description')
                             ->label('SEO Description')

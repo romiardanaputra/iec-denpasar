@@ -16,5 +16,13 @@ class Link extends Model
         'description',
     ];
 
+    protected $fillable = [
+        'url',
+        'title',
+        'description',
+        'color',
+        'image',
+    ];
+
     protected $table = 'blog_links';
 }
