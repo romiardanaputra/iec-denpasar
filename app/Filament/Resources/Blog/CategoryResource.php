@@ -49,6 +49,25 @@ class CategoryResource extends Resource
                 Forms\Components\MarkdownEditor::make('description')
                     ->columnSpan('full'),
 
+                Forms\Components\Section::make('Image')
+                    ->schema([
+                        Forms\Components\FileUpload::make('image')
+                            ->image()
+                            ->hiddenLabel(),
+                    ])
+                    ->collapsible(),
+
+                Forms\Components\Section::make('SEO')
+                    ->schema([
+                        Forms\Components\TextInput::make('seo_meta')
+                            ->label('SEO Meta')
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('seo_description')
+                            ->label('SEO Description')
+                            ->rows(4),
+                    ])
+                    ->collapsible(),
+
                 Forms\Components\Toggle::make('is_visible')
                     ->label('Visible to customers.')
                     ->default(true),

@@ -22,6 +22,9 @@ class Post extends Model
         'title',
         'content',
         'image',
+        'slug',
+        'seo_title',
+        'seo_description',
         'blog_author_id',
         'blog_category_id',
         'created_at',
@@ -36,5 +39,10 @@ class Post extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'blog_category_id');
+    }
+
+    public function team()
+    {
+        return $this->author->team();
     }
 }

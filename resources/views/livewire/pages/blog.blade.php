@@ -1,8 +1,9 @@
 <div>
   <div class="container pt-40">
+
     <div class="flex flex-wrap gap-8">
 
-      <div class="flex gap-4">
+      <div class="flex sm:flex-wrap lg:flex-nowrap gap-4 w-full">
 
         <!-- Category Filter -->
         <div class="w-full lg:w-7/12">
@@ -50,7 +51,7 @@
 
       <!-- Main Content -->
       <div class="w-full lg:w-7/12 space-y-8">
-        @foreach ($blogs as $key => $blog)
+        @forelse ($blogs as $key => $blog)
           <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" wire:navigate wire:key="{{ $blog->id }}">
             <x-card class="p-4">
               <div class="flex items-center gap-4 mb-8">
@@ -81,7 +82,11 @@
               </div>
             </x-card>
           </a>
-        @endforeach
+        @empty
+          <div class="h-1/2 flex items-center justify-center">
+            Belum ada blog yang di posting
+          </div>
+        @endforelse
 
         <!-- Pagination Links -->
         <div class="mt-8">
@@ -138,7 +143,7 @@
       <div class="w-full lg:w-4/12 lg:sticky top-20 self-start">
         <x-card class="p-8 px-4">
           <span class="font-medium text-lg">Rekomendasi Berita</span>
-          @foreach ($recommendedBlogs as $key => $recommendedBlog)
+          @forelse ($recommendedBlogs as $key => $recommendedBlog)
             <a href="{{ route('blog.detail', ['slug' => $recommendedBlog->slug]) }}">
               <x-card class="p-4 mt-4" wire:key="{{ $recommendedBlog->id }}">
                 <div class="flex items-center gap-4 mb-2">
@@ -166,7 +171,11 @@
                 </div>
               </x-card>
             </a>
-          @endforeach
+          @empty
+            <div class=" h-40 flex items-center justify-center">
+              Belum ada rekomendasi blog
+            </div>
+          @endforelse
         </x-card>
       </div>
     </div>

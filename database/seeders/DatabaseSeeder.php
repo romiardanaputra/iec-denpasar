@@ -32,7 +32,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Storage::deleteDirectory('app/public');
+
+        // Delete the existing storage directory
+        $this->command->info('Deleting existing storage directory...');
+        Storage::deleteDirectory('public');
+
+        // Regenerate the storage directory
+        $this->command->info('Regenerating storage directory...');
+        Storage::makeDirectory('public');
+
+        // Run the seeders
+        $this->command->info('Running seeders...');
 
         $this->call([
             RoleSeeder::class,
@@ -50,49 +60,51 @@ class DatabaseSeeder extends Seeder
             // TransactionSeeder::class,
             // GradeSeeder::class
         ]);
+        $this->command->info('Database seeding completed successfully.');
 
-        $this->command->warn(PHP_EOL.'Creating blog categories...');
-        $blogCategories = $this->withProgressBar(20, fn () => BlogCategory::factory(1)
-            ->count(20)
-            ->create());
-        $this->command->info('Blog categories created.');
+        //     $this->command->warn(PHP_EOL.'Creating blog categories...');
+        //     $blogCategories = $this->withProgressBar(20, fn () => BlogCategory::factory(1)
+        //         ->count(20)
+        //         ->create());
+        //     $this->command->info('Blog categories created.');
 
-        $this->command->warn(PHP_EOL.'Creating blog authors and posts...');
-        $this->withProgressBar(20, fn () => Author::factory(1)
-            ->has(
-                Post::factory()->count(5)
-                    ->state(fn (array $attributes, Author $author) => ['blog_category_id' => $blogCategories->random(1)->first()->id]),
-                'posts'
-            )
-            ->create());
-        $this->command->info('Blog authors and posts created.');
+        //     $this->command->warn(PHP_EOL.'Creating blog authors and posts...');
+        //     $this->withProgressBar(20, fn () => Author::factory(1)
+        //         ->has(
+        //             Post::factory()->count(5)
+        //                 ->state(fn (array $attributes, Author $author) => ['blog_category_id' => $blogCategories->random(1)->first()->id]),
+        //             'posts'
+        //         )
+        //         ->create());
+        //     $this->command->info('Blog authors and posts created.');
 
-        $this->command->warn(PHP_EOL.'Creating blog links...');
-        $this->withProgressBar(20, fn () => Link::factory(1)
-            ->count(20)
-            ->create());
-        $this->command->info('Blog links created.');
-    }
+        //     $this->command->warn(PHP_EOL.'Creating blog links...');
+        //     $this->withProgressBar(20, fn () => Link::factory(1)
+        //         ->count(20)
+        //         ->create());
+        //     $this->command->info('Blog links created.');
+        // }
 
-    protected function withProgressBar(int $amount, Closure $createCollectionOfOne): Collection
-    {
-        $progressBar = new ProgressBar($this->command->getOutput(), $amount);
+        // protected function withProgressBar(int $amount, Closure $createCollectionOfOne): Collection
+        // {
+        //     $progressBar = new ProgressBar($this->command->getOutput(), $amount);
 
-        $progressBar->start();
+        //     $progressBar->start();
 
-        $items = new Collection;
+        //     $items = new Collection;
 
-        foreach (range(1, $amount) as $i) {
-            $items = $items->merge(
-                $createCollectionOfOne()
-            );
-            $progressBar->advance();
-        }
+        //     foreach (range(1, $amount) as $i) {
+        //         $items = $items->merge(
+        //             $createCollectionOfOne()
+        //         );
+        //         $progressBar->advance();
+        //     }
 
-        $progressBar->finish();
+        //     $progressBar->finish();
 
-        $this->command->getOutput()->writeln('');
+        //     $this->command->getOutput()->writeln('');
 
-        return $items;
+        //     return $items;
+        // }
     }
 }

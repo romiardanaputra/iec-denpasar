@@ -18,8 +18,7 @@
             class="flex flex-col items-center justify-center rounded-lg w-full h-44 p-4 text-center bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">
             <x-lucide-map-pin class="size-8 text-blue-800" />
             <h4 class="text-gray-800 text-base font-bold mt-4">{{ __('Kunjungi Kantor') }}</h4>
-            <p class="text-sm text-gray-600 mt-2">Jl. Jaya Giri Gg. XXII No.10x, Renon, Denpasar Timur, Denpasar, Bali
-              80236</p>
+            <p class="text-sm text-gray-600 mt-2">Jl. Jaya Giri Gg. XXII No.10x, Renon</p>
           </div>
           <div
             class="flex flex-col items-center justify-center rounded-lg w-full h-44 p-4 text-center bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">

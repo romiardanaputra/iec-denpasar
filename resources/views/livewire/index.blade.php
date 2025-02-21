@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="sm:w-[90%] md:w-[80%] tracking-in-contract-bck-top mt-10 md:mt-0">
-          <img class="size-full" src="{{ asset('storage/assets/images/home/hero.svg') }}" alt="hero.svg">
+          <img class="size-full" src="{{ asset('storage/iec-assets/hero.svg') }}" alt="hero.svg">
         </div>
       </div>
     </section>
