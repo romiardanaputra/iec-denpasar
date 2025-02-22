@@ -55,7 +55,6 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-
                 RedirectIfNotFillamentMiddleware::class,
             ])
             ->plugin(

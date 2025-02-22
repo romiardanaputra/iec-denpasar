@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Blog\Author;
 use App\Models\Schedule\ClassSchedule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,5 +26,10 @@ class Team extends Model
     public function classes()
     {
         return $this->hasMany(ClassSchedule::class);
+    }
+
+    public function author()
+    {
+        return $this->hasOne(Author::class);
     }
 }
