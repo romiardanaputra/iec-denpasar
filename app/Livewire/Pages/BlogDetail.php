@@ -21,7 +21,7 @@ class BlogDetail extends Component
     public function getBlog()
     {
         return Post::where('slug', $this->slug)
-            ->with(['author', 'category'])
+            ->with(['author.team', 'category'])
             ->firstOrFail();
     }
 

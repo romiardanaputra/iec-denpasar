@@ -7,10 +7,10 @@
           <div class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
             <img class="mr-4 w-16 h-16 rounded-full"
               src="{{ $blog->author->image ? (Str::startsWith($blog->author->image, 'http') ? $blog->author->image : asset('storage/' . $blog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
-              alt="{{ $blog->author->name }}">
+              alt="{{ $blog->author?->team?->name ?? 'author tidak diketahui' }}">
             <div>
               <a href="#" rel="author"
-                class="text-xl font-bold text-gray-900 dark:text-white">{{ $blog->author->name }}</a>
+                class="text-xl font-bold text-gray-900 dark:text-white">{{ $blog->author?->team?->name ?? 'author tidak diketahui' }}</a>
               <p class="text-base text-gray-500 dark:text-gray-400">{{ $blog->author->bio }}</p>
               <p class="text-base text-gray-500 dark:text-gray-400"><time pubdate
                   datetime="{{ $blog->created_at->toDateString() }}"

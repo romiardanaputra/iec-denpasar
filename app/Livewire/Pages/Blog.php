@@ -47,20 +47,22 @@ class Blog extends Component
         return Category::where('is_visible', 1)->get();
     }
 
-    #[Computed]
-    public function getAuthors()
-    {
-        return Author::get();
-    }
-
     public function performSearch()
     {
         $this->resetPage();
     }
 
+    #[Computed]
+    public function getAuthors()
+    {
+        return Author::with('team')->get()->mapWithKeys(function ($author) {
+            return [$author->id => $author->team?->name ?? 'No Team'];
+        });
+    }
+
     private function baseBlogQuery()
     {
-        return Post::with(['author', 'category'])
+        return Post::with(['author.team', 'category'])
             ->when($this->search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('title', 'like', '%'.$search.'%')
@@ -68,7 +70,7 @@ class Blog extends Component
                         ->orWhereHas('category', function ($cq) use ($search) {
                             $cq->where('name', 'like', '%'.$search.'%');
                         })
-                        ->orWhereHas('author', function ($aq) use ($search) {
+                        ->orWhereHas('author.team', function ($aq) use ($search) {
                             $aq->where('name', 'like', '%'.$search.'%');
                         });
                 });
@@ -94,6 +96,7 @@ class Blog extends Component
             'categories' => $this->getCategories,
             'authors' => $this->getAuthors,
         ];
+        // dd($data['blogs']);
 
         return view('livewire.pages.blog', $data);
     }

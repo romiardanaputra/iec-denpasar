@@ -26,8 +26,8 @@
             <select id="author" wire:model="selectedAuthor"
               class="mt-1 block w-full p-4 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
               <option value="">All Authors</option>
-              @foreach ($authors as $author)
-                <option wire:key="{{ $author->id }}" value="{{ $author->id }}">{{ $author->name }}</option>
+              @foreach ($authors as $key => $author)
+                <option value="{{ $key }}">{{ $author }}</option>
               @endforeach
             </select>
           </div>
@@ -59,9 +59,10 @@
                   <x-avatar.image
                     src="{{ $blog->author->image ? (Str::startsWith($blog->author->image, 'http') ? $blog->author->image : asset('storage/' . $blog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
                     alt="{{ $blog->author->name }}" />
-                  <x-avatar.fallback>{{ $blog->author->name }}</x-avatar.fallback>
+                  <x-avatar.fallback>{{ $blog->author?->team?->name ?? 'author tidak diketahui' }}</x-avatar.fallback>
                 </x-avatar>
-                <span class="text-slate-700 font-medium text-sm">{{ $blog->author->name }}</span>
+                <span
+                  class="text-slate-700 font-medium text-sm">{{ $blog->author?->team?->name ?? 'author tidak diketahui' }}</span>
               </div>
               <div class="flex items-center justify-between">
                 <div class="w-8/12 space-y-4">
@@ -150,10 +151,11 @@
                   <x-avatar class="size-6">
                     <x-avatar.image
                       src="{{ $recommendedBlog->author->image ? (Str::startsWith($recommendedBlog->author->image, 'http') ? $recommendedBlog->author->image : asset('storage/' . $recommendedBlog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
-                      alt="{{ $recommendedBlog->author->name }}" />
-                    <x-avatar.fallback>{{ $recommendedBlog->author->name }}</x-avatar.fallback>
+                      alt="{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}" />
+                    <x-avatar.fallback>{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}</x-avatar.fallback>
                   </x-avatar>
-                  <span class="text-slate-700 font-medium text-[13px]">{{ $recommendedBlog->author->name }}</span>
+                  <span
+                    class="text-slate-700 font-medium text-[13px]">{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}</span>
                 </div>
                 <div class="flex items-center justify-between">
                   <div class="w-full space-y-2">
