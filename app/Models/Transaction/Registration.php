@@ -4,6 +4,7 @@ namespace App\Models\Transaction;
 
 use App\Models\Feature\Grade;
 use App\Models\Program\Program;
+use App\Models\Schedule\ClassSchedule;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,10 +13,15 @@ class Registration extends Model
 {
     use HasFactory;
 
+    protected $table = 'registrations';
+
+    protected $guarded = ['id'];
+
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'user_id',
         'program_id',
-        // 'order_id',
         'student_name',
         'birthplace',
         'birthdate',
@@ -25,9 +31,10 @@ class Registration extends Model
         'market',
         'parent_guardian',
         'is_active',
+        'is_visible',
     ];
 
-    protected $cast = [
+    protected $casts = [
         'is_visible' => 'boolean',
     ];
 
@@ -49,5 +56,10 @@ class Registration extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function classSchedules()
+    {
+        return $this->belongsToMany(ClassSchedule::class, 'registration_schedules', 'registration_id', 'class_schedule_id');
     }
 }
