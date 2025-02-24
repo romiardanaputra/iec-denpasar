@@ -10,7 +10,9 @@
         <div class="flex-none w-auto max-w-full px-3">
           <div
             class="text-size-base ease-soft-in-out h-18.5 w-18.5 relative inline-flex items-center justify-center rounded-xl text-white transition-all duration-200">
-            <img src="{{ $user->gauth_avatar }}" alt="{{ $user->name }}" class="w-full shadow-soft-sm rounded-xl" />
+            <img
+              src="{{ $user->gauth_avatar ?? 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
+              alt="{{ $user->name }}" class="w-full shadow-soft-sm rounded-xl" />
           </div>
         </div>
         <div class="flex-none w-auto max-w-full px-3 my-auto">
