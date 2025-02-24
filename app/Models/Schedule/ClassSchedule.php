@@ -5,12 +5,15 @@ namespace App\Models\Schedule;
 use App\Models\Program\Book;
 use App\Models\Program\Program;
 use App\Models\Team;
+use App\Models\Transaction\Registration;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ClassSchedule extends Model
 {
     use HasFactory;
+
+    protected $table = 'class_schedules';
 
     protected $primaryKey = 'class_schedule_id';
 
@@ -54,5 +57,10 @@ class ClassSchedule extends Model
     public function team()
     {
         return $this->belongsTo(Team::class, 'team_id', 'team_id');
+    }
+
+    public function registrations()
+    {
+        return $this->belongsToMany(Registration::class, 'registration_schedules', 'class_schedule_id', 'registration_id');
     }
 }
