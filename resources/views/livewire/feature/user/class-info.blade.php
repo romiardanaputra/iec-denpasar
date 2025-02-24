@@ -35,33 +35,6 @@
 <div>
   <div class="flex flex-wrap">
     <section class="p-4 w-7/12 order space-y-4">
-      <x-typography.h3>
-        Important update!
-      </x-typography.h3>
-      {{-- <x-card class="p-8">
-        <x-accordion type="single" collapsible class="w-full">
-          @for ($i = 1; $i <= 6; $i++)
-            <x-accordion.item value="item-{{ $i }}">
-              <x-accordion.trigger>is it accessible?</x-accordion.trigger>
-              <x-accordion.content class="!text-base">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. In, aliquid earum doloribus molestiae
-                voluptatem
-                quia nisi voluptate. Suscipit adipisci nemo, cum itaque molestiae laboriosam iure quidem laudantium?
-                Quaerat
-                sequi saepe suscipit. Atque totam dolores amet nam, ratione dolorem facilis, maiores excepturi
-                exercitationem nemo at rerum reprehenderit? Quidem ipsa facilis, repudiandae officia cumque aliquam hic
-                ea
-                tempore placeat sapiente minima dolor quisquam commodi, voluptates quibusdam. Fuga fugiat natus
-                accusantium
-                obcaecati odit ratione repellat unde sapiente distinctio corporis! Nihil iure totam pariatur. Saepe modi
-                libero ducimus. Cupiditate, asperiores ea id, nulla veritatis at voluptatum vel, debitis officiis iure
-                quasi
-                aliquam tenetur quia.
-              </x-accordion.content>
-            </x-accordion.item>
-          @endfor
-        </x-accordion>
-      </x-card> --}}
       <x-card class="mt-6">
         <x-card.header class="p-8">
           <x-typography.h3>
