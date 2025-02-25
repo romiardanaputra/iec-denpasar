@@ -16,11 +16,11 @@ class FaqResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationLabel = 'Kelola Faq';
+    protected static ?string $navigationLabel = 'Kelola FAQ';
 
     protected static ?string $navigationGroup = 'Kelola Halaman Website';
 
-    protected static ?string $pluralModelLabel = 'Kelola Faq';
+    protected static ?string $pluralModelLabel = 'FAQ';
 
     public static function form(Form $form): Form
     {
@@ -29,10 +29,12 @@ class FaqResource extends Resource
                 Forms\Components\TextInput::make('question')
                     ->label(__('Pertanyaan'))
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder(__('Masukkan pertanyaan')),
                 Forms\Components\Textarea::make('answer')
                     ->label(__('Jawaban'))
-                    ->required(),
+                    ->required()
+                    ->placeholder(__('Masukkan jawaban')),
             ]);
     }
 
@@ -47,24 +49,30 @@ class FaqResource extends Resource
                 Tables\Columns\TextColumn::make('answer')
                     ->label(__('Jawaban'))
                     ->searchable()
+                    ->sortable()
+                    ->wrap(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Dibuat Pada'))
+                    ->dateTime('d M Y H:i:s')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('Diperbarui Pada'))
+                    ->dateTime('d M Y H:i:s')
                     ->sortable(),
             ])
             ->filters([
-                // Tables\Filters\TextInputFilter::make('question')
-                //   ->label(__('Pertanyaan'))
-                //   ->placeholder(__('Cari pertanyaan...')),
-                // Tables\Filters\TextInputFilter::make('answer')
-                //   ->label(__('Jawaban'))
-                //   ->placeholder(__('Cari jawaban...')),
+                Tables\Filters\Filter::make('question')
+                    ->label(__('Pertanyaan')),
+                Tables\Filters\Filter::make('answer')
+                    ->label(__('Jawaban')),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()->iconButton(),
+                Tables\Actions\EditAction::make()->iconButton(),
+                Tables\Actions\DeleteAction::make()->iconButton(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
