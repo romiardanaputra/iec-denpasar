@@ -3,11 +3,15 @@
 namespace App\Filament\Resources\Transaction;
 
 use App\Enums\OrderStatus;
+use App\Filament\Resources\Program\ProgramResource;
 use App\Filament\Resources\Transaction\OrderResource\Pages;
 use App\Filament\Resources\Transaction\OrderResource\RelationManagers;
+use App\Filament\Resources\Transaction\OrderResource\Widgets\OrderStats;
+use App\Models\Program\Program;
 use App\Models\Transaction\Order;
 use Filament\Forms;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
@@ -30,6 +34,10 @@ class OrderResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    protected static ?string $navigationLabel = 'Data Pesanan Kursus';
+
+    protected static ?string $pluralModelLabel = 'Data Pesanan Kursus';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,10 +55,10 @@ class OrderResource extends Resource
                                     ->requiresConfirmation()
                                     ->color('danger')
                                     ->action(fn (Forms\Set $set) => $set('items', [])),
+                            ])
+                            ->schema([
+                                static::getItemsRepeater(),
                             ]),
-                        // ->schema([
-                        //   static::getItemsRepeater(),
-                        // ]),
                     ])
                     ->columnSpan(['lg' => fn (?Order $record) => $record === null ? 3 : 2]),
                 Forms\Components\Section::make()
@@ -90,9 +98,10 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('total_price')
                     ->searchable()
                     ->sortable()
+                    ->money('IDR')
                     ->summarize([
                         Tables\Columns\Summarizers\Sum::make()
-                            ->money(),
+                            ->money('IDR'),
                     ]),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Order Date')
@@ -132,23 +141,23 @@ class OrderResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+            Tables\Actions\EditAction::make(),
+        ])
             ->groupedBulkActions([
-                Tables\Actions\DeleteBulkAction::make()
+            Tables\Actions\DeleteBulkAction::make()
                     ->action(function () {
                         Notification::make()
                             ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
                             ->warning()
                             ->send();
                     }),
-            ])
+        ])
             ->groups([
-                Tables\Grouping\Group::make('created_at')
+            Tables\Grouping\Group::make('created_at')
                     ->label('Order Date')
                     ->date()
                     ->collapsible(),
-            ]);
+        ]);
     }
 
     public static function getRelations(): array
@@ -161,7 +170,7 @@ class OrderResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            // OrderStats::class,
+            OrderStats::class,
         ];
     }
 
@@ -189,7 +198,7 @@ class OrderResource extends Resource
         /** @var class-string<Model> $modelClass */
         $modelClass = static::$model;
 
-        return (string) $modelClass::where('status', 'pending')->count();
+        return (string) $modelClass::where('status', 'processing')->count();
     }
 
     /** @return Forms\Components\Component[] */
@@ -207,6 +216,8 @@ class OrderResource extends Resource
                 ->relationship('user', 'name')
                 ->searchable()
                 ->required()
+                ->debounce()
+                ->native(false)
                 ->createOptionForm([
                     Forms\Components\TextInput::make('name')
                         ->required()
@@ -236,7 +247,14 @@ class OrderResource extends Resource
                 }),
             Forms\Components\Select::make('program_id')
                 ->relationship('program', 'name')
+                ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('total_price', Program::find($state)?->price ?? 0))
                 ->searchable()
+                ->reactive()
+                ->required(),
+            Forms\Components\Select::make('registration_id')
+                ->relationship('registration', 'student_name')
+                ->searchable()
+                ->reactive()
                 ->required(),
             Forms\Components\ToggleButtons::make('status')
                 ->inline()
@@ -254,10 +272,73 @@ class OrderResource extends Resource
                 ->required(),
             Forms\Components\TextInput::make('total_price')
                 ->numeric()
+              // ->dehydrated()
+              // ->disabled()
+              // ->default(0)
                 ->required(),
+
             Forms\Components\MarkdownEditor::make('notes')
                 ->columnSpan('full'),
         ];
+    }
+
+    public static function getItemsRepeater(): Repeater
+    {
+        return Repeater::make('items')
+            ->relationship()
+            ->schema([
+                Forms\Components\Select::make('program_id')
+                    ->label('Program')
+                    ->options(Program::query()->pluck('name', 'program_id'))
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('price', Program::find($state)?->price ?? 0))
+                    ->distinct()
+                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                    ->columnSpan([
+                        'md' => 5,
+                    ])
+                    ->searchable(),
+                Forms\Components\TextInput::make('quantity')
+                    ->label('Quantity')
+                    ->numeric()
+                    ->default(1)
+                    ->columnSpan([
+                        'md' => 2,
+                    ])
+                    ->required(),
+                Forms\Components\TextInput::make('price')
+                    ->label('Unit Price')
+                    ->disabled()
+                    ->dehydrated()
+                    ->numeric()
+                    ->required()
+                    ->columnSpan([
+                        'md' => 3,
+                    ]),
+            ])
+            ->extraItemActions([
+                Action::make('openProgram')
+                    ->tooltip('Open program')
+                    ->icon('heroicon-m-arrow-top-right-on-square')
+                    ->url(function (array $arguments, Repeater $component): ?string {
+                        $itemData = $component->getRawItemState($arguments['item']);
+                        $program = Program::find($itemData['program_id']);
+                        if (! $program) {
+                            return null;
+                        }
+
+                        return ProgramResource::getUrl('edit', ['record' => $program]);
+                    }, shouldOpenInNewTab: true)
+                    ->hidden(fn (array $arguments, Repeater $component): bool => blank($component->getRawItemState($arguments['item'])['program_id'])),
+            ])
+          // ->orderColumn('sort')
+            ->defaultItems(1)
+            ->hiddenLabel()
+            ->columns([
+            'md' => 10,
+        ])
+            ->required();
     }
 
     public static function getGlobalSearchEloquentQuery(): Builder
