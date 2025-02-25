@@ -20,7 +20,7 @@ class TestimonialResource extends Resource
 
     protected static ?string $navigationGroup = 'Kelola Halaman Website';
 
-    protected static ?string $pluralModelLabel = 'Kelola Testimonial';
+    protected static ?string $pluralModelLabel = 'Testimonials';
 
     public static function form(Form $form): Form
     {
@@ -29,19 +29,23 @@ class TestimonialResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label(__('Nama'))
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder(__('Masukkan nama')),
                 Forms\Components\TextInput::make('position')
                     ->label(__('Posisi'))
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->placeholder(__('Masukkan posisi')),
                 Forms\Components\Textarea::make('testimony')
                     ->label(__('Testimoni'))
-                    ->required(),
+                    ->required()
+                    ->placeholder(__('Masukkan testimoni')),
                 Forms\Components\FileUpload::make('image_path')
                     ->label(__('Gambar'))
                     ->directory('assets/images/testimonials')
                     ->image()
-                    ->required(),
+                    ->required()
+                    ->placeholder(__('Unggah gambar')),
             ]);
     }
 
@@ -49,12 +53,32 @@ class TestimonialResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label(__('Nama')),
-                Tables\Columns\TextColumn::make('position')
-                    ->label(__('Posisi')),
                 Tables\Columns\ImageColumn::make('image_path')
-                    ->label(__('Gambar')),
+                    ->label(__('Gambar'))
+                    ->circular(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label(__('Nama'))
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('position')
+                    ->label(__('Posisi'))
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('testimony')
+                    ->label(__('Testimoni'))
+                    ->searchable()
+                    ->sortable()
+                    ->wrap(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label(__('Dibuat Pada'))
+                    ->dateTime('d M Y H:i:s')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label(__('Diperbarui Pada'))
+                    ->dateTime('d M Y H:i:s')
+                    ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('position')
@@ -63,14 +87,12 @@ class TestimonialResource extends Resource
                     ->searchable(),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()->iconButton(),
+                Tables\Actions\EditAction::make()->iconButton(),
+                Tables\Actions\DeleteAction::make()->iconButton(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
