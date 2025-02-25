@@ -20,103 +20,108 @@ class GradeResource extends Resource
 
     protected static ?string $navigationGroup = 'Kelola Murid';
 
-    protected static ?string $navigationLabel = 'Input Nilai Siswa';
+    protected static ?string $navigationLabel = 'Nilai Siswa';
 
-    protected static ?string $pluralModelLabel = 'Input Nilai Siswa';
+    protected static ?string $pluralModelLabel = 'Nilai Siswa';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('registration_id')
-                    ->label('Nama Siswa')
-                    ->helperText('Nama akun siswa yand didaftarkan oleh pengguna website')
-                    ->options(Registration::query()->pluck('student_name', 'id'))
-                    ->afterStateUpdated(function ($state, Forms\Set $set) {
-                        if ($state) {
-                            $registration = Registration::find($state);
-                            if ($registration && $registration->user) {
-                                $set('user_id', $registration->user->id);
-                            }
-                        }
-                    })
-                    ->required()
-                    ->debounce()
-                    ->searchable(),
-                Forms\Components\Select::make('user_id')
-                    ->label('Nama Akun Pengguna')
-                    ->helperText('Nama akun pengguna yang terdaftar pada website')
-                    ->options(User::query()->pluck('name', 'id'))
-                    ->required()
-                    ->dehydrated()
-                    ->searchable(),
-                Forms\Components\ToggleButtons::make('level_name')
-                    ->label('Level ke')
-                    ->inline()
-                    ->options([
-                        '1' => 1,
-                        '2' => 2,
-                        '3' => 3,
-                        '4' => 4,
-                        '5' => 5,
-                        '6' => 6,
-                    ])
-                    ->required()
-                    ->unique(ignoreRecord: true),
-                Forms\Components\ToggleButtons::make('badge_grade')
-                    ->label('Status Badge Nilai')
-                    ->inline()
-                    ->options([
-                        'need improvement' => 'Need Improvement',
-                        'good' => 'Good',
-                        'excellent' => 'Excellent',
-                    ])
-                    ->required(),
-                Forms\Components\TextInput::make('reading_grade')
-                    ->label('Nilai Membaca')
-                    ->helperText('Input nilai value dari 0-100')
-                    ->maxValue(100)
-                    ->minValue(0)
-                    ->numeric()
-                    ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
-                    ->debounce()
-                    ->required(),
-                Forms\Components\TextInput::make('listening_grade')
-                    ->label('Nilai Mendengarkan')
-                    ->helperText('Input nilai value dari 0-100')
-                    ->maxValue(100)
-                    ->minValue(0)
-                    ->numeric()
-                    ->debounce()
-                    ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
-                    ->required(),
-                Forms\Components\TextInput::make('speaking_grade')
-                    ->label('Nilai Berbicara')
-                    ->helperText('Input nilai value dari 0-100')
-                    ->maxValue(100)
-                    ->minValue(0)
-                    ->numeric()
-                    ->debounce()
-                    ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
-                    ->required(),
-                Forms\Components\TextInput::make('average_grade')
-                    ->label('Rata-rata nilai')
-                    ->numeric()
-                    ->dehydrated()
-                    ->disabled()
-                    ->required(),
-                Forms\Components\Textarea::make('strong_area')
-                    ->label('Strong Area')
-                    ->helperText('Kelebihan dari siswa pada jenjang level')
-                    ->required(),
-                Forms\Components\Textarea::make('improvement_area')
-                    ->label('Improvement Area')
-                    ->helperText('Hal yang dapat di improve dari siswa pada jenjang level')
-                    ->required(),
-                Forms\Components\Textarea::make('weak_area')
-                    ->label('Weak Area')
-                    ->helperText('Hal yang sangat perlu diperhatikan (kekurangan) dari siswa pada jenjang level')
-                    ->required(),
+                Forms\Components\Section::make('Informasi Siswa')
+                    ->schema([
+                        Forms\Components\Select::make('registration_id')
+                            ->label('Nama Siswa')
+                            ->helperText('Nama akun siswa yang didaftarkan oleh pengguna website')
+                            ->options(Registration::query()->pluck('student_name', 'id'))
+                            ->afterStateUpdated(function ($state, Forms\Set $set) {
+                                if ($state) {
+                                    $registration = Registration::find($state);
+                                    if ($registration && $registration->user) {
+                                        $set('user_id', $registration->user->id);
+                                    }
+                                }
+                            })
+                            ->required()
+                            ->debounce()
+                            ->searchable(),
+                        Forms\Components\Select::make('user_id')
+                            ->label('Nama Akun Pengguna')
+                            ->helperText('Nama akun pengguna yang terdaftar pada website')
+                            ->options(User::query()->pluck('name', 'id'))
+                            ->required()
+                            ->dehydrated()
+                            ->searchable(),
+                    ]),
+                Forms\Components\Section::make('Detail Nilai')
+                    ->schema([
+                    Forms\Components\ToggleButtons::make('level_name')
+                            ->label('Level ke')
+                            ->inline()
+                            ->options(range(1, 6))
+                            ->required()
+                            ->unique(ignoreRecord: true),
+                    Forms\Components\ToggleButtons::make('badge_grade')
+                            ->label('Status Badge Nilai')
+                            ->inline()
+                            ->options([
+                                'need improvement' => 'Need Improvement',
+                                'good' => 'Good',
+                                'excellent' => 'Excellent',
+                            ])
+                            ->required(),
+                    Forms\Components\Grid::make(3)
+                            ->schema([
+                                Forms\Components\TextInput::make('reading_grade')
+                                    ->label('Nilai Membaca')
+                                    ->helperText('Input nilai value dari 0-100')
+                                    ->maxValue(100)
+                                    ->minValue(0)
+                                    ->numeric()
+                                    ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
+                                    ->debounce()
+                                    ->required(),
+                                Forms\Components\TextInput::make('listening_grade')
+                                    ->label('Nilai Mendengarkan')
+                                    ->helperText('Input nilai value dari 0-100')
+                                    ->maxValue(100)
+                                    ->minValue(0)
+                                    ->numeric()
+                                    ->debounce()
+                                    ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
+                                    ->required(),
+                                Forms\Components\TextInput::make('speaking_grade')
+                                    ->label('Nilai Berbicara')
+                                    ->helperText('Input nilai value dari 0-100')
+                                    ->maxValue(100)
+                                    ->minValue(0)
+                                    ->numeric()
+                                    ->debounce()
+                                    ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
+                                    ->required(),
+                            ]),
+                    Forms\Components\TextInput::make('average_grade')
+                            ->label('Rata-rata nilai')
+                            ->numeric()
+                            ->dehydrated()
+                            ->disabled()
+                            ->required(),
+                ]),
+                Forms\Components\Section::make('Komentar')
+                    ->schema([
+                    Forms\Components\Textarea::make('strong_area')
+                            ->label('Strong Area')
+                            ->helperText('Kelebihan dari siswa pada jenjang level')
+                            ->required(),
+                    Forms\Components\Textarea::make('improvement_area')
+                            ->label('Improvement Area')
+                            ->helperText('Hal yang dapat di improve dari siswa pada jenjang level')
+                            ->required(),
+                    Forms\Components\Textarea::make('weak_area')
+                            ->label('Weak Area')
+                            ->helperText('Hal yang sangat perlu diperhatikan (kekurangan) dari siswa pada jenjang level')
+                            ->required(),
+                ]),
             ]);
     }
 
@@ -146,7 +151,7 @@ class GradeResource extends Resource
                     ->label('Nilai Mendengar')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('speaking_grade')
-                    ->label('Nilai berbicara')
+                    ->label('Nilai Berbicara')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('average_grade')
                     ->label('Rata-rata nilai')
@@ -195,9 +200,7 @@ class GradeResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
