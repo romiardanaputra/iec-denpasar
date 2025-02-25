@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class RegistrationScheduleResource extends Resource
 {
@@ -26,29 +27,35 @@ class RegistrationScheduleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('registration_id')
-                    ->relationship('registration', 'student_name')
-                    ->label('Nama Pendaftar')
-                    ->helperText('Pilih nama pendaftar')
-                    ->required()
-                    ->searchable()
-                    ->preload()
-                    ->native(false),
-                Forms\Components\Select::make('class_schedule_id')
-                    ->relationship('classSchedule', 'class_code')
-                    ->label('Jadwal Kelas')
-                    ->helperText('Pilih jadwal kelas')
-                    ->required()
-                    ->searchable()
-                    ->preload()
-                    ->native(false)
-                    ->options(function () {
-                        return \App\Models\Schedule\ClassSchedule::with('program')
-                            ->get()
-                            ->mapWithKeys(function ($classSchedule) {
-                                return [$classSchedule->class_schedule_id => "{$classSchedule->class_code} ({$classSchedule->program->name})"];
-                            });
-                    }),
+                Forms\Components\Section::make('Informasi Pendaftaran')
+                    ->schema([
+                        Forms\Components\Select::make('registration_id')
+                            ->relationship('registration', 'student_name')
+                            ->label('Nama Pendaftar')
+                            ->helperText('Pilih nama pendaftar')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->native(false),
+                    ]),
+                Forms\Components\Section::make('Jadwal Kelas')
+                    ->schema([
+                        Forms\Components\Select::make('class_schedule_id')
+                            ->relationship('classSchedule', 'class_code')
+                            ->label('Jadwal Kelas')
+                            ->helperText('Pilih jadwal kelas')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->native(false)
+                            ->options(function () {
+                                return \App\Models\Schedule\ClassSchedule::with('program', 'book', 'time', 'day', 'team')
+                                    ->get()
+                                    ->mapWithKeys(function ($classSchedule) {
+                                        return [$classSchedule->class_schedule_id => "{$classSchedule->class_code} ({$classSchedule->program->name})"];
+                                    });
+                            }),
+                    ]),
             ]);
     }
 
@@ -96,23 +103,30 @@ class RegistrationScheduleResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
-            ])
+            Tables\Filters\SelectFilter::make('registration_id')
+                    ->label('Pendaftar')
+                    ->relationship('registration', 'student_name'),
+            Tables\Filters\SelectFilter::make('class_schedule_id')
+                    ->label('Jadwal Kelas')
+                    ->relationship('classSchedule', 'class_code'),
+        ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+            Tables\Actions\EditAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ]),
+        ])
+            ->query(
+                fn (): Builder => RegistrationSchedule::query()
+                    ->with(['registration', 'classSchedule.program', 'classSchedule.book', 'classSchedule.time', 'classSchedule.day', 'classSchedule.team'])
+            );
     }
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
