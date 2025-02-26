@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Program;
 
 use App\Filament\Resources\Program\ProgramDetailResource\Pages;
-use App\Models\Program\Program;
 use App\Models\Program\ProgramDetail;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -13,7 +12,9 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProgramDetailResource extends Resource
 {
@@ -33,28 +34,34 @@ class ProgramDetailResource extends Resource
             ->schema([
                 Select::make('program_id')
                     ->relationship('program', 'name')
-                    ->label('Nama program')
+                    ->label('Nama Program')
                     ->helperText('Pilih nama program untuk ditampilkan pada detail')
                     ->required()
-                    ->options(Program::pluck('name', 'program_id')->toArray())
                     ->searchable()
                     ->native(false),
                 TextInput::make('level')
                     ->label('Level Kursus')
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->required()
+                    ->helperText('Jumlah level kursus tersedia'),
                 RichEditor::make('long_description')
                     ->label('Deskripsi Panjang')
                     ->maxLength(65535)
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->required()
+                    ->helperText('Masukkan deskripsi panjang program'),
                 Repeater::make('benefits')
                     ->label('Benefit')
                     ->schema([
                         TextInput::make('item')
                             ->label('Benefit')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->helperText('Masukkan benefit program'),
                     ])
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->required()
+                    ->helperText('Daftar benefit program'),
             ])
             ->columns(2);
     }
@@ -65,22 +72,60 @@ class ProgramDetailResource extends Resource
             ->columns([
                 TextColumn::make('program.name')
                     ->label('Nama Program')
-                    ->searchable(),
+                    ->sortable()
+                    ->searchable()
+                    ->wrap(),
+                TextColumn::make('level')
+                    ->label('Level Kursus')
+                    ->sortable()
+                    ->searchable()
+                    ->wrap(),
                 TextColumn::make('long_description')
                     ->label('Deskripsi Panjang')
-                    ->limit(50),
-                TextColumn::make('level')
-                    ->label('Level Kursus'),
+                    ->sortable()
+                    ->searchable()
+                    ->limit(50)
+                    ->wrap(),
                 TextColumn::make('benefits')
                     ->label('Benefit')
                     ->getStateUsing(function ($record) {
                         $benefits = is_array($record->benefits) ? $record->benefits : json_decode($record->benefits, true);
 
                         return implode(', ', array_column($benefits, 'item'));
-                    }),
+                    })
+                    ->sortable()
+                    ->searchable()
+                    ->wrap(),
             ])
             ->filters([
-                //
+                Filter::make('program_name')
+                    ->label('Nama Program')
+                    ->form([
+                        TextInput::make('search')
+                            ->placeholder('Cari nama program...')
+                            ->columnSpanFull(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['search'] ?? null,
+                            fn (Builder $query, string $search): Builder => $query->whereHas('program', function (Builder $query) use ($search) {
+                                $query->where('name', 'like', '%'.$search.'%');
+                            })
+                        );
+                    }),
+                Filter::make('level')
+                    ->label('Level Kursus')
+                    ->form([
+                        TextInput::make('search')
+                            ->placeholder('Cari level kurxsus...')
+                            ->columnSpanFull(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query->when(
+                            $data['search'] ?? null,
+                            fn (Builder $query, string $search): Builder => $query->where('level', 'like', '%'.$search.'%')
+                        );
+                    }),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -91,7 +136,8 @@ class ProgramDetailResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('program.name');
     }
 
     public static function getRelations(): array
@@ -108,5 +154,10 @@ class ProgramDetailResource extends Resource
             'create' => Pages\CreateProgramDetail::route('/create'),
             'edit' => Pages\EditProgramDetail::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('program');
     }
 }

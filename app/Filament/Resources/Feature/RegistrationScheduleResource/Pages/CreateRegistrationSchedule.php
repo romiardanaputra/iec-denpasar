@@ -8,4 +8,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateRegistrationSchedule extends CreateRecord
 {
     protected static string $resource = RegistrationScheduleResource::class;
+
+    public function getTitle(): string
+    {
+        return 'Buat Jadwal Kursus';
+    }
 }

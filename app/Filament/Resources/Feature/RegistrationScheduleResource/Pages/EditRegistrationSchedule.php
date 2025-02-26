@@ -16,4 +16,9 @@ class EditRegistrationSchedule extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        return 'Edit Jadwal Siswa';
+    }
 }

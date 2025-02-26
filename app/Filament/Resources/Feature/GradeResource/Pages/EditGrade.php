@@ -10,6 +10,11 @@ class EditGrade extends EditRecord
 {
     protected static string $resource = GradeResource::class;
 
+    public function getTitle(): string
+    {
+        return 'Edit Nilai Siswa';
+    }
+
     protected function getHeaderActions(): array
     {
         return [
