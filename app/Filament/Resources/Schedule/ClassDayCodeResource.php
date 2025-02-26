@@ -45,7 +45,6 @@ class ClassDayCodeResource extends Resource
                     ->label('Kode hari'),
                 TextColumn::make('day_name')
                     ->label('Nama hari'),
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('Dibuat Pada'))
                     ->dateTime('d M Y H:i:s')
@@ -54,7 +53,6 @@ class ClassDayCodeResource extends Resource
                     ->label(__('Diperbarui Pada'))
                     ->dateTime('d M Y H:i:s')
                     ->sortable(),
-
             ])
             ->filters([
                 //
