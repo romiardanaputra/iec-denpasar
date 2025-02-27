@@ -9,7 +9,7 @@
         <p class="text-lg text-white">
           {{ __('Rasakan pengalaman belajar bahasa Inggris yang menyenangkan dan efektif bersama mentor profesional kami.') }}
         </p>
-        <a href="#">
+        <a href="{{ route('register') }}" wire:navigate>
           <x-button type="button" size="lg"
             class="bg-white rounded-full mt-6 text-slate-800 hover:bg-gray-200 transition-all duration-300">
             {{ __('Daftar Sekarang!') }}

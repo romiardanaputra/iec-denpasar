@@ -1,6 +1,6 @@
-<section class="bg-white dark:bg-gray-900">
-  <div class="swiper">
-    <div class="px-4 py-8 mx-auto text-center lg:py-16 lg:px-6 swiper-wrapper">
+<section class="container bg-white dark:bg-gray-900">
+  <div class="swiper swiper-testimonial">
+    <div class="py-8 mx-auto text-center lg:py-16 lg:px-6 swiper-wrapper">
       @foreach ($testimonials as $testimonial)
         <div class="swiper-slide">
           <figure class="max-w-screen-md mx-auto">
@@ -11,13 +11,13 @@
                 fill="currentColor" />
             </svg>
             <blockquote>
-              <p class="text-2xl font-medium text-gray-900 dark:text-white">
+              <p class="text-lg md:text-2xl font-medium text-gray-900 dark:text-white">
                 "{{ __($testimonial->testimony) }}"
               </p>
             </blockquote>
             <figcaption class="flex items-center justify-center mt-6 space-x-3">
               <img class="w-6 h-6 rounded-full" src="{{ asset('storage/' . $testimonial->image_path) }}"
-                alt="{{ __('Foto Profil Alumni 1') }}">
+                alt="{{ __($testimonial->name) }}">
               <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
                 <div class="pr-3 font-medium text-gray-900 dark:text-white">{{ __($testimonial->name) }}</div>
                 <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">{{ __($testimonial->position) }}
@@ -27,8 +27,8 @@
           </figure>
         </div>
       @endforeach
-      <!-- Testimonial Slide 1 -->
-
     </div>
+    <div class="swiper-pagination swiper-pagination-testimonial"></div>
   </div>
 </section>
+@vite(['resources/js/swiper-testimonial.js'])

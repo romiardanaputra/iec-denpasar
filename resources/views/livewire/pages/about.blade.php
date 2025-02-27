@@ -16,8 +16,8 @@
           </div>
         </div>
         <div>
-          <img src="{{ asset('storage/assets/images/about/iec.jpg') }}" alt="about-section-2-image"
-            class="rounded-lg object-cover aspect-auto">
+          <img src="{{ asset('storage/assets/iec/iec-1.jpg') }}" alt="about-section-2-image"
+            class="rounded-lg object-cover aspect-video">
         </div>
       </div>
       <div class="grid lg:grid-cols-2 gap-20 mt-10">
@@ -25,19 +25,19 @@
           <h3 class="font-medium text-blue-800">{{ __('Siapa kami?') }}</h3>
           <p class="mt-6 leading-loose text-justify">
             {{ __("Intensive English Course (IEC) adalah lembaga pendidikan bahasa
-                                                                                                            inggris, didirikan pada tahun 1968, yang
-                                                                                                            mempunyai jumlah siswa aktif pertahun 18.000 orang dan sudah meluluskan lebih dari 700.000 orang alumni,
-                                                                                                            banyak diantara mereka sudah menjadi orang penting atau tokoh masyarakat. Lembaga tersebut menyelenggarakan
-                                                                                                            pelatihan untuk peserta dari berbagai latar belakang dan kalangan yang mempunyai keinginan sama yaitu mampu
-                                                                                                            berkomunikasi dalam Bahasa Inggris.") }}
+                                                                                                                        inggris, didirikan pada tahun 1968, yang
+                                                                                                                        mempunyai jumlah siswa aktif pertahun 18.000 orang dan sudah meluluskan lebih dari 700.000 orang alumni,
+                                                                                                                        banyak diantara mereka sudah menjadi orang penting atau tokoh masyarakat. Lembaga tersebut menyelenggarakan
+                                                                                                                        pelatihan untuk peserta dari berbagai latar belakang dan kalangan yang mempunyai keinginan sama yaitu mampu
+                                                                                                                        berkomunikasi dalam Bahasa Inggris.") }}
           </p>
         </div>
         <div>
           <h3 class="font-medium text-blue-800">{{ __('Apa yang kita tawarkan?') }}</h3>
           <p class="mt-6 leading-loose text-justify">
             {{ __('menawarkan beragam pilihan program yang dapat disesuaikan dengan
-                                                                                                kebutuhan peserta sehingga peserta disiapkan untuk memiliki kemampuan berkomunikasi dalam bahasa lnggris
-                                                                                                untuk berbagai keperluan sosialisasi, bisnis, perkuliahan, konperensi dan sebagainya.') }}
+                                                                                                            kebutuhan peserta sehingga peserta disiapkan untuk memiliki kemampuan berkomunikasi dalam bahasa lnggris
+                                                                                                            untuk berbagai keperluan sosialisasi, bisnis, perkuliahan, konperensi dan sebagainya.') }}
           </p>
         </div>
       </div>
@@ -46,3 +46,6 @@
   @livewire('partials.team-section')
   @livewire('partials.cta-section')
 </div>
+
+@section('js_custom')
+@endsection

@@ -6,7 +6,7 @@
           <span class="block mb-2 text-lg font-semibold text-primary">
             FAQ
           </span>
-          <h2 class="text-dark dark:text-white mb-4 text-3xl font-bold sm:text-[40px]/[48px]">
+          <h2 class="text-dark dark:text-white mb-4 text-xl font-bold sm:text-[40px]/[48px]">
             Pertanyaan Umum Seputar IEC Denpasar
           </h2>
           <p class="text-base text-body-color dark:text-dark-6">
