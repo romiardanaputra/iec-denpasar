@@ -52,14 +52,16 @@
 
 @section('js_custom')
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const sidenav = document.getElementById('sidenav-main');
-      const sidenavTrigger = document.querySelector('[sidenav-trigger]');
+    document.addEventListener('livewire:navigated', function() {
+      document.addEventListener('DOMContentLoaded', function() {
+        const sidenav = document.getElementById('sidenav-main');
+        const sidenavTrigger = document.querySelector('[sidenav-trigger]');
 
-      sidenavTrigger.addEventListener('click', function() {
-        sidenav.classList.toggle('-translate-x-52');
-        sidenav.classList.toggle('translate-x-0');
+        sidenavTrigger.addEventListener('click', function() {
+          sidenav.classList.toggle('-translate-x-52');
+          sidenav.classList.toggle('translate-x-0');
+        });
       });
-    });
+    })
   </script>
 @endsection

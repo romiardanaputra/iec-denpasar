@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Schedule;
 
+use App\Filament\Resources\Program\ProgramResource\RelationManagers\ClassScheduleRelationManager;
 use App\Filament\Resources\Schedule\ClassScheduleResource\Pages;
 use App\Models\Program\Book;
 use App\Models\Program\Program;
@@ -209,6 +210,13 @@ class ClassScheduleResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            ClassScheduleRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

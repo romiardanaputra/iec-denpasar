@@ -4,6 +4,8 @@ namespace App\Filament\Resources\Program;
 
 use App\Filament\Resources\Program\BookResource\Pages;
 use App\Models\Program\Book;
+use Filament\Forms\Components\Component;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -34,14 +36,54 @@ class BookResource extends Resource
                     ->label('Nama Buku')
                     ->maxLength(255)
                     ->unique(Book::class, ignoreRecord: true)
-                    ->helperText('Nama buku harus unik'),
+                    ->helperText('Nama buku harus unik')
+                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set, Component $component, \Filament\Forms\Get $get) {
+                        // Get the selected level
+                        $level = $get('level');
+                        if ($level) {
+                            // Generate book_name based on book_name and level
+                            $newBookName = $state.' '.$level;
+                            $set('book_name', $newBookName);
+
+                            // Generate book_code based on book_name
+                            $bookCode = self::generateBookCode($newBookName);
+                            $set('book_code', $bookCode);
+                        }
+                    }),
+                Select::make('level')
+                    ->required()
+                    ->label('Level')
+                    ->options([
+                        '1' => 'Level 1',
+                        '2' => 'Level 2',
+                        '3' => 'Level 3',
+                        '4' => 'Level 4',
+                        '5' => 'Level 5',
+                        '6' => 'Level 6',
+                    ])
+                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set, Component $component, \Filament\Forms\Get $get) {
+                        $bookName = $get('book_name');
+                        if ($bookName) {
+                            $newBookName = $bookName.' '.$state;
+                            $set('book_name', $newBookName);
+
+                            $bookCode = self::generateBookCode($newBookName);
+                            $set('book_code', $bookCode);
+                        }
+                    }),
                 TextInput::make('book_code')
                     ->required()
                     ->label('Kode Kelas Buku')
                     ->maxLength(50)
                     ->unique(Book::class, ignoreRecord: true)
-                    ->helperText('Kode kelas buku harus unik'),
-            ]);
+                    ->helperText('Kode kelas buku harus unik')
+                    ->disabled(),
+                TextInput::make('book_price')
+                    ->required()
+                    ->label('Harga Buku')
+                    ->helperText('Harga buku per level'),
+            ])
+            ->columns(1);
     }
 
     public static function table(Table $table): Table
@@ -51,11 +93,24 @@ class BookResource extends Resource
                 TextColumn::make('book_name')
                     ->label('Nama Buku')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->wrap(),
+                TextColumn::make('level')
+                    ->label('Level')
+                    ->sortable()
+                    ->searchable()
+                    ->wrap(),
+                TextColumn::make('book_price')
+                    ->label('Harga Buku')
+                    ->sortable()
+                    ->searchable()
+                    ->money('IDR')
+                    ->wrap(),
                 TextColumn::make('book_code')
                     ->label('Kode Kelas Buku')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->wrap(),
             ])
             ->filters([
                 Filter::make('book_name')
@@ -94,7 +149,9 @@ class BookResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->defaultSort('book_name') // Default sort by book name
+            ->reorderable('book_id'); // Allows reordering if needed
     }
 
     public static function getPages(): array
@@ -107,5 +164,31 @@ class BookResource extends Resource
     public static function getView(): ?string
     {
         return 'filament.resources.book-resource.views.view';
+    }
+
+    /**
+     * Generate book code from book name.
+     */
+    protected static function generateBookCode(string $bookName): string
+    {
+        // Example logic: Take the first two letters of each word and append the last number found
+        $words = explode(' ', $bookName);
+        $code = '';
+
+        foreach ($words as $word) {
+            if (strlen($word) > 0) {
+                $code .= strtoupper($word[0]);
+            }
+        }
+
+        // Find the last number in the book name
+        preg_match('/(\d+)/', $bookName, $matches);
+        if (! empty($matches)) {
+            $code .= $matches[1];
+        } else {
+            $code .= '1'; // Default number if no number is found
+        }
+
+        return $code;
     }
 }

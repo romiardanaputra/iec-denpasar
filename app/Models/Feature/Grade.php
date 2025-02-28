@@ -61,5 +61,14 @@ class Grade extends Model
                 throw new \Exception('Level name must be unique for each user.');
             }
         });
+        // Automatically calculate the average grade before saving
+        static::saving(function ($grade) {
+            $readingGrade = (float) ($grade->reading_grade ?? 0);
+            $listeningGrade = (float) ($grade->listening_grade ?? 0);
+            $speakingGrade = (float) ($grade->speaking_grade ?? 0);
+
+            $averageGrade = ($readingGrade + $listeningGrade + $speakingGrade) / 3;
+            $grade->average_grade = round($averageGrade, 2);
+        });
     }
 }

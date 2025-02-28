@@ -60,7 +60,12 @@ class PostResource extends Resource
                             ->columnSpan('full'),
 
                         Forms\Components\Select::make('blog_author_id')
-                            ->relationship('author', 'name')
+                            ->label('Author Team')
+                            ->options(function () {
+                                return \App\Models\Blog\Author::with('team')->get()->mapWithKeys(function ($author) {
+                                    return [$author->id => $author->team->name];
+                                });
+                            })
                             ->searchable()
                             ->required(),
 
@@ -83,12 +88,24 @@ class PostResource extends Resource
                             ->hiddenLabel(),
                     ])
                     ->collapsible(),
+
+                Forms\Components\Section::make('SEO')
+                    ->schema([
+                        Forms\Components\TextInput::make('seo_title')
+                            ->label('SEO Title')
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('seo_description')
+                            ->label('SEO Description')
+                            ->rows(4),
+                    ])
+                    ->collapsible(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->query(Post::with('author.team'))
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Image'),
@@ -102,10 +119,10 @@ class PostResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\TextColumn::make('author.name')
-                    ->searchable()
+                Tables\Columns\TextColumn::make('author.team.name')
+                    ->label('Author Team')
                     ->sortable()
-                    ->toggleable(),
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
@@ -191,7 +208,7 @@ class PostResource extends Resource
                                             ->color('success'),
                                     ]),
                                     Components\Group::make([
-                                        Components\TextEntry::make('author.name'),
+                                        Components\TextEntry::make('author.team.name'),
                                         Components\TextEntry::make('category.name'),
                                         Components\SpatieTagsEntry::make('tags'),
                                     ]),
@@ -239,12 +256,12 @@ class PostResource extends Resource
 
     public static function getGlobalSearchEloquentQuery(): Builder
     {
-        return parent::getGlobalSearchEloquentQuery()->with(['author', 'category']);
+        return parent::getGlobalSearchEloquentQuery()->with(['author.team', 'category']);
     }
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['title', 'slug', 'author.name', 'category.name'];
+        return ['title', 'slug', 'author.team.name', 'category.name'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
@@ -252,10 +269,9 @@ class PostResource extends Resource
         /** @var Post $record */
         $details = [];
 
-        if ($record->author) {
-            $details['Author'] = $record->author->name;
+        if ($record->author && $record->author->team) {
+            $details['Author Team'] = $record->author->team->name;
         }
-
         if ($record->category) {
             $details['Category'] = $record->category->name;
         }

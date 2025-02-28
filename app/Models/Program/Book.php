@@ -16,6 +16,13 @@ class Book extends Model
 
     protected $guarded = ['book_id'];
 
+    protected $fillable = [
+        'book_price',
+        'level',
+        'book_name',
+        'book_code',
+    ];
+
     public function classes()
     {
         return $this->hasMany(ClassSchedule::class, 'book_id');

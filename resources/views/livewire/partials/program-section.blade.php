@@ -1,19 +1,19 @@
-<section class="container py-16 pt-0 mt-0">
+<section class="container py-8 lg:py-16">
   <article class="space-y-4">
     <p class="font-medium text-blue-800">{{ __('Kursus') }}</p>
-    <h1 class="lg:text-4xl font-medium sm:text-inherit leading-tight mb-5 ">{{ __('Program Kami') }}</h1>
+    <h1 class="lg:text-4xl font-medium text-3xl leading-tight mb-5 ">{{ __('Program Kami') }}</h1>
     <div class="sm:flex justify-between gap-5">
       <p class="mb-4 sm:w-8/12 text-slate-600">
         {{ __('Tingkatkan potensi Anda dengan kursus bahasa Inggris kami, dirancang untuk semua level. Apapun tujuan Anda, kami siap membantu. Bergabunglah sekarang!') }}
       </p>
-      <a href="#">
+      <a href="{{ route('our-program') }}" wire:navigate>
         <x-button size='lg' class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
           <x-lucide-eye class="mr-2 size-4" /> {{ __('Lihat Semua Kursus') }}
         </x-button>
       </a>
     </div>
   </article>
-  <article class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 w-full my-8 mt-12 ">
+  <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full my-8 mt-12 ">
     @forelse ($programs as $program)
       <a href="{{ route('program.detail', ['slug' => $program->slug]) }}" wire:navigate>
         <x-card class=" hover:-translate-y-2 transition-all cursor-pointer will-change-transform">

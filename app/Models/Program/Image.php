@@ -15,6 +15,11 @@ class Image extends Model
     protected $fillable = [
         'program_id',
         'path',
+        'is_visible',
+    ];
+
+    protected $casts = [
+        'is_visible',
     ];
 
     public function program()

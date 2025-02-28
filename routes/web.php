@@ -11,11 +11,9 @@ use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\Feature\Payment\Invoice;
 use App\Livewire\Feature\User\Bill;
-use App\Livewire\Feature\User\ClassInfo;
 use App\Livewire\Feature\User\Dashboard;
 use App\Livewire\Feature\User\ExamGrade;
 use App\Livewire\Feature\User\Profile;
-use App\Livewire\Feature\User\Schedule;
 use App\Livewire\Index;
 use App\Livewire\Pages\About;
 use App\Livewire\Pages\Blog;
@@ -69,9 +67,7 @@ Route::group(['middleware' => 'auth'], function (): void {
 Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]], function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/profile', Profile::class)->name('profile');
-    Route::get('/schedule', Schedule::class)->name('schedule');
     Route::get('/exam-grade', ExamGrade::class)->name('exam-grade');
-    Route::get('/class-info', ClassInfo::class)->name('class-info');
     Route::get('/bill', Bill::class)->name('bill');
     Route::get('/invoice', Invoice::class)->name('invoice');
     Route::post(

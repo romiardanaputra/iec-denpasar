@@ -2,61 +2,120 @@
     <!-- cards row 2 -->
     <div class="flex flex-wrap mt-6 -mx-3">
       <div class="w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
-        <div class=" flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
-          <div class="flex-auto p-4">
-            <div class="flex flex-wrap -mx-3">
-              <div class="max-w-full px-3 lg:flex-none">
-                <div class="flex flex-col h-full">
-                  <p class="pt-2 mb-1 font-semibold">Hi, Student!</p>
-                  <h5 class="font-bold">{{ $user->name }}</h5>
-                  <p class="mb-12 mt-2">
-                    {{ __('Lihat jadwal les kamu sekarang!, Jika masih terdapat kendala silahkan hubungi admin IEC Denpasar pada nomor berikut') }}
-                  </p>
-                  <x-button class="bg-blue-800 p-2 rounded-lg py-6">{{ __('Lihat Jadwal') }}</x-button>
-                </div>
+        <div
+          class=" flex flex-col justify-center min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border h-full">
+          <div class="max-w-full p-6 lg:flex-none relative">
+            <div class="flex flex-col justify-center w-full h-full">
+              <p class="pt-2 mb-1 font-semibold">Informasi Akun</p>
+              <h5 class="font-bold">{{ $user->name }}</h5>
+              <div class="mt-4 space-y-2">
+                <p class="flex items-center gap-2 text-size-sm">
+                  <x-lucide-mail class="size-4 font-bold" />
+                  {{ $user->email }}
+                </p>
+                <p class="flex items-center gap-2 text-size-sm">
+                  <x-lucide-map class="size-4" />{{ $user->address }}
+                </p>
+                <p class="flex items-center gap-2 text-size-sm">
+                  <x-lucide-phone class="size-4" />{{ $user->phone }}
+                </p>
               </div>
+
+              <a href="{{ route('profile') }}" wire:navigate>
+                <x-button
+                  class="bg-blue-800 hover:bg-blue-700 w-6/12 px-6 mt-8 rounded-xl py-6">{{ __('Update Profile') }}</x-button>
+              </a>
+
             </div>
+
+            <x-badge class="absolute top-8 right-8 bg-green-600 hover:bg-green-500">Akun Aktif</x-badge>
           </div>
         </div>
       </div>
-      <div class="w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
-        <div class=" flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
-          <div class="flex-auto p-4">
-            <div class="flex flex-wrap -mx-3">
-              <div class="max-w-full px-3 lg:flex-none">
-                <div class="flex flex-col h-full">
-                  <p class="pt-2 mb-1 font-semibold">Welcome to IEC Denpasar</p>
-                  <h5 class="font-bold">{{ $user->name }}</h5>
-                  <p class="mb-12 mt-2">
-                    {{ __(' Tingkatkan skill dan wawasanmu dengan berbagai program unggulan dari IEC Denpasar!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Temukan peluang belajar yang sesuai dengan minat dan tujuanmu. 🌟  ') }}
-                  </p>
-                  <x-button wire:click="redirectToProgram"
-                    class="bg-blue-800 p-2 rounded-lg py-6">{{ __('Lihat Program') }}</x-button>
-                </div>
-              </div>
+      <div class="w-full max-w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
+        <div
+          class=" flex flex-col justify-center min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border h-full">
+          <div class="max-w-full p-6 lg:flex-none relative">
+            @php
+              $isEmptyCourse = true;
+            @endphp
+            @if ($students->isEmpty() || $programs->isEmpty())
+              <div class="flex flex-col items-center justify-center gap-4">
+                <img src="{{ asset('storage/assets/vectors/undraw_hello_ccwj.svg') }}" alt="notfoundcourse"
+                  class="object-cover aspect-auto w-5/12 mx-auto">
+                <p class="font-bold text-center w-8/12">Anda belum mendaftar ke program kursus apapun.</p>
+                <a href="{{ route('our-program') }}" wire:navigate>
+                  <x-button
+                    class="bg-blue-800 hover:bg-blue-700 px-6 mt-8 rounded-xl py-6">{{ __('Daftar Kursus') }}</x-button>
+                </a>
 
-            </div>
+              </div>
+            @else
+              <div class="flex flex-col h-full">
+                <p class="pt-2 mb-1 font-semibold">Informasi Kursus</p>
+                <h5 class="font-bold">{{ $students->count() }} Terdaftar</h5>
+                <p class="mt-4 font-medium text-size-sm">Program kursus yang sedang diikuti: </p>
+                <div class="mt-2 flex flex-wrap gap-2 justify-between">
+                  @foreach ($programs as $index => $program)
+                    @if ($index < 3)
+                      <p class="flex items-center gap-2 text-size-sm">
+                        <x-lucide-album class="size-4 font-bold" />
+                        {{ $program }}
+                      </p>
+                    @endif
+                  @endforeach
+                  @if ($programs->count() > 3)
+                    <a href="#" class="text-blue-500">Lihat lebih banyak...</a>
+                  @endif
+                </div>
+                <x-button
+                  class="bg-blue-800 hover:bg-blue-700 w-6/12 px-6 mt-8 rounded-xl py-6">{{ __('Lihat program lainnya!') }}</x-button>
+
+                <x-badge class="absolute top-8 right-8 bg-green-600 hover:bg-green-500">Kursus Aktif</x-badge>
+              </div>
+            @endif
+
           </div>
         </div>
       </div>
       <div class="w-full max-w-full px-3 lg:w-4/12 lg:flex-none">
         <div
-          class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-4">
-          <div class="relative h-full overflow-hidden bg-cover rounded-xl"
-            style="background-image: url('../assets/img/ivancik.jpg')">
-            <span
-              class="absolute top-0 left-0 w-full h-full bg-center bg-cover bg-gradient-dark-gray opacity-80"></span>
-            <div class="relative z-10 flex flex-col flex-auto h-full p-8">
-              <h5 class="pt-2 mb-6 font-bold text-white">Quotes For Today</h5>
-              <p class="text-white">"It is not the man who has too little, but the man who craves more, that is poor.".
-              </p>
-              <a class="mt-auto mb-0 font-semibold leading-normal text-white group text-size-sm" href="javascript:;">
-                ~ Seneca
-                <i
-                  class="fas fa-arrow-right ease-bounce text-size-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
-              </a>
-            </div>
+          class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+          <div class="max-w-full p-6 lg:flex-none relative">
+            @if ($students->isEmpty())
+              <div class="flex flex-col items-center justify-center gap-4">
+                <img src="{{ asset('storage/assets/vectors/undraw_my-personal-files_886p.svg') }}" alt="notfoundcourse"
+                  class="object-cover aspect-auto w-4/12 mx-auto">
+                <p class="font-bold text-center w-8/12">Belum ada pendaftar dalam kursus apapun.</p>
+                <a href="{{ route('our-program') }}" wire:navigate>
+                  <x-button
+                    class="bg-blue-800 hover:bg-blue-700 px-6 mt-8 rounded-xl py-6">{{ __('Daftar Kursus') }}</x-button>
+                </a>
+              </div>
+            @else
+              <div class="flex flex-col h-full">
+                <p class="pt-2 mb-1 font-semibold">Informasi Pendaftar</p>
+                <h5 class="font-bold">{{ $students->count() }} Student(s)</h5>
+                <p class="mt-4 font-medium text-size-sm ">Nama pendaftar kursus:</p>
+                <div class="mt-2 space-y-2">
+                  @foreach ($students as $student)
+                    <p class="flex items-center gap-2 text-size-sm">
+                      <x-lucide-graduation-cap class="size-4 font-bold" />
+                      {{ $student->student_name }}
+                    </p>
+                  @endforeach
+                  @if ($students->count() > 3)
+                    <div>
+                      <a href="#" class="text-blue-500">Lihat lebih banyak...</a>
+                    </div>
+                  @endif
+                </div>
+                <x-button class="bg-blue-800 hover:bg-blue-700 px-6 mt-8 rounded-xl py-6"
+                  wire:click="redirectToProgram">{{ __('Lihat program lainnya!') }}</x-button>
+                <x-badge class="absolute top-8 right-8 bg-green-600 hover:bg-green-500">Siswa Aktif</x-badge>
+              </div>
+            @endif
+
           </div>
         </div>
       </div>
@@ -69,115 +128,110 @@
 
       <div class="w-full max-w-full px-3 mt-0 mb-6 md:mb-0 md:w-1/2 md:flex-none lg:w-2/3 lg:flex-none">
         <div
-          class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
-          <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
-            <div class="flex flex-wrap mt-0 -mx-3">
-              <div class="flex-none w-7/12 max-w-full px-3 mt-0 lg:w-1/2 lg:flex-none">
-                <h6>Your Class Detail</h6>
-                <p class="mb-0 leading-normal text-size-sm">
-                  <i class="fa fa-check text-cyan-500"></i>
-                  <span class="ml-1 font-semibold">English For Children</span>
-                </p>
-              </div>
-              <div class="flex-none w-5/12 max-w-full px-3 my-auto text-right lg:w-1/2 lg:flex-none">
-                <div class="relative pr-6 lg:float-right">
-                  <a dropdown-trigger class="cursor-pointer" aria-expanded="false">
-                    <i class="fa fa-ellipsis-v text-slate-400"></i>
-                  </a>
-                  <p class="hidden transform-dropdown-show"></p>
+          class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border h-full">
 
-                  <ul dropdown-menu
-                    class="z-100 text-size-sm transform-dropdown shadow-soft-3xl duration-250 before:duration-350 before:font-awesome before:ease-soft min-w-44 -ml-34 before:text-5.5 pointer-events-none absolute top-0 m-0 mt-2 list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 opacity-0 transition-all before:absolute before:top-0 before:right-7 before:left-auto before:z-40 before:text-white before:transition-all before:content-['\f0d8']">
-                    <li class="relative">
-                      <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300"
-                        href="javascript:;">Action</a>
-                    </li>
-                    <li class="relative">
-                      <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300"
-                        href="javascript:;">Another action</a>
-                    </li>
-                    <li class="relative">
-                      <a class="py-1.2 lg:ease-soft clear-both block w-full whitespace-nowrap rounded-lg border-0 bg-transparent px-4 text-left font-normal text-slate-500 lg:transition-colors lg:duration-300"
-                        href="javascript:;">Something else here</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+          @if ($schedules->isEmpty())
+            <div class="flex flex-col items-center justify-center h-full gap-4 p-6">
+              <img src="{{ asset('storage/assets/vectors/undraw_schedule_6t8k.svg') }}" alt="notfoundcourse"
+                class="object-cover aspect-video w-4/12 mx-auto">
+              <p class="font-bold text-center w-8/12">Belum ada pendaftar dalam kursus apapun.</p>
             </div>
-          </div>
-          <div class="flex-auto p-6 px-0 pb-2">
-            <div class="overflow-x-auto">
-              <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                <thead class="align-bottom">
-                  <tr>
-                    <th
-                      class="px-6 py-3 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                      Teacher Name</th>
-                    <th
-                      class="px-6 py-3 pl-2 font-bold tracking-normal text-left uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                      Class Code</th>
-                    <th
-                      class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                      Class Member</th>
-                    <th
-                      class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                      Room Class</th>
-                    <th
-                      class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                      Start class</th>
-                    <th
-                      class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                      End class</th>
-                    <th
-                      class="px-6 py-3 font-bold tracking-normal text-center uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                      Daily Class</th </tr>
-                </thead>
-                <tbody>
-                  @for ($i = 0; $i < 5; $i++)
-                    <tr>
-                      <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                        <div class="flex px-2 py-1">
-                          <div>
-                            <img src="../assets/img/small-logos/logo-xd.svg"
-                              class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out text-size-sm h-9 w-9 rounded-xl"
-                              alt="xd" />
-                          </div>
-                          <div class="flex flex-col justify-center">
-                            <h6 class="mb-0 leading-normal text-size-sm">{{ $user->name }}
-                            </h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                        <span class="font-semibold leading-tight text-size-xs"> WFMo2F </span>
-                      </td>
-                      <td
-                        class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                        <span class="font-semibold leading-tight text-size-xs"> 20 </span>
-                      </td>
-                      <td
-                        class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                        <span class="font-semibold leading-tight text-size-xs"> Room IV </span>
-                      </td>
-                      <td
-                        class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                        <span class="font-semibold leading-tight text-size-xs"> 17.25 </span>
-                      </td>
-                      <td
-                        class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                        <span class="font-semibold leading-tight text-size-xs"> 19.25 </span>
-                      </td>
-                      <td
-                        class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                        <span class="font-semibold leading-tight text-size-xs"> Wednesday - Friday </span>
-                      </td>
-                    </tr>
-                  @endfor
+          @else
+            <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
+              <x-tabs :defaultValue="$selectedStudentName" class="w-full">
+                <x-tabs.List>
+                  @foreach ($students as $student)
+                    <x-tabs.trigger wire:click="selectStudent('{{ $student->student_name }}')"
+                      value="{{ $student->student_name }}">{{ $student->student_name }}</x-tabs.trigger>
+                  @endforeach
+                </x-tabs.List>
 
-                </tbody>
-              </table>
+                @foreach ($students as $student)
+                  <x-tabs.content value="{{ $student->student_name }}">
+                    <div class="flex flex-wrap mt-0 -mx-3">
+                      <div class="flex-none w-7/12 max-w-full px-3 mt-0 lg:w-1/2 lg:flex-none">
+                        <h6>Jadwal Kursus</h6>
+                        <p class="mb-0 leading-normal text-size-sm">
+                          <i class="fa fa-check text-cyan-500"></i>
+                          <span class="ml-1 font-semibold">{{ $student->program->name }}</span>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="flex-auto p-6 px-0 pb-2">
+                      <div class="overflow-x-auto">
+                        <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                          <thead class="align-bottom">
+                            <tr>
+                              @php
+                                $headers = ['Teacher Name', 'Class Code', 'Start class', 'End class', 'Daily Class'];
+                              @endphp
+                              @for ($i = 0; $i < count($headers); $i++)
+                                <th
+                                  class="px-6 py-3 font-bold tracking-normal {{ $i == 0 ? 'text-left' : 'text-center' }} uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                                  {{ $headers[$i] }}
+                                </th>
+                              @endfor
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($schedules as $schedule)
+                              <tr>
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                                  <div class="flex px-2 py-1">
+                                    <div>
+                                      <img
+                                        class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out text-size-sm h-9 w-9 rounded-xl"
+                                        src="{{ $schedule->classSchedule->team->image ? (Str::startsWith($schedule->classSchedule->team->image, 'http') ? $schedule->classSchedule->team->image : asset('storage/' . $schedule->classSchedule->team->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
+                                        alt="{{ $schedule->classSchedule->team->image }}" />
+                                    </div>
+                                    <div class="flex flex-col justify-center">
+                                      <h6 class="mb-0 leading-normal text-size-sm">
+                                        {{ $schedule->classSchedule->team->name }}</h6>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td
+                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                  <span
+                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->class_code }}</span>
+                                </td>
+                                {{-- <td
+                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                  <span
+                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->class_member }}</span>
+                                </td>
+                                <td
+                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                  <span
+                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->room_class }}</span>
+                                </td> --}}
+                                <td
+                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                  <span
+                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->time->time_start }}</span>
+                                </td>
+                                <td
+                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                  <span
+                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->time->time_end }}</span>
+                                </td>
+                                <td
+                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                                  <span
+                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->day->day_name }}</span>
+                                </td>
+                              </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </x-tabs.content>
+                @endforeach
+              </x-tabs>
             </div>
-          </div>
+          @endif
+
         </div>
       </div>
 
@@ -186,7 +240,7 @@
       <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
         @if ($order && $order->program)
           <div
-            class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
+            class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border ">
             <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
               <h6>Transaksi</h6>
               <p class="leading-normal text-size-sm">
@@ -224,10 +278,15 @@
           </div>
         @else
           <div
-            class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border">
-            <div
-              class="border-black/12.5 mb-0 rounded-t-2xl h-full border-b-0 border-solid bg-white p-6 pb-0 flex items-center justify-center">
-              <h6>Tidak ada riwayat transaksi</h6>
+            class="border-black/12.5 shadow-soft-xl relative flex h-full min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border p-6">
+            <div class="flex flex-col items-center justify-center gap-4">
+              <img src="{{ asset('storage/assets/vectors/undraw_credit-card_t6qm.svg') }}" alt="notfoundcourse"
+                class="object-cover aspect-auto w-4/12 mx-auto">
+              <p class="font-bold text-center w-8/12">Belum ada transaksi apapun.</p>
+              <a href="{{ route('our-program') }}" wire:navigate>
+                <x-button
+                  class="bg-blue-800 hover:bg-blue-700 px-6 mt-8 rounded-xl py-6">{{ __('Lihat kursus') }}</x-button>
+              </a>
             </div>
           </div>
         @endif

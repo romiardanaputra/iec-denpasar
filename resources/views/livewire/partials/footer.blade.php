@@ -3,98 +3,41 @@
     <div class="md:flex md:justify-between">
       <div class="mb-6 md:mb-0 w-full">
         <a href="{{ route('landing') }}" class="flex items-center">
-          <img src="{{ asset('storage/assets/images/logo/iec.jpg') }}" class="h-20  me-3" alt="IEC Denpasar" />
+          <img src="{{ asset('storage/assets/logo/iec-logo.png') }}" class="h-20  me-3" alt="IEC Denpasar" />
         </a>
       </div>
       <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
         <div>
           <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{{ __('Program Kami') }}</h2>
           <ul class="text-gray-500 dark:text-gray-400 font-medium">
-            @php
-              $programs = [
-                  (object) [
-                      'name' => 'English for children',
-                  ],
-                  (object) [
-                      'name' => 'English for Junior',
-                  ],
-                  (object) [
-                      'name' => 'General english',
-                  ],
-                  (object) [
-                      'name' => 'TOEFL/TOEIC Program',
-                  ],
-              ];
-            @endphp
             @forelse ($programs as $program)
               <li class="mb-4">
-                <a href="https://flowbite.com/" class="hover:underline">{{ __($program->name) }}</a>
+                <a href="{{ route('program.detail', ['slug' => $program->slug]) }}" class="hover:underline"
+                  wire:navigate>{{ __($program->name) }}</a>
               </li>
             @empty
               <div> {{ __('Data tidak ditemukan') }}</div>
             @endforelse
-
           </ul>
         </div>
         <div>
           <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{{ __('Navigasi Cepat') }}</h2>
           <ul class="text-gray-500 dark:text-gray-400 font-medium">
-            @php
-              $quickNavs = [
-                  (object) [
-                      'name' => 'sign up',
-                      'route' => 'sign-up',
-                  ],
-                  (object) [
-                      'name' => 'sign in',
-                      'route' => 'sign-in',
-                  ],
-                  (object) [
-                      'name' => 'privacy policy',
-                      'route' => 'privacy-policy',
-                  ],
-                  (object) [
-                      'name' => 'terms condition',
-                      'route' => 'term-condition',
-                  ],
-              ];
-            @endphp
             @forelse ($quickNavs as $quickNav)
               <li class="mb-4">
-                <a href="{{ 'none' }}" class="hover:underline">{{ __($quickNav->name) }}</a>
+                <a href="{{ $quickNav->route }}" class="hover:underline" wire:navigate>{{ __($quickNav->name) }}</a>
               </li>
             @empty
             @endforelse
-
           </ul>
         </div>
-        <div>
+        <div class="col-span-2 lg:col-span-1">
           <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">{{ __('Informasi Kontak') }}
           </h2>
           <ul class="text-gray-500 dark:text-gray-400 font-medium">
-            @php
-              $contacts = [
-                  (object) [
-                      'name' => 'contact',
-                      'value' => '098834982832',
-                  ],
-                  (object) [
-                      'name' => 'address',
-                      'value' => 'Jl. Jaya Giri Gg. XXII No.10x, Renon, Kec. Denpasar Tim., Kota Denpasar, Bali 80236',
-                  ],
-                  (object) [
-                      'name' => 'whatsapp',
-                      'value' => '39284329832',
-                  ],
-                  (object) [
-                      'name' => 'email',
-                      'value' => 'iecdps@gmail.com',
-                  ],
-              ];
-            @endphp
             @forelse ($contacts as $contact)
               <li class="mb-4">
-                <a href="https://github.com/themesberg/flowbite" class="hover:underline ">{{ __($contact->name) }} :
+                <a href="{{ $contact->redirect }}" target="_blank" class="hover:underline">{{ __($contact->name) }} :
                   {{ $contact->value }}</a>
               </li>
             @empty

@@ -26,72 +26,19 @@ class Blog extends Component
     #[Computed]
     public function getBlog()
     {
-        $blogs = Post::with(['author', 'category'])
-            ->when($this->search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('title', 'like', '%'.$search.'%')
-                        ->orWhere('content', 'like', '%'.$search.'%')
-                        ->orWhereHas('category', function ($cq) use ($search) {
-                            $cq->where('name', 'like', '%'.$search.'%');
-                        })
-                        ->orWhereHas('author', function ($aq) use ($search) {
-                            $aq->where('name', 'like', '%'.$search.'%');
-                        });
-                });
-            })
-            ->when($this->selectedCategory, function ($query, $categoryId) {
-                $query->where('blog_category_id', $categoryId);
-            })
-            ->when($this->selectedAuthor, function ($query, $authorId) {
-                $query->where('blog_author_id', $authorId);
-            })
-            ->whereHas('category', function ($query) {
-                $query->where('is_visible', 1);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        return $blogs;
+        return $this->baseBlogQuery()->paginate(10);
     }
 
     #[Computed]
     public function getPostLinks()
     {
-        $links = Link::get();
-
-        return $links;
+        return Link::get();
     }
 
     #[Computed]
     public function getRecommendedBlogs()
     {
-        $recommendedBlogs = Post::with(['author', 'category'])
-            ->when($this->search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('title', 'like', '%'.$search.'%')
-                        ->orWhere('content', 'like', '%'.$search.'%')
-                        ->orWhereHas('category', function ($cq) use ($search) {
-                            $cq->where('name', 'like', '%'.$search.'%');
-                        })
-                        ->orWhereHas('author', function ($aq) use ($search) {
-                            $aq->where('name', 'like', '%'.$search.'%');
-                        });
-                });
-            })
-            ->when($this->selectedCategory, function ($query, $categoryId) {
-                $query->where('blog_category_id', $categoryId);
-            })
-            ->when($this->selectedAuthor, function ($query, $authorId) {
-                $query->where('blog_author_id', $authorId);
-            })
-            ->whereHas('category', function ($query) {
-                $query->where('is_visible', 1);
-            })
-            ->orderBy('created_at', 'desc')
-            ->limit(4)
-            ->get();
-
-        return $recommendedBlogs;
+        return $this->baseBlogQuery()->limit(4)->get();
     }
 
     #[Computed]
@@ -100,26 +47,56 @@ class Blog extends Component
         return Category::where('is_visible', 1)->get();
     }
 
-    #[Computed]
-    public function getAuthors()
-    {
-        return Author::get();
-    }
-
     public function performSearch()
     {
         $this->resetPage();
     }
 
+    #[Computed]
+    public function getAuthors()
+    {
+        return Author::with('team')->get()->mapWithKeys(function ($author) {
+            return [$author->id => $author->team?->name ?? 'No Team'];
+        });
+    }
+
+    private function baseBlogQuery()
+    {
+        return Post::with(['author.team', 'category'])
+            ->when($this->search, function ($query, $search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', '%'.$search.'%')
+                        ->orWhere('content', 'like', '%'.$search.'%')
+                        ->orWhereHas('category', function ($cq) use ($search) {
+                            $cq->where('name', 'like', '%'.$search.'%');
+                        })
+                        ->orWhereHas('author.team', function ($aq) use ($search) {
+                            $aq->where('name', 'like', '%'.$search.'%');
+                        });
+                });
+            })
+            ->when($this->selectedCategory, function ($query, $categoryId) {
+                $query->where('blog_category_id', $categoryId);
+            })
+            ->when($this->selectedAuthor, function ($query, $authorId) {
+                $query->where('blog_author_id', $authorId);
+            })
+            ->whereHas('category', function ($query) {
+                $query->where('is_visible', 1);
+            })
+            ->orderBy('created_at', 'desc');
+    }
+
     public function render()
     {
         $data = [
-            'blogs' => $this->getBlog(),
-            'links' => $this->getPostLinks(),
-            'recommendedBlogs' => $this->getRecommendedBlogs(),
-            'categories' => $this->getCategories(),
-            'authors' => $this->getAuthors(),
+            'blogs' => $this->getBlog,
+            'links' => $this->getPostLinks,
+            'recommendedBlogs' => $this->getRecommendedBlogs,
+            'categories' => $this->getCategories,
+            'authors' => $this->getAuthors,
         ];
+        // dd($data['blogs']);
 
         return view('livewire.pages.blog', $data);
     }

@@ -12,6 +12,15 @@ class Category extends Model
 
     protected $table = 'blog_categories';
 
+    protected $fillable = [
+        'seo_title',
+        'seo_description',
+        'name',
+        'slug',
+        'description',
+        'is_visible',
+    ];
+
     protected $casts = [
         'is_visible' => 'boolean',
     ];

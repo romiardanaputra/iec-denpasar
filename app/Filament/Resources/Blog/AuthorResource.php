@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Blog;
 
 use App\Filament\Resources\Blog\AuthorResource\Pages;
 use App\Models\Blog\Author;
+use App\Models\Team;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -29,9 +30,14 @@ class AuthorResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Select::make('team_id')
+                    ->relationship('team', 'name')
+                    ->label('Nama Author')
+                    ->helperText('Pilih team sebagai author yang menulis blog')
                     ->required()
-                    ->maxLength(255),
+                    ->options(Team::pluck('name', 'team_id')->toArray())
+                    ->searchable()
+                    ->native(false),
 
                 Forms\Components\TextInput::make('email')
                     ->label('Email address')
@@ -41,15 +47,9 @@ class AuthorResource extends Resource
                     ->unique(Author::class, 'email', ignoreRecord: true),
 
                 Forms\Components\MarkdownEditor::make('bio')
-                    ->columnSpan('full'),
-
-                Forms\Components\TextInput::make('github_handle')
-                    ->label('GitHub handle')
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('twitter_handle')
-                    ->label('Twitter handle')
-                    ->maxLength(255),
+                    ->columnSpan('full')
+                    ->required()
+                    ->helperText('Bio akan ditampilkan pada blog detail!'),
             ]);
     }
 
@@ -59,7 +59,7 @@ class AuthorResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Split::make([
                     Tables\Columns\Layout\Stack::make([
-                        Tables\Columns\TextColumn::make('name')
+                        Tables\Columns\TextColumn::make('team.name')
                             ->searchable()
                             ->sortable()
                             ->weight('medium')
@@ -74,14 +74,11 @@ class AuthorResource extends Resource
                     ])->space(),
 
                     Tables\Columns\Layout\Stack::make([
-                        Tables\Columns\TextColumn::make('github_handle')
-                            ->icon('icon-github')
-                            ->label('GitHub')
-                            ->alignLeft(),
-
-                        Tables\Columns\TextColumn::make('twitter_handle')
-                            ->icon('icon-twitter')
-                            ->label('Twitter')
+                        Tables\Columns\TextColumn::make('bio')
+                            ->label('Bio')
+                            ->searchable()
+                            ->sortable()
+                            ->wrap()
                             ->alignLeft(),
                     ])->space(2),
                 ])->from('md'),

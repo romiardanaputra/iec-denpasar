@@ -1,86 +1,110 @@
 <div>
   <div class="container pt-40">
-    <div class="flex flex-wrap gap-8">
-
-      <div class="flex gap-4">
-
-        <!-- Category Filter -->
-        <div class="w-full lg:w-7/12">
-          <div class="mb-4">
-            <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-            <select id="category" wire:model="selectedCategory"
-              class="mt-1 block w-full p-4 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
-              <option value="">All Categories</option>
-              @foreach ($categories as $category)
-                <option wire:key="{{ $category->id }}" value="{{ $category->id }}">{{ $category->name }}</option>
-              @endforeach
-            </select>
+    <div class="max-w-screen-xl mb-4 mx-auto">
+      <x-accordion type="single" collapsible>
+        <x-accordion.item value="item-1">
+          <div class="bg-blue-800 rounded-lg px-4">
+            <x-accordion.trigger>
+              <div class="text-slate-200">Filter Blog!</div>
+            </x-accordion.trigger>
           </div>
-        </div>
 
-        <!-- Author Filter -->
-        <div class="w-full lg:w-7/12">
-          <div class="mb-4">
-            <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
-            <select id="author" wire:model="selectedAuthor"
-              class="mt-1 block w-full p-4 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
-              <option value="">All Authors</option>
-              @foreach ($authors as $author)
-                <option wire:key="{{ $author->id }}" value="{{ $author->id }}">{{ $author->name }}</option>
-              @endforeach
-            </select>
-          </div>
-        </div>
+          <x-accordion.content>
+            <div class=" py-4 flex flex-col lg:flex-row flex-wrap lg:flex-nowrap gap-4 w-full">
 
-        <!-- Unified Search Bar and Filters -->
-        <div class="w-full lg:w-7/12">
-          <div class="mb-8">
-            <label for="search" class="block text-sm font-medium text-gray-700">Search Blog</label>
-            <div class="flex items-center space-x-2">
-              <input type="text" wire:model="search"
-                placeholder="Search blog posts by title, content, category, or author..."
-                class="w-full p-4 border mt-1 border-gray-300 rounded focus:outline-none focus:border-blue-500" />
-              <button wire:click="performSearch" class="p-4 bg-blue-500 text-white rounded hover:bg-blue-600">
-                Search
-              </button>
+              <!-- Category Filter -->
+              <div class="w-full lg:w-7/12">
+                <div class="mb-4">
+                  <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                  <select id="category" wire:model="selectedCategory"
+                    class="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-sm">
+                    <option value="">All Categories</option>
+                    @foreach ($categories as $category)
+                      <option wire:key="{{ $category->id }}" value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+
+              <!-- Author Filter -->
+              <div class="w-full lg:w-7/12">
+                <div class="mb-4">
+                  <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
+                  <select id="author" wire:model="selectedAuthor"
+                    class="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500">
+                    <option value="">All Authors</option>
+                    @foreach ($authors as $key => $author)
+                      <option value="{{ $key }}">{{ $author }}</option>
+                    @endforeach
+                  </select>
+                </div>
+              </div>
+
+              <!-- Unified Search Bar and Filters -->
+              <div class="w-full lg:w-7/12">
+                <div class="mb-8">
+                  <label for="search" class="block text-sm font-medium text-gray-700">Search Blog</label>
+                  <div class="flex items-center space-x-2">
+                    <input type="text" wire:model="search"
+                      placeholder="Search blog posts by title, content, category, or author..."
+                      class="w-full px-4 py-2.5 border mt-1 border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
+                    <button wire:click="performSearch"
+                      class="px-4 py-2.5 bg-blue-800 text-white rounded hover:bg-blue-900">
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </x-accordion.content>
+        </x-accordion.item>
+      </x-accordion>
+    </div>
+
+    <div class="flex justify-evenly flex-wrap gap-4">
 
       <!-- Main Content -->
       <div class="w-full lg:w-7/12 space-y-8">
-        @foreach ($blogs as $key => $blog)
-          <x-card wire:key="{{ $blog->id }}" class="p-4">
-            <div class="flex items-center gap-4 mb-8">
-              <x-avatar class="size-8">
-                <x-avatar.image src="https://github.com/shadcn.png" />
-                <x-avatar.fallback>{{ $blog->author->name }}</x-avatar.fallback>
-              </x-avatar>
-              <span class="text-slate-700 font-medium text-sm">{{ $blog->author->name }}</span>
-            </div>
-            <div class="flex items-center justify-between">
-              <div class="w-8/12 space-y-4">
-                <h1 class="font-bold text-2xl">{{ $blog->title }}</h1>
-                <p class="text-slate-700 text-sm leading-relaxed tracking-wide">
-                  {{ Str::limit($blog->content, 100) }}
-                </p>
-                <div class="flex gap-4 items-center">
-                  <p class="text-slate-700 text-sm font-medium">{{ $blog->created_at->format('F j, Y g:i A') }}</p>
-                  <span>-</span>
-                  <p class="text-slate-700 text-sm font-medium">{{ $blog->category->name }}</p>
+        @forelse ($blogs as $key => $blog)
+          <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" wire:navigate wire:key="{{ $blog->id }}">
+            <x-card class="p-4">
+              <div class="flex items-center lg:gap-4 mb-8">
+                <x-avatar class="size-8">
+                  <x-avatar.image
+                    src="{{ $blog->author->image ? (Str::startsWith($blog->author->image, 'http') ? $blog->author->image : asset('storage/' . $blog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
+                    alt="{{ $blog->author->name }}" />
+                  <x-avatar.fallback>{{ $blog->author?->team?->name ?? 'author tidak diketahui' }}</x-avatar.fallback>
+                </x-avatar>
+                <span
+                  class="text-slate-700 font-medium text-sm">{{ $blog->author?->team?->name ?? 'author tidak diketahui' }}</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div class="w-8/12 space-y-4">
+                  <h1 class="font-bold text-2xl">{{ $blog->title }}</h1>
+                  <p class="text-slate-700 text-sm leading-relaxed tracking-wide">
+                    {{ Str::limit($blog->content, 100) }}
+                  </p>
+                  <div class="flex flex-col lg:flex-row lg:gap-4 lg:items-center">
+                    <p class="text-slate-700 text-sm font-medium">{{ $blog->created_at->format('F j, Y g:i A') }}</p>
+                    <span class="hidden lg:block">-</span>
+                    <p class="text-slate-700 text-sm font-medium">{{ $blog->category->name }}</p>
+                  </div>
+                </div>
+                <div class="w-3/12 lg:w-2/12">
+                  <img class="aspect-video object-cover h-24" src="{{ asset('storage/' . $blog->image) }}"
+                    alt="{{ $blog->title }}">
                 </div>
               </div>
-              <div class="w-2/12">
-                <img class="aspect-video object-cover h-24" src="{{ asset('storage/' . $blog->image) }}"
-                  alt="{{ $blog->title }}">
-              </div>
-            </div>
-          </x-card>
-        @endforeach
+            </x-card>
+          </a>
+        @empty
+          <div class="h-1/2 flex items-center justify-center">
+            Belum ada blog yang di posting
+          </div>
+        @endforelse
 
         <!-- Pagination Links -->
-        <div class="mt-8">
+        {{-- <div class="mt-8">
           <nav role="navigation" aria-label="Pagination Navigation" class="flex justify-center">
             <ul class="pagination flex gap-2">
               @if ($blogs->onFirstPage())
@@ -125,7 +149,7 @@
               @endif
             </ul>
           </nav>
-        </div>
+        </div> --}}
         {{ $blogs->links() }}
 
       </div>
@@ -134,31 +158,40 @@
       <div class="w-full lg:w-4/12 lg:sticky top-20 self-start">
         <x-card class="p-8 px-4">
           <span class="font-medium text-lg">Rekomendasi Berita</span>
-          @foreach ($recommendedBlogs as $key => $recommendedBlog)
-            <x-card class="p-4 mt-4" wire:key="{{ $recommendedBlog->id }}">
-              <div class="flex items-center gap-4 mb-2">
-                <x-avatar class="size-6">
-                  <x-avatar.image src="https://github.com/shadcn.png" />
-                  <x-avatar.fallback>{{ $recommendedBlog->author->name }}</x-avatar.fallback>
-                </x-avatar>
-                <span class="text-slate-700 font-medium text-[13px]">{{ $recommendedBlog->author->name }}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <div class="w-full space-y-2">
-                  <h1 class="font-bold text-base">{{ $recommendedBlog->title }}</h1>
-                  <p class="text-slate-700 text-[13px] leading-relaxed tracking-wide">
-                    {{ Str::limit($recommendedBlog->content, 50) }}
-                  </p>
-                  <div class="flex gap-4 items-center">
-                    <p class="text-slate-700 text-[13px] font-medium">
-                      {{ $recommendedBlog->created_at->format('F j, Y g:i A') }}</p>
-                    <span>-</span>
-                    <p class="text-slate-700 text-[13px] font-medium">{{ $recommendedBlog->category->name }}</p>
+          @forelse ($recommendedBlogs as $key => $recommendedBlog)
+            <a href="{{ route('blog.detail', ['slug' => $recommendedBlog->slug]) }}">
+              <x-card class="p-4 mt-4" wire:key="{{ $recommendedBlog->id }}">
+                <div class="flex items-center gap-4 mb-2">
+                  <x-avatar class="size-6">
+                    <x-avatar.image
+                      src="{{ $recommendedBlog->author->image ? (Str::startsWith($recommendedBlog->author->image, 'http') ? $recommendedBlog->author->image : asset('storage/' . $recommendedBlog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
+                      alt="{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}" />
+                    <x-avatar.fallback>{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}</x-avatar.fallback>
+                  </x-avatar>
+                  <span
+                    class="text-slate-700 font-medium text-[13px]">{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="w-full space-y-2">
+                    <h1 class="font-bold text-base">{{ $recommendedBlog->title }}</h1>
+                    <p class="text-slate-700 text-[13px] leading-relaxed tracking-wide">
+                      {{ Str::limit($recommendedBlog->content, 50) }}
+                    </p>
+                    <div class="flex gap-4 items-center">
+                      <p class="text-slate-700 text-[13px] font-medium">
+                        {{ $recommendedBlog->created_at->format('F j, Y g:i A') }}</p>
+                      <span>-</span>
+                      <p class="text-slate-700 text-[13px] font-medium">{{ $recommendedBlog->category->name }}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </x-card>
-          @endforeach
+              </x-card>
+            </a>
+          @empty
+            <div class=" h-40 flex items-center justify-center">
+              Belum ada rekomendasi blog
+            </div>
+          @endforelse
         </x-card>
       </div>
     </div>
