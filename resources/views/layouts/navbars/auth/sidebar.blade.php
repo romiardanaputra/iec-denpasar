@@ -6,7 +6,7 @@
       sidenav-close></i>
     <a class="block px-8 py-6 m-0 text-size-sm whitespace-nowrap text-slate-700" href="{{ url('') }}"
       target="_blank">
-      <img src="{{ asset('storage/assets/images/logo/iec.jpg') }}"
+      <img src="{{ asset('storage/assets/logo/iec-logo.png') }}"
         class="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
       <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">IEC
         Denpasar</span>
@@ -21,9 +21,7 @@
           Course Detail</h6>
       </li>
       <x-sidebar.side-link :routeName="'profile'" :routeLabel="'Profile'" />
-      <x-sidebar.side-link :routeName="'schedule'" :routeLabel="'Class Schedule'" />
       <x-sidebar.side-link :routeName="'exam-grade'" :routeLabel="'Exam Grade'" />
-      <x-sidebar.side-link :routeName="'class-info'" :routeLabel="'Class Info'" />
       <li class="w-full mt-4">
         <h6 class="pl-6 ml-2 font-bold leading-tight uppercase text-size-xs opacity-60">
           Transaction</h6>

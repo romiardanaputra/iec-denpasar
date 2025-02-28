@@ -58,9 +58,15 @@ class GradeResource extends Resource
                     Forms\Components\ToggleButtons::make('level_name')
                             ->label('Level ke')
                             ->inline()
-                            ->options(range(1, 6))
-                            ->required()
-                            ->unique(ignoreRecord: true),
+                            ->options([
+                                '1' => 1,
+                                '2' => 2,
+                                '3' => 3,
+                                '4' => 4,
+                                '5' => 5,
+                                '6' => 6,
+                            ])
+                            ->required(),
                     Forms\Components\ToggleButtons::make('badge_grade')
                             ->label('Status Badge Nilai')
                             ->inline()
