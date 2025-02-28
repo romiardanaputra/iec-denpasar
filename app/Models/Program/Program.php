@@ -56,7 +56,7 @@ class Program extends Model
 
     public function registrations()
     {
-        return $this->hasMany(Registration::class);
+        return $this->hasMany(Registration::class, 'program_id');
     }
 
     public function orders()

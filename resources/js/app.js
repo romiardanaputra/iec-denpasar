@@ -3,11 +3,7 @@ import "flowbite";
 import "../css/pages/home.css";
 import collapse from "@alpinejs/collapse";
 import anchor from "@alpinejs/anchor";
-import Swiper from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import { initFlowbite } from "flowbite";
 
 document.addEventListener(
   "alpine:init",
@@ -23,14 +19,19 @@ document.addEventListener(
   { once: true },
 );
 
-// init Swiper:
-const swiper = new Swiper(".swiper", {
-  modules: [Navigation, Pagination],
-  pagination: {
-    el: ".swiper-pagination",
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
+document.addEventListener("livewire:navigated", () => {
+  // console.log('navigated');
+  initFlowbite();
 });
+
+// // init Swiper:
+// const swiper = new Swiper(".swiper", {
+//   modules: [Navigation, Pagination],
+//   pagination: {
+//     el: ".swiper-pagination",
+//   },
+//   navigation: {
+//     nextEl: ".swiper-button-next",
+//     prevEl: ".swiper-button-prev",
+//   },
+// });
