@@ -55,7 +55,7 @@ class GradeResource extends Resource
                     ]),
                 Forms\Components\Section::make('Detail Nilai')
                     ->schema([
-                    Forms\Components\ToggleButtons::make('level_name')
+                        Forms\Components\ToggleButtons::make('level_name')
                             ->label('Level ke')
                             ->inline()
                             ->options([
@@ -67,7 +67,7 @@ class GradeResource extends Resource
                                 '6' => 6,
                             ])
                             ->required(),
-                    Forms\Components\ToggleButtons::make('badge_grade')
+                        Forms\Components\ToggleButtons::make('badge_grade')
                             ->label('Status Badge Nilai')
                             ->inline()
                             ->options([
@@ -76,7 +76,7 @@ class GradeResource extends Resource
                                 'excellent' => 'Excellent',
                             ])
                             ->required(),
-                    Forms\Components\Grid::make(3)
+                        Forms\Components\Grid::make(3)
                             ->schema([
                                 Forms\Components\TextInput::make('reading_grade')
                                     ->label('Nilai Membaca')
@@ -106,28 +106,28 @@ class GradeResource extends Resource
                                     ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
                                     ->required(),
                             ]),
-                    Forms\Components\TextInput::make('average_grade')
+                        Forms\Components\TextInput::make('average_grade')
                             ->label('Rata-rata nilai')
                             ->numeric()
                             ->dehydrated()
                             ->disabled()
                             ->required(),
-                ]),
+                    ]),
                 Forms\Components\Section::make('Komentar')
                     ->schema([
-                    Forms\Components\Textarea::make('strong_area')
+                        Forms\Components\Textarea::make('strong_area')
                             ->label('Strong Area')
                             ->helperText('Kelebihan dari siswa pada jenjang level')
                             ->required(),
-                    Forms\Components\Textarea::make('improvement_area')
+                        Forms\Components\Textarea::make('improvement_area')
                             ->label('Improvement Area')
                             ->helperText('Hal yang dapat di improve dari siswa pada jenjang level')
                             ->required(),
-                    Forms\Components\Textarea::make('weak_area')
+                        Forms\Components\Textarea::make('weak_area')
                             ->label('Weak Area')
                             ->helperText('Hal yang sangat perlu diperhatikan (kekurangan) dari siswa pada jenjang level')
                             ->required(),
-                ]),
+                    ]),
             ]);
     }
 

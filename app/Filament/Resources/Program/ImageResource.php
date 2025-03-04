@@ -97,25 +97,25 @@ class ImageResource extends Resource
                     ->toggleable(),
             ])
             ->filters([
-            SelectFilter::make('program')
+                SelectFilter::make('program')
                     ->relationship('program', 'name')
                     ->label('Filter by Program')
                     ->searchable(),
-        ])
+            ])
             ->actions([
-            Tables\Actions\ViewAction::make()
+                Tables\Actions\ViewAction::make()
                     ->icon('heroicon-s-eye'),
-            Tables\Actions\EditAction::make()
+                Tables\Actions\EditAction::make()
                     ->icon('heroicon-s-pencil'),
-            Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make()
                     ->icon('heroicon-s-trash'),
-        ])
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->icon('heroicon-s-trash'),
-            ]),
-        ])
+                ]),
+            ])
             ->defaultSort('created_at', 'desc');
     }
 

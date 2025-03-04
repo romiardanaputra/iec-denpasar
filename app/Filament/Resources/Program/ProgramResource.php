@@ -67,7 +67,7 @@ class ProgramResource extends Resource
                             ->columns(2),
                         Forms\Components\Section::make('Upload Image')
                             ->schema([
-                            Forms\Components\FileUpload::make('image')
+                                Forms\Components\FileUpload::make('image')
                                     ->required()
                                     ->image()
                                     ->imageEditor()
@@ -78,33 +78,33 @@ class ProgramResource extends Resource
                                     ])
                                     ->directory('program')
                                     ->visibility('public'),
-                        ]),
+                            ]),
                         Forms\Components\Section::make('Pricing')
                             ->schema([
-                            Forms\Components\TextInput::make('price')
+                                Forms\Components\TextInput::make('price')
                                     ->required()
                                     ->numeric(),
-                            Forms\Components\TextInput::make('register_fee')
+                                Forms\Components\TextInput::make('register_fee')
                                     ->required()
                                     ->numeric(),
-                        ])
+                            ])
                             ->columns(2),
                     ])
                     ->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make()
                     ->schema([
-                    Forms\Components\Section::make('Status')
-                        ->schema([
-                            Forms\Components\Toggle::make('is_visible')
+                        Forms\Components\Section::make('Status')
+                            ->schema([
+                                Forms\Components\Toggle::make('is_visible')
                                     ->label('Visible')
                                     ->helperText('This program will be hidden for all users')
                                     ->default(true),
-                            Forms\Components\DatePicker::make('published_at')
+                                Forms\Components\DatePicker::make('published_at')
                                     ->label('Availability')
                                     ->default(now())
                                     ->required(),
-                        ]),
-                ])
+                            ]),
+                    ])
                     ->columnSpan(['lg' => 1]),
             ])
             ->columns(3);
@@ -224,15 +224,15 @@ class ProgramResource extends Resource
                     }),
             ])
             ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-        ])
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+                ]),
+            ]);
     }
 
     public static function getRelations(): array

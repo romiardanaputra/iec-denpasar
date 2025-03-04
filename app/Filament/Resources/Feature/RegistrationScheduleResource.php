@@ -103,21 +103,21 @@ class RegistrationScheduleResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-            Tables\Filters\SelectFilter::make('registration_id')
+                Tables\Filters\SelectFilter::make('registration_id')
                     ->label('Pendaftar')
                     ->relationship('registration', 'student_name'),
-            Tables\Filters\SelectFilter::make('class_schedule_id')
+                Tables\Filters\SelectFilter::make('class_schedule_id')
                     ->label('Jadwal Kelas')
                     ->relationship('classSchedule', 'class_code'),
-        ])
+            ])
             ->actions([
-            Tables\Actions\EditAction::make(),
-        ])
+                Tables\Actions\EditAction::make(),
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ])
+                ]),
+            ])
             ->query(
                 fn (): Builder => RegistrationSchedule::query()
                     ->with(['registration', 'classSchedule.program', 'classSchedule.book', 'classSchedule.time', 'classSchedule.day', 'classSchedule.team'])
