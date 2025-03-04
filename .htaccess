@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect non-www to www
+     RewriteCond %{HTTP_HOST} ^iecdenpasar\.com [NC]
+    RewriteRule ^(.*)$ https://www.iecdenpasar.com/$1 [R=301,L]
+
+    # Redirect all request to public folder
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
