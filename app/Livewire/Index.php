@@ -32,6 +32,37 @@ class Index extends Component
         JsonLd::setType('EducationalOrganization');
         JsonLd::addImage('https://iecdenpasar.com/assets/img/logo.png');
 
-        return view('livewire.index');
+        $features = [
+            [
+                'icon' => 'book-open',
+                'iconColor' => 'indigo',
+                'backgroundColor' => 'indigo',
+                'title' => 'Pembelajaran Terstruktur',
+                'description' => 'Program kami dirancang untuk membantu anda belajar secara sistematis, mulai dari dasar hingga mahir',
+            ],
+            [
+                'icon' => 'layout-grid',
+                'iconColor' => 'pink',
+                'backgroundColor' => 'pink',
+                'title' => 'Integrasi Teknologi',
+                'description' => 'Kami memberikan akses informasi mengenai kursus, pendaftaran serta pembayaran terintegrasi untuk memudahkan anda dalam bergabung bersama kami',
+            ],
+            [
+                'icon' => 'notebook-text',
+                'iconColor' => 'teal',
+                'backgroundColor' => 'teal',
+                'title' => 'Laporan kemajuan belajar',
+                'description' => 'Pantau kemajuan belajar anda secara realtime melalui laporan berkala yang dapat diakses pada dashboard',
+            ],
+            [
+                'icon' => 'laptop-minimal',
+                'iconColor' => 'orange',
+                'backgroundColor' => 'orange',
+                'title' => 'Metode pembalajaran interaktif',
+                'description' => 'Nikmati pengalaman belajar yang menyenangkan dengan metode interaktif seperti role-play, diskusi, dan simulasi.',
+            ],
+        ];
+
+        return view('livewire.index', ['features' => $features]);
     }
 }

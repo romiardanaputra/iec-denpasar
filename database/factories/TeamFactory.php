@@ -22,13 +22,12 @@ class TeamFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company,
-            'slug' => Str::slug($this->faker->company),
+            'name' => $this->faker->name,
+            'slug' => Str::slug($this->faker->name),
             'age' => $this->faker->numberBetween(18, 35),
-            'mentor_class' => $this->faker->word,
             'gender' => $this->faker->randomElement(['male', 'female']),
             'short_description' => $this->faker->sentence,
-            'image' => $this->createImage(),
+            'image' => $this->faker->imageUrl(),
             'linkedin' => $this->faker->url,
             'facebook' => $this->faker->url,
             'instagram' => $this->faker->url,

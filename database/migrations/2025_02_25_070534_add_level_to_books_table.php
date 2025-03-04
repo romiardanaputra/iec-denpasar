@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->enum('level', ['1', '2', '3', '4', '5', '6'])->nullable()->after('book_code')->comment('Level of the book (1-6)');
-            $table->double('book_price');
+            $table->enum('level', ['1', '2', '3', '4', '5', '6'])->nullable()->after('book_code');
+            $table->double('book_price')->after('book_name');
         });
     }
 
@@ -24,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             $table->dropColumn('level');
+            $table->dropColumn('book_price');
         });
     }
 };

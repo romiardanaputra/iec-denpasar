@@ -3,7 +3,13 @@
     <div class="md:flex md:justify-between">
       <div class="mb-6 md:mb-0 w-full">
         <a href="{{ route('landing') }}" class="flex items-center">
-          <img src="{{ asset('storage/assets/logo/iec-logo.png') }}" class="h-20  me-3" alt="IEC Denpasar" />
+          <img src="{{ asset('storage/assets/logo/iec-logo.webp') }}" class="h-20 mr-3" alt="IEC Denpasar" loading="lazy"
+            srcset="
+              {{ asset('storage/assets/logo/iec-logo-small.webp') }} 480w,
+              {{ asset('storage/assets/logo/iec-logo-medium.webp') }} 768w,
+              {{ asset('storage/assets/logo/iec-logo-large.webp') }} 1024w
+            "
+            sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1024px" />
         </a>
       </div>
       <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
@@ -13,10 +19,12 @@
             @forelse ($programs as $program)
               <li class="mb-4">
                 <a href="{{ route('program.detail', ['slug' => $program->slug]) }}" class="hover:underline"
-                  wire:navigate>{{ __($program->name) }}</a>
+                  wire:navigate>
+                  {{ __($program->name) }}
+                </a>
               </li>
             @empty
-              <div> {{ __('Data tidak ditemukan') }}</div>
+              <li>{{ __('Data tidak ditemukan') }}</li>
             @endforelse
           </ul>
         </div>
@@ -25,9 +33,12 @@
           <ul class="text-gray-500 dark:text-gray-400 font-medium">
             @forelse ($quickNavs as $quickNav)
               <li class="mb-4">
-                <a href="{{ $quickNav->route }}" class="hover:underline" wire:navigate>{{ __($quickNav->name) }}</a>
+                <a href="{{ $quickNav->route }}" class="hover:underline" wire:navigate>
+                  {{ __($quickNav->name) }}
+                </a>
               </li>
             @empty
+              <li>{{ __('Data tidak ditemukan') }}</li>
             @endforelse
           </ul>
         </div>
@@ -37,28 +48,28 @@
           <ul class="text-gray-500 dark:text-gray-400 font-medium">
             @forelse ($contacts as $contact)
               <li class="mb-4">
-                <a href="{{ $contact->redirect }}" target="_blank" class="hover:underline">{{ __($contact->name) }} :
-                  {{ $contact->value }}</a>
+                <a href="{{ $contact->redirect }}" target="_blank" class="hover:underline">
+                  {{ __($contact->name) }}: {{ $contact->value }}
+                </a>
               </li>
             @empty
-              <span>{{ __('Tidak terdapat data yang ditemukan') }}</span>
+              <li>{{ __('Tidak terdapat data yang ditemukan') }}</li>
             @endforelse
           </ul>
         </div>
-
       </div>
     </div>
     <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
     <div class="sm:flex sm:items-center sm:justify-between">
-      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="{{ route('landing') }}"
-          class="hover:underline">Iec denpasar</a>. All Rights Reserved.
+      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+        © 2025 <a href="{{ route('landing') }}" class="hover:underline">IEC Denpasar</a>. All Rights Reserved.
       </span>
       <div class="flex mt-4 sm:justify-center sm:mt-0">
-        <a href="https://www.facebook.com/iec.denpasar/" target="_blank">
+        <a href="https://www.facebook.com/iec.denpasar/" target="_blank" aria-label="Facebook">
           <x-lucide-facebook class="mr-2 size-4" />
         </a>
-        <a href="https://www.instagram.com/iecdenpasar/" target="_blank">
-          <x-lucide-instagram class="mr-2 size-4" />
+        <a href="https://www.instagram.com/iecdenpasar/" target="_blank" aria-label="Instagram">
+          <x-lucide-instagram class="size-4" />
         </a>
       </div>
     </div>

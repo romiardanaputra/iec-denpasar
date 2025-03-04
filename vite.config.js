@@ -8,6 +8,8 @@ export default defineConfig({
         "resources/css/app.css",
         "resources/js/app.js",
         "resources/css/luvi-ui.css",
+        "resources/js/swiper-testimonial.js",
+        "resources/js/swiper-team.js",
       ],
       refresh: true,
     }),

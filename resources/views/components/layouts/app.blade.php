@@ -19,7 +19,7 @@
 
     @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
-      <link href="{{ asset('assets/css/styles.min.css') }}" rel="stylesheet" />
+      <link href="{{ asset('storage/assets/css/styles.min.css') }}" rel="stylesheet" />
     @endif
 
     <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title>
@@ -90,10 +90,8 @@
     @filamentScripts
     @livewireScripts
 
-    <script src=" {{ asset('assets/js/plugins/chartjs.min.js') }}" async></script>
-    <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}" async></script>
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="{{ asset('assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}" async></script>
+    <script async defer src="{{ asset('storage/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+    <script async defer src="{{ asset('storage/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
     @yield('js_custom')
   </body>
 </html>

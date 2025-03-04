@@ -36,5 +36,10 @@ class FaqSeeder extends Seeder
             'question' => 'Apakah ada fasilitas konsultasi gratis untuk studi ke luar negeri?',
             'answer' => 'Ya, kami menyediakan sesi konsultasi gratis bagi calon siswa yang ingin mendiskusikan rencana studi mereka ke luar negeri.',
         ]);
+
+        Faq::create([
+            'question' => 'Apakah ada fasilitas konsultasi gratis untuk studi ke luar negeri?',
+            'answer' => 'Ya, kami menyediakan sesi konsultasi gratis bagi calon siswa yang ingin mendiskusikan rencana studi mereka ke luar negeri.',
+        ]);
     }
 }
