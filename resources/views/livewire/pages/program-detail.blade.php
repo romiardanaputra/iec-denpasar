@@ -1,7 +1,7 @@
-<section class="max-w-screen-xl mx-auto mt-20">
-  <div class="bg-white dark:bg-gray-800 h-full py-6 sm:py-8 lg:py-12">
+<section class="max-w-screen-xl mx-auto mt-12">
+  <div class="bg-white dark:bg-gray-800 h-full py-6 sm:py-8 ">
     <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
-      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6 xl:gap-8">
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:gap-5">
         @forelse ($program->images->take(4) as $key => $image)
           <a href="#"
             class="group relative flex h-48 items-end overflow-hidden rounded-lg bg-gray-100 shadow-lg md:h-80 {{ $key == 1 || $key == 2 ? 'md:col-span-2' : '' }}">
@@ -21,9 +21,9 @@
       </div>
     </div>
   </div>
-  <div class="py-10 mx-auto max-w-screen-2xl px-4 md:px-8">
+  <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
     <div class="grid lg:grid-cols-3 w-full gap-12">
-      <div class="w-full grid lg:grid-cols-1 lg:col-span-2 gap-4">
+      <div class="w-full grid lg:grid-cols-1 lg:col-span-2 gap-2">
         <x-typography.h2>
           {{ __($program->name) }}
         </x-typography.h2>
@@ -39,7 +39,8 @@
 
         </x-typography.list>
       </div>
-      <div class="lg:w-full flex flex-col gap-4 space-y-4 ">
+      <div class="lg:w-full flex flex-col gap-4 space-y-2
+       ">
         <span class="font-bold text-2xl">Rp. {{ number_format($program->price, 0, ',', '.') }}</span>
         <div class="flex gap-1 items-center">
           @for ($i = 0; $i < $program->rate; $i++)

@@ -1,59 +1,58 @@
-<div class="font-[sans-serif] overflow-x-auto">
-  <div class="flex w-full max-w-sm items-center space-x-2">
+<div class="font-sans overflow-x-auto">
+  <div class="flex w-full max-w-sm items-center space-x-2 mb-4">
     <x-input type="text" placeholder="cari jadwal.." wire:model.live="search" />
   </div>
-  <table class="min-w-full bg-white ">
-    <thead class="bg-gray-800 whitespace-nowrap">
+  <table class="min-w-full bg-white">
+    <thead class="bg-gray-800 text-white">
       <tr>
-        <th class="p-4 text-left text-sm font-medium text-white">
+        <th class="p-4 text-left text-sm font-medium">
           No
         </th>
-        <th class="p-4 text-left text-sm font-medium text-white">
+        <th class="p-4 text-left text-sm font-medium">
           Nama Program
         </th>
-        <th class="p-4 text-left text-sm font-medium text-white">
+        <th class="p-4 text-left text-sm font-medium">
           Buku
         </th>
-        <th class="p-4 text-left text-sm font-medium text-white">
+        <th class="p-4 text-left text-sm font-medium">
           Hari
         </th>
-        <th class="p-4 text-left text-sm font-medium text-white">
+        <th class="p-4 text-left text-sm font-medium">
           Jam Mulai
         </th>
-        <th class="p-4 text-left text-sm font-medium text-white">
+        <th class="p-4 text-left text-sm font-medium">
           Jam Selesai
         </th>
-        <th class="p-4 text-left text-sm font-medium text-white">
+        <th class="p-4 text-left text-sm font-medium">
           Kode Kelas
         </th>
-        <th class="p-4 text-left text-sm font-medium text-white">
+        <th class="p-4 text-left text-sm font-medium">
           Actions
         </th>
       </tr>
     </thead>
-
     <tbody class="whitespace-nowrap">
       @foreach ($classes as $key => $class)
-        <tr class="even:bg-blue-50" wire:key={{ $key }}>
-          <td class="p-4 text-sm text-black">
+        <tr class="even:bg-blue-50" wire:key="class-{{ $key }}">
+          <td class="p-4 text-sm text-gray-900">
             {{ ++$key }}
           </td>
-          <td class="p-4 text-sm text-black">
+          <td class="p-4 text-sm text-gray-900">
             {{ $class->program->name }}
           </td>
-          <td class="p-4 text-sm text-black">
+          <td class="p-4 text-sm text-gray-900">
             {{ $class->book->book_name }}
           </td>
-          <td class="p-4 text-sm text-black">
+          <td class="p-4 text-sm text-gray-900">
             {{ $class->day->day_name }}
           </td>
-          <td class="p-4 text-sm text-black">
+          <td class="p-4 text-sm text-gray-900">
             {{ $class->time->time_start }}
           </td>
-          <td class="p-4 text-sm text-black">
+          <td class="p-4 text-sm text-gray-900">
             {{ $class->time->time_end }}
           </td>
-          <td class="p-4 text-sm text-black">
+          <td class="p-4 text-sm text-gray-900">
             {{ $class->class_code }}
           </td>
           <td class="p-4 z-50">
@@ -66,8 +65,7 @@
                       Informasi Detail Kelas
                     </x-dialog.title>
                     <x-dialog.description>
-                      Berikut merupakan informasi <br> detail kelas {{ $class->program->name }}
-                      ({{ $class->class_code }})
+                      Berikut merupakan informasi detail kelas {{ $class->program->name }} ({{ $class->class_code }})
                     </x-dialog.description>
                   </x-dialog.header>
                   <form id="detail_info_class">
@@ -111,13 +109,12 @@
                       <x-input id="class_room" value="{{ 'IV (20 orang)' }}" class="col-span-3" readonly />
                     </div>
                   </form>
-                  @livewire('partials.share-whatsapp', ['program' => $program, 'class' => $class])
+                  @livewire('partials.share-whatsapp', ['program' => $class->program, 'class' => $class])
                 </div>
               </x-dialog.content>
             </x-dialog>
           </td>
         </tr>
-        <tr></tr>
       @endforeach
     </tbody>
   </table>

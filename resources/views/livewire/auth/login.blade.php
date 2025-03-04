@@ -1,7 +1,6 @@
 <div class="max-w-screen-xl container mx-auto h-screen">
   <div class="grid md:grid-cols-2 items-center gap-8 h-full">
-    <x-form wire:submit="login" method="post" class="max-w-lg max-md:mx-auto w-full p-6" autocomplete="on">
-      @csrf
+    <x-form wire:submit="login" class="max-w-lg max-md:mx-auto w-full p-6" autocomplete="on">
       <div class="mb-12">
         <h3 class="text-gray-800 text-4xl font-extrabold">{{ __('Login') }}</h3>
         <p class="text-gray-800 text-sm mt-6">

@@ -2,3 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind variants;
+
+@layer utilities {
+  .after-line {
+    position: relative;
+  }
+  .after-line::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    height: 1px;
+    width: 0;
+    background-color: #fff;
+    transition:
+      width 0.3s ease,
+      left 0.3s ease;
+  }
+  .after-line:hover::after {
+    width: 100%;
+    left: 0;
+  }
+}
