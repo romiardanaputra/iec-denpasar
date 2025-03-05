@@ -139,12 +139,12 @@
           @else
             <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
               <x-tabs :defaultValue="$selectedStudentName" class="w-full">
-                <x-tabs.List>
+                <x-tabs.list>
                   @foreach ($students as $student)
                     <x-tabs.trigger wire:click="selectStudent('{{ $student->student_name }}')"
                       value="{{ $student->student_name }}">{{ $student->student_name }}</x-tabs.trigger>
                   @endforeach
-                </x-tabs.List>
+                </x-tabs.list>
 
                 @foreach ($students as $student)
                   <x-tabs.content value="{{ $student->student_name }}">
