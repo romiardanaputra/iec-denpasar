@@ -8,7 +8,7 @@
             <h1 class="text-2xl lg:text-5xl text-slate-700 font-medium sm:text-inherit leading-tight">
               {{ __('Lebih dari sekedar kursus bahasa Inggris.') }}</h1>
             <p class="sm:w-[80%] leading-normal">
-              {{ __('Bergabunglah dengan kursus bahasa Inggris dinamis kami yang dirancang untuk semua tingkatan. Temukan kegembiraan belajar') }}
+              {{ __('Bergabunglah dengan kursus bahasa Inggris dinamis kami yang dirancang untuk semua tingkatan. Temukan kegembiraan belajar main production') }}
             </p>
           </article>
           <div class="flex gap-2 md:gap-5 md:space-x-8">
