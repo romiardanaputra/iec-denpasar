@@ -31,8 +31,9 @@
     </style>
 
     @vite(['resources/css/luvi-ui.css', 'resources/css/app.css', 'resources/js/app.js'])
-    @filamentStyles
     @livewireStyles
+    @filamentStyles
+
   </head>
   <body class="antialiased">
     <div class="w-full">
@@ -87,8 +88,8 @@
       @endif
     </div>
     @vite('resources/js/app.js')
-    @filamentScripts
     @livewireScripts
+    @filamentScripts
 
     <script async defer src="{{ asset('storage/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script async defer src="{{ asset('storage/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
