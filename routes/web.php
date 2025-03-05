@@ -28,13 +28,13 @@ use App\Livewire\Partials\Transaction\PendingPayment;
 use Illuminate\Support\Facades\Route;
 use Spatie\Sitemap\SitemapGenerator;
 
-Route::get('/sitemap', function () {
-    $path = public_path('sitemap.xml');
-    SitemapGenerator::create(config('app.url'))
-        ->writeToFile($path);
+// Route::get('/sitemap', function () {
+//     $path = public_path('sitemap.xml');
+//     SitemapGenerator::create(config('app.url'))
+//         ->writeToFile($path);
 
-    return response()->json(['message' => 'Sitemap created successfully!', 'path' => $path]);
-});
+//     return response()->json(['message' => 'Sitemap created successfully!', 'path' => $path]);
+// });
 
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', Index::class)->name('landing');
