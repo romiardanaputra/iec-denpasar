@@ -7,7 +7,7 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Component;
 
-// #[\Livewire\Attributes\Title('Landing')]
+#[\Livewire\Attributes\Title('kursus bahasa Inggris', 'IEC Denpasar', 'belajar bahasa Inggris', 'kursus terbaik Bali')]
 class Index extends Component
 {
     public function render()
