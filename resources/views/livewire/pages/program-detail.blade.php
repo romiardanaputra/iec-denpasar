@@ -79,10 +79,10 @@
   </div>
   <div class=" mx-auto max-w-screen-2xl px-4 md:px-8">
     <x-tabs defaultValue="overview" class="w-full z-50">
-      <x-tabs.List class="w-full">
+      <x-tabs.list class="w-full">
         <x-tabs.trigger value="overview">Informasi Umum</x-tabs.trigger>
         <x-tabs.trigger value="schedule">Jadwal Less</x-tabs.trigger>
-      </x-tabs.List>
+      </x-tabs.list>
       <div class="p-8">
         <x-tabs.content class="text-justify leading-7" value="overview">{!! __($program->detail->long_description) !!}.</x-tabs.content>
         <x-tabs.content value="schedule">

@@ -86,12 +86,12 @@
     <!-- Tabs Section -->
     <section class="mt-20">
       <x-tabs :defaultValue="$grades->first()->level_name ?? 'Level 1'" class="w-full">
-        <x-tabs.List>
+        <x-tabs.list>
           @foreach ($grades->pluck('level_name')->unique() as $level)
             <x-tabs.trigger value="{{ $level }}"
               wire:key="tab-trigger-{{ $level }}">{{ $level }}</x-tabs.trigger>
           @endforeach
-        </x-tabs.List>
+        </x-tabs.list>
         @foreach ($grades->pluck('level_name')->unique() as $level)
           <x-tabs.content value="{{ $level }}" wire:key="tab-content-{{ $level }}">
             <div>
