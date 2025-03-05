@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\feature;
+namespace App\Models\Feature;
 
 use App\Models\Schedule\ClassSchedule;
 use App\Models\Transaction\Registration;
