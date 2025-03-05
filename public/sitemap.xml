@@ -1,43 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
-    <url>
-        <loc>http://iec-denpasar.dev/</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev/login</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev/about</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev/contact</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev/our-teams</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev/our-program</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev/oauth/google</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev/forgot-password</loc>
-    
-            </url>
-    <url>
-        <loc>http://iec-denpasar.dev/register</loc>
-    
-            </url>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://www.iecdenpasar.com/</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/login</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/about</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/our-program</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/our-teams</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/contact</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/blog</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/register</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/our-program/english-for-kid</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/our-program/english-for-children</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/our-program/english-for-junior</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/our-program/general-english</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/forgot-password</loc>
+  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
 </urlset>
