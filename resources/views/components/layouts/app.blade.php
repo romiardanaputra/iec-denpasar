@@ -15,7 +15,7 @@
 
     {!! SEO::generate(true) !!}
 
-    <link rel="icon" href="{{ asset('/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
     @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
