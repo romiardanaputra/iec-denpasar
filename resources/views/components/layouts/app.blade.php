@@ -30,9 +30,10 @@
       }
     </style>
 
+    @filamentStyles
+    <link rel="stylesheet" href="{{ asset('css/filament/filament/app.css') }}">
     @vite(['resources/css/luvi-ui.css', 'resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
-    @filamentStyles
 
   </head>
   <body class="antialiased">
@@ -87,9 +88,10 @@
         @endunless
       @endif
     </div>
+    @filamentScripts
     @vite('resources/js/app.js')
     @livewireScripts
-    @filamentScripts
+    <script src="{{ asset('js/filament/filament/app.js') }}"></script>
 
     <script async defer src="{{ asset('storage/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script async defer src="{{ asset('storage/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
