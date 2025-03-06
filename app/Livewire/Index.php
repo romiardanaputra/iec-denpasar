@@ -7,11 +7,11 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Component;
 
-#[\Livewire\Attributes\Title('kursus bahasa Inggris', 'IEC Denpasar', 'belajar bahasa Inggris', 'kursus terbaik Bali')]
 class Index extends Component
 {
     public function render()
     {
+        SEOMeta::setTitle('Belajar Bahasa Inggris di IEC Denpasar | Kursus Berkualitas');
         SEOMeta::setDescription('Tingkatkan kemampuan bahasa Inggris Anda bersama IEC Denpasar. Program kursus berkualitas untuk semua usia dan tingkat kemampuan.');
         SEOMeta::addMeta('article:published_time', now()->toW3CString(), 'property');
         SEOMeta::addMeta('article:section', 'Pendidikan', 'property');

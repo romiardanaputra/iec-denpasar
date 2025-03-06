@@ -6,6 +6,9 @@ use App\Models\Blog\Author;
 use App\Models\Blog\Category;
 use App\Models\Blog\Link;
 use App\Models\Blog\Post;
+use Artesaos\SEOTools\Facades\JsonLd;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -89,6 +92,39 @@ class Blog extends Component
 
     public function render()
     {
+
+        // SEO Meta Tags
+        SEOMeta::setTitle('Blog IEC Denpasar | Tips dan Artikel Bahasa Inggris Terbaru');
+        SEOMeta::setDescription('Dapatkan tips belajar bahasa Inggris terkini, artikel edukasi, dan informasi kursus dari IEC Denpasar. Blog resmi untuk meningkatkan kemampuan bahasa Inggris Anda.');
+        SEOMeta::addMeta('article:published_time', now()->toW3CString(), 'property');
+        SEOMeta::addMeta('article:section', 'Pendidikan & Bahasa', 'property');
+        SEOMeta::addKeyword([
+            'blog bahasa Inggris',
+            'tips belajar Inggris',
+            'artikel pendidikan',
+            'IEC Denpasar blog',
+            'kursus bahasa Inggris di Bali',
+        ]);
+
+        // OpenGraph Tags
+        OpenGraph::setDescription('Dapatkan tips belajar bahasa Inggris terkini, artikel edukasi, dan informasi kursus dari IEC Denpasar');
+        OpenGraph::setTitle('Blog IEC Denpasar | Tips dan Artikel Bahasa Inggris Terbaru');
+        OpenGraph::setUrl('https://iecdenpasar.com/blog'); // Sesuaikan URL
+        OpenGraph::addProperty('type', 'blog');
+        OpenGraph::addProperty('locale', 'id_ID');
+        OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
+
+        // Gunakan gambar khusus untuk blog
+        OpenGraph::addImage('https://www.iecdenpasar.com/public/favicon.ico', [
+            'height' => 630,
+            'width' => 1200,
+        ]);
+
+        // JSON-LD Schema
+        JsonLd::setTitle('Blog IEC Denpasar | Tips dan Artikel Bahasa Inggris Terbaru');
+        JsonLd::setDescription('Dapatkan tips belajar bahasa Inggris terkini, artikel edukasi, dan informasi kursus dari IEC Denpasar');
+        JsonLd::setType('Blog');
+        JsonLd::addImage('https://www.iecdenpasar.com/public/favicon.ico');
         $data = [
             'blogs' => $this->getBlog,
             'links' => $this->getPostLinks,

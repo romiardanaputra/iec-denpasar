@@ -7,12 +7,11 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Component;
 
-#[\Livewire\Attributes\Title('Tentang Kami')]
-
 class About extends Component
 {
     public function render()
     {
+        SEOMeta::setTitle('Tentang IEC Denpasar | Kursus Bahasa Inggris Terbaik di Bali');
         SEOMeta::setDescription('IEC Denpasar adalah lembaga kursus bahasa Inggris terbaik di Bali dengan metode pembelajaran interaktif dan tenaga pengajar berpengalaman.');
         SEOMeta::addMeta('article:published_time', now()->toW3CString(), 'property');
         SEOMeta::addMeta('article:section', 'Tentang Kami', 'property');
@@ -25,8 +24,8 @@ class About extends Component
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
 
-        OpenGraph::addImage('https://iecdenpasar.com/assets/img/team.jpg');
-        OpenGraph::addImage('https://iecdenpasar.com/assets/img/facility.jpg', ['height' => 300, 'width' => 300]);
+        OpenGraph::addImage('https://www.iecdenpasar.com/public/favicon.ico');
+        OpenGraph::addImage('https://iecdenpasar.com/public/storage/iec-assets/iec-hero-banner-small.webp', ['height' => 300, 'width' => 300]);
 
         JsonLd::setTitle('Tentang IEC Denpasar | Kursus Bahasa Inggris Terbaik di Bali');
         JsonLd::setDescription('IEC Denpasar adalah lembaga kursus bahasa Inggris terbaik di Bali dengan metode pembelajaran interaktif dan tenaga pengajar berpengalaman.');
