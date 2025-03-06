@@ -22,7 +22,7 @@
       <link href="{{ asset('storage/assets/css/styles.min.css') }}" rel="stylesheet" />
     @endif
 
-    <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title>
+    {{-- <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title> --}}
 
     <style>
       [x-cloak] {
