@@ -11,7 +11,6 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
-#[\Livewire\Attributes\Title('Contact')]
 class Contact extends Component
 {
     public $name = '';
@@ -68,16 +67,16 @@ class Contact extends Component
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
 
-        OpenGraph::addImage('https://iecdenpasar.com/assets/img/contact-banner.jpg');
-        OpenGraph::addImage('https://iecdenpasar.com/assets/img/map-location.jpg', ['height' => 300, 'width' => 300]);
+        OpenGraph::addImage('https://www.iecdenpasar.com/public/favicon.ico');
+        OpenGraph::addImage('https://iecdenpasar.com/public/storage/iec-assets/iec-hero-banner-small.webp', ['height' => 300, 'width' => 300]);
 
         JsonLd::setTitle('Kontak IEC Denpasar | Hubungi Kami Sekarang');
         JsonLd::setDescription('Hubungi IEC Denpasar untuk informasi lebih lanjut mengenai kursus bahasa Inggris kami. Kami siap membantu Anda mencapai tujuan belajar bahasa Inggris.');
         JsonLd::setType('EducationalOrganization');
-        JsonLd::addImage('https://iecdenpasar.com/assets/img/logo.png');
+        JsonLd::addImage('https://www.iecdenpasar.com/public/favicon.ico');
         JsonLd::addValue('address', [
             '@type' => 'PostalAddress',
-            'streetAddress' => 'Jl. Teuku Umar No. 123, Denpasar, Bali',
+            'streetAddress' => 'Jl. Jaya Giri Gg. XXII No.10x, Renon, Kec. Denpasar Tim., Kota Denpasar, Bali 80236',
             'addressLocality' => 'Denpasar',
             'addressRegion' => 'Bali',
             'postalCode' => '80114',
