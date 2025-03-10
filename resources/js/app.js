@@ -4,6 +4,7 @@ import "../css/pages/home.css";
 import collapse from "@alpinejs/collapse";
 import anchor from "@alpinejs/anchor";
 import { initFlowbite } from "flowbite";
+// import Swiper bundle with all modules installed
 
 document.addEventListener(
   "alpine:init",

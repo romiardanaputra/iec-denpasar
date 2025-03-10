@@ -17,12 +17,10 @@
 
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
-    @if (Route::is('dashboard', 'profile', 'schedule', 'class-info', 'bill', 'invoice', 'exam-grade'))
+    @if (Route::is('dashboard', 'profile', 'bill', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
       <link href="{{ asset('storage/assets/css/styles.min.css') }}" rel="stylesheet" />
     @endif
-
-    {{-- <title>{{ $title . ' - ' . 'IEC Denpasar' ?? config('app.name') }}</title> --}}
 
     <style>
       [x-cloak] {
@@ -30,11 +28,10 @@
       }
     </style>
 
-    {{-- @filamentStyles --}}
-    {{-- <link rel="stylesheet" href="{{ asset('css/filament/filament/app.css') }}"> --}}
     @filamentStyles
     @vite(['resources/css/luvi-ui.css', 'resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @yield('css_custom')
 
   </head>
   <body class="antialiased">

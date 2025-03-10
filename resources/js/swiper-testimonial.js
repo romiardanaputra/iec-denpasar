@@ -1,60 +1,33 @@
-// resources/js/swiper-testimonial.js
+import Swiper from "swiper/bundle";
 
-import Swiper from "swiper";
-import { Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+// import styles bundle
+import "swiper/css/bundle";
 document.addEventListener("livewire:navigated", function () {
-  new Swiper(".swiper-testimonial", {
-    modules: [Navigation, Pagination],
+  new Swiper(".mySwiper", {
+    slidesPerView: 1,
+    spaceBetween: 32,
+    loop: true,
+    centeredSlides: true,
     pagination: {
-      el: ".swiper-pagination-testimonial",
+      el: ".swiper-pagination",
       clickable: true,
     },
-    navigation: {
-      nextEl: ".swiper-button-next-testimonial",
-      prevEl: ".swiper-button-prev-testimonial",
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
     },
-    slidesPerView: 1,
-    spaceBetween: 20,
-    loop: true,
     breakpoints: {
-      0: {
+      640: {
         slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        pagination: {
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next-testimonial",
-          prevEl: ".swiper-button-prev-testimonial",
-        },
+        spaceBetween: 32,
       },
       768: {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        pagination: {
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next-testimonial",
-          prevEl: ".swiper-button-prev-testimonial",
-        },
+        slidesPerView: 2,
+        spaceBetween: 32,
       },
       1024: {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        pagination: {
-          clickable: true,
-        },
-        navigation: {
-          nextEl: ".swiper-button-next-testimonial",
-          prevEl: ".swiper-button-prev-testimonial",
-        },
+        slidesPerView: 3,
+        spaceBetween: 32,
       },
     },
   });
