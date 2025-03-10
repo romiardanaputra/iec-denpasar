@@ -15,7 +15,6 @@
         @endif
       </x-typography.p>
     </div>
-    {{-- <x-button wire:click="verify" class="btn btn-primary">Verify Email</x-button> --}}
   </x-card>
   <script>
     setTimeout(() => {

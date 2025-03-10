@@ -16,19 +16,12 @@ class Login extends Component
 
     public $remmember = false;
 
-    public $showPassword = false;
-
     protected function rules()
     {
         return [
             'email' => ['required', 'string', 'lowercase', 'email:rfc,dns'],
             'password' => ['required'],
         ];
-    }
-
-    public function togglePasswordVisibility()
-    {
-        $this->showPassword = ! $this->showPassword;
     }
 
     public function login()

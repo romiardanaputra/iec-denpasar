@@ -10,7 +10,7 @@
       <div class="mt-4">
         <x-label for="email">{{ __('Email') }}</x-label>
         <div class="relative flex items-center">
-          <x-input wire:model.blur="email" name="email" required class="text-gray-800 rounded-full" type="email"
+          <x-input wire:model="email" name="email" required class="text-gray-800 rounded-full" type="email"
             id="email" placeholder="Email Address" autocomplete :value="old('email')" />
           <x-lucide-mail class="size-4 absolute right-0 mr-4" />
         </div>
@@ -19,12 +19,12 @@
 
       <div class="mt-4">
         <x-label for="password">{{ __('Password') }}</x-label>
-        <div class="relative flex items-center">
-          <x-input wire:model.blur="password" name="password" required class="text-gray-800 rounded-full"
-            :type="$showPassword ? 'text' : 'password'" id="password" placeholder="Password" />
-          <button type="button" class="absolute right-0 mr-4 focus:outline-none" wire:click="togglePasswordVisibility">
-            <x-lucide-eye class="{{ $showPassword ? 'hidden' : '' }} size-4" id="password-toggle-icon" />
-            <x-lucide-eye-off class="{{ $showPassword ? '' : 'hidden' }} size-4" id="password-toggle-icon-off" />
+        <div class="relative flex items-center" x-data="{ show: false }">
+          <x-input wire:model="password" name="password" required class="text-gray-800 rounded-full"
+            x-bind:type="show ? 'text' : 'password'" id="password" placeholder="Password" />
+          <button type="button" class="absolute right-0 mr-4 focus:outline-none" x-on:click="show = !show">
+            <x-lucide-eye class="size-4" x-show="!show" />
+            <x-lucide-eye-off class="size-4" x-show="show" />
           </button>
         </div>
         <x-input-error :messages="$errors->get('password')" class="mt-2" />
@@ -32,7 +32,7 @@
 
       <div class="flex flex-wrap items-center gap-4 justify-between mt-4">
         <div class="flex items-center gap-4">
-          <x-checkbox id="terms1" wire:model.live="remmember" name="remmember" />
+          <x-checkbox id="terms1" wire:model="remmember" name="remmember" />
           <x-label for="terms1"
             class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {{ __('Ingat saya') }}
@@ -50,8 +50,9 @@
 
       <div class="mt-8 flex flex-col gap-4">
         <x-button type="submit" size='lg'
-          class="w-full bg-blue-800  hover:bg-blue-900 text-white rounded-full px-8 py-6 ">
-          <x-lucide-log-in class="mr-2 size-4" /> {{ __('Login') }}
+          class="w-full bg-blue-600  hover:bg-blue-700 text-white rounded-full px-8 py-6 ">
+          <x-lucide-loader class="animate-spin size-4" wire:loading wire:target="login" />
+          <x-lucide-log-in class="mr-2 size-4" wire:loading.remove wire:target="login" /> {{ __('Login') }}
         </x-button>
         <div class="text-center font-medium md:py-0">{{ __('Atau') }}</div>
         <a href="{{ route('oauth.google') }}"

@@ -25,9 +25,9 @@ class Register extends Component
 
     public $email = '';
 
-    public $showPassword = false;
+    public $isLoading = false;
 
-    public $showConfirmPassword = false;
+    protected $middleware = ['throttle:10,1'];
 
     protected function rules()
     {
@@ -39,32 +39,29 @@ class Register extends Component
         ];
     }
 
-    public function togglePasswordVisibility()
-    {
-        $this->showPassword = ! $this->showPassword;
-    }
-
-    public function toggleConfirmPasswordVisibility()
-    {
-        $this->showConfirmPassword = ! $this->showConfirmPassword;
-    }
-
     public function store()
     {
         try {
-            $data = $this->validate();
-            $data['password'] = Hash::make($this->password);
-            $data['phone'] = phone($this->phone)->formatE164();
-            $user = User::create($data);
+            $this->isLoading = true;
+            $validated = $this->validate();
+            $validated['password'] = Hash::make($this->password);
+            $validated['phone'] = phone($validated['phone'])->formatE164();
+            $user = User::create($validated);
             $user->assignRole(Role::find(2));
             event(new Registered($user));
             Auth::login($user);
 
             return redirect(route('dashboard', absolute: false));
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->isLoading = false;
+            throw $e;
         } catch (Throwable $e) {
+            $this->isLoading = false;
             Log::error('User registration failed', ['error' => $e->getMessage()]);
             session()->flash('error', $e->getMessage());
             report($e);
+        } finally {
+            $this->isLoading = false;
         }
     }
 
