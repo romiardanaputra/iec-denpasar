@@ -43,18 +43,7 @@ class RoleSeeder extends Seeder
                 'country_code' => 'ID',
                 'about' => 'Saya adalah seorang desainer grafis.',
             ],
-            [
-                'name' => 'Jane Smith',
-                'phone' => '+6289876543210',
-                'email' => 'janesmith@gmail.com',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-                'address' => 'Jl. Bypass Ngurah Rai No. 789, Denpasar',
-                'city' => 'Denpasar',
-                'postal_code' => '80123',
-                'country_code' => 'ID',
-                'about' => 'Saya adalah seorang manajer proyek.',
-            ],
+
         ];
 
         foreach ($customUsers as $key => $userData) {

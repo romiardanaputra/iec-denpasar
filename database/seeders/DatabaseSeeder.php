@@ -46,17 +46,17 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             RoleSeeder::class,
-            ClassDayCodeSeeder::class,
-            ClassTimeCodeSeeder::class,
-            BookSeeder::class,
-            ProgramSeeder::class,
-            TeamSeeder::class,
+            // ClassDayCodeSeeder::class,
+            // ClassTimeCodeSeeder::class,
+            // BookSeeder::class,
+            // ProgramSeeder::class,
+            // TeamSeeder::class,
             // DummyOrderSeeder::class,
-            ClassScheduleSeeder::class,
-            ProgramDetailSeeder::class,
-            ImageSeeder::class,
-            FaqSeeder::class,
-            TestimonialSeeder::class,
+            // ClassScheduleSeeder::class,
+            // ProgramDetailSeeder::class,
+            // ImageSeeder::class,
+            // FaqSeeder::class,
+            // TestimonialSeeder::class,
             // TransactionSeeder::class,
             // GradeSeeder::class
         ]);
