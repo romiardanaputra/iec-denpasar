@@ -75,17 +75,18 @@
   </style>
 @endsection
 
-<section class="py-24 ">
+<section class="md:py-16 py-8 lg:py-24">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="mb-16 max-w-2xl mx-auto ">
       <span class="text-sm text-gray-500 font-medium text-center block mb-2">TESTIMONIAL</span>
-      <h2 class="text-4xl text-center mb-5 font-bold text-gray-900 ">Mereka Sudah Berani Bicara di Depan Publik!!</h2>
-      <p class="text-center">Apa Kata Alumni Tentang Metode Belajar Kami?</p>
+      <h2 class="lg:text-4xl text-3xl text-center mb-5 font-bold text-gray-900 ">Mereka Sudah Berani Bicara di Depan
+        Publik!!</h2>
+      <p class="text-center text-gray-600">Apa Kata Alumni Tentang Metode Belajar Kami?</p>
     </div>
     <!--Slider wrapper-->
 
     <div class="swiper mySwiper">
-      <div class="swiper-wrapper w-max {{ $testimonials->isEmpty() ? 'lg:mx-auto' : '' }}">
+      <div class="swiper-wrapper w-max {{ $testimonials->isEmpty() ? 'mx-auto' : '' }}">
         @forelse ($testimonials as $testimonial)
           <div class="swiper-slide" wire:key={{ $testimonial->id }}>
             <div

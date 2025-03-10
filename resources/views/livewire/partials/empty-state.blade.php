@@ -1,4 +1,4 @@
-<div class="col-span-full flex flex-col items-center justify-center py-20">
+<div class="col-span-full flex flex-col items-center justify-center md:py-20 py-12">
   <div class="relative w-80 h-80 bg-white/50 border-2 border-dashed border-gray-300 rounded-3xl">
     <div class="absolute inset-0 flex items-center justify-center">
       <!-- Dynamic Icon System -->

@@ -1,4 +1,4 @@
-<section class="pt-8 lg:pt-32 bg-[url('https://pagedone.io/asset/uploads/1691055810.png')] bg-center bg-cover">
+<section class="pt-20 lg:pt-32 bg-[url('https://pagedone.io/asset/uploads/1691055810.png')] bg-center bg-cover">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative text-center">
     <h1 class="max-w-2xl mx-auto text-center font-bold text-4xl text-gray-900 mb-5 md:text-5xl leading-[50px]">
       {{ $title }}

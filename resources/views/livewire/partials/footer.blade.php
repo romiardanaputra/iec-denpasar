@@ -5,7 +5,8 @@
         <h3 class="font-manrope text-3xl text-gray-900 font-bold mb-2 text-center lg:text-left">Lihat Berbagai Program
           Kursus Kami
         </h3>
-        <p class="text-gray-500 w-6/12 text-center lg:text-left">Dapatkan update program kursus, akses materi eksklusif,
+        <p class="text-gray-500 w-full sm:w-6/12 mx-auto lg:mx-0 text-center lg:text-left">Dapatkan update program
+          kursus, akses materi eksklusif,
           dan
           tips sukses langsung dari IEC Denpasar. Daftar Hari Ini dan mulai langkahmu menuju masa depan cerah!"</p>
       </div>

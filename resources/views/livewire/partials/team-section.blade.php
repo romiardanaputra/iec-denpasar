@@ -8,7 +8,7 @@
             {{ __('Team IEC Denpasar') }}
           </p>
         </div>
-        <h2 class="max-w-lg mb-6  text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl md:mx-auto">
+        <h2 class="max-w-lg mb-6  text-3xl font-bold leading-none tracking-tight text-gray-900 sm:text-4xl  md:mx-auto">
           <span class="relative inline-block">
             <svg viewBox="0 0 52 24" fill="currentColor"
               class="absolute top-0 left-0 z-0 hidden w-32 -mt-8 -ml-20 text-blue-gray-100 lg:w-32 lg:-ml-28 lg:-mt-10 sm:block"
@@ -28,7 +28,7 @@
         </p>
       </div>
       <div class="swiper swiper-team">
-        <div class="grid lg:gap-10 sm:grid-cols-2 lg:grid-cols-4 swiper-wrapper w-full">
+        <div class="grid lg:gap-10 sm:grid-cols-2 lg:grid-cols-4 justify-center lg:justify-start swiper-wrapper w-full">
           @php
             $defaultImage =
                 'https://images.pexels.com/photos/1587014/pexels-photo-1587014.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
@@ -96,15 +96,21 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center flex-col lg:flex-row md:mt-20">
         <div class="w-full lg:w-1/2">
-          <h2 class="font-manrope text-5xl text-gray-900 font-bold leading-[4rem] mb-7 text-center lg:text-left">
-            Our leading, strong & creative team</h2>
-          <p class="text-lg text-gray-500 mb-16 text-center lg:text-left">These people work on making our
-            product best.</p>
-          <button
-            class="cursor-pointer py-3 px-8 w-60 bg-indigo-600 text-white text-base font-semibold transition-all duration-500 block text-center rounded-full hover:bg-indigo-700 mx-auto lg:mx-0">Join
-            our team</button>
+          <h2
+            class="text-3xl md:text-4xl xl:text-5xl text-gray-900 font-bold leading-none lg:leading-8 mb-7 text-center lg:text-left">
+            Bergabung dengan Tim IEC Denpasar</h2>
+          <p class="text-lg text-gray-500 mb-16 text-center lg:text-left"> Kami membuka kesempatan bagi para profesional
+            pendidikan dan penutur bahasa Inggris yang ingin
+            berkontribusi dalam meningkatkan kualitas pembelajaran bahasa di Bali. Jadilah bagian dari
+            lembaga kursus terdepan yang telah dipercaya ribuan peserta!</p>
+          <a id="whatsapp-link">
+            <button
+              class="cursor-pointer py-3 px-8 w-60 bg-blue-600 text-white text-base font-semibold transition-all duration-500 block text-center rounded-full hover:bg-blue-700 mx-auto lg:mx-0">Join
+              our team</button>
+          </a>
+
         </div>
-        <div class="w-full lg:w-1/2 lg:mt-0 md:mt-40 mt-16 max-lg:max-w-2xl">
+        <div class="w-full hidden md:block lg:w-1/2 lg:mt-0 md:mt-40 mt-16 max-lg:max-w-2xl">
           <div class="grid grid-cols-1 min-[450px]:grid-cols-2 md:grid-cols-3 gap-8">
             <img src="https://pagedone.io/asset/uploads/1696238644.png" alt="Team tailwind section"
               class="w-44 h-56 rounded-2xl object-cover md:mt-20 mx-auto min-[450px]:mr-0" />
@@ -128,4 +134,8 @@
 
 @section('js_custom')
   @vite(['resources/js/swiper-team.js'])
+  <script>
+    document.getElementById('whatsapp-link').href = 'https://wa.me/6285792479249?text=' + encodeURIComponent(
+      'Halo IEC Denpasar! Saya tertarik untuk bergabung. Kirimkan CV atau lamaran saya melalui link ini ya! 😊');
+  </script>
 @endsection

@@ -3,7 +3,7 @@
     <p class="font-bold font-[Nunito] text-blue-600">{{ __('Kursus Bahasa Inggris') }}</p>
     <h1 class="lg:text-4xl font-bold text-3xl leading-tight mb-5">{{ __('Program Kami') }}</h1>
     <div class="sm:flex justify-between gap-5">
-      <p class="mb-4 sm:w-8/12 text-slate-800 leading-relaxed md:tracking-wide">
+      <p class="mb-4 sm:w-8/12 text-gray-600 leading-relaxed md:tracking-wide">
         {{ __('Menguasai bahasa Inggris dengan percaya diri! Program kami dirancang khusus untuk semua level, dari pemula hingga lanjutan. Dapatkan metode pembelajaran interaktif, materi terkini, dan dukungan penuh dari pengajar profesional. Siapkan diri Anda untuk kesuksesan akademik, karir, atau petualangan global!') }}
       </p>
       <a href="{{ route('our-program') }}" wire:navigate>

@@ -1,21 +1,21 @@
 <div>
   @livewire('partials.hero-section', ['title' => 'Penguasaan Bahasa Inggris Dimulai di ', 'subTitle' => ' Lembaga kursus berpengalaman sejak 2010 dengan metode pembelajaran interaktif dan kurikulum berstandar internasional', 'ctaButton' => '#tentangKami', 'highlightedText' => 'IEC Denpasar'])
 
-  <section id="tentangKami" class="py-20">
+  <section id="tentangKami" class="py-8 md:py-12 lg:py-20">
     <div class="max-w-screen-xl container mx-auto space-y-8">
       <div class="grid lg:grid-cols-2 gap-20 mt-10">
         <!-- Left Side: Siapa Kami -->
         <div>
           <h3 class="font-bold text-blue-600 leading-none tracking-wide">{{ __('Siapa Kami?') }}</h3>
-          <p class="mt-4 leading-7 text-balance">
+          <p class="mt-4 leading-7 text-balance lg:text-left text-justify">
             {{ __('Intensive English Course (IEC) adalah lembaga pendidikan bahasa Inggris, didirikan pada tahun 1968, yang mempunyai jumlah siswa aktif pertahun 18.000 orang dan sudah meluluskan lebih dari 700.000 orang alumni, banyak diantara mereka sudah menjadi orang penting atau tokoh masyarakat. Lembaga tersebut menyelenggarakan pelatihan untuk peserta dari berbagai latar belakang dan kalangan yang mempunyai keinginan sama yaitu mampu berkomunikasi dalam Bahasa Inggris.') }}
           </p>
         </div>
         <!-- Right Side: Apa yang Kita Tawarkan -->
         <div>
-          <h3 class="font-bold  text-blue-600 leading-none tracking-wide">
+          <h3 class="font-bold text-blue-600 leading-none tracking-wide">
             {{ __('Apa yang Kita Tawarkan?') }}</h3>
-          <p class="mt-4 leading-7 text-balance">
+          <p class="mt-4 leading-7 text-balance  lg:text-left text-justify">
             {{ __('Kami menawarkan beragam pilihan program yang dapat disesuaikan dengan kebutuhan peserta sehingga peserta disiapkan untuk memiliki kemampuan berkomunikasi dalam bahasa Inggris untuk berbagai keperluan sosialisasi, bisnis, perkuliahan, konferensi, dan sebagainya.') }}
           </p>
         </div>
@@ -37,10 +37,10 @@
           <h1 class="text-blue-600 text-4xl font-bold mt-2 leading-none tracking-wide">
             {{ __('Visi & Misi') }}</h1>
           <div class="space-y-2 mt-3">
-            <p class="text-balance leading-7">
+            <p class="text-balance leading-7  lg:text-left text-justify">
               {{ __('Diakui sebagai lembaga pendidikan non-formal profesional dalam pelatihan bahasa Inggris. Kami berkomitmen untuk mensukseskan para murid kursus kami serta memberikan kepuasan kepada seluruh keluarga besar IEC.') }}
             </p>
-            <p class="text-balance leading-7">
+            <p class="text-balance leading-7  lg:text-left text-justify">
               {{ __('Memegang teguh komitmen untuk senantiasa memberikan layanan berkualitas tinggi, metode pengajaran yang efektif, dan bertumpu pada staf yang berdedikasi serta berkinerja tinggi. Kami berupaya memenuhi kebutuhan peserta didik dan dunia kerja melalui program pelatihan yang relevan.') }}
             </p>
           </div>

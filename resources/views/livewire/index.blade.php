@@ -26,7 +26,7 @@
           </a>
         </div>
       </div>
-      <div class="sm:w-[90%] md:w-[80%] tracking-in-contract-bck-top mt-10 md:mt-0">
+      <div class="sm:w-[90%] md:w-[80%] w-[95%] mt-10 md:mt-0">
         <img class="size-full aspect-auto md:size-10/12 mx-auto"
           src="{{ asset('storage/assets/iec/iec-banner-large.webp') }}" alt="iec denpasar hero image" loading="lazy"
           srcset="
@@ -45,7 +45,7 @@
 
   {{-- why choose us section --}}
   <section>
-    <div class="px-8 py-24 mx-auto md:px-12 lg:px-32 container flex flex-col lg:min-h-svh justify-center ">
+    <div class="px-8 py-12 mx-auto md:px-12 lg:px-32 container flex flex-col lg:min-h-svh justify-center ">
       <div class="flex flex-col ">
         <div class="prose text-gray-500 prose-sm prose-headings:font-normal prose-headings:text-xl">
           <div>
@@ -55,7 +55,7 @@
             </p>
           </div>
         </div> <!-- Starts component -->
-        <div class="mt-6 border-t pt-12">
+        <div class="mt-6 border-t md:pt-12">
           <div class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-24 items-center ">
             <div> <span class="text-gray-600  uppercase text-xs font-medium "> Because.... </span>
               <p class="text-4xl mt-8 tracking-tighter font-[Nunito] font-semibold text-gray-700 text-balance">
