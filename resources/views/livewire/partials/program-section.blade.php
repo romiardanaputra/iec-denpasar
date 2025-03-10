@@ -1,14 +1,14 @@
-<section class="container">
+<section id="programKami" class="container md:py-20 px-8 md:px-12 lg:px-32">
   <article class="space-y-4">
-    <p class="font-medium text-blue-800">{{ __('Kursus') }}</p>
-    <h1 class="lg:text-4xl font-medium text-3xl leading-tight mb-5">{{ __('Program Kami') }}</h1>
+    <p class="font-bold font-[Nunito] text-blue-600">{{ __('Kursus Bahasa Inggris') }}</p>
+    <h1 class="lg:text-4xl font-bold text-3xl leading-tight mb-5">{{ __('Program Kami') }}</h1>
     <div class="sm:flex justify-between gap-5">
-      <p class="mb-4 sm:w-8/12 text-slate-600">
-        {{ __('Tingkatkan potensi Anda dengan kursus bahasa Inggris kami, dirancang untuk semua level. Apapun tujuan Anda, kami siap membantu. Bergabunglah sekarang!') }}
+      <p class="mb-4 sm:w-8/12 text-slate-800 leading-relaxed md:tracking-wide">
+        {{ __('Menguasai bahasa Inggris dengan percaya diri! Program kami dirancang khusus untuk semua level, dari pemula hingga lanjutan. Dapatkan metode pembelajaran interaktif, materi terkini, dan dukungan penuh dari pengajar profesional. Siapkan diri Anda untuk kesuksesan akademik, karir, atau petualangan global!') }}
       </p>
       <a href="{{ route('our-program') }}" wire:navigate>
-        <x-button size='lg' type="button" class="bg-blue-800 text-white hover:bg-blue-800 rounded-full px-8 py-6">
-          <x-lucide-eye class="mr-2 size-4" /> {{ __('Lihat Semua Kursus') }}
+        <x-button size='lg' type="button" class="bg-blue-600 text-white hover:bg-blue-600 rounded-full px-8 py-6">
+          <x-lucide-wand-sparkles class="mr-2 size-4" /> {{ __('Lihat Kursus') }}
         </x-button>
       </a>
     </div>
@@ -16,7 +16,8 @@
   <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full my-8 mt-12">
     @forelse ($programs as $program)
       <a href="{{ route('program.detail', ['slug' => $program->slug]) }}" wire:navigate
-        class="hover:-translate-y-2 transition-all cursor-pointer will-change-transform">
+        class="hover:-translate-y-2 transition-all cursor-pointer will-change-transform"
+        wire:key={{ $program->program_id }}>
         <x-card class="shadow-md">
           <x-card.header class="pb-4">
             <img class="w-full h-[210px] object-cover object-center rounded-xl"
@@ -41,7 +42,7 @@
             <div class="flex items-center">
               <div class="flex items-center gap-1">
                 @for ($i = 0; $i < $program->rate; $i++)
-                  <svg class="w-3.5 h-3.5 fill-blue-600" viewBox="0 0 14 13" fill="none"
+                  <svg class="w-3.5 h-3.5 fill-yellow-300" viewBox="0 0 14 13" fill="none"
                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <path
                       d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
@@ -50,14 +51,19 @@
               </div>
             </div>
             <x-button size='lg'
-              class="border border-blue-800 hover:bg-blue-900  bg-blue-800 text-white px-6 py-5 rounded-full">
+              class="border border-blue-600 hover:bg-blue-700  bg-blue-600 text-white px-6 py-5 rounded-full">
               {{ __('Detail') }} <x-lucide-square-arrow-right class="ml-2 size-4" />
             </x-button>
           </x-card.footer>
         </x-card>
       </a>
     @empty
-      <div class="text-center">{{ __('Tidak ada data ditemukan') }}</div>
+      @livewire('partials.empty-state', [
+          'title' => 'Programs in development',
+          'message' => 'New educational programs launching this fall',
+          'iconType' => 'animation',
+          'customIcon' => 'assets/empty-state-animation/growth.gif',
+      ])
     @endforelse
   </article>
 </section>

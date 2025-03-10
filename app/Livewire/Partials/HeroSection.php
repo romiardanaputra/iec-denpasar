@@ -8,9 +8,11 @@ class HeroSection extends Component
 {
     public $title;
 
-    public $breadcrumb;
+    public $highlightedText;
 
-    public $routeName;
+    public $subTitle;
+
+    public $ctaButton;
 
     public function render()
     {

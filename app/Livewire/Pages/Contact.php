@@ -21,10 +21,13 @@ class Contact extends Component
 
     public $message = '';
 
+    public $communicationMethod;
+
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
         'phone' => 'nullable|string|max:20',
+        'communicationMethod' => 'nullable|string|in:email,phone',
         'message' => 'required|string',
     ];
 
@@ -38,6 +41,7 @@ class Contact extends Component
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
+            'communicationMethod' => $this->communicationMethod,
             'message' => $this->message,
         ]);
 
@@ -47,7 +51,7 @@ class Contact extends Component
 
         Mail::to($this->email)->send(new UserContactMessageConfirmation($contactMessage));
 
-        $this->reset(['name', 'email', 'phone', 'message']);
+        $this->reset(['name', 'email', 'phone', 'message', 'communicationMethod']);
 
         session()->flash('success', 'Pesan berhasil dikirim!');
     }
