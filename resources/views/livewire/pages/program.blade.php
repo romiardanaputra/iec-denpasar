@@ -1,7 +1,7 @@
 <div>
-  @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'Program Kami', 'title' => 'Program Kami'])
+  @livewire('partials.hero-section', ['title' => 'Kembangkan Kemampuanmu dengan ', 'subTitle' => 'Pilihan program untuk semua level: Basic, Conversation, TOEFL/IELTS Preparation, dan Business English', 'ctaButton' => '#programKami', 'highlightedText' => 'Program Kursus Terlengkap'])
   @livewire('partials.program-section')
   @livewire('partials.testimonial-section')
   @livewire('partials.faq-section')
-  @livewire('partials.cta-section')
+  @livewire('partials.scroll-to-top')
 </div>

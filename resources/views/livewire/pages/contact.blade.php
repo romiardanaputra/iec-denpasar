@@ -1,78 +1,90 @@
 <div>
-  @livewire('partials.hero-section', ['routeName' => 'landing', 'breadcrumb' => 'Hubungi Kami', 'title' => 'Hubungi Kami'])
+  @livewire('partials.hero-section', ['title' => 'Siap Memulai  ', 'subTitle' => 'Hubungi kami untuk informasi pendaftaran, jadwal kelas, atau pertanyaan seputar program kursus', 'ctaButton' => '#kontakKami', 'highlightedText' => 'Perjalanan Bahasa Inggrismu?'])
   @if (session('success'))
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6" role="alert">
       {{ session('success') }}
     </div>
   @endif
-  <section class="py-16 container">
-    <div class="max-w-6xl mx-auto relative bg-white rounded-lg py-6">
-      <div class="flex flex-col items-center justify-center text-center w-full mx-auto mb-16">
-        <h2 class="text-3xl font-bold text-gray-800">{{ __('Hubungi Kami') }}</h2>
-        <p class="text-gray-600 mt-4">
-          {{ __('Sampaikan pertanyaan atau permintaan Anda kepada tim kami. Kami siap membantu!') }}</p>
-      </div>
-      <div class="grid lg:grid-cols-3 items-center">
-        <div class="grid sm:grid-cols-2 gap-4 z-20 relative lg:left-16 max-lg:px-4">
-          <div
-            class="flex flex-col items-center justify-center rounded-lg w-full h-44 p-4 text-center bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">
-            <x-lucide-map-pin class="size-8 text-blue-800" />
-            <h4 class="text-gray-800 text-base font-bold mt-4">{{ __('Kunjungi Kantor') }}</h4>
-            <p class="text-sm text-gray-600 mt-2">Jl. Jaya Giri Gg. XXII No.10x, Renon</p>
-          </div>
-          <div
-            class="flex flex-col items-center justify-center rounded-lg w-full h-44 p-4 text-center bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">
-            <x-lucide-phone class="size-8 text-blue-800" />
-            <h4 class="text-gray-800 text-base font-bold mt-4">{{ __('Hubungi Telepon') }}</h4>
-            <p class="text-sm text-gray-600 mt-2">+62 361 234 567</p>
-          </div>
-          <div
-            class="flex flex-col items-center justify-center rounded-lg w-full h-44 p-4 text-center bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">
-            <x-lucide-message-square-more class="size-8 text-blue-800" />
-            <h4 class="text-gray-800 text-base font-bold mt-4">{{ __('Kirim Email') }}</h4>
-            <p class="text-sm text-gray-600 mt-2">info@iec-denpasar.com</p>
-          </div>
-          <div
-            class="flex flex-col items-center justify-center rounded-lg w-full h-44 p-4 text-center bg-white shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)]">
-            <x-lucide-printer class="size-8 text-blue-800" />
-            <h4 class="text-gray-800 text-base font-bold mt-4">{{ __('Fax') }}</h4>
-            <p class="text-sm text-gray-600 mt-2">+62 361 234 568</p>
-          </div>
-        </div>
-        <div class="lg:col-span-2 bg-blue-900/10 rounded-lg sm:p-10 p-4 z-10 max-lg:-order-1 max-lg:mb-8">
-          <h2 class="text-3xl text-blue-800 text-center font-bold mb-6 py-4">Formulir Kontak</h2>
-          <x-form wire:submit="submit" class="w-full [&_input]:max-w-full mx-auto">
-            <div class="max-w-md mx-auto space-y-5">
-              <x-input name="name" required wire:model="name" placeholder="{{ __('Nama Lengkap') }}"
-                class="w-full bg-gray-100 rounded-lg p-6 text-sm outline-none" />
-              @error('name')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-              @enderror
-              <x-input name="email" required wire:model="email" placeholder="{{ __('Alamat Email') }}" type="email"
-                class="w-full bg-gray-100 rounded-lg p-6 text-sm outline-none" />
-              @error('email')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-              @enderror
-              <x-input name="phone" required wire:model="phone" placeholder="{{ __('Nomor Telepon') }}"
-                class="w-full bg-gray-100 rounded-lg p-6 text-sm outline-none" />
-              @error('phone')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-              @enderror
-              <x-textarea name="message" required wire:model="message" placeholder="{{ __('Pesan Anda') }}"
-                rows="6" class="w-full bg-gray-100 rounded-lg px-6 text-sm pt-3 outline-none mb-5" />
-              @error('message')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
-              @enderror
-              <x-button size="lg" type="submit"
-                class="bg-blue-800 text-white hover:bg-blue-900 rounded-full px-8 py-6 w-full">
-                <x-lucide-send class="mr-2 size-4" /> {{ __('Kirim Pesan') }}
-              </x-button>
+
+  <section class="py-24" id="kontakKami">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 grid-cols-1">
+        <div class="lg:mb-0 mb-10">
+          <div class="group w-full h-full">
+            <div class="relative h-full">
+              <img src="https://ik.imagekit.io/kht744nua/iec_dps/iec-contact.jpg?updatedAt=1741435524982"
+                alt="ContactUs tailwind section" loading="lazy"
+                class="w-full h-full lg:rounded-l-2xl rounded-2xl bg-blend-multiply bg-blue-700 object-cover" />
+              <h1 class="font-manrope text-white text-4xl font-bold leading-10 absolute top-11 left-11">Contact us</h1>
+              <div class="absolute bottom-0 w-full lg:p-11 p-5">
+                <div class="bg-white rounded-lg p-6 block">
+                  <a href="https://wa.me/+62874715370" target="_blank" class="flex items-center mb-6">
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M22.3092 18.3098C22.0157 18.198 21.8689 18.1421 21.7145 18.1287C21.56 18.1154 21.4058 18.1453 21.0975 18.205L17.8126 18.8416C17.4392 18.9139 17.2525 18.9501 17.0616 18.9206C16.8707 18.891 16.7141 18.8058 16.4008 18.6353C13.8644 17.2551 12.1853 15.6617 11.1192 13.3695C10.9964 13.1055 10.935 12.9735 10.9133 12.8017C10.8917 12.6298 10.9218 12.4684 10.982 12.1456L11.6196 8.72559C11.6759 8.42342 11.7041 8.27233 11.6908 8.12115C11.6775 7.96998 11.6234 7.82612 11.5153 7.5384L10.6314 5.18758C10.37 4.49217 10.2392 4.14447 9.95437 3.94723C9.6695 3.75 9.29804 3.75 8.5551 3.75H5.85778C4.58478 3.75 3.58264 4.8018 3.77336 6.06012C4.24735 9.20085 5.64674 14.8966 9.73544 18.9853C14.0295 23.2794 20.2151 25.1426 23.6187 25.884C24.9335 26.1696 26.0993 25.1448 26.0993 23.7985V21.2824C26.0993 20.5428 26.0993 20.173 25.9034 19.8888C25.7076 19.6046 25.362 19.4729 24.6708 19.2096L22.3092 18.3098Z"
+                        stroke="#0064F2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <h5 class="text-black text-base font-normal leading-6 ml-5">087-4715-370</h5>
+                  </a>
+                  <a href="https://mailto:iecdps@gmail.com" target="_blank" class="flex items-center mb-6">
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M2.81501 8.75L10.1985 13.6191C12.8358 15.2015 14.1544 15.9927 15.6032 15.9582C17.0519 15.9237 18.3315 15.0707 20.8905 13.3647L27.185 8.75M12.5 25H17.5C22.214 25 24.5711 25 26.0355 23.5355C27.5 22.0711 27.5 19.714 27.5 15C27.5 10.286 27.5 7.92893 26.0355 6.46447C24.5711 5 22.214 5 17.5 5H12.5C7.78595 5 5.42893 5 3.96447 6.46447C2.5 7.92893 2.5 10.286 2.5 15C2.5 19.714 2.5 22.0711 3.96447 23.5355C5.42893 25 7.78595 25 12.5 25Z"
+                        stroke="#0064F2" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    <h5 class="text-black text-base font-normal leading-6 ml-5">iecdps@gmail.com</h5>
+                  </a>
+                  <a href="https://maps.app.goo.gl/PULYrDfM2u6KW4BV6" target="_blank" class="flex items-center">
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M25 12.9169C25 17.716 21.1939 21.5832 18.2779 24.9828C16.8385 26.6609 16.1188 27.5 15 27.5C13.8812 27.5 13.1615 26.6609 11.7221 24.9828C8.80612 21.5832 5 17.716 5 12.9169C5 10.1542 6.05357 7.5046 7.92893 5.55105C9.8043 3.59749 12.3478 2.5 15 2.5C17.6522 2.5 20.1957 3.59749 22.0711 5.55105C23.9464 7.5046 25 10.1542 25 12.9169Z"
+                        stroke="#0064F2" stroke-width="2" />
+                      <path
+                        d="M17.5 11.6148C17.5 13.0531 16.3807 14.219 15 14.219C13.6193 14.219 12.5 13.0531 12.5 11.6148C12.5 10.1765 13.6193 9.01058 15 9.01058C16.3807 9.01058 17.5 10.1765 17.5 11.6148Z"
+                        stroke="#0064F2" stroke-width="2" />
+                    </svg>
+                    <h5 class="text-black text-base font-normal leading-6 ml-5">Jl. Jaya Giri Gg. XXII No.10x, Renon,
+                      Kec. Denpasar Tim., Kota Denpasar, Bali</h5>
+                  </a>
+                </div>
+              </div>
             </div>
-          </x-form>
+          </div>
         </div>
+
+        <form wire:submit="submit" class="bg-gray-50 p-5 lg:p-11 lg:rounded-r-2xl rounded-2xl">
+          <h2 class="text-blue-600 text-4xl font-bold leading-10 mb-11">Send Us A Message</h2>
+          <input type="text" name="name" wire:model="name" required
+            class="w-full h-12 text-gray-600 placeholder-gray-400  shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
+            placeholder="Name">
+          @error('name')
+            <span class="text-red-600 text-sm">{{ $message }}</span>
+          @enderror
+          <input type="text" name="email" equired wire:model="email"
+            class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
+            placeholder="Email">
+          @error('email')
+            <span class="text-red-600 text-sm">{{ $message }}</span>
+          @enderror
+          <input type="text" name="phone" required
+            class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
+            placeholder="Phone">
+          @error('phone')
+            <span class="text-red-600 text-sm">{{ $message }}</span>
+          @enderror
+
+          <textarea type="text" wire:model="message"
+            class="w-full h-48 shadow-sm resize-none text-gray-600 placeholder-text-400 text-lg font-normal leading-7 rounded-2xl border border-gray-200 focus:outline-none px-4 py-4 mb-8"
+            placeholder="Message" required></textarea>
+          <button type="submit"
+            class="w-full h-12 text-white text-base font-semibold leading-6 rounded-full transition-all duration-700 hover:bg-blue-800 bg-blue-600 shadow-sm">Send</button>
+        </form>
       </div>
-    </div>
   </section>
+
   <section class="container pt-10 pb-20">
     <div style="width: 100%">
       <iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
@@ -81,5 +93,5 @@
       </iframe>
     </div>
   </section>
-  @livewire('partials.cta-section')
+  @livewire('partials.scroll-to-top')
 </div>

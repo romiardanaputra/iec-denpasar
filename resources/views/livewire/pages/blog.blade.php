@@ -1,199 +1,110 @@
 <div>
-  <div class="container pt-40">
-    <div class="max-w-screen-xl mb-4 mx-auto">
-      <x-accordion type="single" collapsible>
-        <x-accordion.item value="item-1">
-          <div class="bg-blue-800 rounded-lg px-4">
-            <x-accordion.trigger>
-              <div class="text-slate-200">Filter Blog!</div>
-            </x-accordion.trigger>
-          </div>
+  @livewire('partials.hero-section', ['title' => 'Temukan Artikel Terbaru Seputar Bahasa Inggris di   ', 'subTitle' => ' Tips belajar, kisah sukses alumni, strategi TOEFL/IELTS, dan update informasi kursus terbaru dari para ahli', 'ctaButton' => '#blogKami', 'highlightedText' => 'Blog IEC Denpasar'])
+  <div class="container pt-12">
 
-          <x-accordion.content>
-            <div class=" py-4 flex flex-col lg:flex-row flex-wrap lg:flex-nowrap gap-4 w-full">
+    <section class="py-24 relative">
+      <div class="w-full max-w-7xl mx-auto px-4 md:px-8">
+        <div class="flex flex-col lg:flex-row lg:items-center max-lg:gap-4 justify-between w-full">
 
-              <!-- Category Filter -->
-              <div class="w-full lg:w-7/12">
-                <div class="mb-4">
-                  <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
-                  <select id="category" wire:model="selectedCategory"
-                    class="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-sm">
-                    <option value="">All Categories</option>
-                    @foreach ($categories as $category)
-                      <option wire:key="{{ $category->id }}" value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-
-              <!-- Author Filter -->
-              <div class="w-full lg:w-7/12">
-                <div class="mb-4">
-                  <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
-                  <select id="author" wire:model="selectedAuthor"
-                    class="mt-1 block w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500">
-                    <option value="">All Authors</option>
-                    @foreach ($authors as $key => $author)
-                      <option value="{{ $key }}">{{ $author }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div>
-
-              <!-- Unified Search Bar and Filters -->
-              <div class="w-full lg:w-7/12">
-                <div class="mb-8">
-                  <label for="search" class="block text-sm font-medium text-gray-700">Search Blog</label>
-                  <div class="flex items-center space-x-2">
-                    <input type="text" wire:model="search"
-                      placeholder="Search blog posts by title, content, category, or author..."
-                      class="w-full px-4 py-2.5 border mt-1 border-gray-300 rounded-lg text-sm focus:outline-none focus:border-blue-500" />
-                    <button wire:click="performSearch"
-                      class="px-4 py-2.5 bg-blue-800 text-white rounded hover:bg-blue-900">
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </x-accordion.content>
-        </x-accordion.item>
-      </x-accordion>
-    </div>
-
-    <div class="flex justify-evenly flex-wrap gap-4">
-
-      <!-- Main Content -->
-      <div class="w-full lg:w-7/12 space-y-8">
-        @forelse ($blogs as $key => $blog)
-          <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" wire:navigate wire:key="{{ $blog->id }}">
-            <x-card class="p-4">
-              <div class="flex items-center lg:gap-4 mb-8">
-                <x-avatar class="size-8">
-                  <x-avatar.image
-                    src="{{ $blog->author->image ? (Str::startsWith($blog->author->image, 'http') ? $blog->author->image : asset('storage/' . $blog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
-                    alt="{{ $blog->author->name }}" />
-                  <x-avatar.fallback>{{ $blog->author?->team?->name ?? 'author tidak diketahui' }}</x-avatar.fallback>
-                </x-avatar>
-                <span
-                  class="text-slate-700 font-medium text-sm">{{ $blog->author?->team?->name ?? 'author tidak diketahui' }}</span>
-              </div>
-              <div class="flex items-center justify-between">
-                <div class="w-8/12 space-y-4">
-                  <h1 class="font-bold text-2xl">{{ $blog->title }}</h1>
-                  <p class="text-slate-700 text-sm leading-relaxed tracking-wide">
-                    {{ Str::limit($blog->content, 100) }}
-                  </p>
-                  <div class="flex flex-col lg:flex-row lg:gap-4 lg:items-center">
-                    <p class="text-slate-700 text-sm font-medium">{{ $blog->created_at->format('F j, Y g:i A') }}</p>
-                    <span class="hidden lg:block">-</span>
-                    <p class="text-slate-700 text-sm font-medium">{{ $blog->category->name }}</p>
-                  </div>
-                </div>
-                <div class="w-3/12 lg:w-2/12">
-                  <img class="aspect-video object-cover h-24" src="{{ asset('storage/' . $blog->image) }}"
-                    alt="{{ $blog->title }}">
-                </div>
-              </div>
-            </x-card>
-          </a>
-        @empty
-          <div class="h-1/2 flex items-center justify-center">
-            Belum ada blog yang di posting
-          </div>
-        @endforelse
-
-        <!-- Pagination Links -->
-        {{-- <div class="mt-8">
-          <nav role="navigation" aria-label="Pagination Navigation" class="flex justify-center">
-            <ul class="pagination flex gap-2">
-              @if ($blogs->onFirstPage())
-                <li class="page-item disabled">
-                  <span
-                    class="page-link relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md">
-                    Previous
-                  </span>
-                </li>
-              @else
-                <li class="page-item">
-                  <button wire:click="previousPage"
-                    class="page-link relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:z-20 focus:outline-none focus:bg-gray-100 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                    Previous
-                  </button>
-                </li>
-              @endif
-
-              @foreach ($blogs->getUrlRange(1, $blogs->lastPage()) as $page => $url)
-                <li class="page-item {{ $page == $blogs->currentPage() ? 'active' : '' }}">
-                  <button wire:click="gotoPage({{ $page }})"
-                    class="page-link relative inline-flex items-center px-4 py-2 text-sm font-medium {{ $page == $blogs->currentPage() ? 'bg-blue-500 text-white' : 'text-gray-700 bg-white' }} border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:z-20 focus:outline-none focus:bg-gray-100 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                    {{ $page }}
-                  </button>
-                </li>
+          <div class="relative w-full max-w-sm">
+            <svg class="absolute top-1/2 -translate-y-1/2 left-4 z-40" width="20" height="20" viewBox="0 0 20 20"
+              fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M16.5555 3.33203H3.44463C2.46273 3.33203 1.66675 4.12802 1.66675 5.10991C1.66675 5.56785 1.84345 6.00813 2.16004 6.33901L6.83697 11.2271C6.97021 11.3664 7.03684 11.436 7.0974 11.5068C7.57207 12.062 7.85127 12.7576 7.89207 13.4869C7.89728 13.5799 7.89728 13.6763 7.89728 13.869V16.251C7.89728 17.6854 9.30176 18.6988 10.663 18.2466C11.5227 17.961 12.1029 17.157 12.1029 16.251V14.2772C12.1029 13.6825 12.1029 13.3852 12.1523 13.1015C12.2323 12.6415 12.4081 12.2035 12.6683 11.8158C12.8287 11.5767 13.0342 11.3619 13.4454 10.9322L17.8401 6.33901C18.1567 6.00813 18.3334 5.56785 18.3334 5.10991C18.3334 4.12802 17.5374 3.33203 16.5555 3.33203Z"
+                stroke="black" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+            <select id="Offer"
+              class="h-12 border border-gray-300 text-gray-900 pl-11 text-base font-normal leading-7 rounded-full block w-full py-2.5 px-4 appearance-none relative focus:outline-none bg-white transition-all duration-500 hover:border-gray-400 hover:bg-gray-50 focus-within:bg-gray-50">
+              <option selected>Sort by category</option>
+              @foreach ($categories as $category)
+                <option wire:key="{{ $category->id }}" value="{{ $category->id }}">{{ $category->name }}</option>
               @endforeach
+            </select>
+            <svg class="absolute top-1/2 -translate-y-1/2 right-4 z-40" width="16" height="16"
+              viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.0002 5.99845L8.00008 9.99862L3.99756 5.99609" stroke="#111827" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
 
-              @if ($blogs->hasMorePages())
-                <li class="page-item">
-                  <button wire:click="nextPage"
-                    class="page-link relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 leading-5 rounded-md hover:text-gray-500 focus:z-20 focus:outline-none focus:bg-gray-100 focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150">
-                    Next
-                  </button>
-                </li>
-              @else
-                <li class="page-item disabled">
-                  <span
-                    class="page-link relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 cursor-default leading-5 rounded-md">
-                    Next
-                  </span>
-                </li>
-              @endif
-            </ul>
-          </nav>
-        </div> --}}
-        {{ $blogs->links() }}
+          <div class="relative w-full max-w-sm">
+            <svg class="absolute top-1/2 -translate-y-1/2 left-4 z-40" width="20" height="20" viewBox="0 0 20 20"
+              fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M16.5555 3.33203H3.44463C2.46273 3.33203 1.66675 4.12802 1.66675 5.10991C1.66675 5.56785 1.84345 6.00813 2.16004 6.33901L6.83697 11.2271C6.97021 11.3664 7.03684 11.436 7.0974 11.5068C7.57207 12.062 7.85127 12.7576 7.89207 13.4869C7.89728 13.5799 7.89728 13.6763 7.89728 13.869V16.251C7.89728 17.6854 9.30176 18.6988 10.663 18.2466C11.5227 17.961 12.1029 17.157 12.1029 16.251V14.2772C12.1029 13.6825 12.1029 13.3852 12.1523 13.1015C12.2323 12.6415 12.4081 12.2035 12.6683 11.8158C12.8287 11.5767 13.0342 11.3619 13.4454 10.9322L17.8401 6.33901C18.1567 6.00813 18.3334 5.56785 18.3334 5.10991C18.3334 4.12802 17.5374 3.33203 16.5555 3.33203Z"
+                stroke="black" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+            <select id="Offer"
+              class="h-12 border border-gray-300 text-gray-900 pl-11 text-base font-normal leading-7 rounded-full block w-full py-2.5 px-4 appearance-none relative focus:outline-none bg-white transition-all duration-500 hover:border-gray-400 hover:bg-gray-50 focus-within:bg-gray-50">
+              <option selected>Sort by author</option>
+              @foreach ($authors as $key => $author)
+                <option value="{{ $key }}">{{ $author }}</option>
+              @endforeach
+            </select>
+            <svg class="absolute top-1/2 -translate-y-1/2 right-4 z-40" width="16" height="16"
+              viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.0002 5.99845L8.00008 9.99862L3.99756 5.99609" stroke="#111827" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
 
-      </div>
+          <div class="relative w-full max-w-sm">
+            <input id="searcgBlog" wire:model="search"
+              class="h-12 border border-gray-300 text-gray-900 pl-11 pr-16 text-base font-normal leading-7 rounded-full block w-full py-2.5 appearance-none relative focus:outline-none bg-white transition-all duration-500 hover:border-gray-400 hover:bg-gray-50 focus-within:bg-gray-50"
+              placeholder="Search offers..." />
+            <button wire:click="performSearch"
+              class="absolute top-1/2 -translate-y-1/2 right-4 z-40 bg-blue-600 text-white rounded-full h-8 w-8 flex items-center justify-center hover:bg-blue-700 transition-all duration-200 focus:outline-none">
+              <svg class="w-5 h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M9.5 4C12.533 4 15 6.467 15 9.5C15 12.533 12.533 15 9.5 15C6.467 15 4 12.533 4 9.5C4 6.467 6.467 4 9.5 4ZM15.5 15.5L19 19"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <svg class="my-7 w-full" xmlns="http://www.w3.org/2000/svg" width="1216" height="2" viewBox="0 0 1216 2"
+          fill="none">
+          <path d="M0 1H1216" stroke="#E5E7EB" />
+        </svg>
+        <div class="grid grid-cols-12">
 
-      <!-- Sticky Sidebar -->
-      <div class="w-full lg:w-4/12 lg:sticky top-20 self-start">
-        <x-card class="p-8 px-4">
-          <span class="font-medium text-lg">Rekomendasi Berita</span>
-          @forelse ($recommendedBlogs as $key => $recommendedBlog)
-            <a href="{{ route('blog.detail', ['slug' => $recommendedBlog->slug]) }}">
-              <x-card class="p-4 mt-4" wire:key="{{ $recommendedBlog->id }}">
-                <div class="flex items-center gap-4 mb-2">
-                  <x-avatar class="size-6">
-                    <x-avatar.image
-                      src="{{ $recommendedBlog->author->image ? (Str::startsWith($recommendedBlog->author->image, 'http') ? $recommendedBlog->author->image : asset('storage/' . $recommendedBlog->author->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
-                      alt="{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}" />
-                    <x-avatar.fallback>{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}</x-avatar.fallback>
-                  </x-avatar>
-                  <span
-                    class="text-slate-700 font-medium text-[13px]">{{ $recommendedBlog->author?->team?->name ?? 'Author tidak diketahui' }}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div class="w-full space-y-2">
-                    <h1 class="font-bold text-base">{{ $recommendedBlog->title }}</h1>
-                    <p class="text-slate-700 text-[13px] leading-relaxed tracking-wide">
-                      {{ Str::limit($recommendedBlog->content, 50) }}
-                    </p>
-                    <div class="flex gap-4 items-center">
-                      <p class="text-slate-700 text-[13px] font-medium">
-                        {{ $recommendedBlog->created_at->format('F j, Y g:i A') }}</p>
-                      <span>-</span>
-                      <p class="text-slate-700 text-[13px] font-medium">{{ $recommendedBlog->category->name }}</p>
+          <div class="col-span-12 md:col-span-12">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <h2 class="font-manrope text-4xl font-bold text-gray-900 text-center mb-16">Our latest blog</h2>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                @forelse ($blogs as $key => $blog)
+                  <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" wire:navigate
+                    wire:key="{{ $blog->id }}">
+                    <div
+                      class="group border border-gray-300 rounded-2xl overflow-hidden transition-shadow hover:shadow-lg">
+                      <img src="https://pagedone.io/asset/uploads/1696244317.png" alt="blogs tailwind section"
+                        class="w-full h-48 object-cover">
+                      <div class="p-6 transition-all duration-300 group-hover:bg-gray-50">
+                        <span class="text-blue-600 font-medium mb-3 block">Jan 01, 2023</span>
+                        <h4 class="text-xl text-gray-900 font-medium leading-8 mb-5">Clever ways to invest in product to
+                          organize your portfolio</h4>
+                        <p class="text-gray-500 leading-6 mb-6">Discover smart investment strategies to streamline and
+                          organize your portfolio...</p>
+                        <a href="javascript:;" class="text-lg text-blue-600 font-semibold hover:underline">Read
+                          more</a>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </x-card>
-            </a>
-          @empty
-            <div class=" h-40 flex items-center justify-center">
-              Belum ada rekomendasi blog
+                  </a>
+                @empty
+                  @livewire('partials.empty-state', [
+                      'title' => 'No blogs posted yet',
+                      'message' => 'We\'re working on some exciting content to share with you. Check back soon for fresh perspectives
+                                                            and insights.',
+                      'iconType' => 'animation',
+                      'customIcon' => 'assets/empty-state-animation/blog.gif',
+                  ])
+                @endforelse
+              </div>
             </div>
-          @endforelse
-        </x-card>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   </div>
 </div>
