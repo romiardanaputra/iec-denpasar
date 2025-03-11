@@ -1,4 +1,4 @@
-<section id="programKami" class="container md:py-20 px-8 md:px-12 lg:px-32">
+<section id="programKami" class="container lg:py-20 px-8 md:px-12 ">
   <article class="space-y-4">
     <p class="font-bold font-[Nunito] text-blue-600">{{ __('Kursus Bahasa Inggris') }}</p>
     <h1 class="lg:text-4xl font-bold text-3xl leading-tight mb-5">{{ __('Program Kami') }}</h1>

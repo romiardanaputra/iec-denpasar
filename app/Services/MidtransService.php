@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Transaction\Order;
-use App\Models\Transaction\Payment;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Midtrans\Config;
@@ -20,6 +19,11 @@ class MidtransService
 
     protected string $is3ds;
 
+    /**
+     * MidtransService constructor.
+     *
+     * Menyiapkan konfigurasi Midtrans berdasarkan pengaturan yang ada di file konfigurasi.
+     */
     public function __construct()
     {
         $this->serverKey = config('midtrans.server_key');
@@ -34,17 +38,25 @@ class MidtransService
         Config::$is3ds = $this->is3ds;
     }
 
+    /**
+     * Membuat snap token untuk transaksi berdasarkan data order.
+     *
+     * @param  Order  $order  Objek order yang berisi informasi transaksi.
+     * @return string Snap token yang dapat digunakan di front-end untuk proses pembayaran.
+     *
+     * @throws Exception Jika terjadi kesalahan saat menghasilkan snap token.
+     */
     public function createSnapToken(Order $order): string
     {
 
-        $itemDetails = $this->mapItemToDetails($order);
-        $totalAmount = array_sum(array_map(function ($item) {
-            return $item['price'] * $item['quantity'];
-        }, $itemDetails));
+        // $itemDetails = $this->mapItemToDetails($order);
+        // $totalAmount = array_sum(array_map(function ($item) {
+        //   return $item['price'] * $item['quantity'];
+        // }, $itemDetails));
 
-        if ($totalAmount !== $order->total_price) {
-            throw new Exception('Total amount mismatch between order and item details');
-        }
+        // if ($totalAmount !== $order->total_price) {
+        //   throw new Exception('Total amount mismatch between order and item details');
+        // }
         $params = [
             'transaction_details' => [
                 'order_id' => $order->order_id,
@@ -54,25 +66,35 @@ class MidtransService
             'customer_details' => $this->getCustomerDetails($order),
         ];
 
-        Log::info('Midtrans params: '.json_encode($params));
+        Log::info('Isi midtrans params: '.json_encode($params));
 
         try {
-            $snapToken = Snap::getSnapToken($params);
-
-            return $snapToken;
+            return Snap::getSnapToken($params);
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
 
+    /**
+     * Memvalidasi apakah signature key yang diterima dari Midtrans sesuai dengan signature key yang dihitung di server.
+     *
+     * @return bool Status apakah signature key valid atau tidak.
+     */
     public function isSignatureKeyVerified(): bool
     {
+        // Membuat signature key lokal dari data notifikasi
         $notification = new Notification;
         $localSignatureKey = hash('sha512', $notification->order_id.$notification->status_code.$notification->gross_amount.$this->serverKey);
 
+        // Memeriksa apakah signature key valid
         return $localSignatureKey === $notification->signature_key;
     }
 
+    /**
+     * Mendapatkan data order berdasarkan order_id yang ada di notifikasi Midtrans.
+     *
+     * @return Order Objek order yang sesuai dengan order_id yang diterima.
+     */
     public function getOrder(): Order
     {
         $notification = new Notification;
@@ -80,6 +102,11 @@ class MidtransService
         return Order::where('order_id', $notification->order_id)->first();
     }
 
+    /**
+     * Mendapatkan status transaksi berdasarkan status yang diterima dari notifikasi Midtrans.
+     *
+     * @return string Status transaksi ('success', 'pending', 'expire', 'cancel', 'failed').
+     */
     public function getStatus(): string
     {
         $notification = new Notification;
@@ -96,9 +123,18 @@ class MidtransService
         };
     }
 
+    /**
+     * Memetakan item dalam order menjadi format yang dibutuhkan oleh Midtrans.
+     *
+     * @param  Order  $order  Objek order yang berisi daftar item.
+     * @return array Daftar item yang dipetakan dalam format yang sesuai.
+     */
     protected function mapItemToDetails(Order $order): array
     {
-        return $order->items()->get()->map(function ($item) {
+
+        $items = $order->items()->get();
+
+        return $items->map(function ($item) {
             return [
                 'id' => $item->id,
                 'price' => $item->price,
@@ -108,30 +144,26 @@ class MidtransService
         })->toArray();
     }
 
+    /**
+     * Mendapatkan informasi customer dari order.
+     * Data ini dapat diambil dari relasi dengan tabel lain seperti users atau tabel khusus customer.
+     *
+     * @param  Order  $order  Objek order yang berisi informasi tentang customer.
+     * @return array Data customer yang akan dikirim ke Midtrans.
+     */
     protected function getCustomerDetails(Order $order): array
     {
         $user = $order->user;
 
+        if (! $user) {
+            Log::error('User not found for order ID: '.$order->order_id);
+            throw new Exception('User not found for this order');
+        }
+
         return [
-            'name' => $user->name,
+            'first_name' => $user->name,
             'email' => $user->email,
             'phone' => $user->phone,
-            'address' => $user->address,
-            'city' => $user->city,
-            'postal_code' => $user->postal_code,
-            'country_code' => $user->country_code,
         ];
     }
-
-    // public function savePayment(Order $order, string $paymentId, string $status, float $amount, ?string $snapToken = null): Payment
-    // {
-    //   return Payment::create([
-    //     'order_id' => $order->order_id,
-    //     'payment_id' => $paymentId,
-    //     'amount' => $amount,
-    //     'snap_token' => $snapToken,
-    //     'status' => strtoupper($status),
-    //     'paid_at' => $status === 'success' ? now() : null,
-    //   ]);
-    // }
 }

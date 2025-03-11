@@ -10,9 +10,12 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::get();
+        $data = [
+            'orders' => $orders,
+        ];
 
-        return view('customer.orders.index', compact('orders'));
+        return view('livewire.feature.user.bill', $data);
     }
 
     /**
@@ -34,6 +37,6 @@ class OrderController extends Controller
             $snapToken = $payment->snap_token;
         }
 
-        return view('customer.orders.show', compact('order', 'snapToken'));
+        return view('livewire.feature.user.bill-detail', compact('order', 'snapToken'));
     }
 }

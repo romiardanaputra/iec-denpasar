@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Order::class, 'order_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('payment_id')->unique();
             $table->double('amount');
             $table->string('snap_token')->nullable();
             $table->enum('status', ['PENDING', 'PAID', 'FAILED', 'EXPIRE', 'CANCEL'])->default('PENDING');

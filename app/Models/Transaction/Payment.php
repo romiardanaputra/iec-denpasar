@@ -12,6 +12,7 @@ class Payment extends Model
     public $fillable = [
         'order_id',
         'snap_token',
+        'amount',
         'status',
         'expired_at',
         'paid_at',

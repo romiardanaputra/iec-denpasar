@@ -11,6 +11,7 @@ use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\VerifyEmail;
 use App\Livewire\Feature\Payment\Invoice;
 use App\Livewire\Feature\User\Bill;
+use App\Livewire\Feature\User\BillDetail;
 use App\Livewire\Feature\User\Dashboard;
 use App\Livewire\Feature\User\ExamGrade;
 use App\Livewire\Feature\User\Profile;
@@ -26,16 +27,8 @@ use App\Livewire\Partials\Transaction\FailedPayment;
 use App\Livewire\Partials\Transaction\PaymentSuccess;
 use App\Livewire\Partials\Transaction\PendingPayment;
 use Illuminate\Support\Facades\Route;
-use Spatie\Sitemap\SitemapGenerator;
 
-// Route::get('/sitemap', function () {
-//     $path = public_path('sitemap.xml');
-//     SitemapGenerator::create(config('app.url'))
-//         ->writeToFile($path);
-
-//     return response()->json(['message' => 'Sitemap created successfully!', 'path' => $path]);
-// });
-
+// when authenticated stil can access this page
 Route::group(['middleware' => 'web'], function () {
     Route::get('/', Index::class)->name('landing');
     Route::get('/about', About::class)->name('about');
@@ -47,6 +40,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/blog/{slug}', BlogDetail::class)->name('blog.detail');
 });
 
+// when not authenticated
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', Login::class)->name('login');
     Route::get('/register', Register::class)->name('register');
@@ -56,6 +50,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/oauth/google/callback', [OauthController::class, 'handleProviderCallback'])->name('oauth.google.callback');
 });
 
+// when authenticated and not verified
 Route::group(['middleware' => 'auth'], function (): void {
     Route::get('verify-email', EmailVerificationPrompt::class)
         ->name('verification.notice');
@@ -64,12 +59,15 @@ Route::group(['middleware' => 'auth'], function (): void {
         ->name('verification.verify');
 });
 
+// when authenticated and verified
 Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]], function () {
     Route::get('/dashboard', Dashboard::class)->name('dashboard');
     Route::get('/profile', Profile::class)->name('profile');
     Route::get('/exam-grade', ExamGrade::class)->name('exam-grade');
     Route::get('/bill', Bill::class)->name('bill');
+    Route::get('/bill/{order}', BillDetail::class)->name('bill.detail');
     Route::get('/invoice', Invoice::class)->name('invoice');
+    Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
     Route::post(
         '/program/{program}/checkout',
         [PaymentController::class, 'checkout']
@@ -83,8 +81,4 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
 
 });
 
-Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
-
-// Route::get('/customer/orders', [App\Http\Controllers\Customer\OrderController::class, 'index'])->name('customer.orders.index');
-// Route::get('/customer/orders/{order}', [App\Http\Controllers\Customer\OrderController::class, 'show'])->name('customer.orders.show');
-// Route::post('/payment/midtrans-callback', [App\Http\Controllers\PaymentController::class, 'midtransCallback']);
+// callback midtrans must be not inside in auth middleware

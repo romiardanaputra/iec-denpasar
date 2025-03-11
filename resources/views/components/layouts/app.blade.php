@@ -45,7 +45,7 @@
               {{ $slot }}
               @livewire('partials.footer')
             @else
-              @if (Route::is('payment.success', 'payment.pending'))
+              @if (Route::is('payment.success', 'payment.pending', 'payment.failed'))
                 {{ $slot }}
               @else
                 @include('layouts.navbars.auth.sidebar')
@@ -70,7 +70,9 @@
                 'password.reset',
                 'verification.notice',
                 'verification.verify',
-                'payment.success'))
+                'payment.success',
+                'payment.pending',
+                'payment.failed'))
           @livewire('partials.navbar')
         @endunless
         {{ $slot }}
@@ -81,7 +83,9 @@
                 'password.reset',
                 'verification.notice',
                 'verification.verify',
-                'payment.success'))
+                'payment.success',
+                'payment.pending',
+                'payment.failed'))
           @livewire('partials.footer')
         @endunless
       @endif
@@ -91,7 +95,6 @@
     @livewireScripts
     @filamentScripts
     {{-- <script src="{{ asset('js/filament/filament/app.js') }}"></script> --}}
-
     <script async defer src="{{ asset('storage/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
     <script async defer src="{{ asset('storage/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
     @yield('js_custom')

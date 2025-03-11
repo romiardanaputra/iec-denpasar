@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Program\Program;
 use App\Models\Transaction\Order;
 use App\Models\Transaction\OrderItem;
+use App\Models\Transaction\Payment;
 use App\Models\Transaction\Registration;
 use App\Services\MidtransService;
 use Illuminate\Http\Request;
@@ -54,9 +55,9 @@ class PaymentController extends Controller
         return response()->json(['status' => 'success']);
     }
 
-    public function midtransCallback(Request $request, MidtransService $midtransService)
+    public function midtransCallback(MidtransService $midtransService)
     {
-        Log::info('Midtrans callback received');
+        Log::info('Midtrans callback diterima');
         if ($midtransService->isSignatureKeyVerified()) {
             $order = $midtransService->getOrder();
             if (! $order) {
@@ -130,11 +131,13 @@ class PaymentController extends Controller
 
     public function checkout(Request $request, Program $program, MidtransService $midtransService)
     {
-        Log::info('checkout method is called');
+        Log::info('fungsi checkout dipanggil pada controller payment');
+
         $user = Auth::user();
         if (! $user) {
             return response()->json(['message' => 'User not authenticated'], 401);
         }
+        Log::info('validasi data');
         $data = $request->validate([
             'student_name' => 'required|string|max:255',
             'birthplace' => 'required|string|max:255',
@@ -145,11 +148,15 @@ class PaymentController extends Controller
             'market' => 'required|string|max:255',
             'parent_guardian' => 'nullable|string|max:255',
         ]);
+        Log::info('create data student');
+
         $registran = Registration::create([
             'user_id' => $user->id,
             'program_id' => $program->program_id,
             ...$data,
         ]);
+        Log::info('create data order');
+
         $order = Order::create([
             'user_id' => $user->id,
             'program_id' => $program->program_id,
@@ -157,6 +164,9 @@ class PaymentController extends Controller
             'order_id' => uniqid('ORD-'),
             'total_price' => $program->price,
         ]);
+
+        Log::info('create data order item');
+
         OrderItem::create([
             'order_id' => $order->id,
             'program_id' => $program->program_id,
@@ -166,6 +176,14 @@ class PaymentController extends Controller
         ]);
         $snapToken = $midtransService->createSnapToken($order);
         Log::info('snaptoken created: '.$snapToken);
+
+        Payment::create([
+            'order_id' => $order->id,
+            'amount' => $order->total_price,
+            'snap_token' => $snapToken,
+            'status' => 'PENDING',
+            'expired_at' => now()->addHours(24),
+        ]);
 
         return response()->json([
             'snap_token' => $snapToken,

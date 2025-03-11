@@ -3,7 +3,6 @@
 namespace App\Livewire\Feature\User;
 
 use App\Models\Transaction\Order;
-use App\Services\MidtransService;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -27,23 +26,6 @@ class Bill extends Component
 
             return $lastPayment == null || $lastPayment->status == 'PENDING' || $lastPayment->status == 'EXPIRED';
         });
-    }
-
-    public function showTransaction(MidtransService $midtransService, Order $order)
-    {
-        $payment = $order->payments()->latest()->first();
-        if ($payment == null || $payment->status == 'EXPIRED') {
-            $snapToken = $midtransService->createSnapToken($order);
-            $order->payments()->create([
-                'snap_token' => $snapToken,
-                'status' => 'PENDING',
-            ]);
-        } else {
-            $snapToken = $payment->snap_token;
-        }
-
-        // Redirect ke halaman pembayaran dengan snap token
-        return redirect()->route('payment', ['snap_token' => $snapToken]);
     }
 
     public function render()

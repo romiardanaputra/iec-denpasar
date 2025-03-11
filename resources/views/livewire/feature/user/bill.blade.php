@@ -38,16 +38,17 @@
                           class="font-semibold text-slate-700 sm:ml-2">{{ $order->user->address ?? '-' }}</span></span>
                     </div>
                     <div class="ml-auto text-right">
-                      <a class="relative z-10 inline-block px-4 py-3 mb-0 font-bold text-center text-transparent uppercase align-middle transition-all border-0 rounded-lg shadow-none cursor-pointer leading-pro text-size-xs ease-soft-in bg-150 bg-gradient-red hover:scale-102 active:opacity-85 bg-x-25 bg-clip-text"
+                      <a href="{{ route('bill.detail', ['order' => $order->id]) }}"
+                        class="relative z-10 inline-block px-4 py-3 mb-0 font-bold text-center text-transparent uppercase align-middle transition-all border-0 rounded-lg shadow-none cursor-pointer leading-pro text-size-xs ease-soft-in bg-150 bg-gradient-red hover:scale-102 active:opacity-85 bg-x-25 bg-clip-text"
                         href="javascript:;">
                         <i class="mr-2 far fa-trash-alt bg-150 bg-gradient-red bg-x-25 bg-clip-text"></i>Detail
                         Tagihan
                       </a>
-                      <a class="inline-block px-4 py-3 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer leading-pro text-size-xs ease-soft-in bg-150 hover:scale-102 active:opacity-85 bg-x-25 text-green-700"
+                      {{-- <button  class="inline-block px-4 py-3 mb-0 font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer leading-pro text-size-xs ease-soft-in bg-150 hover:scale-102 active:opacity-85 bg-x-25 text-green-700"
                         wire:click="showTransaction({{ $order->id }})">
                         <i class="mr-2 fas fa-pencil-alt text-slate-700" aria-hidden="true"></i>Bayar
                         Sekarang
-                      </a>
+                      </button> --}}
                     </div>
                   </li>
                 </ul>
