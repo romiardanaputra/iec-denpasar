@@ -67,7 +67,7 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
     Route::get('/bill', Bill::class)->name('bill');
     Route::get('/bill/{order}', BillDetail::class)->name('bill.detail');
     Route::get('/invoice', Invoice::class)->name('invoice');
-    Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
+
     Route::post(
         '/program/{program}/checkout',
         [PaymentController::class, 'checkout']
@@ -82,3 +82,5 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
 });
 
 // callback midtrans must be not inside in auth middleware
+
+Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
