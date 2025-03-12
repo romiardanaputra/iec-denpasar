@@ -31,6 +31,7 @@
 
     {!! SEO::generate(true) !!}
 
+
     @if (Route::is('dashboard', 'profile', 'bill', 'bill.detail', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
       <link href="{{ asset('storage/assets/css/styles.min.css') }}" rel="stylesheet" />
