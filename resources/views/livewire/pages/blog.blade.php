@@ -78,16 +78,23 @@
                     wire:key="{{ $blog->id }}">
                     <div
                       class="group border border-gray-300 rounded-2xl overflow-hidden transition-shadow hover:shadow-lg">
-                      <img src="https://pagedone.io/asset/uploads/1696244317.png" alt="blogs tailwind section"
-                        class="w-full h-48 object-cover">
+                      <img class="w-full h-48 object-cover"
+                        src="{{ $blog->image ? (Str::startsWith($blog->image, 'http') ? $blog->image : asset('storage/' . Str::replaceLast('.png', '.webp', $blog->image))) : asset('images/default.webp') }}"
+                        alt="{{ $blog->name }}" loading="lazy"
+                        srcset="
+                {{ $blog->image ? (Str::startsWith($blog->image, 'http') ? $blog->image : asset('storage/' . Str::replaceLast('.png', '-small.webp', $blog->image))) : asset('images/default-small.webp') }} 480w,
+                {{ $blog->image ? (Str::startsWith($blog->image, 'http') ? $blog->image : asset('storage/' . Str::replaceLast('.png', '-medium.webp', $blog->image))) : asset('images/default-medium.webp') }} 768w,
+                {{ $blog->image ? (Str::startsWith($blog->image, 'http') ? $blog->image : asset('storage/' . Str::replaceLast('.png', '-large.webp', $blog->image))) : asset('images/default-large.webp') }} 1024w
+              "
+                        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1024px" />
                       <div class="p-6 transition-all duration-300 group-hover:bg-gray-50">
-                        <span class="text-blue-600 font-medium mb-3 block">Jan 01, 2023</span>
-                        <h4 class="text-xl text-gray-900 font-medium leading-8 mb-5">Clever ways to invest in product to
-                          organize your portfolio</h4>
-                        <p class="text-gray-500 leading-6 mb-6">Discover smart investment strategies to streamline and
-                          organize your portfolio...</p>
-                        <a href="javascript:;" class="text-lg text-blue-600 font-semibold hover:underline">Read
-                          more</a>
+                        <span
+                          class="text-blue-600 font-medium mb-3 block">{{ $blog->created_at->format('F j, Y g:i A') }}</span>
+                        <h4 class="text-xl text-gray-900 font-bold leading-8 mb-5">
+                          {{ Str::limit($blog->title, 25) }}</h4>
+                        <p class="text-gray-500 leading-6 mb-6">{{ Str::limit($blog->content, 100) }}</p>
+                        <p class="text-base text-blue-600 hover:underline">
+                          {{ $blog->author?->team?->name }} (author)</p>
                       </div>
                     </div>
                   </a>
@@ -95,11 +102,12 @@
                   @livewire('partials.empty-state', [
                       'title' => 'No blogs posted yet',
                       'message' => 'We\'re working on some exciting content to share with you. Check back soon for fresh perspectives
-                                                            and insights.',
+                                                                                                                                                                                                                                                                                                      and insights.',
                       'iconType' => 'animation',
                       'customIcon' => 'assets/empty-state-animation/blog.gif',
                   ])
                 @endforelse
+                {{ $blogs->links() }}
               </div>
             </div>
           </div>
@@ -107,4 +115,5 @@
       </div>
     </section>
   </div>
+  @livewire('partials.scroll-to-top')
 </div>

@@ -96,9 +96,11 @@
 </section>
 
 @section('js_custom')
-  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
-  </script>
-  @if (!$this->latestOrder)
-    <script type="module" src="{{ asset('midtrans/index.js') }}" defer></script>
-  @endif
+  @script
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
+    @if (!$this->latestOrder)
+      <script type="module" src="{{ asset('midtrans/index.js') }}" defer></script>
+    @endif
+  @endscript
 @endsection

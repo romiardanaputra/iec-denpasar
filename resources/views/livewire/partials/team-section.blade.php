@@ -1,3 +1,7 @@
+@section('js_custom')
+  @vite(['resources/js/partials/team-section.js'])
+@endsection
+
 <div>
   <section id="teamKami">
     <div class="px-4 py-8 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
@@ -28,7 +32,8 @@
         </p>
       </div>
       <div class="swiper swiper-team">
-        <div class="grid lg:gap-10 sm:grid-cols-2 lg:grid-cols-4 justify-center lg:justify-start swiper-wrapper w-full">
+        <div
+          class="grid lg:gap-10 sm:grid-cols-2 lg:grid-cols-4 {{ $teams->isEmpty() ? 'justify-center' : 'lg:justify-start' }}   swiper-wrapper w-full">
           @php
             $defaultImage =
                 'https://images.pexels.com/photos/1587014/pexels-photo-1587014.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
@@ -38,12 +43,12 @@
               <figure
                 class="relative overflow-hidden transition duration-300 transform rounded shadow-lg lg:hover:-translate-y-2 hover:shadow-2xl will-change-transform ">
                 <img class="object-cover w-full aspect-square md:h-64 xl:h-80"
-                  src="{{ asset('storage/' . Str::replaceLast('.png', '.webp', $team->image)) }}"
+                  src="{{ $team->image ? (Str::startsWith($team->image, 'http') ? $team->image : asset('storage/' . Str::replaceLast('.png', '.webp', $team->image))) : $defaultImage }}"
                   onerror="this.onerror=null;this.src='{{ $defaultImage }}';"
                   srcset="
-                    {{ asset('storage/' . Str::replaceLast('.png', '-small.webp', $team->image)) }} 480w,
-                    {{ asset('storage/' . Str::replaceLast('.png', '-medium.webp', $team->image)) }} 768w,
-                    {{ asset('storage/' . Str::replaceLast('.png', '-large.webp', $team->image)) }} 1024w
+                    {{ $team->image ? (Str::startsWith($team->image, 'http') ? $team->image : asset('storage/' . Str::replaceLast('.png', '-small.webp', $team->image))) : asset('images/default-small.webp') }} 480w,
+                {{ $team->image ? (Str::startsWith($team->image, 'http') ? $team->image : asset('storage/' . Str::replaceLast('.png', '-medium.webp', $team->image))) : asset('images/default-medium.webp') }} 768w,
+                {{ $team->image ? (Str::startsWith($team->image, 'http') ? $team->image : asset('storage/' . Str::replaceLast('.png', '-large.webp', $team->image))) : asset('images/default-large.webp') }} 1024w
                   "
                   sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1024px" alt="{{ __($team->name) }}"
                   loading="lazy" />
@@ -131,11 +136,3 @@
     </div>
   </section>
 </div>
-
-@section('js_custom')
-  @vite(['resources/js/swiper-team.js'])
-  <script>
-    document.getElementById('whatsapp-link').href = 'https://wa.me/6285792479249?text=' + encodeURIComponent(
-      'Halo IEC Denpasar! Saya tertarik untuk bergabung. Kirimkan CV atau lamaran saya melalui link ini ya! 😊');
-  </script>
-@endsection

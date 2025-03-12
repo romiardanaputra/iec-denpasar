@@ -1,78 +1,10 @@
-{{-- <section class="container bg-white dark:bg-gray-900">
-  <div class="swiper swiper-testimonial">
-    <div class="py-8 mx-auto text-center lg:py-16 lg:px-6 swiper-wrapper">
-      @foreach ($testimonials as $testimonial)
-        <div class="swiper-slide">
-          <figure class="max-w-screen-md mx-auto">
-            <svg class="h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600" viewBox="0 0 24 27" fill="none"
-              xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path
-                d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z"
-                fill="currentColor" />
-            </svg>
-            <blockquote>
-              <p class="text-lg md:text-2xl font-medium text-gray-900 dark:text-white">
-                "{{ __($testimonial->testimony) }}"
-              </p>
-            </blockquote>
-            <figcaption class="flex items-center justify-center mt-6 space-x-3">
-              <img class="w-6 h-6 rounded-full"
-                src="{{ asset('storage/' . Str::replaceLast('.png', '.webp', $testimonial->image_path)) }}"
-                srcset="
-                  {{ asset('storage/' . Str::replaceLast('.png', '-small.webp', $testimonial->image_path)) }} 480w,
-                  {{ asset('storage/' . Str::replaceLast('.png', '-medium.webp', $testimonial->image_path)) }} 768w,
-                  {{ asset('storage/' . Str::replaceLast('.png', '-large.webp', $testimonial->image_path)) }} 1024w
-                "
-                sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1024px" alt="{{ __($testimonial->name) }}"
-                loading="lazy">
-              <div class="flex items-center divide-x-2 divide-gray-500 dark:divide-gray-700">
-                <div class="pr-3 font-medium text-gray-900 dark:text-white">{{ __($testimonial->name) }}</div>
-                <div class="pl-3 text-sm font-light text-gray-500 dark:text-gray-400">{{ __($testimonial->position) }}
-                </div>
-              </div>
-            </figcaption>
-          </figure>
-        </div>
-      @endforeach
-    </div>
-    <div class="swiper-pagination swiper-pagination-testimonial"></div>
-  </div>
-</section> --}}
-
+{{-- custom css and js testimonial --}}
 @section('css_custom')
-  <style>
-    .swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet,
-    .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
-      width: 16px !important;
-      height: 4px !important;
-      border-radius: 5px !important;
-      margin: 0 6px !important;
-    }
+  @vite('resources/css/partials/testimonial-section.css')
+@endsection
 
-    .swiper-pagination {
-      bottom: 2px !important;
-    }
-
-    .swiper-wrapper {
-      height: max-content !important;
-      width: max-content !important;
-      padding-bottom: 64px;
-    }
-
-    .swiper-pagination-bullet-active {
-      background: rgb(28 100 242) !important;
-    }
-
-    .swiper-slide.swiper-slide-active>.slide_active\:border-blue-600 {
-      --tw-border-opacity: 1;
-      border-color: rgb(28 100 242 / var(--tw-border-opacity));
-    }
-
-    .swiper-slide.swiper-slide-active>.group .slide_active\:text-gray-800 {
-      ---tw-text-opacity: 1;
-      color: rgb(31 41 55 / var(--tw-text-opacity));
-    }
-  </style>
+@section('js_custom')
+  @vite(['resources/js/partials/testimonial-section.js'])
 @endsection
 
 <section class="md:py-16 py-8 lg:py-24">
@@ -128,6 +60,3 @@
     </div>
   </div>
 </section>
-@section('js_custom')
-  @vite(['resources/js/swiper-testimonial.js'])
-@endsection

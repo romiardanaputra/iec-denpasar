@@ -4,10 +4,16 @@
   <div class="h-19.5">
     <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden"
       sidenav-close></i>
-    <a class="block px-8 py-6 m-0 text-size-sm whitespace-nowrap text-slate-700" href="{{ url('') }}"
-      target="_blank">
-      <img src="{{ asset('storage/assets/logo/iec-logo.png') }}"
-        class="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
+    <a class="flex items-center gap-2 px-8 py-6 m-0 text-size-sm whitespace-nowrap text-slate-700"
+      href="{{ url('') }}" target="_blank">
+      <img src="{{ asset('storage/assets/logo/iec-logo.webp') }}"
+        srcset="
+        {{ asset('storage/assets/logo/iec-logo-small.webp') }} 480w,
+        {{ asset('storage/assets/logo/iec-logo-medium.webp') }} 768w,
+        {{ asset('storage/assets/logo/iec-logo-large.webp') }} 1024w
+    "
+        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1024px" class="h-8"
+        alt="{{ config('app.name') . ' logo' }}" loading="lazy">
       <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">IEC
         Denpasar</span>
     </a>

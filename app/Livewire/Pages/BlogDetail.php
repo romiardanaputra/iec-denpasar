@@ -48,8 +48,8 @@ class BlogDetail extends Component
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addImage(
-            $post->featured_image ?
-            asset('storage/'.$post->featured_image) :
+            $post->image ?
+            asset('storage/'.$post->image) :
             asset('images/default-blog-image.jpg'),
             ['height' => 630, 'width' => 1200]
         );
@@ -59,17 +59,10 @@ class BlogDetail extends Component
         JsonLd::setDescription($post->meta_description ?? Str::limit(strip_tags($post->content), 160));
         JsonLd::setType('Article');
         JsonLd::addImage(
-            $post->featured_image ?
-            asset('storage/'.$post->featured_image) :
+            $post->image ?
+            asset('storage/'.$post->image) :
             asset('images/default-blog-image.jpg')
         );
-        JsonLd::setPublishedTime($post->created_at->toW3CString());
-        JsonLd::setAuthor($post->author->team->name ?? 'Tim IEC Denpasar');
-        JsonLd::addBreadcrumbList([
-            ['url' => route('home'), 'name' => 'Beranda'],
-            ['url' => route('blog'), 'name' => 'Blog'],
-            ['url' => route('blog.detail', $post->slug), 'name' => $post->title],
-        ]);
 
         return view('livewire.pages.blog-detail', [
             'blog' => $post,

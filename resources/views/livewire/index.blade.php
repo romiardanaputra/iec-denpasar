@@ -55,9 +55,9 @@
             </p>
           </div>
         </div> <!-- Starts component -->
-        <div class="mt-6 border-t md:pt-12">
+        <div class="mt-6 md:pt-12">
           <div class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-24 items-center ">
-            <div> <span class="text-gray-600  uppercase text-xs font-medium "> Because.... </span>
+            <div>
               <p class="text-4xl mt-8 tracking-tighter font-[Nunito] font-semibold text-gray-700 text-balance">
                 Solusi bahasa Inggris yang inovatif untuk setiap situasi </p>
               <p class="text-base  mt-4 text-gray-700 text-balance"> Temukan berbagai kursus, layanan, dan bimbingan
@@ -117,7 +117,7 @@
             </div>
           </div>
           <div class="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-24 items-center md:flex-row-reverse">
-            <div> <span class="text-gray-600  uppercase text-xs font-medium "> Just because we can </span>
+            <div>
               <p class="text-4xl mt-8 tracking-tighter font-semibold font-[Nunito] text-gray-700 text-balance">
                 Solusi bahasa Inggris yang disesuaikan untuk skenario apa pun </p>
               <p class="text-sm  mt-4 text-gray-700 text-balance"> Temukan berbagai instrumen belajar dan nasihat

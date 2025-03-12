@@ -6,6 +6,22 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="application-name" content="{{ config('app.name') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link preload
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet">
+    <link preload
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet">
+
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+
+    <style>
+      [x-cloak] {
+        display: none !important;
+      }
+    </style>
 
     @if (auth()->check() && auth()->user()->isAdmin())
       <meta name="robots" content="noindex, nofollow">
@@ -15,22 +31,14 @@
 
     {!! SEO::generate(true) !!}
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-
-    @if (Route::is('dashboard', 'profile', 'bill', 'invoice', 'exam-grade'))
+    @if (Route::is('dashboard', 'profile', 'bill', 'bill.detail', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
       <link href="{{ asset('storage/assets/css/styles.min.css') }}" rel="stylesheet" />
     @endif
 
-    <style>
-      [x-cloak] {
-        display: none !important;
-      }
-    </style>
-
-    @filamentStyles
     @vite(['resources/css/luvi-ui.css', 'resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @filamentStyles
     @yield('css_custom')
 
   </head>

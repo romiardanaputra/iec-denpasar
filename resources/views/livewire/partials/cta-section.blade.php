@@ -1,7 +1,6 @@
 <section>
   <div class="bg-blue-900 px-8 py-16">
     <div class="max-w-6xl mx-auto grid md:grid-cols-2 justify-center items-center gap-12">
-      <!-- Left Side: Text and Button -->
       <div class="text-center md:text-left">
         <h2 class="text-4xl lg:text-5xl font-semibold text-white mb-6 md:!leading-[55px]">
           {{ __('Gabung Bersama Kami!') }}
@@ -16,7 +15,6 @@
           </x-button>
         </a>
       </div>
-      <!-- Right Side: Image -->
       <div class="flex justify-center md:justify-end">
         <img class="w-7/12 rounded-2xl" src="{{ asset('storage/assets/iec/cta-section.svg') }}"
           srcset="
@@ -27,7 +25,6 @@
           sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1024px"
           alt="{{ __('Belajar Bahasa Inggris di IEC Denpasar') }}" loading="lazy" />
       </div>
-
     </div>
   </div>
 </section>

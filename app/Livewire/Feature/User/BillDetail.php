@@ -14,7 +14,7 @@ class BillDetail extends Component
 
     public function mount(MidtransService $midtransService, $order)
     {
-        $this->order = Order::with('payments')->findOrFail($order);
+        $this->order = Order::with(['payments', 'user', 'program', 'items'])->findOrFail($order);
 
         // Get last payment
         $payment = $this->order->payments->last();
@@ -36,6 +36,10 @@ class BillDetail extends Component
         $data = [
             'order' => $this->order,
         ];
+
+        // $order = $this->order->payments()->first();
+        // dd($order->expired_at);
+        // dd($data);
 
         return view('livewire.feature.user.bill-detail', $data);
     }

@@ -29,7 +29,7 @@ class Blog extends Component
     #[Computed]
     public function getBlog()
     {
-        return $this->baseBlogQuery()->paginate(10);
+        return $this->baseBlogQuery()->paginate(6);
     }
 
     #[Computed]
@@ -92,7 +92,6 @@ class Blog extends Component
 
     public function render()
     {
-
         // SEO Meta Tags
         SEOMeta::setTitle('Blog IEC Denpasar | Tips dan Artikel Bahasa Inggris Terbaru');
         SEOMeta::setDescription('Dapatkan tips belajar bahasa Inggris terkini, artikel edukasi, dan informasi kursus dari IEC Denpasar. Blog resmi untuk meningkatkan kemampuan bahasa Inggris Anda.');
