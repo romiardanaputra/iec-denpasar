@@ -24,12 +24,12 @@ class Index extends Component
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
         OpenGraph::setSiteName('iecdenpasar');
         OpenGraph::setType('website');
-        OpenGraph::addImage(url('storage/assets/iec-assets/iec-dps-og.png'));
+        OpenGraph::addImage(url('public/storage/iec-assets/iec-dps-og.png'));
 
         JsonLd::setTitle('Belajar Bahasa Inggris di IEC Denpasar | Kursus Berkualitas');
         JsonLd::setDescription('Tingkatkan kemampuan bahasa Inggris Anda bersama IEC Denpasar. Program kursus berkualitas untuk semua usia dan tingkat kemampuan.');
         JsonLd::setType('EducationalOrganization');
-        JsonLd::addImage(url('storage/assets/iec-assets/iec-dps-og.png'));
+        JsonLd::addImage(url('public/storage/iec-assets/iec-dps-og.png'));
 
         $features = [
             [
