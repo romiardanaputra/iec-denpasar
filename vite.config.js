@@ -10,6 +10,7 @@ export default defineConfig({
         "resources/css/luvi-ui.css",
         "resources/js/partials/testimonial-section.js",
         "resources/js/partials/team-section.js",
+        "resources/css/partials/testimonial-section.css",
       ],
       refresh: true,
     }),
