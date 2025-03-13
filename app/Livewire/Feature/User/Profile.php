@@ -21,12 +21,6 @@ class Profile extends Component
 
     public $about;
 
-    public $city;
-
-    public $postal_code;
-
-    public $country_code;
-
     public $avatar;
 
     public $current_password;

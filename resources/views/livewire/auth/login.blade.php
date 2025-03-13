@@ -14,6 +14,7 @@
             id="email" placeholder="Email Address" autocomplete :value="old('email')" />
           <x-lucide-mail class="size-4 absolute right-0 mr-4" />
         </div>
+        <small class="font-semibold">Masukan email pada akun terdaftar</small>
         <x-input-error :messages="$errors->get('email')" class="mt-2" />
       </div>
 
@@ -27,6 +28,7 @@
             <x-lucide-eye-off class="size-4" x-show="show" />
           </button>
         </div>
+        <small class="font-semibold">Password pada akun terdaftar: huruf kapital, number, minimal 8</small>
         <x-input-error :messages="$errors->get('password')" class="mt-2" />
       </div>
 
