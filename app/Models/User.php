@@ -34,14 +34,12 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'email',
         'address',
         'about',
-        'city',
-        'postal_code',
-        'country_code',
         'password',
         'gauth_id',
         'gauth_type',
         'gauth_token',
         'gauth_avatar',
+        'email_verified_at',
     ];
 
     /**

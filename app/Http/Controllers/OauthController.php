@@ -21,7 +21,6 @@ class OauthController extends Controller
             $user = Socialite::driver('google')->stateless()->user();
 
             $finduser = User::where('gauth_id', $user->id)->first();
-            // dd($user);
 
             if ($finduser) {
                 auth()->login($finduser);
@@ -37,10 +36,10 @@ class OauthController extends Controller
                     'gauth_type' => 'google',
                     'gauth_token' => $user->token,
                     'gauth_avatar' => $user->avatar,
+                    'email_verified_at' => now(),
                 ]);
 
                 $newUser->assignRole(Role::find(2));
-                $newUser->sendEmailVerificationNotification();
 
                 auth()->login($newUser);
 

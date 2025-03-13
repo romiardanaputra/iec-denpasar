@@ -96,33 +96,6 @@
               </div>
             </div>
 
-            <div class="flex flex-wrap -mx-3 mt-4">
-              <div class="max-w-full px-3 w-4/12 lg:flex-none space-y-3">
-                <x-label htmlFor="country_code">Kode negara</x-label>
-                <x-input type="text" :value="old('country_code', $user->country_code)" wire:model.defer="country_code" id="country_code"
-                  placeholder="country_code" required />
-                @error('country_code')
-                  <p class="text-red-500 text-size-sm">{{ $message }}</p>
-                @enderror
-              </div>
-              <div class="max-w-full px-3 w-4/12 lg:flex-none space-y-3">
-                <x-label htmlFor="city">Kota</x-label>
-                <x-input :value="old('city', $user->city)" type="text" wire:model.defer="city" id="city" placeholder="city"
-                  required />
-                @error('city')
-                  <p class="text-red-500 text-size-sm">{{ $message }}</p>
-                @enderror
-              </div>
-              <div class="max-w-full px-3 w-4/12 lg:flex-none space-y-3">
-                <x-label htmlFor="postal_code">kode Pos</x-label>
-                <x-input :value="old('postal_code', $user->postal_code)" type="text" wire:model.defer="postal_code" id="postal_code"
-                  placeholder="postal_code" required autocomplete />
-                @error('postal_code')
-                  <p class="text-red-500 text-size-sm">{{ $message }}</p>
-                @enderror
-              </div>
-            </div>
-
             <div class="space-y-3 mt-4">
               <x-label htmlFor="about">Tentang Saya</x-label>
               <x-textarea :value="old('about', $user->about)" wire:model.defer="about" id="about" rows="5"
