@@ -20,17 +20,17 @@ class About extends Component
         OpenGraph::setDescription('IEC Denpasar adalah lembaga kursus bahasa Inggris terbaik di Bali dengan metode pembelajaran interaktif dan tenaga pengajar berpengalaman.');
         OpenGraph::setTitle('Tentang IEC Denpasar | Kursus Bahasa Inggris Terbaik di Bali');
         OpenGraph::setUrl('https://iecdenpasar.com/about');
+        OpenGraph::setSiteName('iecdenpasar');
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'id_ID');
+        OpenGraph::setType('website');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
-
-        OpenGraph::addImage('https://www.iecdenpasar.com/public/favicon.ico');
-        OpenGraph::addImage('https://iecdenpasar.com/public/storage/iec-assets/iec-hero-banner-small.webp', ['height' => 300, 'width' => 300]);
+        OpenGraph::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
 
         JsonLd::setTitle('Tentang IEC Denpasar | Kursus Bahasa Inggris Terbaik di Bali');
         JsonLd::setDescription('IEC Denpasar adalah lembaga kursus bahasa Inggris terbaik di Bali dengan metode pembelajaran interaktif dan tenaga pengajar berpengalaman.');
         JsonLd::setType('EducationalOrganization');
-        JsonLd::addImage('https://iecdenpasar.com/assets/img/logo.png');
+        JsonLd::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
 
         return view('livewire.pages.about');
     }

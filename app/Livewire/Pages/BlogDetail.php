@@ -50,8 +50,7 @@ class BlogDetail extends Component
         OpenGraph::addImage(
             $post->image ?
             asset('storage/'.$post->image) :
-            asset('images/default-blog-image.jpg'),
-            ['height' => 630, 'width' => 1200]
+            asset('storage/assets/iec-assets/iec-dps-og.png')
         );
 
         // JSON-LD Schema
@@ -61,7 +60,7 @@ class BlogDetail extends Component
         JsonLd::addImage(
             $post->image ?
             asset('storage/'.$post->image) :
-            asset('images/default-blog-image.jpg')
+            asset('storage/assets/iec-assets/iec-dps-og.png')
         );
 
         return view('livewire.pages.blog-detail', [

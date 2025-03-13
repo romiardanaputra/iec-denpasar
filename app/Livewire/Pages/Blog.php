@@ -112,18 +112,17 @@ class Blog extends Component
         OpenGraph::addProperty('type', 'blog');
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
-
-        // Gunakan gambar khusus untuk blog
-        OpenGraph::addImage('https://www.iecdenpasar.com/public/favicon.ico', [
-            'height' => 630,
-            'width' => 1200,
-        ]);
+        OpenGraph::setSiteName('iecdenpasar');
+        OpenGraph::setType('website');
+        // gambar khusus blog
+        OpenGraph::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
 
         // JSON-LD Schema
         JsonLd::setTitle('Blog IEC Denpasar | Tips dan Artikel Bahasa Inggris Terbaru');
         JsonLd::setDescription('Dapatkan tips belajar bahasa Inggris terkini, artikel edukasi, dan informasi kursus dari IEC Denpasar');
         JsonLd::setType('Blog');
-        JsonLd::addImage('https://www.iecdenpasar.com/public/favicon.ico');
+        JsonLd::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
+
         $data = [
             'blogs' => $this->getBlog,
             'links' => $this->getPostLinks,

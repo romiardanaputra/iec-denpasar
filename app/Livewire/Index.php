@@ -15,22 +15,21 @@ class Index extends Component
         SEOMeta::setDescription('Tingkatkan kemampuan bahasa Inggris Anda bersama IEC Denpasar. Program kursus berkualitas untuk semua usia dan tingkat kemampuan.');
         SEOMeta::addMeta('article:published_time', now()->toW3CString(), 'property');
         SEOMeta::addMeta('article:section', 'Pendidikan', 'property');
-        SEOMeta::addKeyword(['kursus bahasa Inggris', 'IEC Denpasar', 'belajar bahasa Inggris', 'kursus terbaik Bali']);
+        SEOMeta::addKeyword(['kursus bahasa Inggris', 'intensive english course denpasar', 'kursus bahasa inggris denpasar', 'IEC Denpasar', 'belajar bahasa Inggris', 'kursus bahasa inggris terbaik Bali']);
 
         OpenGraph::setDescription('Tingkatkan kemampuan bahasa Inggris Anda bersama IEC Denpasar. Program kursus berkualitas untuk semua usia dan tingkat kemampuan.');
         OpenGraph::setTitle('Belajar Bahasa Inggris di IEC Denpasar | Kursus Berkualitas');
         OpenGraph::setUrl('https://iecdenpasar.com');
-        OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
-
-        OpenGraph::addImage('https://www.iecdenpasar.com/public/favicon.ico');
-        OpenGraph::addImage('https://iecdenpasar.com/public/storage/iec-assets/iec-hero-banner-small.webp', ['height' => 300, 'width' => 300]);
+        OpenGraph::setSiteName('iecdenpasar');
+        OpenGraph::setType('website');
+        OpenGraph::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
 
         JsonLd::setTitle('Belajar Bahasa Inggris di IEC Denpasar | Kursus Berkualitas');
         JsonLd::setDescription('Tingkatkan kemampuan bahasa Inggris Anda bersama IEC Denpasar. Program kursus berkualitas untuk semua usia dan tingkat kemampuan.');
         JsonLd::setType('EducationalOrganization');
-        JsonLd::addImage('https://www.iecdenpasar.com/public/favicon.ico');
+        JsonLd::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
 
         $features = [
             [

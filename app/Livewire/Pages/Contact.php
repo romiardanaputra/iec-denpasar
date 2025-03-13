@@ -70,14 +70,14 @@ class Contact extends Component
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
-
-        OpenGraph::addImage('https://www.iecdenpasar.com/public/favicon.ico');
-        OpenGraph::addImage('https://iecdenpasar.com/public/storage/iec-assets/iec-hero-banner-small.webp', ['height' => 300, 'width' => 300]);
+        OpenGraph::setSiteName('iecdenpasar');
+        OpenGraph::setType('website');
+        OpenGraph::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
 
         JsonLd::setTitle('Kontak IEC Denpasar | Hubungi Kami Sekarang');
         JsonLd::setDescription('Hubungi IEC Denpasar untuk informasi lebih lanjut mengenai kursus bahasa Inggris kami. Kami siap membantu Anda mencapai tujuan belajar bahasa Inggris.');
         JsonLd::setType('EducationalOrganization');
-        JsonLd::addImage('https://www.iecdenpasar.com/public/favicon.ico');
+        JsonLd::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
         JsonLd::addValue('address', [
             '@type' => 'PostalAddress',
             'streetAddress' => 'Jl. Jaya Giri Gg. XXII No.10x, Renon, Kec. Denpasar Tim., Kota Denpasar, Bali 80236',
@@ -86,8 +86,8 @@ class Contact extends Component
             'postalCode' => '80114',
             'addressCountry' => 'ID',
         ]);
-        JsonLd::addValue('telephone', '+62 361 123456');
-        JsonLd::addValue('email', 'info@iecdenpasar.com');
+        JsonLd::addValue('telephone', '0817-4715-370');
+        JsonLd::addValue('email', 'iecdps.official@gmail.com');
 
         return view('livewire.pages.contact');
     }
