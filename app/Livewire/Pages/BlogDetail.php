@@ -48,7 +48,7 @@ class BlogDetail extends Component
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addImage(
-            $post->image ?
+            $post->image ? Str::startsWith($post->image, 'http') ? $post->image :
             url('public/storage/'.$post->image) :
             url('public/storage/iec-assets/iec-dps-og.png')
         );
@@ -58,7 +58,7 @@ class BlogDetail extends Component
         JsonLd::setDescription($post->meta_description ?? Str::limit(strip_tags($post->content), 160));
         JsonLd::setType('Article');
         JsonLd::addImage(
-            $post->image ?
+            $post->image ? Str::startsWith($post->image, 'http') ? $post->image :
             url('public/storage/'.$post->image) :
             url('public/storage/iec-assets/iec-dps-og.png')
         );
