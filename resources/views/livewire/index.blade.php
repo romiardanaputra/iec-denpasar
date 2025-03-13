@@ -13,12 +13,12 @@
           </p>
         </article>
         <div class="flex gap-2 md:gap-4">
-          <a href="{{ route('our-program') }}" wire:navigate>
+          <a href="{{ route('our-program') }}">
             <x-button size='lg' class="bg-blue-600 text-white hover:bg-blue-600 rounded-full px-8 py-6 ">
               <x-lucide-search class="mr-2 size-4" /> {{ __('Program') }}
             </x-button>
           </a>
-          <a href="{{ route('register') }}" wire:navigate>
+          <a href="{{ route('register') }}">
             <x-button size='lg'
               class="border border-blue-800 bg-transparent text-blue-600 hover:bg-blue-600 hover:text-white rounded-full px-8 py-6 ">
               <x-lucide-user-round-plus class="mr-2 size-4" /> {{ __('Daftar Akun') }}

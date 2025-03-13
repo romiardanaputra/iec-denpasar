@@ -74,8 +74,7 @@
 
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse ($blogs as $key => $blog)
-                  <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" wire:navigate
-                    wire:key="{{ $blog->id }}">
+                  <a href="{{ route('blog.detail', ['slug' => $blog->slug]) }}" wire:key="{{ $blog->id }}">
                     <div
                       class="group border border-gray-300 rounded-2xl overflow-hidden transition-shadow hover:shadow-lg">
                       <img class="w-full h-48 object-cover"
@@ -102,7 +101,7 @@
                   @livewire('partials.empty-state', [
                       'title' => 'No blogs posted yet',
                       'message' => 'We\'re working on some exciting content to share with you. Check back soon for fresh perspectives
-                                                                                                                                                                                                                                                                                                      and insights.',
+                                                                                                                                                                                                                                                                                                                        and insights.',
                       'iconType' => 'animation',
                       'customIcon' => 'assets/empty-state-animation/blog.gif',
                   ])

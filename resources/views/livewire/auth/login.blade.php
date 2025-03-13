@@ -82,7 +82,7 @@
         </a>
       </div>
       <p class="text-sm mt-8 text-center text-gray-800">{{ __('Tidak punya akun?') }}
-        <a href="{{ route('register') }}" wire:navigate
+        <a href="{{ route('register') }}"
           class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">{{ __('Daftar') }}</a>
       </p>
     </x-form>

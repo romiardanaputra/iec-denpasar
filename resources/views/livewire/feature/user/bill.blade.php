@@ -8,7 +8,7 @@
         <img src="{{ asset('storage/assets/vectors/undraw_credit-card_t6qm.svg') }}"
           class="object-cover aspect-auto w-4/12 mx-auto" alt="grade-ilustration">
         <p class="font-bold text-center">Tidak ada tunggakan pembayaran</p>
-        <a href="{{ route('our-program') }}" wire:navigate>
+        <a href="{{ route('our-program') }}">
           <x-button class="bg-blue-800 hover:bg-blue-700 px-6 mt-4 rounded-xl py-6">{{ __('Daftar Kursus') }}</x-button>
         </a>
       </div>
@@ -60,7 +60,7 @@
             <img src="{{ asset('storage/assets/vectors/undraw_credit-card_t6qm.svg') }}"
               class="object-cover aspect-auto w-4/12 mx-auto" alt="grade-ilustration">
             <p class="font-bold text-center">Tidak ada tunggakan pembayaran</p>
-            <a href="{{ route('our-program') }}" wire:navigate>
+            <a href="{{ route('our-program') }}">
               <x-button
                 class="bg-blue-800 hover:bg-blue-700 px-6 mt-4 rounded-xl py-6">{{ __('Daftar Kursus') }}</x-button>
             </a>

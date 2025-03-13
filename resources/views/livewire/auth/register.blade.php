@@ -105,8 +105,8 @@
         </button>
       </div>
       <p class="text-sm mt-8 text-center text-gray-800">Already have an account?
-        <a href="{{ route('login') }}" wire:navigate
-          class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">Login here</a>
+        <a href="{{ route('login') }}" class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">Login
+          here</a>
       </p>
     </x-form>
     <div class="h-full md:flex justify-center items-center hidden">

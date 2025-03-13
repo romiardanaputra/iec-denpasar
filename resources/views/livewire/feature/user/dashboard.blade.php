@@ -21,7 +21,7 @@
                 </p>
               </div>
 
-              <a href="{{ route('profile') }}" wire:navigate>
+              <a href="{{ route('profile') }}">
                 <x-button
                   class="bg-blue-800 hover:bg-blue-700 w-6/12 px-6 mt-8 rounded-xl py-6">{{ __('Update Profile') }}</x-button>
               </a>
@@ -44,7 +44,7 @@
                 <img src="{{ asset('storage/assets/vectors/undraw_hello_ccwj.svg') }}" alt="notfoundcourse"
                   class="object-cover aspect-auto w-5/12 mx-auto">
                 <p class="font-bold text-center w-8/12">Anda belum mendaftar ke program kursus apapun.</p>
-                <a href="{{ route('our-program') }}" wire:navigate>
+                <a href="{{ route('our-program') }}">
                   <x-button
                     class="bg-blue-800 hover:bg-blue-700 px-6 mt-8 rounded-xl py-6">{{ __('Daftar Kursus') }}</x-button>
                 </a>
@@ -87,7 +87,7 @@
                 <img src="{{ asset('storage/assets/vectors/undraw_my-personal-files_886p.svg') }}" alt="notfoundcourse"
                   class="object-cover aspect-auto w-4/12 mx-auto">
                 <p class="font-bold text-center w-8/12">Belum ada pendaftar dalam kursus apapun.</p>
-                <a href="{{ route('our-program') }}" wire:navigate>
+                <a href="{{ route('our-program') }}">
                   <x-button
                     class="bg-blue-800 hover:bg-blue-700 px-6 mt-8 rounded-xl py-6">{{ __('Daftar Kursus') }}</x-button>
                 </a>
@@ -283,7 +283,7 @@
               <img src="{{ asset('storage/assets/vectors/undraw_credit-card_t6qm.svg') }}" alt="notfoundcourse"
                 class="object-cover aspect-auto w-4/12 mx-auto">
               <p class="font-bold text-center w-8/12">Belum ada transaksi apapun.</p>
-              <a href="{{ route('our-program') }}" wire:navigate>
+              <a href="{{ route('our-program') }}">
                 <x-button
                   class="bg-blue-800 hover:bg-blue-700 px-6 mt-8 rounded-xl py-6">{{ __('Lihat kursus') }}</x-button>
               </a>

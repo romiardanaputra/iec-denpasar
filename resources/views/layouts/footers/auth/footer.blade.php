@@ -21,10 +21,7 @@
     }
 
     document.addEventListener('livewire:navigate.done', () => {
-      console.log('Page navigated and DOM updated.');
-
       updateYear();
-
       if (typeof Tooltip !== 'undefined') {
         Tooltip.init();
       }
