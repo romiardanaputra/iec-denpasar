@@ -24,12 +24,12 @@ class OurTeam extends Component
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::setType('website');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
-        OpenGraph::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
+        OpenGraph::addImage(url('public/storage/iec-assets/iec-dps-og.png'));
 
         JsonLd::setTitle('Tim Pengajar IEC Denpasar | Tenaga Pendidik Profesional');
         JsonLd::setDescription('Kenali tim pengajar IEC Denpasar yang berpengalaman dan profesional. Kami siap membantu Anda belajar bahasa Inggris dengan metode terbaik.');
         JsonLd::setType('EducationalOrganization');
-        JsonLd::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
+        JsonLd::addImage(url('public/storage/iec-assets/iec-dps-og.png'));
 
         return view('livewire.pages.our-team');
     }

@@ -61,12 +61,12 @@ class ProgramDetail extends Component
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
-        OpenGraph::addImage('https://www.iecdenpasar.com/public/'.$program->image ? asset('storage/'.$program->image) : asset('storage/assets/iec-assets/iec-dps-og.png'));
+        OpenGraph::addImage('https://www.iecdenpasar.com/public/'.$program->image ? url('public/storage/'.$program->image) : url('storage/iec-assets/iec-dps-og.png'));
 
         JsonLd::setTitle($program->name.' | Kursus Bahasa Inggris di IEC Denpasar');
         JsonLd::setDescription($program->short_description ?? 'Pelajari lebih lanjut tentang '.$program->name.' di IEC Denpasar.');
         JsonLd::setType('Course');
-        JsonLd::addImage('https://www.iecdenpasar.com/public/'.$program->image ? asset('storage/'.$program->image) : asset('storage/assets/iec-assets/iec-dps-og.png'));
+        JsonLd::addImage('https://www.iecdenpasar.com/public/'.$program->image ? url('public/storage/'.$program->image) : url('public/storage/iec-assets/iec-dps-og.png'));
         JsonLd::addValue('provider', [
             '@type' => 'EducationalOrganization',
             'name' => 'IEC Denpasar',

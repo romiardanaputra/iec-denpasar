@@ -49,8 +49,8 @@ class BlogDetail extends Component
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addImage(
             $post->image ?
-            asset('storage/'.$post->image) :
-            asset('storage/assets/iec-assets/iec-dps-og.png')
+            url('public/storage/'.$post->image) :
+            url('public/storage/iec-assets/iec-dps-og.png')
         );
 
         // JSON-LD Schema
@@ -59,8 +59,8 @@ class BlogDetail extends Component
         JsonLd::setType('Article');
         JsonLd::addImage(
             $post->image ?
-            asset('storage/'.$post->image) :
-            asset('storage/assets/iec-assets/iec-dps-og.png')
+            url('public/storage/'.$post->image) :
+            url('public/storage/iec-assets/iec-dps-og.png')
         );
 
         return view('livewire.pages.blog-detail', [

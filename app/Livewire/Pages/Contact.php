@@ -72,12 +72,12 @@ class Contact extends Component
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
         OpenGraph::setSiteName('iecdenpasar');
         OpenGraph::setType('website');
-        OpenGraph::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
+        OpenGraph::addImage(url('public/storage/iec-assets/iec-dps-og.png'));
 
         JsonLd::setTitle('Kontak IEC Denpasar | Hubungi Kami Sekarang');
         JsonLd::setDescription('Hubungi IEC Denpasar untuk informasi lebih lanjut mengenai kursus bahasa Inggris kami. Kami siap membantu Anda mencapai tujuan belajar bahasa Inggris.');
         JsonLd::setType('EducationalOrganization');
-        JsonLd::addImage(asset('storage/assets/iec-assets/iec-dps-og.png'));
+        JsonLd::addImage(url('public/storage/iec-assets/iec-dps-og.png'));
         JsonLd::addValue('address', [
             '@type' => 'PostalAddress',
             'streetAddress' => 'Jl. Jaya Giri Gg. XXII No.10x, Renon, Kec. Denpasar Tim., Kota Denpasar, Bali 80236',
