@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
             ProgramSeeder::class,
             TeamSeeder::class,
             // DummyOrderSeeder::class,
-            // ClassScheduleSeeder::class,
+            ClassScheduleSeeder::class,
             ProgramDetailSeeder::class,
             ImageSeeder::class,
             FaqSeeder::class,
