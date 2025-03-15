@@ -26,6 +26,7 @@ use App\Livewire\Pages\ProgramDetail;
 use App\Livewire\Partials\Transaction\FailedPayment;
 use App\Livewire\Partials\Transaction\PaymentSuccess;
 use App\Livewire\Partials\Transaction\PendingPayment;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 
 // when authenticated stil can access this page
@@ -83,4 +84,4 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
 
 // callback midtrans must be not inside in auth middleware
 
-Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
+Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback')->withoutMiddleware(VerifyCsrfToken::class);

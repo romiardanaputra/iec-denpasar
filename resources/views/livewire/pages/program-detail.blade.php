@@ -58,7 +58,7 @@
         <div class="flex w-full">
           @guest
             <div class="flex justify-center items-center mt-8">
-              <button
+              <button wire:click="redirectToBill"
                 class="relative flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg transform hover:scale-105 transition-transform duration-200">
                 <span class="absolute inset-0 rounded-full bg-blue-500 opacity-20 animate-ping"></span>
                 <span class="relative z-10">Daftar kursus sekarang!</span>
@@ -66,14 +66,9 @@
             </div>
           @endguest
           @auth
-            @if ($this->latestOrder)
-              <x-button wire:click="redirectToBill">Lihat Riwayat Pembelian</x-button>
-            @else
-              <div class="block" id="registransForm">
-                @livewire('partials.program.registrans-form', ['program' => $program])
-              </div>
-            @endif
-
+            <div class="block" id="registransForm">
+              @livewire('partials.program.registrans-form', ['program' => $program])
+            </div>
           @endauth
         </div>
       </div>
@@ -98,7 +93,5 @@
 @section('js_custom')
   <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
   </script>
-  @if (!$this->latestOrder)
-    <script type="module" src="{{ asset('midtrans/index.js') }}" defer></script>
-  @endif
+  <script type="module" src="{{ asset('midtrans/index.js') }}" defer></script>
 @endsection

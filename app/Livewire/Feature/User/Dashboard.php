@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Feature\User;
 
-use App\Models\feature\RegistrationSchedule;
+use App\Models\Feature\RegistrationSchedule;
 use App\Models\Transaction\Order;
 use App\Models\Transaction\Registration;
 use Illuminate\Support\Facades\Cache;

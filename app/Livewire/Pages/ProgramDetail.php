@@ -3,7 +3,6 @@
 namespace App\Livewire\Pages;
 
 use App\Models\Program\Program;
-use App\Models\Transaction\Order;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
@@ -67,18 +66,6 @@ class ProgramDetail extends Component
 
     public function render()
     {
-        if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
-            $latestOrder = Order::where('user_id', auth()->user()->id)
-                ->where(function ($query) {
-                    $query->where('payment_status', 'unpaid')
-                        ->orWhere('status', 'pending');
-                })
-                ->latest()
-                ->first();
-            $this->latestOrder = $latestOrder;
-        } else {
-            $this->latestOrder = null;
-        }
         $program = $this->program;
         $data = [
             'program' => $program,
