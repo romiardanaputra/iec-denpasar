@@ -1,14 +1,14 @@
 <div>
   <section>
     <div class="mx-auto max-w-7xl">
-      <div class="mb-4 flex md:flex-nowrap flex-wrap gap-4 md:items-center justify-between bg-white rounded-2xl">
+      <div class="mb-4 p-2 flex md:flex-nowrap flex-wrap gap-4 md:items-center justify-between bg-white rounded-2xl">
         <!-- Search Input -->
-        <div class="max-w-sm flex items-center gap-2 relative">
+        <div class="w-full md:max-w-sm flex items-center gap-2 relative">
           <input type="text" wire:model="search"
             class="h-10 border border-gray-300 text-gray-900 pl-11 pr-16 text-sm font-normal leading-7 rounded-full block w-full py-2.5 appearance-none relative outline-none bg-white  hover:border-gray-400 hover:bg-gray-50 focus-within:bg-gray-50"
             placeholder="Search by class code">
           <button wire:click="performSearch"
-            class="absolute top-1/2 -translate-y-1/2 right-4 z-40 bg-blue-600 text-white rounded-full size-8 flex items-center justify-center hover:bg-blue-700 transition-all duration-200 focus:outline-none">
+            class="absolute top-1/2 -translate-y-1/2 right-0 z-40 bg-blue-600 text-white rounded-full size-9 flex items-center justify-center hover:bg-blue-700 transition-all duration-200 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path
                 d="M17.5 17.5L15.4167 15.4167M15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333C11.0005 15.8333 12.6614 15.0929 13.8667 13.8947C15.0814 12.6872 15.8333 11.0147 15.8333 9.16667Z"
@@ -18,9 +18,9 @@
         </div>
 
         <!-- Filters -->
-        <div class="flex gap-4 items-center">
+        <div class="flex gap-4 items-center w-full">
           <!-- Filter by Day -->
-          <div class="relative flex items-center w-[116px] h-8 cursor-pointer">
+          <div class="relative flex items-center w-1/2 md:w-[116px] h-8 cursor-pointer">
             <select wire:model="filterDay"
               class="text-gray-900 py-1.5 pr-1.5 pl-3 cursor-pointer text-xs font-medium leading-5 block w-full rounded-md shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] border border-gray-300 appearance-none relative focus:outline-none bg-white transition-all duration-500 hover:bg-gray-50 focus-within:border-gray-300">
               <option value="">Filter by Day</option>
@@ -36,7 +36,7 @@
           </div>
 
           <!-- Filter by Time -->
-          <div class="relative flex items-center  w-[150px] h-8 cursor-pointer">
+          <div class="relative flex items-center w-1/2  md:w-[150px] h-8 cursor-pointer">
             <select wire:model="filterTime"
               class="text-gray-900 py-1.5 cursor-pointer pr-1.5 pl-3 text-xs font-medium leading-5 block w-full rounded-md shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] border border-gray-300 appearance-none relative focus:outline-none bg-white transition-all duration-500 hover:bg-gray-50 focus-within:border-gray-300">
               <option value="">Filter by Time</option>
