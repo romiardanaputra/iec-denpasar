@@ -105,6 +105,16 @@ class Dashboard extends Component
         return redirect()->route('our-program');
     }
 
+    public function redirectToBill()
+    {
+        $this->redirectRoute('bill');
+    }
+
+    public function redirectToGrade()
+    {
+        $this->redirectRoute('grade');
+    }
+
     public function render()
     {
         $data = [

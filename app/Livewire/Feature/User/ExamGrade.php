@@ -3,6 +3,7 @@
 namespace App\Livewire\Feature\User;
 
 use App\Models\Feature\Grade;
+use App\Models\Program\Program;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -72,19 +73,9 @@ class ExamGrade extends Component
             ->when($this->selectedLevel, function ($query) {
                 $query->where('level_name', $this->selectedLevel);
             })
-            ->when($this->selectedStudent, function ($query) {
-                $query->whereHas('registration', function ($qr) {
-                    $qr->where('student_name', 'like', '%'.$this->selectedStudent.'%');
-                });
-            })
             ->orderBy('level_name', 'ASC')
             ->whereHas('registration.program', function ($query) {
                 $query->where('is_visible', 1);
-            })
-            ->whereHas('registration.orders', function ($query) use ($userId) {
-                $query->where('status', 'completed')
-                    ->where('payment_status', 'paid')
-                    ->where('user_id', $userId);
             })
             ->where('user_id', $userId)
             ->paginate(6);
@@ -99,35 +90,14 @@ class ExamGrade extends Component
 
     public function render()
     {
+        $programs = Program::select(['program_id', 'name'])->get();
         $data = [
-            'grades' => $this->getExamGrade(),
-            'programs' => $this->getPrograms(),
+            'grades' => $this->getExamGrade,
+            'programs' => $programs,
         ];
 
+        // dd($data);
+
         return view('livewire.feature.user.exam-grade', $data);
-    }
-
-    #[Computed]
-    public function getPrograms()
-    {
-        $userId = auth()->id();
-
-        return \App\Models\Program\Program::with([
-            'registrations.orders' => function ($query) use ($userId) {
-                $query->where('status', 'completed')
-                    ->where('payment_status', 'paid')
-                    ->where('user_id', $userId);
-            },
-        ])
-            ->whereHas('registrations', function ($query) use ($userId) {
-                $query->whereHas('orders', function ($qr) use ($userId) {
-                    $qr->where('status', 'completed')
-                        ->where('payment_status', 'paid')
-                        ->where('user_id', $userId);
-                });
-            })
-            ->where('is_visible', 1)
-            ->get()
-            ->pluck('name', 'id');
     }
 }
