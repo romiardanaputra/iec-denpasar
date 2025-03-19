@@ -6,11 +6,12 @@ use App\Models\Transaction\Registration;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Grade extends Model
 {
     /** @use HasFactory<\Database\Factories\Feature\GradeFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     // student_id is equal to registran ID
     protected $fillable = [
