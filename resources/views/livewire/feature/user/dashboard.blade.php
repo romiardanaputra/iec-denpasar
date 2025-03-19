@@ -45,10 +45,8 @@
                 <img src="{{ asset('storage/assets/vectors/undraw_hello_ccwj.svg') }}" alt="notfoundcourse"
                   class="object-cover aspect-auto w-5/12 mx-auto">
                 <p class="font-bold text-center w-8/12">Anda belum mendaftar ke program kursus apapun.</p>
-                <a href="{{ route('our-program') }}">
-                  <x-button
-                    class="bg-blue-600 hover:bg-blue-700 px-6 mt-8 rounded-full py-6">{{ __('Daftar Kursus') }}</x-button>
-                </a>
+                <x-button wire:click="redirectToProgram"
+                  class="bg-blue-600 font-bold hover:bg-blue-700 w-4/12 mt-4 rounded-full py-6">{{ __('Daftar Kursus') }}</x-button>
 
               </div>
             @else
@@ -71,7 +69,7 @@
                     </div>
                   @endif
                 </div>
-                <x-button
+                <x-button wire:click="redirectToProgram"
                   class="bg-blue-600 font-bold hover:bg-blue-700 w-4/12 mt-4 rounded-full py-6">{{ __('Lihat Program') }}</x-button>
 
                 <x-badge class="absolute top-8 rounded-full right-8 bg-green-600 hover:bg-green-500">Kursus
@@ -91,10 +89,8 @@
                 <img src="{{ asset('storage/assets/vectors/undraw_my-personal-files_886p.svg') }}" alt="notfoundcourse"
                   class="object-cover aspect-auto w-4/12 mx-auto">
                 <p class="font-bold text-center w-8/12">Belum ada pendaftar dalam kursus apapun.</p>
-                <a href="{{ route('our-program') }}">
-                  <x-button
-                    class="bg-blue-600 hover:bg-blue-700 px-6 mt-8 rounded-full py-6">{{ __('Daftar Kursus') }}</x-button>
-                </a>
+                <x-button wire:click="redirectToProgram"
+                  class="bg-blue-600 font-bold hover:bg-blue-700 w-4/12 mt-4 rounded-full py-6">{{ __('Daftar Kursus') }}</x-button>
               </div>
             @else
               <div class="flex flex-col h-full">
@@ -117,7 +113,7 @@
                   @endif
                 </div>
                 <x-button class="bg-blue-600 hover:bg-blue-700 w-4/12 mt-4 font-bold rounded-full py-6"
-                  wire:click="redirectToProgram">{{ __('Lihat Nilai!') }}</x-button>
+                  wire:click="redirectToGrade">{{ __('Lihat Nilai!') }}</x-button>
                 <x-badge class="absolute rounded-full top-8 right-8 bg-green-600 hover:bg-green-500">Siswa
                   Aktif</x-badge>
               </div>
@@ -280,10 +276,8 @@
               <img src="{{ asset('storage/assets/vectors/undraw_credit-card_t6qm.svg') }}" alt="notfoundcourse"
                 class="object-cover aspect-auto w-4/12 mx-auto">
               <p class="font-bold text-center w-8/12">Belum ada transaksi apapun.</p>
-              <a href="{{ route('our-program') }}">
-                <x-button
-                  class="bg-blue-800 hover:bg-blue-700 px-6 mt-8 rounded-xl py-6">{{ __('Lihat kursus') }}</x-button>
-              </a>
+              <x-button wire:click="redirectToProgram"
+                class="bg-blue-600 hover:bg-blue-700 w-4/12 mt-4 font-bold rounded-full py-6">{{ __('Lakukan transaksi') }}</x-button>
             </div>
           </div>
         @endif

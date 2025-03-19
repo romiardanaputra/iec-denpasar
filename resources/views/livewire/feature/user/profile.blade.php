@@ -58,8 +58,8 @@
               <div class="max-w-full px-3 w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="name">Name</x-label>
-                  <x-input type="text" wire:model.defer="name" id="name" placeholder="name" :value="old('name', $user->name)"
-                    required autofocus autocomplete />
+                  <x-input class="rounded-full" type="text" wire:model="name" id="name" placeholder="name"
+                    :value="old('name', $user->name)" required autofocus autocomplete />
                   @error('name')
                     <p class="text-red-500 text-size-sm">{{ $message }}</p>
                   @enderror
@@ -68,8 +68,8 @@
               <div class="max-w-full px-3 w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="email">Email</x-label>
-                  <x-input type="email" wire:model.defer="email" id="email" placeholder="email" required
-                    autocomplete :value="old('email', $user->email)" />
+                  <x-input type="email" class="rounded-full" wire:model="email" id="email" placeholder="email"
+                    required autocomplete :value="old('email', $user->email)" />
                   @error('email')
                     <p class="text-red-500   text-size-sm">{{ $message }}</p>
                   @enderror
@@ -80,7 +80,7 @@
             <div class="flex flex-wrap -mx-3 mt-4">
               <div class="max-w-full px-3 w-1/2 lg:flex-none space-y-3">
                 <x-label htmlFor="phone">Phone Number</x-label>
-                <x-input type="text" :value="old('phone', $user->phone)" wire:model.defer="phone" id="phone"
+                <x-input class="rounded-full" type="text" :value="old('phone', $user->phone)" wire:model="phone" id="phone"
                   placeholder="phone number" required autocomplete />
                 @error('phone')
                   <p class="text-red-500 text-size-sm">{{ $message }}</p>
@@ -88,7 +88,7 @@
               </div>
               <div class="max-w-full px-3 w-1/2 lg:flex-none space-y-3">
                 <x-label htmlFor="address">Address</x-label>
-                <x-input :value="old('address', $user->address)" type="text" wire:model.defer="address" id="address"
+                <x-input class="rounded-full" :value="old('address', $user->address)" type="text" wire:model="address" id="address"
                   placeholder="address" required autocomplete />
                 @error('address')
                   <p class="text-red-500 text-size-sm">{{ $message }}</p>
@@ -98,7 +98,7 @@
 
             <div class="space-y-3 mt-4">
               <x-label htmlFor="about">Tentang Saya</x-label>
-              <x-textarea :value="old('about', $user->about)" wire:model.defer="about" id="about" rows="5"
+              <x-textarea class="rounded-xl" :value="old('about', $user->about)" wire:model="about" id="about" rows="5"
                 placeholder="Tell us about yourself" required></x-textarea>
               @error('about')
                 <p class="text-red-500 text-size-sm">{{ $message }}</p>
@@ -106,7 +106,8 @@
             </div>
 
             <div class="mt-4">
-              <x-button type="submit">Save</x-button>
+              <x-button
+                class="bg-blue-600 text-sm font-bold hover:bg-blue-700  mt-4 rounded-full py-6">{{ __('Simpan') }}</x-button>
             </div>
           </x-form>
         </div>
@@ -147,7 +148,7 @@
               <div class="max-w-full px-3 w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="current_password">Current password</x-label>
-                  <x-input type="text" wire:model.defer="current_password" id="current_password"
+                  <x-input class="rounded-full" type="text" wire:model="current_password" id="current_password"
                     placeholder="current_password" required />
                   @error('current_password')
                     <p class="text-red-500 text-size-sm">{{ $message }}</p>
@@ -157,8 +158,8 @@
               <div class="max-w-full px-3 w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="password">New password</x-label>
-                  <x-input type="password" wire:model.defer="password" id="password" placeholder="password"
-                    required />
+                  <x-input class="rounded-full" type="password" wire:model="password" id="password"
+                    placeholder="password" required />
                   @error('password')
                     <p class="text-red-500 text-size-sm">{{ $message }}</p>
                   @enderror
@@ -170,7 +171,7 @@
               <div class="max-w-full px-3 w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="password_confirmation">Confirm Password</x-label>
-                  <x-input type="password_confirmation" wire:model.defer="password_confirmation"
+                  <x-input class="rounded-full" type="password_confirmation" wire:model="password_confirmation"
                     id="password_confirmation" placeholder="password_confirmation" required />
                   @error('password_confirmation')
                     <p class="text-red-500 text-size-sm">{{ $message }}</p>
@@ -181,7 +182,8 @@
             </div>
 
             <div class="mt-4">
-              <x-button type="submit">Save</x-button>
+              <x-button
+                class="bg-blue-600 text-sm font-bold hover:bg-blue-700  mt-4 rounded-full py-6">{{ __('Simpan') }}</x-button>
             </div>
           </x-form>
         </div>
