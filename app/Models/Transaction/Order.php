@@ -18,6 +18,7 @@ class Order extends Model
         'registration_id',
         'order_id',
         'total_price',
+        'payment_method',
         'status',
         'payment_status',
     ];
