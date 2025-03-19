@@ -32,6 +32,7 @@ class Program extends Model
         'rate',
         'price',
         'register_fee',
+        'is_visible',
     ];
 
     public function classes()
