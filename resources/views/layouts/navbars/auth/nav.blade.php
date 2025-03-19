@@ -15,7 +15,7 @@
     </nav>
 
     <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
-      <div class="flex items-center md:ml-auto md:pr-4">
+      <div class="invisible items-center md:ml-auto md:pr-4">
         <div class="ml-2 relative flex flex-wrap items-center w-full transition-all rounded-lg ease-soft">
           <x-input placeholder="search here..." class="pl-12" id="search" />
           <x-lucide-search class="size-4 absolute left-0 ml-4" />
