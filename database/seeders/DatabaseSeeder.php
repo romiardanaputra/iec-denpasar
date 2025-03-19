@@ -56,8 +56,8 @@ class DatabaseSeeder extends Seeder
             AuthorSeeder::class,
             CategorySeeder::class,
             PostSeeder::class,
-            // TransactionSeeder::class,
-            // GradeSeeder::class
+            TransactionSeeder::class,
+            GradeSeeder::class,
         ]);
         $this->command->info('Database seeding completed successfully.');
     }

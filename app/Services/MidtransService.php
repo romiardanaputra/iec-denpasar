@@ -69,9 +69,12 @@ class MidtransService
         Log::info('Isi midtrans params: '.json_encode($params));
 
         try {
+            Log::info('generate snapnya');
+
             return Snap::getSnapToken($params);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            Log::error('Failed to create snap token: '.$e->getMessage());
+            throw new Exception('Failed to create snap token');
         }
     }
 

@@ -4,11 +4,9 @@ document.getElementById('payment-form').addEventListener('submit', function(even
   const form = this;
   const formData = new FormData(form);
   const orderButton = document.getElementById('orderButton');
-  const registransForm = document.getElementById('registransForm');
 
   orderButton.disabled = true;
   orderButton.textContent = 'Processing...';
-  registransForm.setAttribute('class', '-z-50')
 
   fetch(form.action, {
       method: form.method,
