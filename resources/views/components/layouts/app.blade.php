@@ -47,8 +47,26 @@
       @if (auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isUser())
         @if (!Route::is('verification.notice', 'verification.verify'))
           <div
-            class="@unless (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail', 'blog', 'blog.detail')) m-0 font-sans antialiased min-h-svh md:min-h-dvh lg:min-h-lvh font-normal text-size-base leading-default bg-white text-slate-500 @endunless">
-            @if (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail', 'blog', 'blog.detail'))
+            class="@unless (Route::is(
+                    'landing',
+                    'about',
+                    'our-program',
+                    'our-team',
+                    'contact',
+                    'program.detail',
+                    'blog',
+                    'blog.detail',
+                    'checkout')) m-0 font-sans antialiased min-h-svh md:min-h-dvh lg:min-h-lvh font-normal text-size-base leading-default bg-white text-slate-500 @endunless">
+            @if (Route::is(
+                    'landing',
+                    'about',
+                    'our-program',
+                    'our-team',
+                    'contact',
+                    'program.detail',
+                    'blog',
+                    'blog.detail',
+                    'checkout'))
               @livewire('partials.navbar')
               {{ $slot }}
               @livewire('partials.footer')
