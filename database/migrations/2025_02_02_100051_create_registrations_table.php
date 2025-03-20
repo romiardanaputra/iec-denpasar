@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('parent_guardian')->nullable();
             $table->boolean('is_visible')->default(true);
             $table->timestamps();
+            $table->softDeletesDatetime();
         });
     }
 

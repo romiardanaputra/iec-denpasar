@@ -17,9 +17,12 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Order::class, 'order_id')->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Program::class, 'program_id')->constrained()->onDelete('cascade');
+            $table->string('product_name')->nullable();
             $table->double('price');
             $table->integer('quantity');
             $table->timestamps();
+            $table->softDeletesDatetime();
+
         });
     }
 

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->text('message');
             $table->timestamps();
+            $table->softDeletesDatetime();
+
         });
     }
 

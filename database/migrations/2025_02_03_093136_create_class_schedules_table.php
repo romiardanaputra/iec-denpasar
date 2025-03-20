@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('team_id');
             $table->string('class_code', 10)->unique();
             $table->timestamps();
+            $table->softDeletesDatetime();
 
             $table->foreign('program_id')->references('program_id')->on('programs')->onDelete('cascade');
             $table->foreign('book_id')->references('book_id')->on('books')->onDelete('cascade');

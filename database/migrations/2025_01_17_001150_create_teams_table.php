@@ -26,7 +26,7 @@ return new class extends Migration
             $table->dateTime('join_at')->nullable();
             $table->boolean('is_active')->default(false);
             $table->timestamps();
-            $table->dateTime('deleted_at')->nullable();
+            $table->softDeletesDatetime();
         });
     }
 

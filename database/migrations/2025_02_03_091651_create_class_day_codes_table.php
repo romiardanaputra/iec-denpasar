@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('day_code', 2)->unique();
             $table->string('day_name', 30);
             $table->timestamps();
+            $table->softDeletesDatetime();
+
         });
     }
 

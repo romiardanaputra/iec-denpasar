@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('program_id')->constrained('programs', 'program_id')->onDelete('cascade');
             $table->string('path');
             $table->timestamps();
+            $table->softDeletesDatetime();
         });
     }
 

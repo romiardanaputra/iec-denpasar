@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('class_schedule_id');
             $table->unsignedBigInteger('day_code_id');
             $table->timestamps();
+            $table->softDeletesDatetime();
 
             $table->foreign('class_schedule_id')->references('class_schedule_id')->on('class_schedules')->onDelete('cascade');
             $table->foreign('day_code_id')->references('day_code_id')->on('class_day_codes')->onDelete('cascade');

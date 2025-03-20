@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('level')->nullable();
             $table->json('benefits')->nullable();
             $table->timestamps();
+            $table->softDeletesDatetime();
         });
     }
 

@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('book_name', 50);
             $table->string('book_code', 5)->unique();
             $table->timestamps();
+            $table->softDeletesDatetime();
+
         });
     }
 

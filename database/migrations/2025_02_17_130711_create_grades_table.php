@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('improvement_area')->nullable();
             $table->text('weak_area')->nullable();
             $table->timestamps();
+            $table->softDeletesDatetime();
         });
     }
 

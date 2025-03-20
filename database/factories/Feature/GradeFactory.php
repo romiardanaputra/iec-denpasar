@@ -41,6 +41,7 @@ class GradeFactory extends Factory
             'strong_area' => $this->faker->sentence,
             'improvement_area' => $this->faker->sentence,
             'weak_area' => $this->faker->sentence,
+            'deleted_at' => null,
         ];
     }
 

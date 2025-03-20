@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('is_visible')->default(false);
             $table->date('published_at')->nullable();
             $table->timestamps();
-            $table->dateTime('deleted_at')->nullable();
+            $table->softDeletesDatetime();
         });
     }
 
