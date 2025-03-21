@@ -101,7 +101,7 @@
                   @livewire('partials.empty-state', [
                       'title' => 'No blogs posted yet',
                       'message' => 'We\'re working on some exciting content to share with you. Check back soon for fresh perspectives
-                                                                                                                                                                                                                                                                                                                        and insights.',
+                                                                                                                                                                                                                                                                                                                                                            and insights.',
                       'iconType' => 'animation',
                       'customIcon' => 'assets/empty-state-animation/blog.gif',
                   ])

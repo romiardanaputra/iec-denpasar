@@ -10,7 +10,7 @@
       <h3 class="md:text-2xl text-base text-gray-900 font-semibold text-center">Pembayaran Tertunda!</h3>
       <p class="text-gray-600 my-2">
         {{ __('Pembayaran anda belum selesai, Mohon untuk menyelesaikan pembayaran anda, Terima
-                                                                kasih') }}
+                                                                                kasih') }}
       </p>
       <p> {{ __('Semoga harimu menyenangkan') }} </p>
       <div class="py-10 text-center">

@@ -1,4 +1,3 @@
-
 * {
   font-family: "Nunito", sans-serif;
   scroll-behavior: smooth;
@@ -38,10 +37,10 @@ h6 {
 p {
   @apply text-[1rem];
   @apply font-[Lato];
-  @apply text-gray-600
+  @apply text-gray-600;
 }
 
 small {
   @apply text-[0.8rem];
-  @apply text-gray-600
+  @apply text-gray-600;
 }
