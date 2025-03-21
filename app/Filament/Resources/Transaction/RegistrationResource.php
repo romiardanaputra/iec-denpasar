@@ -60,7 +60,7 @@ class RegistrationResource extends Resource
                 Forms\Components\TextInput::make('parent_guardian')
                     ->maxLength(255)
                     ->nullable(),
-                Forms\Components\Toggle::make('is_visible')
+                Forms\Components\Toggle::make('is_active')
                     ->label('Is Visible'),
                 Forms\Components\MultiSelect::make('class_schedules')
                     ->relationship('classSchedules', 'class_code')
@@ -120,7 +120,7 @@ class RegistrationResource extends Resource
                 Tables\Columns\TextColumn::make('parent_guardian')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\BooleanColumn::make('is_visible')
+                Tables\Columns\BooleanColumn::make('is_active')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('classSchedules.class_code')
                     ->label('Jadwal Kelas')
@@ -133,22 +133,22 @@ class RegistrationResource extends Resource
                     }),
             ])
             ->filters([
-            Tables\Filters\Filter::make('is_visible')
-                    ->query(fn (Builder $query): Builder => $query->where('is_visible', true)),
-            Tables\Filters\SelectFilter::make('user')
+                Tables\Filters\Filter::make('is_active')
+                    ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
+                Tables\Filters\SelectFilter::make('user')
                     ->relationship('user', 'name'),
-            Tables\Filters\SelectFilter::make('program')
+                Tables\Filters\SelectFilter::make('program')
                     ->relationship('program', 'name'),
-        ])
+            ])
             ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-        ])
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+                ]),
+            ]);
     }
 
     public static function getRelations(): array
