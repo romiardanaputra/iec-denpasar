@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
     Route::get('/check-order-status', [PaymentController::class, 'checkOrderStatus'])->name('check.order.status');
     Route::post('/save-error-data', [PaymentController::class, 'saveErrorData'])->name('save_error_data');
 
-    // controller
+    // post checkout controller
     Route::post('/checkout/{program}', [PaymentController::class, 'checkout'])->name('checkout.transaction');
 
 });
