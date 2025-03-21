@@ -60,6 +60,7 @@ class ClassSchedule extends Model
         return $this->belongsTo(Team::class, 'team_id', 'team_id');
     }
 
+    // ?
     public function registrations()
     {
         return $this->belongsToMany(Registration::class, 'registration_schedules', 'class_schedule_id', 'registration_id');

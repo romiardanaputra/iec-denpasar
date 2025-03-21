@@ -26,6 +26,6 @@ class Book extends Model
 
     public function classes()
     {
-        return $this->hasMany(ClassSchedule::class, 'book_id');
+        return $this->hasMany(ClassSchedule::class, 'book_id', 'book_id');
     }
 }

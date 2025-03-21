@@ -23,6 +23,6 @@ class ClassDayCode extends Model
 
     public function ClassSchedules()
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(ClassSchedule::class, 'day_code_id', 'day_code_id');
     }
 }

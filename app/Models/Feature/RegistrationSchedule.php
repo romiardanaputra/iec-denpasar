@@ -24,11 +24,11 @@ class RegistrationSchedule extends Model
 
     public function registration()
     {
-        return $this->belongsTo(Registration::class);
+        return $this->belongsTo(Registration::class, 'registration_id', 'id');
     }
 
     public function classSchedule()
     {
-        return $this->belongsTo(ClassSchedule::class, 'class_schedule_id');
+        return $this->belongsTo(ClassSchedule::class, 'class_schedule_id', 'class_schedule_id');
     }
 }

@@ -24,6 +24,6 @@ class ClassTimeCode extends Model
 
     public function classes()
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(ClassSchedule::class, 'time_code_id', 'time_code_id');
     }
 }

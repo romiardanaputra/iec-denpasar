@@ -29,11 +29,11 @@ class RegistrationResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
+                    ->relationship('user', 'name', fn ($query) => $query->whereNull('deleted_at'))
                     ->required()
                     ->searchable(),
                 Forms\Components\Select::make('program_id')
-                    ->relationship('program', 'name')
+                    ->relationship('program', 'name', fn ($query) => $query->withTrashed())
                     ->required()
                     ->searchable(),
                 Forms\Components\TextInput::make('student_name')
@@ -85,10 +85,16 @@ class RegistrationResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->getStateUsing(function ($record) {
+                        return $record->user
+                          ? ($record->user->trashed() ? "{$record->user->name} (Deleted)" : $record->user->name)
+                          : 'User Not Found';
+                    }),
                 Tables\Columns\TextColumn::make('program.name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->getStateUsing(fn ($record) => $record->program ? ($record->program->trashed() ? "{$record->program->name} (Deleted)" : $record->program->name) : 'Program not found'),
                 Tables\Columns\TextColumn::make('student_name')
                     ->sortable()
                     ->searchable(),
@@ -127,22 +133,22 @@ class RegistrationResource extends Resource
                     }),
             ])
             ->filters([
-                Tables\Filters\Filter::make('is_visible')
+            Tables\Filters\Filter::make('is_visible')
                     ->query(fn (Builder $query): Builder => $query->where('is_visible', true)),
-                Tables\Filters\SelectFilter::make('user')
+            Tables\Filters\SelectFilter::make('user')
                     ->relationship('user', 'name'),
-                Tables\Filters\SelectFilter::make('program')
+            Tables\Filters\SelectFilter::make('program')
                     ->relationship('program', 'name'),
-            ])
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ]),
+        ]);
     }
 
     public static function getRelations(): array

@@ -38,11 +38,11 @@ class Team extends Model
 
     public function classes()
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(ClassSchedule::class, 'team_id', 'team_id');
     }
 
     public function author()
     {
-        return $this->hasOne(Author::class);
+        return $this->hasOne(Author::class, 'team_id', 'team_id');
     }
 }
