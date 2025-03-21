@@ -11,11 +11,22 @@ class OrderItem extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'order_items';
+
+    protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
+
     protected $fillable = [
         'order_id',
         'program_id',
         'price',
         'quantity',
+    ];
+
+    protected $casts = [
+        'price' => 'double',
+        'quantity' => 'integer',
     ];
 
     public function order()

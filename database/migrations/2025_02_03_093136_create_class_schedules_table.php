@@ -13,20 +13,14 @@ return new class extends Migration
     {
         Schema::create('class_schedules', function (Blueprint $table) {
             $table->id('class_schedule_id');
-            $table->unsignedBigInteger('program_id');
-            $table->unsignedBigInteger('book_id');
-            $table->unsignedBigInteger('time_code_id');
-            $table->unsignedBigInteger('day_code_id');
-            $table->unsignedBigInteger('team_id');
-            $table->string('class_code', 10)->unique();
+            $table->foreignId('program_id')->index()->constrained('programs')->cascadeOnDelete();
+            $table->foreignId('book_id')->index()->constrained('books')->cascadeOnDelete();
+            $table->foreignId('time_code_id')->constrained('class_time_codes')->cascadeOnDelete();
+            $table->foreignId('day_code_id')->constrained('class_day_codes')->cascadeOnDelete();
+            $table->foreignId('team_id')->index()->constrained('teams')->cascadeOnDelete();
+            $table->string('class_code', 10)->unique()->index();
             $table->timestamps();
-            $table->softDeletesDatetime();
-
-            $table->foreign('program_id')->references('program_id')->on('programs')->onDelete('cascade');
-            $table->foreign('book_id')->references('book_id')->on('books')->onDelete('cascade');
-            $table->foreign('time_code_id')->references('time_code_id')->on('class_time_codes')->onDelete('cascade');
-            $table->foreign('day_code_id')->references('day_code_id')->on('class_day_codes')->onDelete('cascade');
-            $table->foreign('team_id')->references('team_id')->on('teams')->onDelete('cascade');
+            $table->softDeletes();
 
         });
     }

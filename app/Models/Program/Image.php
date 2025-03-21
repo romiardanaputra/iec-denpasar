@@ -12,6 +12,8 @@ class Image extends Model
 
     protected $table = 'images';
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'program_id',
         'path',

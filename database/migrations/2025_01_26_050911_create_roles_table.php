@@ -15,14 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->timestamps();
-            $table->dateTime('deleted_at')->nullable();
         });
         Schema::create('user_role', function (Blueprint $table) {
             $table->id('user_id')->constrained();
             $table->foreignId('role_id')->constrained();
             $table->primary(['user_id', 'role_id']);
             $table->timestamps();
-            $table->softDeletesDatetime();
         });
     }
 

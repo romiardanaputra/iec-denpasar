@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('registration_id')->constrained('registrations');
             $table->foreignIdFor(ClassSchedule::class, 'class_schedule_id')->constrained('class_schedules');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

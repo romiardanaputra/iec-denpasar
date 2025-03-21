@@ -10,6 +10,12 @@ class Payment extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'payments';
+
+    protected $priimaryKey = 'id';
+
+    protected $guarded = ['id'];
+
     public $fillable = [
         'order_id',
         'snap_token',
@@ -17,6 +23,12 @@ class Payment extends Model
         'status',
         'expired_at',
         'paid_at',
+    ];
+
+    protected $casts = [
+        'amount' => 'double',
+        'expired_at' => 'datetime',
+        'paid_at' => 'datetime',
     ];
 
     public function order()

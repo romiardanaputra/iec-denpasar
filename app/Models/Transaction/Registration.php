@@ -16,9 +16,9 @@ class Registration extends Model
 
     protected $table = 'registrations';
 
-    protected $guarded = ['id'];
-
     protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'user_id',
@@ -32,11 +32,10 @@ class Registration extends Model
         'market',
         'parent_guardian',
         'is_active',
-        'is_visible',
     ];
 
     protected $casts = [
-        'is_visible' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     public function user()

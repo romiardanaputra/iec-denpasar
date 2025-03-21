@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('programs', function (Blueprint $table) {
-            $table->id('program_id')->primary();
-            $table->string('name');
+            $table->id('program_id');
+            $table->string('name')->index();
             $table->string('slug')->unique()->nullable();
             $table->longText('short_description');
             $table->string('image');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('is_visible')->default(false);
             $table->date('published_at')->nullable();
             $table->timestamps();
-            $table->softDeletesDatetime();
+            $table->softDeletes();
         });
     }
 

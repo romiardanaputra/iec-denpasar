@@ -11,11 +11,11 @@ class Testimonial extends Model
     /** @use HasFactory<\Database\Factories\Web\TestimonialFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $guarded = ['id'];
-
     protected $table = 'testimonials';
 
     protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
 
     protected $fillable = ['name', 'position', 'testimony', 'image_path'];
 }

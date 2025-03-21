@@ -13,6 +13,10 @@ class Grade extends Model
     /** @use HasFactory<\Database\Factories\Feature\GradeFactory> */
     use HasFactory, SoftDeletes;
 
+    protected $table = 'grades';
+
+    protected $primaryKey = 'id';
+
     // student_id is equal to registran ID
     protected $fillable = [
         'registration_id',
@@ -22,10 +26,20 @@ class Grade extends Model
         'reading_grade',
         'listening_grade',
         'speaking_grade',
+        'writing_grade',
         'average_grade',
         'strong_area',
         'improvement_area',
         'weak_area',
+    ];
+
+    protected $casts = [
+
+        'listening_grade' => 'float',
+        'writing_grade' => 'float',
+        'speaking_grade' => 'float',
+        'reading_grade' => 'float',
+        'average_grade' => 'float',
     ];
 
     public function registration()

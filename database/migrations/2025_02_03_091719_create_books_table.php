@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id('book_id');
-            $table->string('book_name', 50);
-            $table->string('book_code', 5)->unique();
+            $table->string('book_name', 50)->index();
+            $table->string('book_code', 5)->unique()->index();
             $table->timestamps();
-            $table->softDeletesDatetime();
+            $table->softDeletes();
 
         });
     }

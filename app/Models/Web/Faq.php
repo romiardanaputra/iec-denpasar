@@ -11,11 +11,11 @@ class Faq extends Model
     /** @use HasFactory<\Database\Factories\Web\FaqFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $guarded = ['id'];
-
     protected $table = 'faqs';
 
     protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'question',

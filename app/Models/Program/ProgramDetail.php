@@ -12,6 +12,8 @@ class ProgramDetail extends Model
 
     protected $table = 'program_details';
 
+    protected $primaryKey = 'id';
+
     protected $casts = [
         'benefits' => 'array',
     ];

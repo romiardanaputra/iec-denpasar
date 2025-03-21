@@ -10,5 +10,11 @@ class ContactMessage extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'contact_messages';
+
+    protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
+
     protected $fillable = ['name', 'email', 'phone', 'message'];
 }

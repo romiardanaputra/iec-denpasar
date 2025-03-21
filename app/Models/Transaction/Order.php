@@ -2,6 +2,8 @@
 
 namespace App\Models\Transaction;
 
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
 use App\Models\Program\Program;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +14,12 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'orders';
+
+    protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
+
     protected $fillable = [
         'user_id',
         'program_id',
@@ -21,6 +29,12 @@ class Order extends Model
         'payment_method',
         'status',
         'payment_status',
+    ];
+
+    protected $casts = [
+        'total_price' => 'double',
+        'payment_status' => PaymentStatus::class,
+        'payment_method' => PaymentMethod::class,
     ];
 
     public function items()

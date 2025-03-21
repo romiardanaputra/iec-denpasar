@@ -22,6 +22,8 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     protected $primaryKey = 'id';
 
+    protected $guarded = ['id'];
+
     /**
      * The attributes that are mass assignable.
      *

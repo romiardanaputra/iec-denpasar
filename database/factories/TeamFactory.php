@@ -32,7 +32,6 @@ class TeamFactory extends Factory
             'facebook' => $this->faker->url,
             'instagram' => $this->faker->url,
             'whatsapp' => $this->faker->phoneNumber,
-            'join_at' => Carbon::now(),
             'is_active' => $this->faker->boolean,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
