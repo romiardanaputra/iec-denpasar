@@ -81,8 +81,9 @@ class Grade extends Model
             $readingGrade = (float) ($grade->reading_grade ?? 0);
             $listeningGrade = (float) ($grade->listening_grade ?? 0);
             $speakingGrade = (float) ($grade->speaking_grade ?? 0);
+            $writingGrade = (float) ($grade->writing_grade ?? 0);
 
-            $averageGrade = ($readingGrade + $listeningGrade + $speakingGrade) / 3;
+            $averageGrade = ($readingGrade + $listeningGrade + $speakingGrade + $writingGrade) / 4;
             $grade->average_grade = round($averageGrade, 2);
         });
     }

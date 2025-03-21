@@ -25,7 +25,8 @@ class GradeFactory extends Factory
         $readingGrade = $this->faker->numberBetween(1, 100);
         $listeningGrade = $this->faker->numberBetween(1, 100);
         $speakingGrade = $this->faker->numberBetween(1, 100);
-        $averageGrade = ($readingGrade + $listeningGrade + $speakingGrade) / 3;
+        $writingGrade = $this->faker->numberBetween(1, 100);
+        $averageGrade = ($readingGrade + $listeningGrade + $speakingGrade + $writingGrade) / 4;
 
         $users = User::get();
 
@@ -37,6 +38,7 @@ class GradeFactory extends Factory
             'reading_grade' => $readingGrade,
             'listening_grade' => $listeningGrade,
             'speaking_grade' => $speakingGrade,
+            'writing_grade' => $writingGrade,
             'average_grade' => round($averageGrade, 2),
             'strong_area' => $this->faker->sentence,
             'improvement_area' => $this->faker->sentence,

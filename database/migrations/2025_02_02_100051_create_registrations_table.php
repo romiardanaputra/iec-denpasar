@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('job');
             $table->string('market');
             $table->string('parent_guardian')->nullable();
-            $table->boolean('is_visible')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
