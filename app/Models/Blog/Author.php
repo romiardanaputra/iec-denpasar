@@ -23,7 +23,7 @@ class Author extends Model
 
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'blog_author_id', 'blog_author_id');
+        return $this->hasMany(Post::class, 'blog_author_id', 'id');
     }
 
     public function team()

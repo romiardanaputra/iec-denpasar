@@ -34,12 +34,12 @@ class Post extends Model
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(Author::class, 'blog_author_id', 'blog_author_id');
+        return $this->belongsTo(Author::class, 'blog_author_id', 'id');
     }
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'blog_category_id', 'blog_category_id');
+        return $this->belongsTo(Category::class, 'blog_category_id', 'id');
     }
 
     public function team()

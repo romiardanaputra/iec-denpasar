@@ -12,7 +12,7 @@ class Category extends Model
 
     protected $table = 'blog_categories';
 
-    protected $primaryKey = 'blog_category_id';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'seo_title',
@@ -29,6 +29,6 @@ class Category extends Model
 
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'blog_category_id', 'blog_category_id');
+        return $this->hasMany(Post::class, 'blog_category_id', 'id');
     }
 }
