@@ -98,7 +98,8 @@ class ProgramDetailResource extends Resource
                     ->wrap(),
             ])
             ->filters([
-                Filter::make('program_name')
+            Tables\Filters\TrashedFilter::make(),
+            Filter::make('program_name')
                     ->label('Nama Program')
                     ->form([
                         TextInput::make('search')
@@ -113,7 +114,7 @@ class ProgramDetailResource extends Resource
                             })
                         );
                     }),
-                Filter::make('level')
+            Filter::make('level')
                     ->label('Level Kursus')
                     ->form([
                         TextInput::make('search')
@@ -126,17 +127,21 @@ class ProgramDetailResource extends Resource
                             fn (Builder $query, string $search): Builder => $query->where('level', 'like', '%'.$search.'%')
                         );
                     }),
-            ])
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+            ]),
+        ])
             ->defaultSort('program.name');
     }
 

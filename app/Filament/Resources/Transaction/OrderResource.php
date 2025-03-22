@@ -141,23 +141,28 @@ class OrderResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\RestoreAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+        ])
             ->groupedBulkActions([
-                Tables\Actions\DeleteBulkAction::make()
+            Tables\Actions\DeleteBulkAction::make()
                     ->action(function () {
                         Notification::make()
                             ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
                             ->warning()
                             ->send();
                     }),
-            ])
+            Tables\Actions\RestoreBulkAction::make(),
+            Tables\Actions\ForceDeleteBulkAction::make(),
+
+        ])
             ->groups([
-                Tables\Grouping\Group::make('created_at')
+            Tables\Grouping\Group::make('created_at')
                     ->label('Order Date')
                     ->date()
                     ->collapsible(),
-            ]);
+        ]);
     }
 
     public static function getRelations(): array
@@ -336,8 +341,8 @@ class OrderResource extends Resource
             ->defaultItems(1)
             ->hiddenLabel()
             ->columns([
-                'md' => 10,
-            ])
+            'md' => 10,
+        ])
             ->required();
     }
 

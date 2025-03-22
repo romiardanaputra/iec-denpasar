@@ -76,7 +76,7 @@ class TeamResource extends Resource
 
                         Forms\Components\Tabs\Tab::make('Media')
                             ->schema([
-                                Forms\Components\FileUpload::make('image')
+                            Forms\Components\FileUpload::make('image')
                                     ->label(__('Image'))
                                     ->image()
                                     ->imageEditor()
@@ -86,51 +86,51 @@ class TeamResource extends Resource
                                         '4:3',
                                         '1:1',
                                     ]),
-                            ]),
+                        ]),
 
                         Forms\Components\Tabs\Tab::make('Social Media')
                             ->schema([
-                                Forms\Components\TextInput::make('facebook')
+                            Forms\Components\TextInput::make('facebook')
                                     ->label(__('Facebook'))
                                     ->nullable()
                                     ->placeholder(__('ex: https://www.facebook.com/romiardanap'))
                                     ->helperText(__('Optional Facebook links')),
-                                Forms\Components\TextInput::make('instagram')
+                            Forms\Components\TextInput::make('instagram')
                                     ->label(__('Instagram'))
                                     ->nullable()
                                     ->placeholder(__('ex: https://www.instagram.com/romiardanap_/'))
                                     ->helperText(__('Optional Instagram links')),
-                                Forms\Components\TextInput::make('whatsapp')
+                            Forms\Components\TextInput::make('whatsapp')
                                     ->label(__('WhatsApp'))
                                     ->required()
                                     ->placeholder(__('6285792479249'))
                                     ->helperText(__('WhatsApp phone number')),
-                                Forms\Components\TextInput::make('linkedin')
+                            Forms\Components\TextInput::make('linkedin')
                                     ->label(__('LinkedIn'))
                                     ->nullable()
                                     ->placeholder(__('ex: https://www.linkedin.com/in/romiardana/'))
                                     ->helperText(__('Optional LinkedIn links')),
-                            ]),
+                        ]),
 
                         Forms\Components\Tabs\Tab::make('Status')
                             ->schema([
-                                Forms\Components\Toggle::make('is_active')
+                            Forms\Components\Toggle::make('is_active')
                                     ->label(__('Is Active?'))
                                     ->required()
                                     ->default(true)
                                     ->helperText(__('Determine if a team is active or not')),
-                                Forms\Components\DateTimePicker::make('join_at')
+                            Forms\Components\DateTimePicker::make('join_at')
                                     ->label(__('Join Date'))
                                     ->required()
                                     ->default(now())
                                     ->helperText(__('Determine when a member joined')),
-                            ]),
+                        ]),
                     ])
                     ->columns([
-                        'sm' => 1,
-                        'md' => 2,
-                        'lg' => 3,
-                    ])
+                    'sm' => 1,
+                    'md' => 2,
+                    'lg' => 3,
+                ])
                     ->columnSpanFull(),
             ]);
     }
@@ -172,6 +172,7 @@ class TeamResource extends Resource
                     ->toggleable(),
             ])
             ->filters([
+                Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\Filter::make('is_active')
                     ->query(fn (Builder $query) => $query->where('is_active', true))
                     ->label(__('Active Teams')),
@@ -201,10 +202,14 @@ class TeamResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }

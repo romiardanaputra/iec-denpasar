@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Feature;
 
 use App\Filament\Resources\Feature\RegistrationScheduleResource\Pages;
 use App\Models\Feature\RegistrationSchedule;
+use App\Models\Schedule\ClassSchedule;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -27,7 +28,7 @@ class RegistrationScheduleResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Informasi Pendaftaran')
+                Forms\Components\Section::make('Informasi Murid Pendaftar')
                     ->schema([
                         Forms\Components\Select::make('registration_id')
                             ->relationship('registration', 'student_name')
@@ -38,7 +39,7 @@ class RegistrationScheduleResource extends Resource
                             ->preload()
                             ->native(false),
                     ]),
-                Forms\Components\Section::make('Jadwal Kelas')
+                Forms\Components\Section::make('Informasi Jadwal Kelas')
                     ->schema([
                         Forms\Components\Select::make('class_schedule_id')
                             ->relationship('classSchedule', 'class_code')
@@ -47,14 +48,45 @@ class RegistrationScheduleResource extends Resource
                             ->required()
                             ->searchable()
                             ->preload()
+                            ->debounce()
                             ->native(false)
                             ->options(function () {
-                                return \App\Models\Schedule\ClassSchedule::with('program', 'book', 'time', 'day', 'team')
+                                return ClassSchedule::with('program', 'book', 'time', 'day', 'team')
                                     ->get()
                                     ->mapWithKeys(function ($classSchedule) {
                                         return [$classSchedule->class_schedule_id => "{$classSchedule->class_code} ({$classSchedule->program->name})"];
                                     });
+                            })
+                            ->afterStateUpdated(function ($state, Forms\Set $set) {
+                                if ($state) {
+                                    $classSchedule = ClassSchedule::find($state);
+                                    if ($classSchedule && $classSchedule->book) {
+                                        $set('book_name', '('.$classSchedule->book->book_code.') '.$classSchedule->book->book_name);
+                                    }
+                                    if ($classSchedule && $classSchedule->time) {
+                                        $set('time_class', '('.$classSchedule->time->time_code.') '.$classSchedule->time->time_start.' - '.$classSchedule->time->time_end);
+                                    }
+                                    if ($classSchedule && $classSchedule->day) {
+                                        $set('day_class', '('.$classSchedule->day->day_code.') '.$classSchedule->day->day_name);
+                                    }
+                                }
                             }),
+
+                        Forms\Components\TextInput::make('book_name')
+                            ->label('Nama Buku')
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->helperText('Buku sesuai dengan jadwal kelas yang dipilih'),
+                        Forms\Components\TextInput::make('time_class')
+                            ->label('Jam')
+                            ->helperText('Jam/waktu sesuai dengan jadwal kelas yang dipilih')
+                            ->disabled()
+                            ->dehydrated(false),
+                        Forms\Components\TextInput::make('day_class')
+                            ->label('Hari')
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->helperText('Hari sesuai dengan jadwal kelas yang dipilih'),
                     ]),
             ]);
     }
@@ -103,21 +135,28 @@ class RegistrationScheduleResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('registration_id')
+            Tables\Filters\TrashedFilter::make(),
+            Tables\Filters\SelectFilter::make('registration_id')
                     ->label('Pendaftar')
                     ->relationship('registration', 'student_name'),
-                Tables\Filters\SelectFilter::make('class_schedule_id')
+            Tables\Filters\SelectFilter::make('class_schedule_id')
                     ->label('Jadwal Kelas')
                     ->relationship('classSchedule', 'class_code'),
-            ])
+        ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\RestoreAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+            ]),
+        ])
             ->query(
                 fn (): Builder => RegistrationSchedule::query()
                     ->with(['registration', 'classSchedule.program', 'classSchedule.book', 'classSchedule.time', 'classSchedule.day', 'classSchedule.team'])

@@ -113,6 +113,7 @@ class BookResource extends Resource
                     ->wrap(),
             ])
             ->filters([
+                Tables\Filters\TrashedFilter::make(),
                 Filter::make('book_name')
                     ->label('Nama Buku')
                     ->form([
@@ -141,15 +142,20 @@ class BookResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+
+            ]),
+        ])
             ->defaultSort('book_name') // Default sort by book name
             ->reorderable('book_id'); // Allows reordering if needed
     }

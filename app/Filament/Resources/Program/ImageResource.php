@@ -12,6 +12,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
 class ImageResource extends Resource
@@ -97,25 +98,30 @@ class ImageResource extends Resource
                     ->toggleable(),
             ])
             ->filters([
-                SelectFilter::make('program')
+            TrashedFilter::make(),
+            SelectFilter::make('program')
                     ->relationship('program', 'name')
                     ->label('Filter by Program')
                     ->searchable(),
-            ])
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make()
+            Tables\Actions\ViewAction::make()
                     ->icon('heroicon-s-eye'),
-                Tables\Actions\EditAction::make()
+            Tables\Actions\EditAction::make()
                     ->icon('heroicon-s-pencil'),
-                Tables\Actions\DeleteAction::make()
+            Tables\Actions\DeleteAction::make()
                     ->icon('heroicon-s-trash'),
-            ])
+            Tables\Actions\ForceDeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->icon('heroicon-s-trash'),
-                ]),
-            ])
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+            ]),
+        ])
             ->defaultSort('created_at', 'desc');
     }
 

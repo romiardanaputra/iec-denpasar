@@ -133,22 +133,28 @@ class RegistrationResource extends Resource
                     }),
             ])
             ->filters([
-                Tables\Filters\Filter::make('is_active')
+            Tables\Filters\TrashedFilter::make(),
+            Tables\Filters\Filter::make('is_active')
                     ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
-                Tables\Filters\SelectFilter::make('user')
+            Tables\Filters\SelectFilter::make('user')
                     ->relationship('user', 'name'),
-                Tables\Filters\SelectFilter::make('program')
+            Tables\Filters\SelectFilter::make('program')
                     ->relationship('program', 'name'),
-            ])
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getRelations(): array
