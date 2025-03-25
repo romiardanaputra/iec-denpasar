@@ -5,6 +5,8 @@ namespace App\Livewire\Feature\User;
 use App\Models\Feature\RegistrationSchedule;
 use App\Models\Transaction\Order;
 use App\Models\Transaction\Registration;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -117,6 +119,14 @@ class Dashboard extends Component
 
     public function render()
     {
+        SEOMeta::setTitle('My Dashboard - IEC Denpasar');
+        SEOMeta::setDescription('dashboard student of iec denpasar');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('My Dashboard - IEC Denpasar');
+        OpenGraph::setDescription('dashboard student of iec denpasar');
+        OpenGraph::setType('dashboard');
+        OpenGraph::setUrl(url()->current());
         $data = [
             'order' => $this->getOrder(),
             'schedules' => $this->schedules,

@@ -4,6 +4,8 @@ namespace App\Livewire\Feature\User;
 
 use App\Models\Transaction\Order;
 use App\Services\MidtransService;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Component;
 
 class BillDetail extends Component
@@ -33,6 +35,15 @@ class BillDetail extends Component
 
     public function render()
     {
+
+        SEOMeta::setTitle('Bill Details');
+        SEOMeta::setDescription('View detailed information about your bill and payment status.');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('Bill Details');
+        OpenGraph::setDescription('View detailed information about your bill and payment status.');
+        OpenGraph::setType('bill_detail');
+        OpenGraph::setUrl(url()->current());
         $data = [
             'order' => $this->order,
         ];

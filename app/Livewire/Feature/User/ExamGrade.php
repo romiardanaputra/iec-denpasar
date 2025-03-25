@@ -4,6 +4,8 @@ namespace App\Livewire\Feature\User;
 
 use App\Models\Feature\Grade;
 use App\Models\Program\Program;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -90,6 +92,14 @@ class ExamGrade extends Component
 
     public function render()
     {
+        SEOMeta::setTitle('My Exam Grades - IEC Denpasar');
+        SEOMeta::setDescription('View and filter your exam grades, including program and level details.');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('My Exam Grades');
+        OpenGraph::setDescription('View and filter your exam grades, including program and level details.');
+        OpenGraph::setType('profile');
+        OpenGraph::setUrl(url()->current());
         $programs = Program::select(['program_id', 'name'])->get();
         $data = [
             'grades' => $this->getExamGrade,
