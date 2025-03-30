@@ -13,7 +13,7 @@ class Author extends Model
 
     protected $table = 'blog_authors';
 
-    protected $primaryKey = 'blog_author_id';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'team_id',

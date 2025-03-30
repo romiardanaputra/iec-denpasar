@@ -13,7 +13,6 @@ use Database\Seeders\Program\ProgramSeeder;
 use Database\Seeders\Schedule\ClassDayCodeSeeder;
 use Database\Seeders\Schedule\ClassScheduleSeeder;
 use Database\Seeders\Schedule\ClassTimeCodeSeeder;
-use Database\Seeders\Transaction\DummyOrderSeeder;
 use Database\Seeders\Transaction\TransactionSeeder;
 use Database\Seeders\Web\FaqSeeder;
 use Database\Seeders\Web\TestimonialSeeder;
@@ -47,7 +46,6 @@ class DatabaseSeeder extends Seeder
             BookSeeder::class,
             ProgramSeeder::class,
             TeamSeeder::class,
-            // DummyOrderSeeder::class,
             ClassScheduleSeeder::class,
             ProgramDetailSeeder::class,
             ImageSeeder::class,
