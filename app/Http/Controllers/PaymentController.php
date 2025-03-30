@@ -8,7 +8,6 @@ use App\Models\Transaction\OrderItem;
 use App\Models\Transaction\Payment;
 use App\Models\Transaction\Registration;
 use App\Services\MidtransService;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -140,6 +139,7 @@ class PaymentController extends Controller
                 'message' => 'the current user is not authenticated',
             ], 401);
         }
+
         Log::info('validasi data form detail pendaftar kursus');
         $data = $request->validate([
             'student_name' => ['required', 'min:3', 'max:50', 'string'],
@@ -150,10 +150,10 @@ class PaymentController extends Controller
             'job' => ['required'],
             'market' => ['required'],
             'parent_guardian' => ['nullable', 'string', 'max:255'],
-            'payment_method' => ['required'],
+            'payment_method' => ['required', 'in:online,cash'], // Add validation for payment method
         ]);
 
-        Log::info('buat data pendaftar setelah valiadasi');
+        Log::info('buat data pendaftar setelah validasi');
         $customer = Registration::create([
             'user_id' => $user->id,
             'program_id' => $program->program_id,
@@ -166,7 +166,7 @@ class PaymentController extends Controller
             'market' => $data['market'],
             'parent_guardian' => $data['parent_guardian'] ?? null,
         ]);
-        Log::info('data pedaftar = '.$customer.' berhasil dibuat');
+        Log::info('data pendaftar = '.$customer.' berhasil dibuat');
 
         Log::info('buat data order dari customer');
         $order = Order::create([
@@ -176,6 +176,7 @@ class PaymentController extends Controller
             'order_id' => uniqid('ORD-'),
             'total_price' => $program->price,
             'payment_method' => $data['payment_method'],
+            'status' => $data['payment_method'] === 'cash' ? 'WAITING_PAYMENT' : 'PENDING', // Set status based on payment method
         ]);
         Log::info('data order customer = '.$order.' berhasil dibuat');
 
@@ -189,41 +190,53 @@ class PaymentController extends Controller
         ]);
         Log::info('order item = '.$orderItem.' berhasil di buat');
 
-        if ($order['payment_method'] === 'online') {
-            try {
-                $snapToken = $midtransService->createSnapToken($order);
+        // Handle payment based on payment method
+        if ($data['payment_method'] === 'online') {
+            Log::info('processing online payment');
 
-                Log::info('snaptoken berhasil di generate: '.$snapToken);
+            $snapToken = $midtransService->createSnapToken($order);
+            Log::info('snaptoken berhasil di generate: '.$snapToken);
 
-                Log::info('buat data payment online');
+            Log::info('buat data payment online');
+            $payment = Payment::create([
+                'order_id' => $order->id,
+                'amount' => $order->total_price,
+                'snap_token' => $snapToken,
+                'status' => 'PENDING',
+                'expired_at' => now()->addHours(24),
+                'payment_method' => 'online',
+            ]);
 
-                $payment = Payment::create([
-                    'order_id' => $order->id,
-                    'amount' => $order->total_price,
-                    'snap_token' => $snapToken,
-                    'status' => 'PENDING',
-                    'expired_at' => now()->addHours(24),
-                ]);
+            Log::info('data payment method online '.$payment.' berhasil dibuat');
 
-                Log::info('data payment method online '.$payment.' berhasil dibuat');
+            session()->flash('success', 'Checkout berhasil. Silakan lanjutkan pembayaran.');
 
-                session()->flash('success', 'Checkout berhasil');
-
-                return response()->json([
-                    'snap_token' => $snapToken,
-                ]);
-
-            } catch (Exception $e) {
-                Log::error('Failed to generate snap token: '.$e->getMessage());
-                session()->flash('error', 'Gagal membuat snap token. Silakan coba lagi.');
-
-                return;
-            }
-
+            return response()->json([
+                'snap_token' => $snapToken,
+                'payment_method' => 'online',
+            ]);
         } else {
-            session()->flash('error', 'metode pembayaran tidak valid');
+            // Handle cash payment
+            Log::info('processing cash payment');
 
-            return to_route('payment.failed');
+            $payment = Payment::create([
+                'order_id' => $order->id,
+                'amount' => $order->total_price,
+                'status' => 'PENDING',
+                'payment_method' => 'cash',
+            ]);
+
+            Log::info('data payment method cash '.$payment.' berhasil dibuat');
+
+            // You might want to send notification to admin about cash payment
+            // Notification::send($adminUsers, new CashPaymentNotification($order));
+
+            session()->flash('success', 'Pendaftaran berhasil. Silakan lakukan pembayaran tunai sesuai instruksi.');
+
+            return response()->json([
+                'payment_method' => 'cash',
+                'redirect_url' => route('registration.success'), // Or any other route
+            ]);
         }
     }
 }
