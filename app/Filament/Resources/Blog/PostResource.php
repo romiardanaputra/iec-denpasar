@@ -46,7 +46,7 @@ class PostResource extends Resource
                             ->required()
                             ->live(onBlur: true)
                             ->maxLength(255)
-                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $set('slug', Str::slug($state))),
 
                         Forms\Components\TextInput::make('slug')
                             ->disabled()
@@ -141,6 +141,10 @@ class PostResource extends Resource
                     ->date(),
             ])
             ->filters([
+                Tables\Filters\MultiSelectFilter::make('blog_author_id')
+                    ->label('Team')
+                    ->relationship('author.team', 'name')
+                    ->preload(),
                 Tables\Filters\Filter::make('published_at')
                     ->form([
                         Forms\Components\DatePicker::make('published_from')
@@ -277,5 +281,10 @@ class PostResource extends Resource
         }
 
         return $details;
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }
