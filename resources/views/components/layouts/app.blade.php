@@ -119,8 +119,16 @@
     @vite('resources/js/app.js')
     @livewireScripts
     @filamentScripts
-    <script async defer src="{{ asset('storage/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-    <script async defer src="{{ asset('storage/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
+    {{-- if env is prod --}}
+    @if (config('app.env') === 'production')
+      <script async defer src="{{ asset('storage/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+      <script async defer src="{{ asset('storage/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
+    @else
+      {{-- else env is local --}}
+      <script async defer src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+      <script async defer src="{{ asset('assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
+    @endif
+
     @yield('js_custom')
   </body>
 </html>

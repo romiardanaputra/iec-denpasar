@@ -1,5 +1,5 @@
 <aside
-  class="max-w-62.5 ease-nav-brand fixed inset-y-0 my-4 block w-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 -translate-x-52 xl:translate-x-0 xl:bg-transparent"
+  class="max-w-62.5 ease-nav-brand fixed inset-y-0 block w-full flex-wrap items-center justify-between overflow-y-auto  border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 -translate-x-52 xl:translate-x-0 xl:bg-transparent z-[1000]"
   id="sidenav-main">
   <div class="h-19.5">
     <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden"

@@ -186,5 +186,5 @@
 @section('js_custom')
   <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
   </script>
-  <script type="module" src="{{ asset('midtrans/index.js') }}" defer></script>
+  <script type="module" src="{{ asset('storage/midtrans/index.js') }}" defer></script>
 @endsection

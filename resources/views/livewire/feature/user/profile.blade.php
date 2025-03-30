@@ -59,7 +59,7 @@
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="name">Name</x-label>
                   <x-input class="rounded-full" type="text" wire:model="name" id="name" placeholder="name"
-                    :value="old('name', $user->name)" required autofocus autocomplete />
+                    :value="old('name', $name)" required autofocus autocomplete="on" />
                   @error('name')
                     <p class="text-red-500 text-size-sm">{{ $message }}</p>
                   @enderror
@@ -69,9 +69,9 @@
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="email">Email</x-label>
                   <x-input type="email" class="rounded-full" wire:model="email" id="email" placeholder="email"
-                    required autocomplete :value="old('email', $user->email)" />
+                    required autocomplete="on" :value="old('email', $email)" />
                   @error('email')
-                    <p class="text-red-500   text-size-sm">{{ $message }}</p>
+                    <p class="text-red-500 text-size-sm">{{ $message }}</p>
                   @enderror
                 </div>
               </div>
@@ -80,16 +80,16 @@
             <div class="flex flex-wrap -mx-3 mt-4">
               <div class="max-w-full px-3 w-1/2 lg:flex-none space-y-3">
                 <x-label htmlFor="phone">Phone Number</x-label>
-                <x-input class="rounded-full" type="text" :value="old('phone', $user->phone)" wire:model="phone" id="phone"
-                  placeholder="phone number" required autocomplete />
+                <x-input class="rounded-full" type="text" :value="old('phone', $phone)" wire:model="phone" id="phone"
+                  placeholder="phone number" required autocomplete="on" />
                 @error('phone')
                   <p class="text-red-500 text-size-sm">{{ $message }}</p>
                 @enderror
               </div>
               <div class="max-w-full px-3 w-1/2 lg:flex-none space-y-3">
                 <x-label htmlFor="address">Address</x-label>
-                <x-input class="rounded-full" :value="old('address', $user->address)" type="text" wire:model="address" id="address"
-                  placeholder="address" required autocomplete />
+                <x-input class="rounded-full" :value="old('address', $address)" type="text" wire:model="address" id="address"
+                  placeholder="address" required autocomplete="on" />
                 @error('address')
                   <p class="text-red-500 text-size-sm">{{ $message }}</p>
                 @enderror
@@ -98,8 +98,8 @@
 
             <div class="space-y-3 mt-4">
               <x-label htmlFor="about">Tentang Saya</x-label>
-              <x-textarea class="rounded-xl" :value="old('about', $user->about)" wire:model="about" id="about" rows="5"
-                placeholder="Tell us about yourself" required></x-textarea>
+              <x-textarea class="rounded-xl" :value="old('about', $about)" wire:model="about" id="about" rows="5"
+                placeholder="Tell us about yourself" required autocomplete="on"></x-textarea>
               @error('about')
                 <p class="text-red-500 text-size-sm">{{ $message }}</p>
               @enderror
@@ -148,8 +148,8 @@
               <div class="max-w-full px-3 w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="current_password">Current password</x-label>
-                  <x-input class="rounded-full" type="text" wire:model="current_password" id="current_password"
-                    placeholder="current_password" required />
+                  <x-input class="rounded-full" type="password" autocomplete="on" wire:model="current_password"
+                    id="current_password" placeholder="current_password" required />
                   @error('current_password')
                     <p class="text-red-500 text-size-sm">{{ $message }}</p>
                   @enderror
@@ -159,7 +159,7 @@
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="password">New password</x-label>
                   <x-input class="rounded-full" type="password" wire:model="password" id="password"
-                    placeholder="password" required />
+                    placeholder="password" required autocomplete="on" />
                   @error('password')
                     <p class="text-red-500 text-size-sm">{{ $message }}</p>
                   @enderror
@@ -171,14 +171,13 @@
               <div class="max-w-full px-3 w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="password_confirmation">Confirm Password</x-label>
-                  <x-input class="rounded-full" type="password_confirmation" wire:model="password_confirmation"
-                    id="password_confirmation" placeholder="password_confirmation" required />
+                  <x-input class="rounded-full" type="password" wire:model="password_confirmation"
+                    id="password_confirmation" placeholder="password_confirmation" required autocomplete="on" />
                   @error('password_confirmation')
                     <p class="text-red-500 text-size-sm">{{ $message }}</p>
                   @enderror
                 </div>
               </div>
-
             </div>
 
             <div class="mt-4">

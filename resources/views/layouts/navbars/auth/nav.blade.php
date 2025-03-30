@@ -32,7 +32,7 @@
         </li>
         <li class="flex items-center {{ Request::is('rtl') ? 'pr-4' : 'pl-4' }} xl:hidden">
           <a href="javascript:;" class="block p-0 transition-all ease-nav-brand text-size-sm text-slate-500"
-            sidenav-trigger>
+            sidenav-trigger title="sidenav button">
             <div class="w-4.5 overflow-hidden">
               <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm bg-slate-500 transition-all"></i>
               <i class="ease-soft mb-0.75 relative block h-0.5 rounded-sm bg-slate-500 transition-all"></i>
@@ -41,7 +41,8 @@
           </a>
         </li>
         <li class="flex items-center px-4">
-          <a href="javascript:;" class="p-0 transition-all text-size-sm ease-nav-brand text-slate-500">
+          <a href="javascript:;" class="p-0 transition-all text-size-sm ease-nav-brand text-slate-500"
+            title="navigation button">
             <i fixed-plugin-button-nav class="cursor-pointer fa fa-cog"></i>
           </a>
         </li>

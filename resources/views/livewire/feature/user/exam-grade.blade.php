@@ -156,6 +156,7 @@
             <x-progress-bar title="Reading" grade="{{ $grade->reading_grade }}" />
             <x-progress-bar title="Speaking" grade="{{ $grade->speaking_grade }}" />
             <x-progress-bar title="Listening" grade="{{ $grade->listening_grade }}" />
+            <x-progress-bar title="Writing" grade="{{ $grade->writing_grade }}" />
             {{-- <x-progress-bar title="Grammar" grade="90" /> --}}
           </x-card.content>
           <x-card.footer class="flex-col items-start">
