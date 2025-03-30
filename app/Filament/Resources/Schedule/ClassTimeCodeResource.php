@@ -85,4 +85,9 @@ class ClassTimeCodeResource extends Resource
             'index' => Pages\ManageClassTimeCodes::route('/'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
+    }
 }

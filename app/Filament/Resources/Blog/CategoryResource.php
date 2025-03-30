@@ -37,7 +37,7 @@ class CategoryResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true)
-                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                    ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $set('slug', Str::slug($state))),
 
                 Forms\Components\TextInput::make('slug')
                     ->disabled()
@@ -132,5 +132,10 @@ class CategoryResource extends Resource
         return [
             'index' => Pages\ManageCategories::route('/'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

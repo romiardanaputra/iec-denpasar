@@ -4,14 +4,14 @@ namespace App\Filament\Resources\Program;
 
 use App\Filament\Resources\Program\BookResource\Pages;
 use App\Models\Program\Book;
-use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -35,23 +35,21 @@ class BookResource extends Resource
                     ->required()
                     ->label('Nama Buku')
                     ->maxLength(255)
+                    ->debounce()
                     ->unique(Book::class, ignoreRecord: true)
                     ->helperText('Nama buku harus unik')
-                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set, Component $component, \Filament\Forms\Get $get) {
+                    ->afterStateUpdated(function ($state, Set $set, Get $get) {
                         // Get the selected level
                         $level = $get('level');
+                        // dd($state);
                         if ($level) {
-                            // Generate book_name based on book_name and level
                             $newBookName = $state.' '.$level;
                             $set('book_name', $newBookName);
-
-                            // Generate book_code based on book_name
-                            $bookCode = self::generateBookCode($newBookName);
-                            $set('book_code', $bookCode);
                         }
                     }),
                 Select::make('level')
                     ->required()
+                    ->debounce()
                     ->label('Level')
                     ->options([
                         '1' => 'Level 1',
@@ -61,12 +59,12 @@ class BookResource extends Resource
                         '5' => 'Level 5',
                         '6' => 'Level 6',
                     ])
-                    ->afterStateUpdated(function ($state, \Filament\Forms\Set $set, Component $component, \Filament\Forms\Get $get) {
+                    ->afterStateUpdated(function ($state, Set $set, Get $get) {
                         $bookName = $get('book_name');
                         if ($bookName) {
+                            $bookName = preg_replace('/\s\d+$/', '', $bookName);
                             $newBookName = $bookName.' '.$state;
                             $set('book_name', $newBookName);
-
                             $bookCode = self::generateBookCode($newBookName);
                             $set('book_code', $bookCode);
                         }
@@ -77,11 +75,13 @@ class BookResource extends Resource
                     ->maxLength(50)
                     ->unique(Book::class, ignoreRecord: true)
                     ->helperText('Kode kelas buku harus unik')
-                    ->disabled(),
+                    ->disabled()
+                    ->dehydrated(),
                 TextInput::make('book_price')
                     ->required()
+                    ->numeric()
                     ->label('Harga Buku')
-                    ->helperText('Harga buku per level'),
+                    ->prefix('Rp. '),
             ])
             ->columns(1);
     }
@@ -113,33 +113,50 @@ class BookResource extends Resource
                     ->wrap(),
             ])
             ->filters([
-                Tables\Filters\TrashedFilter::make(),
-                Filter::make('book_name')
+                Tables\Filters\Filter::make('book_name')
                     ->label('Nama Buku')
                     ->form([
                         TextInput::make('search')
-                            ->placeholder('Cari nama buku...')
-                            ->columnSpanFull(),
+                            ->label('Cari Nama Buku')
+                            ->debounce()
+                            ->placeholder('cari nama buku...'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
-                        return $query->when(
-                            $data['search'] ?? null,
-                            fn (Builder $query, string $search): Builder => $query->where('book_name', 'like', '%'.$search.'%')
-                        );
+                        return $query
+                            ->when(
+                                $data['search'],
+                                fn ($query, $search) => $query->where('book_name', 'LIKE', "%{$search}%")
+                            );
                     }),
-                Filter::make('book_code')
-                    ->label('Kode Kelas Buku')
+                Tables\Filters\MultiSelectFilter::make('level')
+                    ->label('Level')
+                    ->options([
+                        '1' => 'Level 1',
+                        '2' => 'Level 2',
+                        '3' => 'Level 3',
+                        '4' => 'Level 4',
+                        '5' => 'Level 5',
+                        '6' => 'Level 6',
+                    ]),
+                Tables\Filters\Filter::make('price_range')
+                    ->label('Harga Buku')
                     ->form([
-                        TextInput::make('search')
-                            ->placeholder('Cari kode kelas buku...')
-                            ->columnSpanFull(),
+                        TextInput::make('min_price')
+                            ->label('Harga Minimum')
+                            ->placeholder('10000')
+                            ->numeric(),
+                        TextInput::make('max_price')
+                            ->label('Harga Maksimum')
+                            ->placeholder('20000')
+                            ->numeric(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
-                        return $query->when(
-                            $data['search'] ?? null,
-                            fn (Builder $query, string $search): Builder => $query->where('book_code', 'like', '%'.$search.'%')
-                        );
+                        return $query
+                            ->when($data['min_price'], fn ($query, $minPrice) => $query->where('book_price', '>=', $minPrice))
+                            ->when($data['max_price'], fn ($query, $maxPrice) => $query->where('book_price', '<=', $maxPrice));
                     }),
+                Tables\Filters\TrashedFilter::make(),
+
             ])
             ->actions([
             Tables\Actions\ViewAction::make(),
@@ -187,14 +204,11 @@ class BookResource extends Resource
             }
         }
 
-        // Find the last number in the book name
-        preg_match('/(\d+)/', $bookName, $matches);
-        if (! empty($matches)) {
-            $code .= $matches[1];
-        } else {
-            $code .= '1'; // Default number if no number is found
-        }
-
         return $code;
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

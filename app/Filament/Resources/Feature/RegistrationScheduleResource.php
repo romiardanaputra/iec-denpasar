@@ -136,12 +136,32 @@ class RegistrationScheduleResource extends Resource
             ])
             ->filters([
             Tables\Filters\TrashedFilter::make(),
-            Tables\Filters\SelectFilter::make('registration_id')
+            Tables\Filters\MultiSelectFilter::make('registration_id')
                     ->label('Pendaftar')
+                    ->preload()
                     ->relationship('registration', 'student_name'),
-            Tables\Filters\SelectFilter::make('class_schedule_id')
+            Tables\Filters\MultiSelectFilter::make('class_schedule_id')
                     ->label('Jadwal Kelas')
+                    ->preload()
                     ->relationship('classSchedule', 'class_code'),
+            Tables\Filters\MultiSelectFilter::make('program_id')
+                    ->label('Nama Program')
+                    ->preload()
+                    ->relationship('registration.program', 'name'),
+            Tables\Filters\MultiSelectFilter::make('book_id')
+                    ->label('Nama Buku')
+                    ->preload()
+                    ->relationship('classSchedule.book', 'book_name'),
+            Tables\Filters\MultiSelectFilter::make('time_code_id')
+                    ->label('Jam Kelas')
+                    ->preload()
+                    ->relationship('classSchedule.time', 'time_code')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->time_code} ({$record->time_start} - {$record->time_end})"),
+            Tables\Filters\MultiSelectFilter::make('day_code_id')
+                    ->label('Hari kelas')
+                    ->preload()
+                    ->relationship('classSchedule.day', 'day_code')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => "{$record->day_code} ({$record->day_name})"),
         ])
             ->actions([
             Tables\Actions\EditAction::make(),
@@ -175,5 +195,10 @@ class RegistrationScheduleResource extends Resource
             'create' => Pages\CreateRegistrationSchedule::route('/create'),
             'edit' => Pages\EditRegistrationSchedule::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

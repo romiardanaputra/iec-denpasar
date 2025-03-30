@@ -38,9 +38,6 @@ class TeamResource extends Resource
                                     ->maxLength(255)
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                                        if ($operation !== 'create') {
-                                            return;
-                                        }
                                         $set('slug', Str::slug($state));
                                     }),
                                 Forms\Components\TextInput::make('slug')
@@ -119,11 +116,6 @@ class TeamResource extends Resource
                                     ->required()
                                     ->default(true)
                                     ->helperText(__('Determine if a team is active or not')),
-                            Forms\Components\DateTimePicker::make('join_at')
-                                    ->label(__('Join Date'))
-                                    ->required()
-                                    ->default(now())
-                                    ->helperText(__('Determine when a member joined')),
                         ]),
                     ])
                     ->columns([
@@ -161,7 +153,7 @@ class TeamResource extends Resource
                     ->label(__('WhatsApp'))
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('join_at')
+                Tables\Columns\TextColumn::make('created_at')
                     ->label(__('Join Date'))
                     ->since()
                     ->sortable(),
@@ -170,7 +162,7 @@ class TeamResource extends Resource
                     ->boolean()
                     ->sortable()
                     ->toggleable(),
-            ])
+            ])->defaultSort('created_at')
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
                 Tables\Filters\Filter::make('is_active')
@@ -233,5 +225,10 @@ class TeamResource extends Resource
             'create' => Pages\CreateTeam::route('/create'),
             'edit' => Pages\EditTeam::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

@@ -200,12 +200,18 @@ class GradeResource extends Resource
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
-                Tables\Filters\SelectFilter::make('registration_id')
+                Tables\Filters\MultiSelectFilter::make('registration_id')
                     ->label('Registration')
+                    ->preload()
                     ->relationship('registration', 'student_name'),
-                Tables\Filters\SelectFilter::make('user_id')
+                Tables\Filters\MultiSelectFilter::make('user_id')
                     ->label('User')
-                    ->relationship('user', 'name'),
+                    ->preload()
+                    ->relationship('registration.user', 'name'),
+                Tables\Filters\MultiSelectFilter::make('program_id')
+                    ->label('program')
+                    ->preload()
+                    ->relationship('registration.program', 'name'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -250,5 +256,10 @@ class GradeResource extends Resource
             'view' => Pages\ViewGrade::route('/{record}'),
             'edit' => Pages\EditGrade::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

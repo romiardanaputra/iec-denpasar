@@ -44,11 +44,9 @@ class ProgramResource extends Resource
                                 Forms\Components\TextInput::make('name')
                                     ->required()
                                     ->maxLength(255)
+                                    ->unique(Program::class, 'name', ignoreRecord: true)
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                                        if ($operation !== 'create') {
-                                            return;
-                                        }
                                         $set('slug', Str::slug($state));
                                     }),
                                 Forms\Components\TextInput::make('slug')
@@ -83,9 +81,11 @@ class ProgramResource extends Resource
                         Forms\Components\Section::make('Pricing')
                             ->schema([
                             Forms\Components\TextInput::make('price')
+                                    ->prefix('Rp')
                                     ->required()
                                     ->numeric(),
                             Forms\Components\TextInput::make('register_fee')
+                                    ->prefix('Rp')
                                     ->required()
                                     ->numeric(),
                         ])
@@ -150,7 +150,9 @@ class ProgramResource extends Resource
                     ->label('Nama Program')
                     ->form([
                         Forms\Components\TextInput::make('search')
+                            ->label('Nama Program')
                             ->placeholder('Cari nama program...')
+                            ->debounce()
                             ->columnSpanFull(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
@@ -163,8 +165,10 @@ class ProgramResource extends Resource
                     ->label('Slug')
                     ->form([
                         Forms\Components\TextInput::make('search')
+                            ->label('Slug')
                             ->placeholder('Cari slug...')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->debounce(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query->when(
@@ -201,27 +205,6 @@ class ProgramResource extends Resource
                         )->when(
                             $data['max_price'] ?? null,
                             fn (Builder $query, string $maxPrice): Builder => $query->where('price', '<=', $maxPrice)
-                        );
-                    }),
-                Filter::make('register_fee')
-                    ->label('Biaya Pendaftaran')
-                    ->form([
-                        Forms\Components\TextInput::make('min_register_fee')
-                            ->label('Minimum Register Fee')
-                            ->numeric()
-                            ->minValue(0),
-                        Forms\Components\TextInput::make('max_register_fee')
-                            ->label('Maximum Register Fee')
-                            ->numeric()
-                            ->minValue(0),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query->when(
-                            $data['min_register_fee'] ?? null,
-                            fn (Builder $query, string $minRegisterFee): Builder => $query->where('register_fee', '>=', $minRegisterFee)
-                        )->when(
-                            $data['max_register_fee'] ?? null,
-                            fn (Builder $query, string $maxRegisterFee): Builder => $query->where('register_fee', '<=', $maxRegisterFee)
                         );
                     }),
             ])
@@ -263,5 +246,10 @@ class ProgramResource extends Resource
     public static function getView(): ?string
     {
         return 'filament.resources.program-resource.views.view';
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

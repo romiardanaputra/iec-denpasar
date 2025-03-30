@@ -38,6 +38,8 @@ class ProgramDetailResource extends Resource
                     ->helperText('Pilih nama program untuk ditampilkan pada detail')
                     ->required()
                     ->searchable()
+                    ->debounce()
+                    ->preload()
                     ->native(false),
                 TextInput::make('level')
                     ->label('Level Kursus')
@@ -103,6 +105,7 @@ class ProgramDetailResource extends Resource
                     ->label('Nama Program')
                     ->form([
                         TextInput::make('search')
+                            ->label('Nama Program')
                             ->placeholder('Cari nama program...')
                             ->columnSpanFull(),
                     ])
@@ -118,6 +121,7 @@ class ProgramDetailResource extends Resource
                     ->label('Level Kursus')
                     ->form([
                         TextInput::make('search')
+                            ->label('Level Program')
                             ->placeholder('Cari level kurxsus...')
                             ->columnSpanFull(),
                     ])
@@ -164,5 +168,10 @@ class ProgramDetailResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->with('program');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

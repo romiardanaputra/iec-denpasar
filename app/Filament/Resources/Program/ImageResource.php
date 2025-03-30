@@ -39,6 +39,8 @@ class ImageResource extends Resource
                             ->helperText('Pilih nama program untuk ditampilkan pada gambar')
                             ->required()
                             ->searchable()
+                            ->preload()
+                            ->debounce()
                             ->native(false)
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('path')
@@ -102,6 +104,7 @@ class ImageResource extends Resource
             SelectFilter::make('program')
                     ->relationship('program', 'name')
                     ->label('Filter by Program')
+                    ->preload()
                     ->searchable(),
         ])
             ->actions([
@@ -142,5 +145,10 @@ class ImageResource extends Resource
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
         return parent::getEloquentQuery()->with('program');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

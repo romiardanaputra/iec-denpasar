@@ -18,6 +18,7 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\MultiSelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Log;
 
@@ -54,6 +55,7 @@ class ClassScheduleResource extends Resource
                     ->options(Book::pluck('book_name', 'book_id')->toArray())
                     ->native(false)
                     ->required()
+                    ->debounce()
                     ->afterStateUpdated(function (Set $set, Get $get) {
                         self::generateClassCode($set, $get);
                     }),
@@ -63,6 +65,7 @@ class ClassScheduleResource extends Resource
                     ->relationship('time', 'time_code')
                     ->label('Kode jam kelas')
                     ->searchable()
+                    ->debounce()
                     ->options(
                         ClassTimeCode::query()
                             ->orderBy('time_start')
@@ -88,6 +91,7 @@ class ClassScheduleResource extends Resource
                     ->label('Kode hari kelas')
                     ->helperText('kode waktu mengacu pada standarisasi IEC Denpasar')
                     ->searchable()
+                    ->debounce()
                     ->options(
                         ClassDayCode::query()
                             ->orderBy('day_code_id')
@@ -198,18 +202,46 @@ class ClassScheduleResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+            MultiSelectFilter::make('program')
+                    ->label('Program')
+                    ->relationship('program', 'name')
+                    ->preload()
+                    ->searchable(),
+            MultiSelectFilter::make('book')
+                    ->label('Buku')
+                    ->relationship('book', 'book_name')
+                    ->preload()
+                    ->searchable(),
+            MultiSelectFilter::make('time')
+                    ->label('Kode Jam Kelas')
+                    ->relationship('time', 'time_code')
+                    ->preload()
+                    ->searchable(),
+            MultiSelectFilter::make('day')
+                    ->label('Kode Hari Kelas')
+                    ->relationship('day', 'day_code')
+                    ->preload()
+                    ->searchable(),
+            MultiSelectFilter::make('team')
+                    ->label('Mentor')
+                    ->relationship('team', 'name')
+                    ->preload()
+                    ->searchable(),
             Tables\Filters\TrashedFilter::make(),
         ])
             ->actions([
             Tables\Actions\ViewAction::make(),
             Tables\Actions\EditAction::make(),
             Tables\Actions\DeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
         ])
             ->bulkActions([
             Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
+
             ]),
         ]);
     }
@@ -231,5 +263,10 @@ class ClassScheduleResource extends Resource
     public static function getView(): ?string
     {
         return 'filament.class-schedule.show';
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

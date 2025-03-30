@@ -43,6 +43,12 @@ class UserResource extends Resource
                                     ->required()
                                     ->minLength(2)
                                     ->maxLength(255),
+                                TextInput::make('about')
+                                    ->required()
+                                    ->minLength(2),
+                                TextInput::make('address')
+                                    ->required()
+                                    ->minLength(2),
                                 TextInput::make('email')
                                     ->email()
                                     ->required()
@@ -118,6 +124,7 @@ class UserResource extends Resource
             ->filters([
             Tables\Filters\TrashedFilter::make(),
             SelectFilter::make('roles')
+                    ->preload()
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->label('Filter by Role'),
@@ -136,9 +143,6 @@ class UserResource extends Resource
                     Tables\Actions\RestoreBulkAction::make(),
             ]),
         ]);
-        // ->headerActions([
-
-        // ]);
     }
 
     public static function getRelations(): array
@@ -166,6 +170,6 @@ class UserResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::$model::count(); // Menampilkan jumlah total user di sidebar
+        return static::$model::count();
     }
 }

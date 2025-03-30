@@ -82,4 +82,9 @@ class FaqResource extends Resource
             'index' => Pages\ManageFaqs::route('/'),
         ];
     }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
+    }
 }
