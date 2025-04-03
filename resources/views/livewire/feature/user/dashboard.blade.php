@@ -1,13 +1,13 @@
   <div>
     <!-- cards row 2 -->
-    <div class="flex flex-wrap mt-6 -mx-3">
+    <div class="flex flex-wrap -mx-3 -mt-4 ">
       <div class="w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
         <div
           class=" flex flex-col justify-center min-w-0 break-words border border-solid border-gray-200 rounded-2xl bg-clip-border h-full">
           <div class="max-w-full p-6 lg:flex-none relative">
             <div class="flex flex-col justify-center w-full h-full">
               <p class="pt-2 mb-1 font-semibold">Informasi Akun</p>
-              <h5 class="font-bold">{{ $user->name }}</h5>
+              <h5 class="font-bold">{{ Str::limit($user->name, 15) }}</h5>
               <div class="mt-4 space-y-2">
                 <p class="font-medium text-sm">Informasi general akun: </p>
                 <p class="flex items-center gap-2 text-size-sm">
@@ -21,12 +21,8 @@
                   <x-lucide-phone class="size-4" />{{ $user->phone ?? '-' }}
                 </p>
               </div>
-
-              <a href="{{ route('profile') }}">
-                <x-button
-                  class="bg-blue-600 text-sm font-bold hover:bg-blue-700 lg:w-4/12 mt-4 rounded-full py-6">{{ __('Update Profile') }}</x-button>
-              </a>
-
+              <x-button wire:click="redirectToProfile"
+                class="bg-blue-600 text-sm font-bold hover:bg-blue-700 mt-4 rounded-full py-4 w-fit">{{ __('Update Profile') }}</x-button>
             </div>
 
             <x-badge class="absolute rounded-full top-8 right-8 bg-green-600 hover:bg-green-500">Akun Aktif</x-badge>
@@ -46,7 +42,7 @@
                   class="object-cover aspect-auto w-5/12 mx-auto">
                 <p class="font-bold text-center w-8/12">Anda belum mendaftar ke program kursus apapun.</p>
                 <x-button wire:click="redirectToProgram"
-                  class="bg-blue-600 font-bold hover:bg-blue-700 w-4/12 mt-4 rounded-full py-6">{{ __('Daftar Kursus') }}</x-button>
+                  class="bg-blue-600 font-bold hover:bg-blue-700 w-fit mt-4 rounded-full py-4">{{ __('Daftar Kursus') }}</x-button>
 
               </div>
             @else
@@ -64,13 +60,27 @@
                     @endif
                   @endforeach
                   @if (@count($programs) >= 2)
-                    <div>
-                      <a href="#" class="text-blue-500 font-bold underline">Lihat lebih</a>
-                    </div>
+                    <x-dialog>
+                      <x-dialog.trigger class="bg-transparent text-blue-600 underline font-bold">Lihat
+                        selengkapnya</x-dialog.trigger>
+                      <x-dialog.content>
+                        <x-dialog.header>
+                          <x-dialog.title class="mb-4">Rincian informasi nama pendaftar</x-dialog.title>
+                          @foreach ($programs as $program)
+                            <p class="flex items-center gap-2 text-size-sm">
+                              <x-lucide-album class="size-4 font-bold" />
+                              {{ $program }}
+                            </p>
+                          @endforeach
+
+                        </x-dialog.header>
+                      </x-dialog.content>
+                    </x-dialog>
+
                   @endif
                 </div>
                 <x-button wire:click="redirectToProgram"
-                  class="bg-blue-600 font-bold hover:bg-blue-700 w-4/12 mt-4 rounded-full py-6">{{ __('Lihat Program') }}</x-button>
+                  class="bg-blue-600 font-bold hover:bg-blue-700 mt-4 rounded-full py-4 w-fit">{{ __('Lihat Program') }}</x-button>
 
                 <x-badge class="absolute top-8 rounded-full right-8 bg-green-600 hover:bg-green-500">Kursus
                   Aktif</x-badge>
@@ -90,7 +100,7 @@
                   class="object-cover aspect-auto w-4/12 mx-auto">
                 <p class="font-bold text-center w-8/12">Belum ada pendaftar dalam kursus apapun.</p>
                 <x-button wire:click="redirectToProgram"
-                  class="bg-blue-600 font-bold hover:bg-blue-700 w-4/12 mt-4 rounded-full py-6">{{ __('Daftar Kursus') }}</x-button>
+                  class="bg-blue-600 font-bold hover:bg-blue-700 w-fit mt-4 rounded-full py-4">{{ __('Daftar Kursus') }}</x-button>
               </div>
             @else
               <div class="flex flex-col h-full">
@@ -107,12 +117,26 @@
                     @endif
                   @endforeach
                   @if (@count($students) > 2)
-                    <div>
-                      <a href="#" class="text-blue-500 font-bold underline">Lihat lebih</a>
-                    </div>
+                    <x-dialog>
+                      <x-dialog.trigger
+                        class="bg-transparent text-blue-600 underline font-bold border-none hover:text-blue-600 hover:bg-transparent mt-4">Lihat
+                        selengkapnya</x-dialog.trigger>
+                      <x-dialog.content>
+                        <x-dialog.header>
+                          <x-dialog.title class="mb-4">Rincian informasi nama pendaftar</x-dialog.title>
+                          @foreach ($students as $student)
+                            <p class="flex items-center gap-4 mt-4 text-size-sm">
+                              <x-lucide-graduation-cap class="size-4 font-bold" />
+                              {{ $student->student_name }}
+                            </p>
+                          @endforeach
+
+                        </x-dialog.header>
+                      </x-dialog.content>
+                    </x-dialog>
                   @endif
                 </div>
-                <x-button class="bg-blue-600 hover:bg-blue-700 w-4/12 mt-4 font-bold rounded-full py-6"
+                <x-button class="bg-blue-600 hover:bg-blue-700 w-fit mt-4 font-bold rounded-full py-4"
                   wire:click="redirectToGrade">{{ __('Lihat Nilai!') }}</x-button>
                 <x-badge class="absolute rounded-full top-8 right-8 bg-green-600 hover:bg-green-500">Siswa
                   Aktif</x-badge>
@@ -231,40 +255,82 @@
       <!-- card 2 -->
 
       <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
-        @if ($order && $order->program)
+        @if ($orders)
           <div
             class="relative flex h-full min-w-0 flex-col break-words rounded-2xl border border-gray-200 border-solid bg-white bg-clip-border">
             <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
               <h6>Transaksi</h6>
-              <p class="leading-normal text-size-sm">
-                <i class="fa fa-arrow-up text-lime-500"></i>
-                {{ $order->program->name }} - #{{ $order->order_id }}
-              </p>
             </div>
             <div class="flex-auto p-4">
               <div
                 class="before:border-r-solid relative before:absolute before:top-0 before:left-4 before:h-full before:border-r-2 before:border-r-slate-100 before:content-[''] before:lg:-ml-px">
-                <div class="relative mb-4 mt-0 after:clear-both after:table after:content-['']">
-                  <span
-                    class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
-                    @if ($order->status == 'pending')
-                      <x-lucide-history class="size-5 text-yellow-600" />
-                    @else
-                      <x-lucide-circle-check class="size-5 text-green-600" />
+                <div
+                  class="relative mb-4 mt-0 after:clear-both after:table after:content-[''] overflow-y-auto max-h-fit">
+                  @foreach ($orders as $index => $order)
+                    @if ($index < 1)
+                      <span
+                        class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold">
+                        @if ($order->status == 'pending')
+                          <x-lucide-history class="size-5 text-yellow-600" />
+                        @else
+                          <x-lucide-circle-check class="size-5 text-green-600" />
+                        @endif
+                      </span>
+                      <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto space-y-3">
+                        <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Nama Kursus :
+                          {{ $order->program->name }}</h6>
+                        <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Harga :
+                          Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                        <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Order :
+                          {{ $order->status }}</p>
+                        <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Pembayaran :
+                          {{ $order->payment_status }}</p>
+                        <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Waktu Pemesanan :
+                          {{ $order->created_at->translatedFormat('l, d F Y H:i:s') }}</p>
+                      </div>
                     @endif
-                  </span>
-                  <div class="ml-11.252 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto space-y-3">
-                    <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Order id :
-                      {{ $order->order_id }}</h6>
-                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Harga :
-                      Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
-                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Order :
-                      {{ $order->status }}</p>
-                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Pembayaran :
-                      {{ $order->payment_status }}</p>
-                    <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Waktu Pemesanan :
-                      {{ $order->created_at->translatedFormat('l, d F Y H:i:s') }}</p>
-                  </div>
+                  @endforeach
+                  @if (@count($orders) > 1)
+                    <x-dialog>
+                      <x-dialog.trigger
+                        class="bg-transparent text-blue-600 underline font-bold border-none hover:text-blue-600 hover:bg-transparent mt-4">Lihat
+                        Order Pending</x-dialog.trigger>
+                      <x-dialog.content class="max-h-96">
+                        <x-dialog.header class="text-left">
+                          <x-dialog.title class="mb-4">List Informasi Order Pending</x-dialog.title>
+                          @foreach ($orders as $index => $order)
+                            <div
+                              class="relative mb-4 mt-0 after:clear-both after:table after:content-[''] overflow-y-auto max-h-fit border-b-2 pb-4 border-gray-200 space-y-6">
+                              <span
+                                class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold mt-6">
+                                @if ($order->status == 'pending')
+                                  <x-lucide-history class="size-5 text-yellow-600" />
+                                @else
+                                  <x-lucide-circle-check class="size-5 text-green-600" />
+                                @endif
+                              </span>
+                              <div class=" pl-10 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto space-y-3">
+                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Nama Kursus
+                                  :
+                                  {{ $order->program->name }}</h6>
+                                <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Harga :
+                                  Rp {{ number_format($order->total_price, 0, ',', '.') }}</p>
+                                <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status Order
+                                  :
+                                  {{ $order->status }}</p>
+                                <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Status
+                                  Pembayaran :
+                                  {{ $order->payment_status }}</p>
+                                <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Waktu
+                                  Pemesanan :
+                                  {{ $order->created_at->translatedFormat('l, d F Y H:i:s') }}</p>
+                              </div>
+                            </div>
+                          @endforeach
+                        </x-dialog.header>
+                      </x-dialog.content>
+                    </x-dialog>
+                  @endif
                 </div>
               </div>
             </div>
@@ -277,7 +343,7 @@
                 class="object-cover aspect-auto w-4/12 mx-auto">
               <p class="font-bold text-center w-8/12">Belum ada transaksi apapun.</p>
               <x-button wire:click="redirectToProgram"
-                class="bg-blue-600 hover:bg-blue-700 w-4/12 mt-4 font-bold rounded-full py-6">{{ __('Lakukan transaksi') }}</x-button>
+                class="bg-blue-600 hover:bg-blue-700 w-fit mt-4 font-bold rounded-full py-4">{{ __('Lakukan transaksi') }}</x-button>
             </div>
           </div>
         @endif

@@ -5,10 +5,13 @@ namespace App\Filament\Widgets;
 use App\Models\Transaction\Order;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Illuminate\Support\Facades\DB;
 
 class OrdersChart extends ChartWidget
 {
+    use InteractsWithPageFilters;
+
     protected static ?string $heading = 'Total Order Masuk';
 
     protected static ?int $sort = 1;
@@ -20,9 +23,15 @@ class OrdersChart extends ChartWidget
 
     protected function getData(): array
     {
-        $startDate = Carbon::now()->startOfYear();
-        $endDate = Carbon::now()->endOfYear();
+        // Ambil nilai filter startDate dan endDate
+        $startDate = $this->filters['startDate'] ?? Carbon::now()->startOfYear();
+        $endDate = $this->filters['endDate'] ?? Carbon::now()->endOfYear();
 
+        // Pastikan nilai startDate dan endDate adalah instance Carbon
+        $startDate = Carbon::parse($startDate);
+        $endDate = Carbon::parse($endDate);
+
+        // Query data order berdasarkan rentang tanggal
         $orders = Order::query()
             ->select(DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"), DB::raw('COUNT(*) as count'))
             ->whereBetween('created_at', [$startDate, $endDate])
@@ -30,13 +39,24 @@ class OrdersChart extends ChartWidget
             ->orderBy('month')
             ->pluck('count', 'month');
 
-        $months = range(1, 12);
-        $data = [];
-
-        foreach ($months as $month) {
-            $yearMonth = $startDate->copy()->month($month)->format('Y-m');
-            $data[] = $orders->get($yearMonth, 0);
+        // Generate semua bulan antara startDate dan endDate
+        $months = [];
+        $currentMonth = $startDate->copy();
+        while ($currentMonth->lte($endDate)) {
+            $months[] = $currentMonth->format('Y-m');
+            $currentMonth->addMonth();
         }
+
+        // Siapkan data untuk chart
+        $data = [];
+        foreach ($months as $month) {
+            $data[] = $orders->get($month, 0); // Gunakan fallback 0 jika tidak ada data
+        }
+
+        // Format labels untuk chart
+        $labels = collect($months)->map(function ($month) {
+            return Carbon::createFromFormat('Y-m', $month)->format('M'); // Contoh: "Jan", "Feb"
+        })->toArray();
 
         return [
             'datasets' => [
@@ -46,7 +66,7 @@ class OrdersChart extends ChartWidget
                     'fill' => 'start',
                 ],
             ],
-            'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            'labels' => $labels,
         ];
     }
 }

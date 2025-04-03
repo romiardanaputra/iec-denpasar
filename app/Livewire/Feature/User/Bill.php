@@ -22,7 +22,7 @@ class Bill extends Component
 
     public function fetchOrders()
     {
-        $this->orders = Order::with(['program', 'payments'])->where('user_id', auth()->user()->id)->get();
+        $this->orders = Order::with(['program', 'payments'])->where('user_id', auth()->user()->id)->orderByDesc('id')->get();
         $this->pendingOrders = $this->orders->filter(function ($order) {
             $lastPayment = $order->payments()->latest()->first();
 

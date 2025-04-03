@@ -176,7 +176,7 @@ class PaymentController extends Controller
             'order_id' => uniqid('ORD-'),
             'total_price' => $program->price,
             'payment_method' => $data['payment_method'],
-            'status' => $data['payment_method'] === 'cash' ? 'WAITING_PAYMENT' : 'PENDING', // Set status based on payment method
+            'status' => 'pending',
         ]);
         Log::info('data order customer = '.$order.' berhasil dibuat');
 
@@ -190,7 +190,6 @@ class PaymentController extends Controller
         ]);
         Log::info('order item = '.$orderItem.' berhasil di buat');
 
-        // Handle payment based on payment method
         if ($data['payment_method'] === 'online') {
             Log::info('processing online payment');
 
@@ -204,7 +203,6 @@ class PaymentController extends Controller
                 'snap_token' => $snapToken,
                 'status' => 'PENDING',
                 'expired_at' => now()->addHours(24),
-                'payment_method' => 'online',
             ]);
 
             Log::info('data payment method online '.$payment.' berhasil dibuat');
@@ -223,7 +221,6 @@ class PaymentController extends Controller
                 'order_id' => $order->id,
                 'amount' => $order->total_price,
                 'status' => 'PENDING',
-                'payment_method' => 'cash',
             ]);
 
             Log::info('data payment method cash '.$payment.' berhasil dibuat');
@@ -231,11 +228,11 @@ class PaymentController extends Controller
             // You might want to send notification to admin about cash payment
             // Notification::send($adminUsers, new CashPaymentNotification($order));
 
-            session()->flash('success', 'Pendaftaran berhasil. Silakan lakukan pembayaran tunai sesuai instruksi.');
+            session()->flash('success', 'Checkout berhasil, anda memilih pembayaran tunai/cash, silahkan datang ke kantor IEC Denpasar untuk melunasi pembayaran');
 
             return response()->json([
                 'payment_method' => 'cash',
-                'redirect_url' => route('registration.success'), // Or any other route
+                'redirect_url' => route('payment.pending'), // Or any other route
             ]);
         }
     }

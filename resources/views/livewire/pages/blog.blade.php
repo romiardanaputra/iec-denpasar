@@ -1,10 +1,10 @@
 <div>
   @livewire('partials.hero-section', ['title' => 'Temukan Artikel Terbaru Seputar Bahasa Inggris di   ', 'subTitle' => ' Tips belajar, kisah sukses alumni, strategi TOEFL/IELTS, dan update informasi kursus terbaru dari para ahli', 'ctaButton' => '#blogKami', 'highlightedText' => 'Blog IEC Denpasar'])
-  <div class="container pt-12">
+  <div class="min-w-[478px]:container pt-12">
 
-    <section class="py-24 relative">
+    <section class="lg:py-24 relative">
       <div class="w-full max-w-7xl mx-auto px-4 md:px-8">
-        <div class="flex flex-col lg:flex-row lg:items-center max-lg:gap-4 justify-between w-full">
+        <div class="flex flex-col lg:flex-row items-center lg:items-center max-lg:gap-4 justify-between w-full">
 
           <div class="relative w-full max-w-sm">
             <svg class="absolute top-1/2 -translate-y-1/2 left-4 z-40" width="20" height="20" viewBox="0 0 20 20"
@@ -69,7 +69,7 @@
         <div class="grid grid-cols-12">
 
           <div class="col-span-12 md:col-span-12">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
               <h2 class="font-manrope text-4xl font-bold text-gray-900 text-center mb-16">Our latest blog</h2>
 
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -101,7 +101,7 @@
                   @livewire('partials.empty-state', [
                       'title' => 'No blogs posted yet',
                       'message' => 'We\'re working on some exciting content to share with you. Check back soon for fresh perspectives
-                                                                                                                                                                                                                                                                                                                                                            and insights.',
+                                                                                                                                                                                                                                                                                                                                                                                                                                    and insights.',
                       'iconType' => 'animation',
                       'customIcon' => 'assets/empty-state-animation/blog.gif',
                   ])
