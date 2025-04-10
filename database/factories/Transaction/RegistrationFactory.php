@@ -35,7 +35,7 @@ class RegistrationFactory extends Factory
             'job' => $this->faker->jobTitle,
             'market' => $this->faker->company,
             'parent_guardian' => $this->faker->name,
-            'is_visible' => $this->faker->boolean(),
+            'is_active' => $this->faker->boolean(),
         ];
     }
 }

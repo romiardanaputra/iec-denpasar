@@ -12,6 +12,8 @@ class ProgramDetail extends Model
 
     protected $table = 'program_details';
 
+    protected $primaryKey = 'id';
+
     protected $casts = [
         'benefits' => 'array',
     ];
@@ -25,6 +27,6 @@ class ProgramDetail extends Model
 
     public function program()
     {
-        return $this->belongsTo(Program::class, 'program_id');
+        return $this->belongsTo(Program::class, 'program_id', 'program_id');
     }
 }

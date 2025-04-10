@@ -15,7 +15,6 @@
             Isi data pendaftaran dibawah ini dengan benar!
           </x-dialog.description>
         </x-dialog.header>
-
         <div class="grid gap-4 py-4">
           <div class="grid grid-cols-4 items-center gap-4">
             <x-label htmlFor="student_name" class="text-right">

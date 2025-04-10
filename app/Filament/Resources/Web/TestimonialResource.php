@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class TestimonialResource extends Resource
 {
@@ -70,7 +71,6 @@ class TestimonialResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->wrap(),
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('Dibuat Pada'))
                     ->dateTime('d M Y H:i:s')
@@ -81,19 +81,30 @@ class TestimonialResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('position')
-                    ->label(__('Posisi'))
-                    ->options(Testimonial::distinct()->pluck('position', 'position')->toArray())
-                    ->searchable(),
+                Tables\Filters\Filter::make('date_range')
+                    ->label('Rentang Tanggal')
+                    ->form([
+                        Forms\Components\DatePicker::make('start_date')
+                            ->label('Tanggal Mulai')
+                            ->placeholder('Pilih tanggal mulai'),
+                        Forms\Components\DatePicker::make('end_date')
+                            ->label('Tanggal Akhir')
+                            ->placeholder('Pilih tanggal akhir'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query
+                            ->when($data['start_date'], fn ($query, $start) => $query->whereDate('created_at', '>=', $start))
+                            ->when($data['end_date'], fn ($query, $end) => $query->whereDate('created_at', '<=', $end));
+                    }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->iconButton(),
-                Tables\Actions\EditAction::make()->iconButton(),
-                Tables\Actions\DeleteAction::make()->iconButton(),
-            ])
+            Tables\Actions\ViewAction::make()->iconButton(),
+            Tables\Actions\EditAction::make()->iconButton(),
+            Tables\Actions\DeleteAction::make()->iconButton(),
+        ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            Tables\Actions\DeleteBulkAction::make(),
+        ]);
     }
 
     public static function getPages(): array
@@ -101,5 +112,10 @@ class TestimonialResource extends Resource
         return [
             'index' => Pages\ManageTestimonials::route('/'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

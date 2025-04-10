@@ -8,16 +8,17 @@ use App\Models\Schedule\ClassSchedule;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Registration extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'registrations';
 
-    protected $guarded = ['id'];
-
     protected $primaryKey = 'id';
+
+    protected $guarded = ['id'];
 
     protected $fillable = [
         'user_id',
@@ -31,31 +32,30 @@ class Registration extends Model
         'market',
         'parent_guardian',
         'is_active',
-        'is_visible',
     ];
 
     protected $casts = [
-        'is_visible' => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function program()
     {
-        return $this->belongsTo(Program::class, 'program_id');
+        return $this->belongsTo(Program::class, 'program_id', 'program_id');
     }
 
     public function grades()
     {
-        return $this->hasMany(Grade::class);
+        return $this->hasMany(Grade::class, 'registration_id', 'id');
     }
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'registration_id', 'id');
     }
 
     public function classSchedules()

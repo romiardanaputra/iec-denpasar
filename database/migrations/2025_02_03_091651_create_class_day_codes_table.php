@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('class_day_codes', function (Blueprint $table) {
             $table->id('day_code_id');
             $table->string('day_code', 2)->unique();
-            $table->string('day_name', 30);
+            $table->string('day_name', 30)->index();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

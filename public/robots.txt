@@ -2,9 +2,7 @@ User-agent: *
 Disallow: /admin
 Disallow: /dashboard
 Disallow:/profile
-Disallow: /shedule
 Disallow: /exam-grade
-Disallow: /class-info
 Disallow: /bill
 Allow:/
-Sitemap: http://iec-denpasar.dev/sitemap.xml
+Sitemap: https://www.iecdenpasar.com/sitemap.xml

@@ -4,10 +4,11 @@ namespace App\Models\Schedule;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClassDayCode extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $primaryKey = 'day_code_id';
 
@@ -22,6 +23,6 @@ class ClassDayCode extends Model
 
     public function ClassSchedules()
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(ClassSchedule::class, 'day_code_id', 'day_code_id');
     }
 }

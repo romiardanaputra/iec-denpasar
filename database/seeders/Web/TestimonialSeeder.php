@@ -60,7 +60,7 @@ class TestimonialSeeder extends Seeder
                 'name' => 'I Made Sudarma',
                 'position' => 'Pegawai Bank Internasional',
                 'testimony' => 'Program IEC Denpasar sangat membantu saya dalam beradaptasi dengan lingkungan kerja multinasional. Tutor-tutornya sangat profesional.',
-                'image_path' => 'https://ik.imagekit.io/kht744nua/iec_dps/male-5.webp?updatedAt=1741751677766',
+                'image_path' => 'https://ik.imagekit.io/kht744nua/iec_dps/male-4.webp?updatedAt=1741751677766',
             ],
         ];
 

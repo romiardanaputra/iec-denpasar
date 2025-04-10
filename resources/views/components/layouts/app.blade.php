@@ -31,7 +31,6 @@
 
     {!! SEO::generate(true) !!}
 
-
     @if (Route::is('dashboard', 'profile', 'bill', 'bill.detail', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
       <link href="{{ asset('storage/assets/css/styles.min.css') }}" rel="stylesheet" />
@@ -48,8 +47,26 @@
       @if (auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isUser())
         @if (!Route::is('verification.notice', 'verification.verify'))
           <div
-            class="@unless (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail')) m-0 font-sans antialiased font-normal text-size-base leading-default bg-gray-50 text-slate-500 @endunless">
-            @if (Route::is('landing', 'about', 'our-program', 'our-team', 'contact', 'program.detail', 'blog'))
+            class="@unless (Route::is(
+                    'landing',
+                    'about',
+                    'our-program',
+                    'our-team',
+                    'contact',
+                    'program.detail',
+                    'blog',
+                    'blog.detail',
+                    'checkout')) m-0 font-sans antialiased min-h-svh md:min-h-dvh lg:min-h-lvh font-normal text-size-base leading-default bg-white text-slate-500 @endunless">
+            @if (Route::is(
+                    'landing',
+                    'about',
+                    'our-program',
+                    'our-team',
+                    'contact',
+                    'program.detail',
+                    'blog',
+                    'blog.detail',
+                    'checkout'))
               @livewire('partials.navbar')
               {{ $slot }}
               @livewire('partials.footer')
@@ -99,13 +116,19 @@
         @endunless
       @endif
     </div>
-    {{-- @filamentScripts --}}
     @vite('resources/js/app.js')
     @livewireScripts
     @filamentScripts
-    {{-- <script src="{{ asset('js/filament/filament/app.js') }}"></script> --}}
-    <script async defer src="{{ asset('storage/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-    <script async defer src="{{ asset('storage/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
+    {{-- if env is prod --}}
+    @if (config('app.env') === 'production')
+      <script async defer src="{{ asset('storage/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+      <script async defer src="{{ asset('storage/assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
+    @else
+      {{-- else env is local --}}
+      <script async defer src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+      <script async defer src="{{ asset('assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
+    @endif
+
     @yield('js_custom')
   </body>
 </html>

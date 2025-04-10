@@ -3,10 +3,10 @@
 namespace App\Livewire\Pages;
 
 use App\Models\Program\Program;
-use App\Models\Transaction\Order;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 #[\Livewire\Attributes\Title('Detail Program Kami')]
@@ -46,35 +46,6 @@ class ProgramDetail extends Component
         }
     }
 
-    public function SeoTag()
-    {
-        $program = $this->program;
-        SEOMeta::setTitle($program->name.' | Kursus Bahasa Inggris di IEC Denpasar');
-        SEOMeta::setDescription($program->short_description ?? 'Pelajari lebih lanjut tentang '.$program->name.' di IEC Denpasar. Program terbaik untuk meningkatkan kemampuan bahasa Inggris Anda.');
-        SEOMeta::addMeta('article:published_time', $program->created_at->toW3CString(), 'property');
-        SEOMeta::addMeta('article:section', 'Program Kursus', 'property');
-        SEOMeta::addKeyword([$program->name, 'kursus bahasa Inggris', 'IEC Denpasar', 'belajar bahasa Inggris', 'kursus terbaik Bali']);
-
-        OpenGraph::setDescription($program->short_description ?? 'Pelajari lebih lanjut tentang '.$program->name.' di IEC Denpasar.');
-        OpenGraph::setTitle($program->name.' | Kursus Bahasa Inggris di IEC Denpasar');
-        OpenGraph::setUrl(route('program.detail', ['slug' => $program->slug]));
-        OpenGraph::addProperty('type', 'article');
-        OpenGraph::addProperty('locale', 'id_ID');
-        OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
-        OpenGraph::addImage('https://www.iecdenpasar.com/public/'.$program->image ? asset('storage/'.$program->image) : 'https://iecdenpasar.com/assets/img/default-program.jpg');
-        OpenGraph::addImage($program->image ? asset('storage/'.$program->image) : 'https://iecdenpasar.com/assets/img/default-program.jpg', ['height' => 300, 'width' => 300]);
-
-        JsonLd::setTitle($program->name.' | Kursus Bahasa Inggris di IEC Denpasar');
-        JsonLd::setDescription($program->short_description ?? 'Pelajari lebih lanjut tentang '.$program->name.' di IEC Denpasar.');
-        JsonLd::setType('Course');
-        JsonLd::addImage($program->image ? asset('storage/'.$program->image) : 'https://www.iecdenpasar.com/public/favicon.ico');
-        JsonLd::addValue('provider', [
-            '@type' => 'EducationalOrganization',
-            'name' => 'IEC Denpasar',
-            'url' => 'https://iecdenpasar.com',
-        ]);
-    }
-
     public function loadProgram()
     {
         try {
@@ -95,20 +66,50 @@ class ProgramDetail extends Component
 
     public function render()
     {
-        if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
-            $latestOrder = Order::where('user_id', auth()->user()->id)
-                ->where(function ($query) {
-                    $query->where('payment_status', 'unpaid')
-                        ->orWhere('status', 'pending');
-                })
-                ->latest()
-                ->first();
-            $this->latestOrder = $latestOrder;
-        } else {
-            $this->latestOrder = null;
-        }
+        $program = $this->program;
+        $data = [
+            'program' => $program,
+        ];
 
-        // dd($latestOrder);
-        return view('livewire.pages.program-detail');
+        return view('livewire.pages.program-detail', $data);
+    }
+
+    public function SeoTag()
+    {
+        $program = $this->program;
+        SEOMeta::setTitle($program->name.' | Kursus Bahasa Inggris di IEC Denpasar');
+        SEOMeta::setDescription($program->short_description ?? 'Pelajari lebih lanjut tentang '.$program->name.' di IEC Denpasar. Program terbaik untuk meningkatkan kemampuan bahasa Inggris Anda.');
+        SEOMeta::addMeta('article:published_time', $program->created_at->toW3CString(), 'property');
+        SEOMeta::addMeta('article:section', 'Program Kursus', 'property');
+        SEOMeta::addKeyword([$program->name, 'kursus bahasa Inggris', 'IEC Denpasar', 'belajar bahasa Inggris', 'kursus terbaik Bali']);
+        SEOMeta::addMeta('article:section', $program->slug, 'property');
+
+        OpenGraph::setDescription($program->short_description ?? 'Pelajari lebih lanjut tentang '.$program->name.' di IEC Denpasar.');
+        OpenGraph::setTitle($program->name.' | Kursus Bahasa Inggris di IEC Denpasar');
+        OpenGraph::setUrl(route('program.detail', ['slug' => $program->slug]));
+        OpenGraph::addProperty('type', 'article');
+        OpenGraph::addProperty('locale', 'id_ID');
+        OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
+        OpenGraph::addImage(
+            $program->image ? Str::startsWith($program->image, 'http') ? $program->image :
+            url('public/storage/'.$program->image) :
+            url('public/storage/iec-assets/iec-dps-og.png')
+        );
+        OpenGraph::setSiteName('iecdenpasar');
+        OpenGraph::setType('website');
+
+        JsonLd::setTitle($program->name.' | Kursus Bahasa Inggris di IEC Denpasar');
+        JsonLd::setDescription($program->short_description ?? 'Pelajari lebih lanjut tentang '.$program->name.' di IEC Denpasar.');
+        JsonLd::setType('Course');
+        JsonLd::addImage(
+            $program->image ? Str::startsWith($program->image, 'http') ? $program->image :
+            url('public/storage/'.$program->image) :
+            url('public/storage/iec-assets/iec-dps-og.png')
+        );
+        JsonLd::addValue('provider', [
+            '@type' => 'EducationalOrganization',
+            'name' => 'IEC Denpasar',
+            'url' => 'https://iecdenpasar.com',
+        ]);
     }
 }

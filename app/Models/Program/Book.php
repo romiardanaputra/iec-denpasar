@@ -5,10 +5,11 @@ namespace App\Models\Program;
 use App\Models\Schedule\ClassSchedule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Book extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'books';
 
@@ -25,6 +26,6 @@ class Book extends Model
 
     public function classes()
     {
-        return $this->hasMany(ClassSchedule::class, 'book_id');
+        return $this->hasMany(ClassSchedule::class, 'book_id', 'book_id');
     }
 }

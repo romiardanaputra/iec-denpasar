@@ -141,23 +141,28 @@ class OrderResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\RestoreAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+        ])
             ->groupedBulkActions([
-                Tables\Actions\DeleteBulkAction::make()
+            Tables\Actions\DeleteBulkAction::make()
                     ->action(function () {
                         Notification::make()
                             ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
                             ->warning()
                             ->send();
                     }),
-            ])
+            Tables\Actions\RestoreBulkAction::make(),
+            Tables\Actions\ForceDeleteBulkAction::make(),
+
+        ])
             ->groups([
-                Tables\Grouping\Group::make('created_at')
+            Tables\Grouping\Group::make('created_at')
                     ->label('Order Date')
                     ->date()
                     ->collapsible(),
-            ]);
+        ]);
     }
 
     public static function getRelations(): array
@@ -217,44 +222,47 @@ class OrderResource extends Resource
                 ->searchable()
                 ->required()
                 ->debounce()
-                ->native(false)
-                ->createOptionForm([
-                    Forms\Components\TextInput::make('name')
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('email')
-                        ->label('Email address')
-                        ->required()
-                        ->email()
-                        ->maxLength(255)
-                        ->unique(),
-                    Forms\Components\TextInput::make('phone')
-                        ->maxLength(255),
-                    Forms\Components\Select::make('gender')
-                        ->placeholder('Select gender')
-                        ->options([
-                            'male' => 'Male',
-                            'female' => 'Female',
-                        ])
-                        ->required()
-                        ->native(false),
-                ])
-                ->createOptionAction(function (Action $action) {
-                    return $action
-                        ->modalHeading('Create user')
-                        ->modalSubmitActionLabel('Create user')
-                        ->modalWidth('lg');
-                }),
+                ->preload()
+                ->native(false),
+            // ->createOptionForm([
+            //   Forms\Components\TextInput::make('name')
+            //     ->required()
+            //     ->maxLength(255),
+            //   Forms\Components\TextInput::make('email')
+            //     ->label('Email address')
+            //     ->required()
+            //     ->email()
+            //     ->maxLength(255)
+            //     ->unique(),
+            //   Forms\Components\TextInput::make('phone')
+            //     ->maxLength(255),
+            //   Forms\Components\Select::make('gender')
+            //     ->placeholder('Select gender')
+            //     ->options([
+            //       'male' => 'Male',
+            //       'female' => 'Female',
+            //     ])
+            //     ->required()
+            //     ->native(false),
+            // ])
+            // ->createOptionAction(function (Action $action) {
+            //   return $action
+            //     ->modalHeading('Create user')
+            //     ->modalSubmitActionLabel('Create user')
+            //     ->modalWidth('lg');
+            // }),
             Forms\Components\Select::make('program_id')
                 ->relationship('program', 'name')
                 ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('total_price', Program::find($state)?->price ?? 0))
                 ->searchable()
-                ->reactive()
+                ->preload()
+                ->debounce()
                 ->required(),
             Forms\Components\Select::make('registration_id')
                 ->relationship('registration', 'student_name')
                 ->searchable()
-                ->reactive()
+                ->preload()
+                ->debounce()
                 ->required(),
             Forms\Components\ToggleButtons::make('status')
                 ->inline()
@@ -272,9 +280,7 @@ class OrderResource extends Resource
                 ->required(),
             Forms\Components\TextInput::make('total_price')
                 ->numeric()
-              // ->dehydrated()
-              // ->disabled()
-              // ->default(0)
+                ->prefix('IDR')
                 ->required(),
 
             Forms\Components\MarkdownEditor::make('notes')
@@ -291,7 +297,7 @@ class OrderResource extends Resource
                     ->label('Program')
                     ->options(Program::query()->pluck('name', 'program_id'))
                     ->required()
-                    ->reactive()
+                    ->debounce()
                     ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('price', Program::find($state)?->price ?? 0))
                     ->distinct()
                     ->disableOptionsWhenSelectedInSiblingRepeaterItems()
@@ -310,6 +316,7 @@ class OrderResource extends Resource
                 Forms\Components\TextInput::make('price')
                     ->label('Unit Price')
                     ->disabled()
+                    ->prefix('IDR')
                     ->dehydrated()
                     ->numeric()
                     ->required()
@@ -336,8 +343,8 @@ class OrderResource extends Resource
             ->defaultItems(1)
             ->hiddenLabel()
             ->columns([
-                'md' => 10,
-            ])
+            'md' => 10,
+        ])
             ->required();
     }
 

@@ -131,62 +131,109 @@ class PaymentController extends Controller
 
     public function checkout(Request $request, Program $program, MidtransService $midtransService)
     {
-        Log::info('fungsi checkout dipanggil pada controller payment');
+        Log::info('fungsi checkout dipanggil');
 
         $user = Auth::user();
         if (! $user) {
-            return response()->json(['message' => 'User not authenticated'], 401);
+            return response()->json([
+                'message' => 'the current user is not authenticated',
+            ], 401);
         }
-        Log::info('validasi data');
-        $data = $request->validate([
-            'student_name' => 'required|string|max:255',
-            'birthplace' => 'required|string|max:255',
-            'birthdate' => 'required|date',
-            'address' => 'required|string',
-            'education' => 'required|string|max:255',
-            'job' => 'required|string|max:255',
-            'market' => 'required|string|max:255',
-            'parent_guardian' => 'nullable|string|max:255',
-        ]);
-        Log::info('create data student');
 
-        $registran = Registration::create([
+        Log::info('validasi data form detail pendaftar kursus');
+        $data = $request->validate([
+            'student_name' => ['required', 'min:3', 'max:50', 'string'],
+            'birthplace' => ['required', 'string', 'min:3', 'max:50'],
+            'birthdate' => ['required', 'date'],
+            'address' => ['required', 'string'],
+            'education' => ['required'],
+            'job' => ['required'],
+            'market' => ['required'],
+            'parent_guardian' => ['nullable', 'string', 'max:255'],
+            'payment_method' => ['required', 'in:online,cash'], // Add validation for payment method
+        ]);
+
+        Log::info('buat data pendaftar setelah validasi');
+        $customer = Registration::create([
             'user_id' => $user->id,
             'program_id' => $program->program_id,
-            ...$data,
+            'student_name' => $data['student_name'],
+            'birthplace' => $data['birthplace'],
+            'birthdate' => $data['birthdate'],
+            'address' => $data['address'],
+            'education' => $data['education'],
+            'job' => $data['job'],
+            'market' => $data['market'],
+            'parent_guardian' => $data['parent_guardian'] ?? null,
         ]);
-        Log::info('create data order');
+        Log::info('data pendaftar = '.$customer.' berhasil dibuat');
 
+        Log::info('buat data order dari customer');
         $order = Order::create([
             'user_id' => $user->id,
-            'program_id' => $program->program_id,
-            'registration_id' => $registran->id,
+            'program_id' => $customer->program_id,
+            'registration_id' => $customer->id,
             'order_id' => uniqid('ORD-'),
             'total_price' => $program->price,
+            'payment_method' => $data['payment_method'],
+            'status' => 'pending',
         ]);
+        Log::info('data order customer = '.$order.' berhasil dibuat');
 
-        Log::info('create data order item');
-
-        OrderItem::create([
+        Log::info('buat data order item');
+        $orderItem = OrderItem::create([
             'order_id' => $order->id,
-            'program_id' => $program->program_id,
+            'program_id' => $order->program_id,
             'quantity' => 1,
             'price' => $program->price,
             'product_name' => $program->name,
         ]);
-        $snapToken = $midtransService->createSnapToken($order);
-        Log::info('snaptoken created: '.$snapToken);
+        Log::info('order item = '.$orderItem.' berhasil di buat');
 
-        Payment::create([
-            'order_id' => $order->id,
-            'amount' => $order->total_price,
-            'snap_token' => $snapToken,
-            'status' => 'PENDING',
-            'expired_at' => now()->addHours(24),
-        ]);
+        if ($data['payment_method'] === 'online') {
+            Log::info('processing online payment');
 
-        return response()->json([
-            'snap_token' => $snapToken,
-        ]);
+            $snapToken = $midtransService->createSnapToken($order);
+            Log::info('snaptoken berhasil di generate: '.$snapToken);
+
+            Log::info('buat data payment online');
+            $payment = Payment::create([
+                'order_id' => $order->id,
+                'amount' => $order->total_price,
+                'snap_token' => $snapToken,
+                'status' => 'PENDING',
+                'expired_at' => now()->addHours(24),
+            ]);
+
+            Log::info('data payment method online '.$payment.' berhasil dibuat');
+
+            session()->flash('success', 'Checkout berhasil. Silakan lanjutkan pembayaran.');
+
+            return response()->json([
+                'snap_token' => $snapToken,
+                'payment_method' => 'online',
+            ]);
+        } else {
+            // Handle cash payment
+            Log::info('processing cash payment');
+
+            $payment = Payment::create([
+                'order_id' => $order->id,
+                'amount' => $order->total_price,
+                'status' => 'PENDING',
+            ]);
+
+            Log::info('data payment method cash '.$payment.' berhasil dibuat');
+
+            // You might want to send notification to admin about cash payment
+            // Notification::send($adminUsers, new CashPaymentNotification($order));
+
+            session()->flash('success', 'Checkout berhasil, anda memilih pembayaran tunai/cash, silahkan datang ke kantor IEC Denpasar untuk melunasi pembayaran');
+
+            return response()->json([
+                'payment_method' => 'cash',
+                'redirect_url' => route('payment.pending'), // Or any other route
+            ]);
+        }
     }
 }

@@ -43,16 +43,19 @@
             placeholder="full name" required autofocus autocomplete value="{{ old('name') }}" />
           <x-lucide-user class="size-4 absolute right-0 mr-4" />
         </div>
+        <small class="font-semibold">example: Kadek Romi Ardana Putra</small>
         <x-input-error :messages="$errors->get('name')" class="mt-2" />
       </div>
       <div class="grid lg:grid-cols-2 gap-4">
         <div class="mt-4">
           <x-label for="phone">Phone Number</x-label>
           <div class="relative flex items-center">
-            <x-input wire:model="phone" name="phone" autocomplete required class="text-gray-800 rounded-full"
-              type="text" id="phone" placeholder="Phone Number" value="{{ old('phone') }}" />
+            <x-input type="tel" wire:model="phone" name="phone" autocomplete required
+              class="text-gray-800 rounded-full" id="phone" placeholder="+62xxxxxxxxxxx" pattern="\+\d{2} \d{10,15}"
+              value="{{ old('phone') }}" />
             <x-lucide-phone class="size-4 absolute right-0 mr-4" />
           </div>
+          <small class="font-semibold">format: +62xxxxxxxxxxx</small>
           <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
         <div class="mt-4">
@@ -62,6 +65,7 @@
               type="email" id="email" placeholder="Email Address" value="{{ old('email') }}" />
             <x-lucide-mail class="size-4 absolute right-0 mr-4" />
           </div>
+          <small class="font-semibold">contoh: example@gmail.com</small>
           <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
       </div>
@@ -76,6 +80,7 @@
               <x-lucide-eye-off class="size-4" x-show="show" />
             </button>
           </div>
+          <small class="font-semibold">Rekomendasi pass: huruf kapital, number, minimal 8</small>
           <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
         <div class="mt-4">
@@ -89,6 +94,7 @@
               <x-lucide-eye-off class="size-4" x-show="show" />
             </button>
           </div>
+          <small class="font-semibold">konfirmasi pasword harus sama dengan password</small>
           <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
       </div>
@@ -105,8 +111,8 @@
         </button>
       </div>
       <p class="text-sm mt-8 text-center text-gray-800">Already have an account?
-        <a href="{{ route('login') }}" wire:navigate
-          class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">Login here</a>
+        <a href="{{ route('login') }}" class="text-blue-600 font-semibold tracking-wide hover:underline ml-1">Login
+          here</a>
       </p>
     </x-form>
     <div class="h-full md:flex justify-center items-center hidden">

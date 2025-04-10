@@ -4,12 +4,14 @@ namespace App\Filament\Resources\Schedule;
 
 use App\Filament\Resources\Schedule\ClassDayCodeResource\Pages;
 use App\Models\Schedule\ClassDayCode;
+use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class ClassDayCodeResource extends Resource
 {
@@ -55,18 +57,38 @@ class ClassDayCodeResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\Filter::make('date_range')
+                    ->label('Rentang Tanggal')
+                    ->form([
+                        Forms\Components\DatePicker::make('start_date')
+                            ->label('Tanggal Mulai')
+                            ->placeholder('Pilih tanggal mulai'),
+                        Forms\Components\DatePicker::make('end_date')
+                            ->label('Tanggal Akhir')
+                            ->placeholder('Pilih tanggal akhir'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query
+                            ->when($data['start_date'], fn ($query, $start) => $query->whereDate('created_at', '>=', $start))
+                            ->when($data['end_date'], fn ($query, $end) => $query->whereDate('created_at', '<=', $end));
+                    }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                    Tables\Actions\RestoreBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getPages(): array
@@ -74,5 +96,10 @@ class ClassDayCodeResource extends Resource
         return [
             'index' => Pages\ManageClassDayCodes::route('/'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

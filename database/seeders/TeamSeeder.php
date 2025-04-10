@@ -25,7 +25,7 @@ class TeamSeeder extends Seeder
                 'facebook' => 'https://www.facebook.com/romiardanap',
                 'instagram' => 'https://www.instagram.com/romiardanap_/',
                 'whatsapp' => 'https://www.whatsapp.com/?lang=id_ID',
-                'join_at' => now(),
+
                 'is_active' => 1,
             ],
             [
@@ -40,7 +40,7 @@ class TeamSeeder extends Seeder
                 'instagram' => 'https://www.instagram.com/ayuwidiastuti/',
                 'whatsapp' => 'https://wa.me/6282345678901',
                 'is_active' => 1,
-                'join_at' => now(),
+
             ],
             [
                 'name' => 'I Gede Arya Sudarma',
@@ -54,7 +54,7 @@ class TeamSeeder extends Seeder
                 'instagram' => 'https://www.instagram.com/aryasudarma/',
                 'whatsapp' => 'https://wa.me/6283456789012',
                 'is_active' => 1,
-                'join_at' => now(),
+
             ],
             [
                 'name' => 'Putu Eka Pradnyani',
@@ -68,7 +68,7 @@ class TeamSeeder extends Seeder
                 'instagram' => 'https://www.instagram.com/ekapradnyani/',
                 'whatsapp' => 'https://wa.me/6284567890123',
                 'is_active' => 1,
-                'join_at' => now(),
+
             ],
             [
                 'name' => 'I Wayan Aditya Wirawan',
@@ -82,7 +82,7 @@ class TeamSeeder extends Seeder
                 'instagram' => 'https://www.instagram.com/adityawirawan/',
                 'whatsapp' => 'https://wa.me/6285678901234',
                 'is_active' => 1,
-                'join_at' => now(),
+
             ],
             [
                 'name' => 'Ni Komang Sari Dewi',
@@ -96,7 +96,7 @@ class TeamSeeder extends Seeder
                 'instagram' => 'https://www.instagram.com/saridewi/',
                 'whatsapp' => 'https://wa.me/6286789012345',
                 'is_active' => 1,
-                'join_at' => now(),
+
             ],
             [
                 'name' => 'I Nyoman Bagus Mahendra',
@@ -110,7 +110,7 @@ class TeamSeeder extends Seeder
                 'instagram' => 'https://www.instagram.com/bagusmahendra/',
                 'whatsapp' => 'https://wa.me/6287890123456',
                 'is_active' => 1,
-                'join_at' => now(),
+
             ],
             [
                 'name' => 'Ni Luh Putu Ayu Saraswati',
@@ -124,7 +124,7 @@ class TeamSeeder extends Seeder
                 'instagram' => 'https://www.instagram.com/saraswatiayu/',
                 'whatsapp' => 'https://wa.me/6288901234567',
                 'is_active' => 1,
-                'join_at' => now(),
+
             ],
         ];
 

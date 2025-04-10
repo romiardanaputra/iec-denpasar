@@ -3,6 +3,8 @@
 namespace App\Livewire\Feature\User;
 
 use App\Models\User;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -21,12 +23,6 @@ class Profile extends Component
 
     public $about;
 
-    public $city;
-
-    public $postal_code;
-
-    public $country_code;
-
     public $avatar;
 
     public $current_password;
@@ -37,9 +33,17 @@ class Profile extends Component
 
     public $user;
 
-    #[\Livewire\Attributes\Layout('components.layouts.app')]
     public function render()
     {
+        SEOMeta::setTitle('My Profile - IEC Denpasar');
+        SEOMeta::setDescription('Manage and update your personal profile information.');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('My Profile - IEC Denpasar');
+        OpenGraph::setDescription('Manage and update your personal profile information.');
+        OpenGraph::setType('profile');
+        OpenGraph::setUrl(url()->current());
+
         return view('livewire.feature.user.profile');
     }
 
@@ -57,9 +61,6 @@ class Profile extends Component
             'phone' => ['required', 'phone:AUTO', Rule::unique(User::class)->ignore($this->user->id)],
             'address' => ['nullable', 'string'],
             'about' => ['nullable', 'string'],
-            'city' => ['nullable', 'string', 'max:255'],
-            'postal_code' => ['nullable', 'string', 'max:10'],
-            'country_code' => ['nullable', 'string', 'max:3'],
             'avatar' => ['nullable', 'string'],
         ];
     }
@@ -80,9 +81,6 @@ class Profile extends Component
         $this->phone = $this->user->phone;
         $this->address = $this->user->address;
         $this->about = $this->user->about;
-        $this->city = $this->user->city ?? 'Indonesia';
-        $this->postal_code = $this->user->postal_code ?? '80361';
-        $this->country_code = $this->user->country_code ?? 'ID';
         $this->avatar = $this->user->gauth_avatar;
     }
 

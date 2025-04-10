@@ -1,6 +1,6 @@
 <nav class="bg-white dark:bg-gray-900 fixed w-full z-50 top-0 start-0">
-  <div class="container flex flex-wrap items-center justify-between mx-auto p-4 px-0">
-    <a href="{{ route('landing') }}" class="flex items-center space-x-3 rtl:space-x-reverse" wire:navigate>
+  <div class="container flex flex-wrap items-center justify-between mx-auto p-4 px-4">
+    <a href="{{ route('landing') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
       <img src="{{ asset('storage/assets/logo/iec-logo.webp') }}"
         srcset="
         {{ asset('storage/assets/logo/iec-logo-small.webp') }} 480w,
@@ -29,7 +29,7 @@
             </x-button>
           </a>
         @else
-          <a href="{{ route('login') }}" wire:navigate>
+          <a href="{{ route('login') }}">
             <x-button size='lg'
               class="border border-blue-600 bg-white text-blue-800 hover:bg-blue-600 hover:text-white rounded-full px-8 py-6 ">
               <x-lucide-log-in class="mr-2 size-4" /> {{ __('Masuk') }}
@@ -74,7 +74,7 @@
               </x-button>
             </a>
           @else
-            <a href="{{ route('login') }}" wire:navigate>
+            <a href="{{ route('login') }}">
               <x-button size='lg'
                 class="border border-blue-600 bg-white text-blue-800 hover:bg-blue-600 hover:text-white rounded-full px-8 py-6 ">
                 <x-lucide-log-in class="mr-2 size-4" /> {{ __('Masuk') }}

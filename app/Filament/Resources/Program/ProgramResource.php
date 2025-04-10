@@ -16,6 +16,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
@@ -43,11 +44,9 @@ class ProgramResource extends Resource
                                 Forms\Components\TextInput::make('name')
                                     ->required()
                                     ->maxLength(255)
+                                    ->unique(Program::class, 'name', ignoreRecord: true)
                                     ->live(onBlur: true)
                                     ->afterStateUpdated(function (string $operation, $state, Forms\Set $set) {
-                                        if ($operation !== 'create') {
-                                            return;
-                                        }
                                         $set('slug', Str::slug($state));
                                     }),
                                 Forms\Components\TextInput::make('slug')
@@ -67,7 +66,7 @@ class ProgramResource extends Resource
                             ->columns(2),
                         Forms\Components\Section::make('Upload Image')
                             ->schema([
-                                Forms\Components\FileUpload::make('image')
+                            Forms\Components\FileUpload::make('image')
                                     ->required()
                                     ->image()
                                     ->imageEditor()
@@ -78,33 +77,35 @@ class ProgramResource extends Resource
                                     ])
                                     ->directory('program')
                                     ->visibility('public'),
-                            ]),
+                        ]),
                         Forms\Components\Section::make('Pricing')
                             ->schema([
-                                Forms\Components\TextInput::make('price')
+                            Forms\Components\TextInput::make('price')
+                                    ->prefix('Rp')
                                     ->required()
                                     ->numeric(),
-                                Forms\Components\TextInput::make('register_fee')
+                            Forms\Components\TextInput::make('register_fee')
+                                    ->prefix('Rp')
                                     ->required()
                                     ->numeric(),
-                            ])
+                        ])
                             ->columns(2),
                     ])
                     ->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make()
                     ->schema([
-                        Forms\Components\Section::make('Status')
-                            ->schema([
-                                Forms\Components\Toggle::make('is_visible')
+                    Forms\Components\Section::make('Status')
+                        ->schema([
+                            Forms\Components\Toggle::make('is_visible')
                                     ->label('Visible')
                                     ->helperText('This program will be hidden for all users')
                                     ->default(true),
-                                Forms\Components\DatePicker::make('published_at')
+                            Forms\Components\DatePicker::make('published_at')
                                     ->label('Availability')
                                     ->default(now())
                                     ->required(),
-                            ]),
-                    ])
+                        ]),
+                ])
                     ->columnSpan(['lg' => 1]),
             ])
             ->columns(3);
@@ -144,11 +145,14 @@ class ProgramResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                TrashedFilter::make(),
                 Filter::make('name')
                     ->label('Nama Program')
                     ->form([
                         Forms\Components\TextInput::make('search')
+                            ->label('Nama Program')
                             ->placeholder('Cari nama program...')
+                            ->debounce()
                             ->columnSpanFull(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
@@ -161,8 +165,10 @@ class ProgramResource extends Resource
                     ->label('Slug')
                     ->form([
                         Forms\Components\TextInput::make('search')
+                            ->label('Slug')
                             ->placeholder('Cari slug...')
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->debounce(),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query->when(
@@ -201,38 +207,21 @@ class ProgramResource extends Resource
                             fn (Builder $query, string $maxPrice): Builder => $query->where('price', '<=', $maxPrice)
                         );
                     }),
-                Filter::make('register_fee')
-                    ->label('Biaya Pendaftaran')
-                    ->form([
-                        Forms\Components\TextInput::make('min_register_fee')
-                            ->label('Minimum Register Fee')
-                            ->numeric()
-                            ->minValue(0),
-                        Forms\Components\TextInput::make('max_register_fee')
-                            ->label('Maximum Register Fee')
-                            ->numeric()
-                            ->minValue(0),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query->when(
-                            $data['min_register_fee'] ?? null,
-                            fn (Builder $query, string $minRegisterFee): Builder => $query->where('register_fee', '>=', $minRegisterFee)
-                        )->when(
-                            $data['max_register_fee'] ?? null,
-                            fn (Builder $query, string $maxRegisterFee): Builder => $query->where('register_fee', '<=', $maxRegisterFee)
-                        );
-                    }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getRelations(): array
@@ -257,5 +246,10 @@ class ProgramResource extends Resource
     public static function getView(): ?string
     {
         return 'filament.resources.program-resource.views.view';
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

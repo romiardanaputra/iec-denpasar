@@ -26,9 +26,6 @@ class RoleSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
                 'address' => 'Jl. Merdeka No. 123, Denpasar',
-                'city' => 'Denpasar',
-                'postal_code' => '80361',
-                'country_code' => 'ID',
                 'about' => 'Saya adalah seorang developer web profesional.',
             ],
             [
@@ -38,9 +35,6 @@ class RoleSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
                 'address' => 'Jl. Gajah Mada No. 456, Bali',
-                'city' => 'Denpasar',
-                'postal_code' => '80234',
-                'country_code' => 'ID',
                 'about' => 'Saya adalah seorang desainer grafis.',
             ],
 

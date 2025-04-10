@@ -18,18 +18,31 @@ class Team extends Model
 
     protected $guarded = ['team_id'];
 
-    protected $cast = [
+    protected $casts = [
         'is_active' => 'boolean',
-        'join_at' => 'datetime',
+    ];
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'age',
+        'gender',
+        'short_description',
+        'image',
+        'linkedin',
+        'facebook',
+        'instagram',
+        'whatsapp',
+        'is_active',
     ];
 
     public function classes()
     {
-        return $this->hasMany(ClassSchedule::class);
+        return $this->hasMany(ClassSchedule::class, 'team_id', 'team_id');
     }
 
     public function author()
     {
-        return $this->hasOne(Author::class);
+        return $this->hasOne(Author::class, 'team_id', 'team_id');
     }
 }

@@ -13,18 +13,20 @@ return new class extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('registration_id')->constrained('registrations')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('level_name');
+            $table->foreignId('registration_id')->index()->constrained('registrations')->cascadeOnDelete();
+            $table->foreignId('user_id')->index()->constrained('users')->cascadeOnDelete();
+            $table->string('level_name')->index();
             $table->string('badge_grade');
-            $table->integer('reading_grade')->unsigned();
-            $table->integer('listening_grade')->unsigned();
-            $table->integer('speaking_grade')->unsigned();
-            $table->decimal('average_grade', 5, 2)->unsigned();
+            $table->float('reading_grade');
+            $table->float('listening_grade');
+            $table->float('speaking_grade');
+            $table->float('writing_grade');
+            $table->float('average_grade');
             $table->text('strong_area')->nullable();
             $table->text('improvement_area')->nullable();
             $table->text('weak_area')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

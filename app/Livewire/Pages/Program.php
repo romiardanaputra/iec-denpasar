@@ -23,14 +23,13 @@ class Program extends Component
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addProperty('locale:alternate', ['en_US', 'id_ID']);
-
-        OpenGraph::addImage('https://www.iecdenpasar.com/public/favicon.ico');
-        OpenGraph::addImage('https://iecdenpasar.com/public/storage/iec-assets/iec-hero-banner-small.webp', ['height' => 300, 'width' => 300]);
+        OpenGraph::setSiteName('iecdenpasar');
+        OpenGraph::addImage(url('public/storage/iec-assets/iec-dps-og.png'));
 
         JsonLd::setTitle('Program Kursus Bahasa Inggris di IEC Denpasar | Semua Level');
         JsonLd::setDescription('Temukan berbagai program kursus bahasa Inggris di IEC Denpasar. Mulai dari anak-anak hingga profesional, kami menyediakan metode pembelajaran terbaik.');
         JsonLd::setType('EducationalOrganization');
-        JsonLd::addImage('https://www.iecdenpasar.com/public/favicon.ico');
+        JsonLd::addImage(url('public/storage/iec-assets/iec-dps-og.png'));
 
         return view('livewire.pages.program');
     }

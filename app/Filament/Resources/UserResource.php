@@ -43,6 +43,12 @@ class UserResource extends Resource
                                     ->required()
                                     ->minLength(2)
                                     ->maxLength(255),
+                                TextInput::make('about')
+                                    ->required()
+                                    ->minLength(2),
+                                TextInput::make('address')
+                                    ->required()
+                                    ->minLength(2),
                                 TextInput::make('email')
                                     ->email()
                                     ->required()
@@ -116,24 +122,27 @@ class UserResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('roles')
+            Tables\Filters\TrashedFilter::make(),
+            SelectFilter::make('roles')
+                    ->preload()
                     ->relationship('roles', 'name')
                     ->multiple()
                     ->label('Filter by Role'),
-            ])
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-        // ->headerActions([
-
-        // ]);
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getRelations(): array
@@ -161,6 +170,6 @@ class UserResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return static::$model::count(); // Menampilkan jumlah total user di sidebar
+        return static::$model::count();
     }
 }

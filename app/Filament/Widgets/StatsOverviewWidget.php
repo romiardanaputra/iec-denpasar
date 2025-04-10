@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Transaction\Order;
+use App\Models\Transaction\Registration;
 use Carbon\Carbon;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
@@ -25,13 +26,16 @@ class StatsOverviewWidget extends BaseWidget
           Carbon::parse($this->filters['endDate']) :
           now();
 
-        $query = Order::query()
+        $query = Order::query()->with(['registration'])
             ->when($startDate, fn (Builder $query) => $query->whereDate('created_at', '>=', $startDate))
             ->when($endDate, fn (Builder $query) => $query->whereDate('created_at', '<=', $endDate));
 
         $totalRevenue = $query->sum('total_price');
-        $newCustomers = $query->distinct('user_id')->count('user_id');
         $newOrders = $query->count();
+        $newCustomers = Registration::query()
+            ->when($startDate, fn (Builder $query) => $query->whereDate('created_at', '>=', $startDate))
+            ->when($endDate, fn (Builder $query) => $query->whereDate('created_at', '<=', $endDate))
+            ->count();
 
         $formatNumber = function (int|float $number): string {
             if ($number < 1000) {

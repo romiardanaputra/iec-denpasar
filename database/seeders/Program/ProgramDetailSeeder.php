@@ -33,45 +33,45 @@ class ProgramDetailSeeder extends Seeder
                 'program_id' => 1, // English for Kids
                 'long_description' => 'Program "English for Kids" dirancang khusus untuk anak-anak usia Sekolah Dasar (SD). Fokus utama program ini adalah mengembangkan kemampuan berkomunikasi dalam Bahasa Inggris melalui kegiatan belajar yang menyenangkan. Anak-anak akan diajak untuk belajar sambil bermain dengan metode pembelajaran interaktif seperti games, storytelling, dan role-playing. Program ini juga membantu anak-anak membangun kepercayaan diri dalam menggunakan Bahasa Inggris sehari-hari.',
                 'level' => 'Level 1 - Level 6',
-                'benefits' => json_encode([
+                'benefits' => [
                     ['item' => 'Meningkatkan kemampuan berbicara Bahasa Inggris secara aktif'],
                     ['item' => 'Belajar melalui kegiatan menyenangkan seperti games dan storytelling'],
                     ['item' => 'Membangun kepercayaan diri dalam berkomunikasi'],
                     ['item' => 'Pengembangan kosakata dasar Bahasa Inggris'],
-                ]),
+                ],
             ],
             [
                 'program_id' => 2, // English for Children
                 'long_description' => 'Program "English for Children" ditujukan untuk anak-anak usia dini hingga pra-sekolah. Dengan pendekatan belajar sambil bermain, program ini menciptakan lingkungan belajar yang menyenangkan dan efektif. Anak-anak akan diajarkan dasar-dasar Bahasa Inggris melalui lagu, permainan, dan aktivitas kreatif lainnya. Program ini bertujuan untuk memperkenalkan Bahasa Inggris kepada anak-anak sejak dini sehingga mereka dapat mengembangkan logika bahasa dengan lebih mudah.',
                 'level' => 'Level 1 - Level 3',
-                'benefits' => json_encode([
+                'benefits' => [
                     ['item' => 'Memperkenalkan Bahasa Inggris sejak dini'],
                     ['item' => 'Belajar melalui lagu, permainan, dan aktivitas kreatif'],
                     ['item' => 'Mengembangkan logika bahasa secara alami'],
                     ['item' => 'Menciptakan fondasi kuat untuk pembelajaran Bahasa Inggris di masa depan'],
-                ]),
+                ],
             ],
             [
                 'program_id' => 3, // English for Junior
                 'long_description' => 'Program "English for Junior" dirancang untuk siswa Sekolah Menengah Pertama (SMP). Metode pembelajaran komunikatif diterapkan untuk membantu siswa menguasai empat aspek utama Bahasa Inggris: Listening, Reading, Speaking, dan Writing. Kegiatan di kelas tetap menekankan suasana belajar yang menyenangkan, sehingga siswa termotivasi untuk belajar dan merasa percaya diri dalam menggunakan Bahasa Inggris.',
                 'level' => 'Level 1 - Level 4',
-                'benefits' => json_encode([
+                'benefits' => [
                     ['item' => 'Menguasai empat aspek utama Bahasa Inggris: Listening, Reading, Speaking, dan Writing'],
                     ['item' => 'Suasana belajar yang menyenangkan dan interaktif'],
                     ['item' => 'Meningkatkan motivasi belajar dan kepercayaan diri'],
                     ['item' => 'Persiapan untuk ujian Bahasa Inggris tingkat SMP'],
-                ]),
+                ],
             ],
             [
                 'program_id' => 4, // General English
                 'long_description' => 'Program "General English" ditujukan untuk peserta kursus dewasa yang ingin meningkatkan kemampuan berkomunikasi dalam Bahasa Inggris untuk keperluan umum. Dengan pendekatan komunikatif, program ini membantu peserta berbicara Bahasa Inggris dengan lancar dan percaya diri. Materi pembelajaran mencakup berbagai topik sehari-hari, seperti percakapan sosial, pekerjaan, dan traveling.',
                 'level' => 'Level 1 - Level 6',
-                'benefits' => json_encode([
+                'benefits' => [
                     ['item' => 'Meningkatkan kemampuan berbicara Bahasa Inggris secara lancar'],
                     ['item' => 'Pendekatan komunikatif untuk pembelajaran yang efektif'],
                     ['item' => 'Materi pembelajaran yang relevan dengan kehidupan sehari-hari'],
                     ['item' => 'Persiapan untuk berkomunikasi dalam situasi profesional dan sosial'],
-                ]),
+                ],
             ],
         ];
 

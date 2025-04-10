@@ -37,37 +37,49 @@ class GradeResource extends Resource
                             ->afterStateUpdated(function ($state, Forms\Set $set) {
                                 if ($state) {
                                     $registration = Registration::find($state);
+                                    // dd($registration->program->name);
                                     if ($registration && $registration->user) {
                                         $set('user_id', $registration->user->id);
+                                    }
+                                    if ($registration && $registration->program) {
+                                        $set('program_name', $registration->program->name);
+                                    } else {
+                                        $set('program_name', null);
                                     }
                                 }
                             })
                             ->required()
                             ->debounce()
                             ->searchable(),
+                        Forms\Components\TextInput::make('program_name')
+                            ->label('Nama Program')
+                            ->helperText('Program yang sedang diambil')
+                            ->disabled()
+                            ->dehydrated(false),
                         Forms\Components\Select::make('user_id')
                             ->label('Nama Akun Pengguna')
                             ->helperText('Nama akun pengguna yang terdaftar pada website')
                             ->options(User::query()->pluck('name', 'id'))
                             ->required()
+                            ->disabled()
                             ->dehydrated()
                             ->searchable(),
                     ]),
                 Forms\Components\Section::make('Detail Nilai')
                     ->schema([
-                        Forms\Components\ToggleButtons::make('level_name')
+                    Forms\Components\ToggleButtons::make('level_name')
                             ->label('Level ke')
                             ->inline()
                             ->options([
-                                '1' => 1,
-                                '2' => 2,
-                                '3' => 3,
-                                '4' => 4,
-                                '5' => 5,
-                                '6' => 6,
+                                'Level 1' => 1,
+                                'Level 2' => 2,
+                                'Level 3' => 3,
+                                'Level 4' => 4,
+                                'Level 5' => 5,
+                                'Level 6' => 6,
                             ])
                             ->required(),
-                        Forms\Components\ToggleButtons::make('badge_grade')
+                    Forms\Components\ToggleButtons::make('badge_grade')
                             ->label('Status Badge Nilai')
                             ->inline()
                             ->options([
@@ -76,7 +88,7 @@ class GradeResource extends Resource
                                 'excellent' => 'Excellent',
                             ])
                             ->required(),
-                        Forms\Components\Grid::make(3)
+                    Forms\Components\Grid::make(4)
                             ->schema([
                                 Forms\Components\TextInput::make('reading_grade')
                                     ->label('Nilai Membaca')
@@ -105,29 +117,39 @@ class GradeResource extends Resource
                                     ->debounce()
                                     ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
                                     ->required(),
+
+                                Forms\Components\TextInput::make('writing_grade')
+                                    ->label('Nilai Menulis')
+                                    ->helperText('Input nilai value dari 0-100')
+                                    ->maxValue(100)
+                                    ->minValue(0)
+                                    ->numeric()
+                                    ->debounce()
+                                    ->afterStateUpdated(fn ($state, Forms\Get $get, Forms\Set $set) => static::calculateAverageGrade($get, $set))
+                                    ->required(),
                             ]),
-                        Forms\Components\TextInput::make('average_grade')
+                    Forms\Components\TextInput::make('average_grade')
                             ->label('Rata-rata nilai')
                             ->numeric()
                             ->dehydrated()
                             ->disabled()
                             ->required(),
-                    ]),
+                ]),
                 Forms\Components\Section::make('Komentar')
                     ->schema([
-                        Forms\Components\Textarea::make('strong_area')
+                    Forms\Components\RichEditor::make('strong_area')
                             ->label('Strong Area')
                             ->helperText('Kelebihan dari siswa pada jenjang level')
                             ->required(),
-                        Forms\Components\Textarea::make('improvement_area')
+                    Forms\Components\RichEditor::make('improvement_area')
                             ->label('Improvement Area')
                             ->helperText('Hal yang dapat di improve dari siswa pada jenjang level')
                             ->required(),
-                        Forms\Components\Textarea::make('weak_area')
+                    Forms\Components\RichEditor::make('weak_area')
                             ->label('Weak Area')
                             ->helperText('Hal yang sangat perlu diperhatikan (kekurangan) dari siswa pada jenjang level')
                             ->required(),
-                    ]),
+                ]),
             ]);
     }
 
@@ -143,6 +165,10 @@ class GradeResource extends Resource
                     ->label('Nama Akun Pengguna')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('registration.program.name')
+                    ->label('Program')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('level_name')
                     ->label('Level ke')
                     ->sortable()
@@ -173,20 +199,32 @@ class GradeResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\SelectFilter::make('registration_id')
+                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\MultiSelectFilter::make('registration_id')
                     ->label('Registration')
+                    ->preload()
                     ->relationship('registration', 'student_name'),
-                Tables\Filters\SelectFilter::make('user_id')
+                Tables\Filters\MultiSelectFilter::make('user_id')
                     ->label('User')
-                    ->relationship('user', 'name'),
+                    ->preload()
+                    ->relationship('registration.user', 'name'),
+                Tables\Filters\MultiSelectFilter::make('program_id')
+                    ->label('program')
+                    ->preload()
+                    ->relationship('registration.program', 'name'),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
             ]);
     }
@@ -196,9 +234,10 @@ class GradeResource extends Resource
         $readingGrade = (float) ($get('reading_grade') ?? 0);
         $listeningGrade = (float) ($get('listening_grade') ?? 0);
         $speakingGrade = (float) ($get('speaking_grade') ?? 0);
+        $writingGrade = (float) ($get('writing_grade') ?? 0);
 
         // Calculate the average grade
-        $averageGrade = ($readingGrade + $listeningGrade + $speakingGrade) / 3;
+        $averageGrade = ($readingGrade + $listeningGrade + $speakingGrade + $writingGrade) / 4;
 
         // Set the calculated average grade
         $set('average_grade', round($averageGrade, 2));
@@ -217,5 +256,10 @@ class GradeResource extends Resource
             'view' => Pages\ViewGrade::route('/{record}'),
             'edit' => Pages\EditGrade::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('teams', function (Blueprint $table) {
-            $table->id('team_id')->primary();
-            $table->string('name');
+            $table->id('team_id');
+            $table->string('name')->index();
             $table->string('slug')->unique()->nullable();
             $table->string('age');
             $table->enum('gender', ['male', 'female']);
@@ -23,10 +23,9 @@ return new class extends Migration
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('whatsapp')->nullable();
-            $table->dateTime('join_at')->nullable();
             $table->boolean('is_active')->default(false);
             $table->timestamps();
-            $table->dateTime('deleted_at')->nullable();
+            $table->softDeletes();
         });
     }
 

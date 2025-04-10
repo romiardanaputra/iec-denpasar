@@ -13,6 +13,8 @@ class Author extends Model
 
     protected $table = 'blog_authors';
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'team_id',
         'bio',
@@ -21,11 +23,11 @@ class Author extends Model
 
     public function posts(): HasMany
     {
-        return $this->hasMany(Post::class, 'blog_author_id');
+        return $this->hasMany(Post::class, 'blog_author_id', 'id');
     }
 
     public function team()
     {
-        return $this->belongsTo(Team::class, 'team_id');
+        return $this->belongsTo(Team::class, 'team_id', 'team_id');
     }
 }

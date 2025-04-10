@@ -1,55 +1,4 @@
-{{-- <div class="container pb-5 pt-5">
-  <div class="row">
-    <div class="col-12 col-md-8">
-      <div class="card shadow">
-        <div class="card-header">
-          <h5>Data Order</h5>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-hover table-condensed">
-            <tr>
-              <td>ID</td>
-              <td><b>#{{ $order->order_id }}</b></td>
-            </tr>
-            <tr>
-              <td>Total Harga</td>
-              <td><b>Rp {{ number_format($order->total_price, 2, ',', '.') }}</b></td>
-            </tr>
-            <tr>
-              <td>Status Order</td>
-              <td><b>{{ $order->status }}</b></td>
-            </tr>
-            <tr>
-              <td>Status Pembayaran</td>
-              <td><b>{{ $order->payment_status }}</b></td>
-            </tr>
-            <tr>
-              <td>Tanggal</td>
-              <td><b>{{ $order->created_at->format('d M Y H:i') }}</b></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-4">
-      <div class="card shadow">
-        <div class="card-header">
-          <h5>Pembayaran</h5>
-        </div>
-        <div class="card-body">
-          @if ($order->payment_status == 'unpaid')
-            <button class="btn btn-primary" id="pay-button">Bayar Sekarang</button>
-          @elseif ($order->payment_status == 'paid')
-            Pembayaran berhasil
-          @endif
-        </div>
-      </div>
-    </div>
-  </div>
-</div> --}}
-
 <div class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm my-6" id="invoice">
-
   <div class="grid grid-cols-2 items-center">
     <div>
       <!--  Company logo  -->
@@ -73,7 +22,6 @@
       <p class="text-gray-500 text-sm mt-1">
         +620874715370
       </p>
-
     </div>
   </div>
 
@@ -151,20 +99,6 @@
           <td class="pl-3 pr-6 pt-6 text-right text-sm text-gray-500 sm:pr-0">
             {{ 'Rp ' . number_format($order->total_price, 0, ',', '.') }}</td>
         </tr>
-        {{-- <tr>
-          <th scope="row" colspan="3"
-            class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">Tax</th>
-          <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden">Tax</th>
-          <td class="pl-3 pr-6 pt-4 text-right text-sm text-gray-500 sm:pr-0">$1,050.00</td>
-        </tr> --}}
-        {{-- <tr>
-          <th scope="row" colspan="3"
-            class="hidden pl-4 pr-3 pt-4 text-right text-sm font-normal text-gray-500 sm:table-cell sm:pl-0">Discount
-          </th>
-          <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-normal text-gray-500 sm:hidden">Discount
-          </th>
-          <td class="pl-3 pr-6 pt-4 text-right text-sm text-gray-500 sm:pr-0">- 10%</td>
-        </tr> --}}
         <tr>
           <th scope="row" colspan="3"
             class="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0">Total
@@ -175,6 +109,11 @@
         </tr>
       </tfoot>
     </table>
+    <!-- Payment Button -->
+    <button type="button" id="pay-button" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full">Pay Now</button>
+    <!-- Print Button -->
+    <button type="button" id="print-button" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-full ml-4">Download
+      Invoice</button>
   </div>
 
   <!--  Footer  -->
@@ -182,58 +121,66 @@
     Please pay the invoice before the due date. You can pay the invoice by logging in to your account from our client
     portal.
   </div>
-  <button type="button" id="btn" class="">Print</button>
-
 </div>
 
 @section('js_custom')
   <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
   </script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
-    const payButton = document.querySelector('#pay-button');
-    payButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      snap.pay('{{ $snapToken }}', {
-        // Optional
-        onSuccess: function(result) {
-          /* You may add your own js here, this is just example */
-          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-          console.log(result)
-        },
-        // Optional
-        onPending: function(result) {
-          /* You may add your own js here, this is just example */
-          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-          console.log(result)
-        },
-        // Optional
-        onError: function(result) {
-          /* You may add your own js here, this is just example */
-          // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-          console.log(result)
-        }
-      });
-    });
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"
-    integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
-  <script>
-    var btn = document.getElementById("btn");
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM fully loaded and parsed');
 
-    window.onload = function() {};
-    btn.addEventListener("click", function() {
+      const payButton = document.querySelector('#pay-button');
+      if (payButton) {
+        payButton.addEventListener('click', function(e) {
+          e.preventDefault();
+          snap.pay('{{ $snapToken }}', {
+            onSuccess: function(result) {
+              console.log(result);
+              alert('Payment successful!');
+            },
+            onPending: function(result) {
+              console.log(result);
+              alert('Payment is pending.');
+            },
+            onError: function(result) {
+              console.log(result);
+              alert('Payment failed.');
+            }
+          });
+        });
+      } else {
+        console.error('#pay-button not found');
+      }
 
-      var element = document.getElementById("invoice");
-
-      var doc = new jsPDF();
-
-      doc.html(element, {
-        callback: function(doc) {
-          doc.save();
-        }
-      });
-
-      console.log("printing...");
+      const printButton = document.querySelector('#print-button');
+      if (printButton) {
+        printButton.addEventListener('click', function() {
+          console.log('Print button clicked');
+          var element = document.getElementById('invoice');
+          if (element) {
+            html2canvas(element).then(function(canvas) {
+              console.log('Canvas generated');
+              var imgData = canvas.toDataURL('image/png');
+              var pdf = new window.jspdf
+                .jsPDF(); // Use window.jspdf.jsPDF to ensure it's correctly referenced
+              var imgProps = pdf.getImageProperties(imgData);
+              var pdfWidth = pdf.internal.pageSize.getWidth();
+              var pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+              pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+              pdf.save('invoice.pdf');
+            }).catch(function(error) {
+              console.error('Error generating canvas:', error);
+            });
+          } else {
+            console.error('#invoice element not found');
+          }
+        });
+      } else {
+        console.error('#print-button not found');
+      }
     });
   </script>
 @endsection

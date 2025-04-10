@@ -3,6 +3,9 @@
 namespace App\Livewire\Feature\User;
 
 use App\Models\Feature\Grade;
+use App\Models\Program\Program;
+use Artesaos\SEOTools\Facades\OpenGraph;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -72,19 +75,9 @@ class ExamGrade extends Component
             ->when($this->selectedLevel, function ($query) {
                 $query->where('level_name', $this->selectedLevel);
             })
-            ->when($this->selectedStudent, function ($query) {
-                $query->whereHas('registration', function ($qr) {
-                    $qr->where('student_name', 'like', '%'.$this->selectedStudent.'%');
-                });
-            })
             ->orderBy('level_name', 'ASC')
             ->whereHas('registration.program', function ($query) {
                 $query->where('is_visible', 1);
-            })
-            ->whereHas('registration.orders', function ($query) use ($userId) {
-                $query->where('status', 'completed')
-                    ->where('payment_status', 'paid')
-                    ->where('user_id', $userId);
             })
             ->where('user_id', $userId)
             ->paginate(6);
@@ -99,35 +92,22 @@ class ExamGrade extends Component
 
     public function render()
     {
+        SEOMeta::setTitle('My Exam Grades - IEC Denpasar');
+        SEOMeta::setDescription('View and filter your exam grades, including program and level details.');
+        SEOMeta::setCanonical(url()->current());
+
+        OpenGraph::setTitle('My Exam Grades');
+        OpenGraph::setDescription('View and filter your exam grades, including program and level details.');
+        OpenGraph::setType('profile');
+        OpenGraph::setUrl(url()->current());
+        $programs = Program::select(['program_id', 'name'])->get();
         $data = [
-            'grades' => $this->getExamGrade(),
-            'programs' => $this->getPrograms(),
+            'grades' => $this->getExamGrade,
+            'programs' => $programs,
         ];
 
+        // dd($data);
+
         return view('livewire.feature.user.exam-grade', $data);
-    }
-
-    #[Computed]
-    public function getPrograms()
-    {
-        $userId = auth()->id();
-
-        return \App\Models\Program\Program::with([
-            'registrations.orders' => function ($query) use ($userId) {
-                $query->where('status', 'completed')
-                    ->where('payment_status', 'paid')
-                    ->where('user_id', $userId);
-            },
-        ])
-            ->whereHas('registrations', function ($query) use ($userId) {
-                $query->whereHas('orders', function ($qr) use ($userId) {
-                    $qr->where('status', 'completed')
-                        ->where('payment_status', 'paid')
-                        ->where('user_id', $userId);
-                });
-            })
-            ->where('is_visible', 1)
-            ->get()
-            ->pluck('name', 'id');
     }
 }

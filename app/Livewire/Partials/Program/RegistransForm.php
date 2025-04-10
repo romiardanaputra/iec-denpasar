@@ -8,20 +8,6 @@ class RegistransForm extends Component
 {
     public $program;
 
-    public $student_name;
-
-    public $birthdate;
-
-    public $address;
-
-    public $education;
-
-    public $job;
-
-    public $parent_guardian;
-
-    public $market;
-
     public $educationOptions = [
         'SD' => 'Sekolah Dasar',
         'SMP' => 'Sekolah Menengah Pertama',

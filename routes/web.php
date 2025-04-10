@@ -9,6 +9,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\ResetPassword;
 use App\Livewire\Auth\VerifyEmail;
+use App\Livewire\Feature\Payment\Checkout;
 use App\Livewire\Feature\Payment\Invoice;
 use App\Livewire\Feature\User\Bill;
 use App\Livewire\Feature\User\BillDetail;
@@ -26,6 +27,7 @@ use App\Livewire\Pages\ProgramDetail;
 use App\Livewire\Partials\Transaction\FailedPayment;
 use App\Livewire\Partials\Transaction\PaymentSuccess;
 use App\Livewire\Partials\Transaction\PendingPayment;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 
 // when authenticated stil can access this page
@@ -52,11 +54,8 @@ Route::group(['middleware' => 'guest'], function () {
 
 // when authenticated and not verified
 Route::group(['middleware' => 'auth'], function (): void {
-    Route::get('verify-email', EmailVerificationPrompt::class)
-        ->name('verification.notice');
-    Route::get('verify-email/{id}/{hash}', VerifyEmail::class)
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
+    Route::get('verify-email', EmailVerificationPrompt::class)->name('verification.notice');
+    Route::get('verify-email/{id}/{hash}', VerifyEmail::class)->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
 });
 
 // when authenticated and verified
@@ -67,20 +66,17 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
     Route::get('/bill', Bill::class)->name('bill');
     Route::get('/bill/{order}', BillDetail::class)->name('bill.detail');
     Route::get('/invoice', Invoice::class)->name('invoice');
-
-    Route::post(
-        '/program/{program}/checkout',
-        [PaymentController::class, 'checkout']
-    )->name('program.checkout');
-
+    Route::get('/checkout/{slug}', Checkout::class)->name('checkout');
     Route::get('/transaction/success', PaymentSuccess::class)->name('payment.success');
     Route::get('/transaction/pending', PendingPayment::class)->name('payment.pending');
     Route::get('/transaction/failed', FailedPayment::class)->name('payment.failed');
     Route::get('/check-order-status', [PaymentController::class, 'checkOrderStatus'])->name('check.order.status');
     Route::post('/save-error-data', [PaymentController::class, 'saveErrorData'])->name('save_error_data');
 
+    // post checkout controller
+    Route::post('/checkout/{program}', [PaymentController::class, 'checkout'])->name('checkout.transaction');
+
 });
 
 // callback midtrans must be not inside in auth middleware
-
-Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback');
+Route::post('/payment/midtrans-callback', [PaymentController::class, 'midtransCallback'])->name('midtrans.callback')->withoutMiddleware(VerifyCsrfToken::class);

@@ -32,6 +32,7 @@ class Program extends Model
         'rate',
         'price',
         'register_fee',
+        'is_visible',
     ];
 
     public function classes()
@@ -41,26 +42,27 @@ class Program extends Model
 
     public function detail()
     {
-        return $this->hasOne(ProgramDetail::class, 'program_id');
+        return $this->hasOne(ProgramDetail::class, 'program_id', 'program_id');
     }
 
     public function images()
     {
-        return $this->hasMany(Image::class, 'program_id');
+        return $this->hasMany(Image::class, 'program_id', 'program_id');
     }
 
+    // ?
     public function books()
     {
-        return $this->hasMany(Book::class, 'program_id');
+        return $this->hasMany(Book::class, 'program_id', 'program_id');
     }
 
     public function registrations()
     {
-        return $this->hasMany(Registration::class, 'program_id');
+        return $this->hasMany(Registration::class, 'program_id', 'program_id');
     }
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'program_id');
+        return $this->hasMany(Order::class, 'program_id', 'program_id');
     }
 }

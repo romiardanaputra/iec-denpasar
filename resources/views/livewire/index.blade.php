@@ -1,7 +1,6 @@
 <div class="min-h-screen space-y-8 lg:space-y-14 pt-20">
   {{-- banner here --}}
-  <section
-    class="min-h-svh md:min-h-[60vh] lg:min-h-[80vh] flex items-center justify-center sm:mt-20 lg:mt-0 md:px-12 lg:px-32 ">
+  <section class="min-h-svh md:min-h-[60vh] lg:min-h-[80vh] flex items-center justify-center sm:mt-20 lg:mt-0 md:px-12 ">
     <div class="flex items-center container w-full flex-col lg:flex-row">
       <div class="space-y-8 w-full">
         <article class="space-y-4 md:space-y-8 sm:space-y-6 ">
@@ -13,12 +12,12 @@
           </p>
         </article>
         <div class="flex gap-2 md:gap-4">
-          <a href="{{ route('our-program') }}" wire:navigate>
+          <a href="{{ route('our-program') }}">
             <x-button size='lg' class="bg-blue-600 text-white hover:bg-blue-600 rounded-full px-8 py-6 ">
               <x-lucide-search class="mr-2 size-4" /> {{ __('Program') }}
             </x-button>
           </a>
-          <a href="{{ route('register') }}" wire:navigate>
+          <a href="{{ route('register') }}">
             <x-button size='lg'
               class="border border-blue-800 bg-transparent text-blue-600 hover:bg-blue-600 hover:text-white rounded-full px-8 py-6 ">
               <x-lucide-user-round-plus class="mr-2 size-4" /> {{ __('Daftar Akun') }}

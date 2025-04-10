@@ -21,6 +21,8 @@ return new class extends Migration
             $table->dateTime('expired_at')->nullable();
             $table->dateTime('paid_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 

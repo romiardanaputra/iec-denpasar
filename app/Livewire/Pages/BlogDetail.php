@@ -48,10 +48,9 @@ class BlogDetail extends Component
         OpenGraph::addProperty('type', 'article');
         OpenGraph::addProperty('locale', 'id_ID');
         OpenGraph::addImage(
-            $post->image ?
-            asset('storage/'.$post->image) :
-            asset('images/default-blog-image.jpg'),
-            ['height' => 630, 'width' => 1200]
+            $post->image ? Str::startsWith($post->image, 'http') ? $post->image :
+            url('public/storage/'.$post->image) :
+            url('public/storage/iec-assets/iec-dps-og.png')
         );
 
         // JSON-LD Schema
@@ -59,9 +58,9 @@ class BlogDetail extends Component
         JsonLd::setDescription($post->meta_description ?? Str::limit(strip_tags($post->content), 160));
         JsonLd::setType('Article');
         JsonLd::addImage(
-            $post->image ?
-            asset('storage/'.$post->image) :
-            asset('images/default-blog-image.jpg')
+            $post->image ? Str::startsWith($post->image, 'http') ? $post->image :
+            url('public/storage/'.$post->image) :
+            url('public/storage/iec-assets/iec-dps-og.png')
         );
 
         return view('livewire.pages.blog-detail', [

@@ -22,6 +22,8 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     protected $primaryKey = 'id';
 
+    protected $guarded = ['id'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -34,14 +36,12 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         'email',
         'address',
         'about',
-        'city',
-        'postal_code',
-        'country_code',
         'password',
         'gauth_id',
         'gauth_type',
         'gauth_token',
         'gauth_avatar',
+        'email_verified_at',
     ];
 
     /**
@@ -74,11 +74,11 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 
     public function registrations()
     {
-        return $this->hasMany(Registration::class);
+        return $this->hasMany(Registration::class, 'user_id', 'id');
     }
 
     public function grades()
     {
-        return $this->hasMany(Grade::class);
+        return $this->hasMany(Grade::class, 'user_id', 'id');
     }
 }

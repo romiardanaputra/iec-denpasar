@@ -14,18 +14,19 @@ return new class extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-            $table->foreignid('user_id')->constrained()->onDelete('cascade');
-            $table->foreignIdFor(Program::class, 'program_id')->constrained()->onDelete('cascade');
-            $table->string('student_name');
-            $table->string('birthplace');
+            $table->foreignid('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignIdFor(Program::class, 'program_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('student_name')->index();
+            $table->string('birthplace')->index();
             $table->date('birthdate');
             $table->text('address');
             $table->string('education');
             $table->string('job');
             $table->string('market');
             $table->string('parent_guardian')->nullable();
-            $table->boolean('is_visible')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

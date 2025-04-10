@@ -27,12 +27,12 @@
         <x-typography.h2>
           {{ __($program->name) }}
         </x-typography.h2>
-        <x-typography.p>
+        <x-typography.p class="text-pretty">
           {{ __($program->short_description) }}
         </x-typography.p>
         <x-typography.list>
           @forelse ($program->detail->benefits as $benefit)
-            <li>{{ __($benefit['item']) }}</li>
+            <li class="text-gray-600 font-[lato]">{{ __($benefit['item']) }}</li>
           @empty
             <li>{{ __('tidak ada manfaat list yang dimasukkan') }}</li>
           @endforelse
@@ -43,64 +43,55 @@
        ">
         <span class="font-bold text-2xl">Rp. {{ number_format($program->price, 0, ',', '.') }}</span>
         <div class="flex gap-1 items-center">
-          @for ($i = 0; $i < $program->rate; $i++)
-            <svg class="w-3.5 h-3.5 fill-blue-600" viewBox="0 0 14 13" fill="none"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-            </svg>
-          @endfor
-          <span>({{ $program->rate }} stars) 14 reviews</span>
+          <svg class="size-4 fill-yellow-400" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+          </svg>
+          <span>{{ $program->rate }} Stars</span>
         </div>
         <div class="flex justify-between gap-4">
           <span class="font-medium">Level Kursus</span>
           <div class="flex flex-wrap">
-            <x-button>{{ $program->detail->level }} Level</x-button>
+            <p class="font-bold text-blue-600">{{ $program->detail->level }}</p>
           </div>
         </div>
         <div class="flex w-full">
           @guest
-            <x-button wire:click="checkBeforeRegisterProgram">Daftar Kursus Sekarang</x-button>
+            <div class="flex justify-center items-center mt-8">
+              <button wire:click="redirectToBill"
+                class="relative flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg transform hover:scale-105 transition-transform duration-200">
+                <span class="absolute inset-0 rounded-full bg-blue-500 opacity-20 animate-ping"></span>
+                <span class="relative z-10">Daftar kursus sekarang!</span>
+              </button>
+            </div>
           @endguest
           @auth
-            {{-- if the user already make order then change the button to go to dashboard to proceed further payment --}}
-            @if ($this->latestOrder)
-              <x-button wire:click="redirectToBill">Lihat Riwayat Pembelian</x-button>
-            @else
-              <div class="block" id="registransForm">
-                @livewire('partials.program.registrans-form', ['program' => $program])
+            <a href="{{ route('checkout', ['slug' => $program->slug]) }}">
+              <div class="flex justify-center items-center mt-8">
+                <button
+                  class="relative flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg transform hover:scale-105 transition-transform duration-200">
+                  <span class="absolute inset-0 rounded-full bg-blue-500 opacity-20 animate-ping"></span>
+                  <span class="relative z-10">Beli Kursus!</span>
+                </button>
               </div>
-            @endif
-
+            </a>
           @endauth
         </div>
       </div>
     </div>
   </div>
-  <div class=" mx-auto max-w-screen-2xl px-4 md:px-8">
-    <x-tabs defaultValue="overview" class="w-full z-50">
+
+  <div class=" mx-auto max-w-screen-2xl px-4 mt-12 lg:mt-0 md:px-8">
+    <x-tabs defaultValue="schedule" class="w-full z-50">
       <x-tabs.list class="w-full">
-        <x-tabs.trigger value="overview">Informasi Umum</x-tabs.trigger>
-        <x-tabs.trigger value="schedule">Jadwal Less</x-tabs.trigger>
+        <x-tabs.trigger value="schedule" class="text-base font-bold">Jadwal less</x-tabs.trigger>
+        <x-tabs.trigger value="overview" class="text-base font-bold">Informasi Umum</x-tabs.trigger>
       </x-tabs.list>
-      <div class="p-8">
-        <x-tabs.content class="text-justify leading-7" value="overview">{!! __($program->detail->long_description) !!}.</x-tabs.content>
-        <x-tabs.content value="schedule">
-          <div>
-            @livewire('partials.program.schedule-table', ['program' => $program], key($program->program_id))
-          </div>
-        </x-tabs.content>
-      </div>
+      <x-tabs.content value="schedule" class="max-w-[480px] sm:max-w-screen-sm lg:max-w-screen-xl overflow-x-auto">
+        @livewire('partials.program.schedule-table', ['program' => $program])
+      </x-tabs.content>
+      <x-tabs.content class="text-justify leading-7" value="overview">{!! __($program->detail->long_description) !!}
+      </x-tabs.content>
     </x-tabs>
   </div>
 </section>
-
-@section('js_custom')
-  @script
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
-    </script>
-    @if (!$this->latestOrder)
-      <script type="module" src="{{ asset('midtrans/index.js') }}" defer></script>
-    @endif
-  @endscript
-@endsection

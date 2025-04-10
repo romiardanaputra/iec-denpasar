@@ -6,7 +6,7 @@
       <p class="mb-4 sm:w-8/12 text-gray-600 leading-relaxed md:tracking-wide">
         {{ __('Menguasai bahasa Inggris dengan percaya diri! Program kami dirancang khusus untuk semua level, dari pemula hingga lanjutan. Dapatkan metode pembelajaran interaktif, materi terkini, dan dukungan penuh dari pengajar profesional. Siapkan diri Anda untuk kesuksesan akademik, karir, atau petualangan global!') }}
       </p>
-      <a href="{{ route('our-program') }}" wire:navigate>
+      <a href="{{ route('our-program') }}">
         <x-button size='lg' type="button" class="bg-blue-600 text-white hover:bg-blue-600 rounded-full px-8 py-6">
           <x-lucide-wand-sparkles class="mr-2 size-4" /> {{ __('Lihat Kursus') }}
         </x-button>
@@ -15,7 +15,7 @@
   </article>
   <article class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full my-8 mt-12">
     @forelse ($programs as $program)
-      <a href="{{ route('program.detail', ['slug' => $program->slug]) }}" wire:navigate
+      <a href="{{ route('program.detail', ['slug' => $program->slug]) }}"
         class="hover:-translate-y-2 transition-all cursor-pointer will-change-transform"
         wire:key={{ $program->program_id }}>
         <x-card class="shadow-md">

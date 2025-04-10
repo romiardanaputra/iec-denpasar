@@ -46,7 +46,7 @@ class PostResource extends Resource
                             ->required()
                             ->live(onBlur: true)
                             ->maxLength(255)
-                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
+                            ->afterStateUpdated(fn (string $operation, $state, Forms\Set $set) => $set('slug', Str::slug($state))),
 
                         Forms\Components\TextInput::make('slug')
                             ->disabled()
@@ -83,21 +83,21 @@ class PostResource extends Resource
 
                 Forms\Components\Section::make('Image')
                     ->schema([
-                        Forms\Components\FileUpload::make('image')
+                    Forms\Components\FileUpload::make('image')
                             ->image()
                             ->hiddenLabel(),
-                    ])
+                ])
                     ->collapsible(),
 
                 Forms\Components\Section::make('SEO')
                     ->schema([
-                        Forms\Components\TextInput::make('seo_title')
+                    Forms\Components\TextInput::make('seo_title')
                             ->label('SEO Title')
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('seo_description')
+                    Forms\Components\Textarea::make('seo_description')
                             ->label('SEO Description')
                             ->rows(4),
-                    ])
+                ])
                     ->collapsible(),
             ]);
     }
@@ -141,6 +141,10 @@ class PostResource extends Resource
                     ->date(),
             ])
             ->filters([
+                Tables\Filters\MultiSelectFilter::make('blog_author_id')
+                    ->label('Team')
+                    ->relationship('author.team', 'name')
+                    ->preload(),
                 Tables\Filters\Filter::make('published_at')
                     ->form([
                         Forms\Components\DatePicker::make('published_from')
@@ -172,13 +176,13 @@ class PostResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
 
-            ])
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->action(function () {
                             Notification::make()
@@ -186,8 +190,8 @@ class PostResource extends Resource
                                 ->warning()
                                 ->send();
                         }),
-                ]),
-            ]);
+            ]),
+        ]);
     }
 
     public static function infolist(Infolist $infolist): Infolist
@@ -277,5 +281,10 @@ class PostResource extends Resource
         }
 
         return $details;
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::$model::count();
     }
 }

@@ -12,6 +12,8 @@ class Image extends Model
 
     protected $table = 'images';
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'program_id',
         'path',
@@ -24,6 +26,6 @@ class Image extends Model
 
     public function program()
     {
-        return $this->belongsTo(Program::class, 'program_id');
+        return $this->belongsTo(Program::class, 'program_id', 'program_id');
     }
 }
