@@ -49,17 +49,17 @@ function loadMidtransScript(snapToken) {
             onSuccess: function(result) {
                 console.log(result);
                 alert("success payment");
-                window.location.href = "/transaction/success";
+                // window.location.href = "/transaction/success";
             },
             onPending: function(result) {
                 console.log(result);
                 alert("pending payment");
-                window.location.href = "/transaction/pending";
+                // window.location.href = "/transaction/pending";
             },
             onError: function(result) {
                 console.log(result);
                 saveErrorDataToSession(result);
-                window.location.href = "/transaction/failed";
+                // window.location.href = "/transaction/failed";
                 alert("error payment");
             },
         });
