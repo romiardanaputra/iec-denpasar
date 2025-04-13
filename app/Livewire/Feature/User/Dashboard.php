@@ -52,7 +52,9 @@ class Dashboard extends Component
     public function getOrder()
     {
         if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
-            return Order::with(['program'])->where('user_id', auth()->user()->id)->orderByDesc('id')->get();
+            return Order::with(['program'])->where('user_id', auth()->user()->id)->orderByDesc('id')
+                ->where('payment_status', 'unpaid')
+                ->get();
         }
 
         return null;

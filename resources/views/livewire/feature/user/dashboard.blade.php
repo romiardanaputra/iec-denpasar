@@ -255,7 +255,7 @@
       <!-- card 2 -->
 
       <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
-        @if ($orders)
+        @if (!$orders->isEmpty())
           <div
             class="relative flex h-full min-w-0 flex-col break-words rounded-2xl border border-gray-200 border-solid bg-white bg-clip-border">
             <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
