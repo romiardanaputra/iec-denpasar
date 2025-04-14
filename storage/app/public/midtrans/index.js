@@ -49,17 +49,17 @@ function loadMidtransScript(snapToken) {
             onSuccess: function(result) {
                 console.log(result);
                 alert("success payment");
-                // window.location.href = "/transaction/success";
+                window.location.href = "/transaction/success";
             },
             onPending: function(result) {
                 console.log(result);
                 alert("pending payment");
-                // window.location.href = "/transaction/pending";
+                window.location.href = "/transaction/pending";
             },
             onError: function(result) {
                 console.log(result);
                 saveErrorDataToSession(result);
-                // window.location.href = "/transaction/failed";
+                window.location.href = "/transaction/failed";
                 alert("error payment");
             },
         });
@@ -67,19 +67,22 @@ function loadMidtransScript(snapToken) {
 }
 
 function saveErrorDataToSession(errorData) {
-    fetch("/save-error-data", {
-        method: "POST",
-        headers: {
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(errorData),
-    })
-    .then((response) => response.json())
-    .then((data) => {
-        console.log("Error data saved:", data);
-    })
-    .catch((error) => {
-        console.error("Failed to save error data:", error);
-    });
+  fetch("/save-error-data", {
+      method: "POST",
+      headers: {
+          "X-CSRF-TOKEN": "{{ csrf_token() }}",
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+          code: errorData.status_code || 'UNKNOWN',
+          message: errorData.status_message || 'Terjadi kesalahan saat memproses pembayaran.'
+      }),
+  })
+  .then((response) => response.json())
+  .then((data) => {
+      console.log("Error data saved:", data);
+  })
+  .catch((error) => {
+      console.error("Failed to save error data:", error);
+  });
 }
