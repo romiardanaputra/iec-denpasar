@@ -58,7 +58,7 @@ class Profile extends Component
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user->id)],
-            'phone' => ['required', 'string', Rule::unique(User::class)->ignore($this->user->id)],
+            'phone' => ['required', 'string', Rule::unique('users', 'phone')->ignore($this->user->id)],
             'address' => ['nullable', 'string'],
             'about' => ['nullable', 'string'],
             'avatar' => ['nullable', 'string'],
