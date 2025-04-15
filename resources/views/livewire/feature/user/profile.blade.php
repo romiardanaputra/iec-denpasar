@@ -1,3 +1,14 @@
+@section('js_custom')
+  <script defer async>
+    function alertClose(alertId = 'alert') {
+      var alertElement = document.getElementById(alertId);
+      if (alertElement) {
+        alertElement.style.display = 'none';
+      }
+    }
+  </script>
+@endsection
+
 <div>
   <div class="w-full px-6 mx-auto">
     <div class="relative flex items-center p-0 mt-6 overflow-hidden bg-center bg-cover min-h-75 rounded-2xl"
@@ -106,7 +117,7 @@
             </div>
 
             <div class="mt-4">
-              <x-button
+              <x-button type="submit"
                 class="bg-blue-600 text-sm font-bold hover:bg-blue-700  mt-4 rounded-full py-6">{{ __('Simpan') }}</x-button>
             </div>
           </x-form>
@@ -181,7 +192,7 @@
             </div>
 
             <div class="mt-4">
-              <x-button
+              <x-button type="submit"
                 class="bg-blue-600 text-sm font-bold hover:bg-blue-700  mt-4 rounded-full py-6">{{ __('Simpan') }}</x-button>
             </div>
           </x-form>

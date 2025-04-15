@@ -58,7 +58,7 @@ class Profile extends Component
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user->id)],
-            'phone' => ['required', 'phone:AUTO', Rule::unique(User::class)->ignore($this->user->id)],
+            'phone' => ['required', 'string', Rule::unique(User::class)->ignore($this->user->id)],
             'address' => ['nullable', 'string'],
             'about' => ['nullable', 'string'],
             'avatar' => ['nullable', 'string'],
@@ -96,7 +96,10 @@ class Profile extends Component
     public function saveProfile()
     {
         $validatedData = $this->validate();
+        logger('Validated Data: '.json_encode($validatedData)); // Log data yang divalidasi
+        logger('User Before Update: '.json_encode($this->user->toArray())); // Log data user sebelum update
         $this->user->update($validatedData);
+        logger('User After Update: '.json_encode($this->user->toArray())); // Log data user setelah update
         session()->flash('status', 'Profile updated successfully.');
     }
 
