@@ -22,9 +22,11 @@
                         class="font-semibold text-slate-700 sm:ml-2">{{ $order->registration->student_name }}</span></span>
                     <span class="mb-2 leading-tight text-size-xs">Status Pembayaran: <span
                         class="font-semibold text-slate-700 sm:ml-2">
-                        @if ($order->payment_status === 'unpaid')
-                          Belum dibayar
-                        @endif
+                        {{ $order->payment_status }}
+                      </span></span>
+                    <span class="mb-2 leading-tight text-size-xs">Tipe Pembayaran: <span
+                        class="font-semibold text-slate-700 sm:ml-2">
+                        {{ $order->payment_method }}
                       </span></span>
                     <span class="mb-2 leading-tight text-size-xs">Nama Program: <span
                         class="font-semibold text-slate-700 sm:ml-2">{{ $order->program->name }}</span></span>

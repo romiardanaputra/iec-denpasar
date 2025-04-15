@@ -55,28 +55,40 @@
                     @if ($index < 2)
                       <p class="flex items-center gap-2 text-size-sm">
                         <x-lucide-album class="size-4 font-bold" />
-                        {{ $program }}
+                        {{ $program['name'] }} ({{ $program['count'] . ' terdaftar' }})
                       </p>
                     @endif
                   @endforeach
                   @if (@count($programs) >= 2)
                     <x-dialog>
-                      <x-dialog.trigger class="bg-transparent text-blue-600 underline font-bold">Lihat
-                        selengkapnya</x-dialog.trigger>
-                      <x-dialog.content>
-                        <x-dialog.header>
-                          <x-dialog.title class="mb-4">Rincian informasi nama pendaftar</x-dialog.title>
+                      <x-dialog.trigger
+                        class="bg-transparent text-blue-600 underline font-bold border-none hover:text-blue-600 hover:bg-transparent shadow-none -ml-3">Lihat
+                        Selengkapnya</x-dialog.trigger>
+                      <x-dialog.content class="max-h-96">
+                        <x-dialog.header class="text-left">
+                          <x-dialog.title class="mb-4">Rincian Informasi Kursus Terdaftar</x-dialog.title>
                           @foreach ($programs as $program)
-                            <p class="flex items-center gap-2 text-size-sm">
-                              <x-lucide-album class="size-4 font-bold" />
-                              {{ $program }}
-                            </p>
-                          @endforeach
+                            <div
+                              class="relative mb-4 mt-0 after:clear-both after:table after:content-[''] overflow-y-auto max-h-fit border-b-2 pb-4 border-gray-200 space-y-6">
+                              <span
+                                class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold mt-6">
+                                <x-lucide-album class="size-4 font-bold" />
+                              </span>
+                              <div class=" pl-10 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto space-y-3">
+                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Nama Program:
+                                  :
+                                  {{ $program['name'] }}</h6>
+                                <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Jumlah
+                                  Pendaftar:
 
+                                  ({{ $program['count'] . ' terdaftar' }})
+                                </p>
+                              </div>
+                            </div>
+                          @endforeach
                         </x-dialog.header>
                       </x-dialog.content>
                     </x-dialog>
-
                   @endif
                 </div>
                 <x-button wire:click="redirectToProgram"
@@ -112,25 +124,38 @@
                     @if ($index < 2)
                       <p class="flex items-center gap-2 text-size-sm">
                         <x-lucide-graduation-cap class="size-4 font-bold" />
-                        {{ $student->student_name }}
+                        {{ Str::limit($student->student_name, 15, '...') }} ({{ $student->program->name }})
                       </p>
                     @endif
                   @endforeach
-                  @if (@count($students) > 2)
+                  @if (@count($students) >= 2)
                     <x-dialog>
                       <x-dialog.trigger
-                        class="bg-transparent text-blue-600 underline font-bold border-none hover:text-blue-600 hover:bg-transparent mt-4">Lihat
-                        selengkapnya</x-dialog.trigger>
-                      <x-dialog.content>
-                        <x-dialog.header>
-                          <x-dialog.title class="mb-4">Rincian informasi nama pendaftar</x-dialog.title>
+                        class="bg-transparent text-blue-600 underline font-bold border-none hover:text-blue-600 hover:bg-transparent shadow-none -ml-3">Lihat
+                        Selengkapnya</x-dialog.trigger>
+                      <x-dialog.content class="max-h-96">
+                        <x-dialog.header class="text-left">
+                          <x-dialog.title class="mb-4">Rincian Informasi Pendaftar</x-dialog.title>
                           @foreach ($students as $student)
-                            <p class="flex items-center gap-4 mt-4 text-size-sm">
-                              <x-lucide-graduation-cap class="size-4 font-bold" />
-                              {{ $student->student_name }}
-                            </p>
-                          @endforeach
+                            <div
+                              class="relative mb-4 mt-0 after:clear-both after:table after:content-[''] overflow-y-auto max-h-fit border-b-2 pb-4 border-gray-200 space-y-6">
+                              <span
+                                class="w-6.5 h-6.5 text-size-base absolute left-4 z-10 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white text-center font-semibold mt-6">
+                                <x-lucide-graduation-cap class="size-4 font-bold" />
+                              </span>
+                              <div class=" pl-10 pt-1.4 lg:max-w-120 relative -top-1.5 w-auto space-y-3">
+                                <h6 class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Nama Pendaftar
+                                  :
+                                  {{ $student->student_name }}</h6>
+                                <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Program
+                                  Terdaftar :
+                                  {{ $student->program->name }}</p>
+                                <p class="mb-0 font-semibold leading-normal text-size-sm text-slate-700">Terdaftar pada:
+                                  {{ $student->created_at->translatedFormat('l, d F Y H:i:s') }}</p>
 
+                              </div>
+                            </div>
+                          @endforeach
                         </x-dialog.header>
                       </x-dialog.content>
                     </x-dialog>

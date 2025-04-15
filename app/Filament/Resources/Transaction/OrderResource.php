@@ -95,6 +95,8 @@ class OrderResource extends Resource
                     ->badge(),
                 Tables\Columns\TextColumn::make('payment_status')
                     ->badge(),
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('total_price')
                     ->searchable()
                     ->sortable()
@@ -203,7 +205,7 @@ class OrderResource extends Resource
         /** @var class-string<Model> $modelClass */
         $modelClass = static::$model;
 
-        return (string) $modelClass::where('status', 'processing')->count();
+        return (string) $modelClass::where('status', 'pending')->count();
     }
 
     /** @return Forms\Components\Component[] */
@@ -224,33 +226,6 @@ class OrderResource extends Resource
                 ->debounce()
                 ->preload()
                 ->native(false),
-            // ->createOptionForm([
-            //   Forms\Components\TextInput::make('name')
-            //     ->required()
-            //     ->maxLength(255),
-            //   Forms\Components\TextInput::make('email')
-            //     ->label('Email address')
-            //     ->required()
-            //     ->email()
-            //     ->maxLength(255)
-            //     ->unique(),
-            //   Forms\Components\TextInput::make('phone')
-            //     ->maxLength(255),
-            //   Forms\Components\Select::make('gender')
-            //     ->placeholder('Select gender')
-            //     ->options([
-            //       'male' => 'Male',
-            //       'female' => 'Female',
-            //     ])
-            //     ->required()
-            //     ->native(false),
-            // ])
-            // ->createOptionAction(function (Action $action) {
-            //   return $action
-            //     ->modalHeading('Create user')
-            //     ->modalSubmitActionLabel('Create user')
-            //     ->modalWidth('lg');
-            // }),
             Forms\Components\Select::make('program_id')
                 ->relationship('program', 'name')
                 ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('total_price', Program::find($state)?->price ?? 0))
@@ -268,6 +243,12 @@ class OrderResource extends Resource
                 ->inline()
                 ->options(OrderStatus::class)
                 ->required(),
+            Forms\Components\ToggleButtons::make('payment_method')
+                ->inline()
+                ->options([
+                    'cash' => 'Cash',
+                    'online' => 'Online',
+                ]),
             Forms\Components\ToggleButtons::make('payment_status')
                 ->inline()
                 ->options([

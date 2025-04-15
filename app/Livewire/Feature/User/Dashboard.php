@@ -31,7 +31,9 @@ class Dashboard extends Component
 
             // Cache students list
             $this->students = Cache::remember('user_students_'.auth()->user()->id, now()->addMinutes(15), function () {
-                return Registration::where('user_id', auth()->id())->orderByDesc('id')->get();
+                return Registration::where('user_id', auth()->id())
+                    ->orderByDesc('id')
+                    ->get();
             });
 
             // Set default selected student name if needed
@@ -82,11 +84,15 @@ class Dashboard extends Component
             $this->programs = Cache::remember('user_programs_'.auth()->user()->id.'_'.$this->selectedStudentName, now()->addMinutes(15), function () {
                 return Registration::where('user_id', auth()->id())
                     ->where('student_name', $this->selectedStudentName)
-                    ->orderByDesc('id')
                     ->with('program')
                     ->get()
-                    ->pluck('program.name')
-                    ->unique()
+                    ->groupBy('program.name')
+                    ->map(function ($registrations, $programName) {
+                        return [
+                            'name' => $programName,
+                            'count' => $registrations->count(),
+                        ];
+                    })
                     ->values();
             });
         } else {
@@ -113,7 +119,7 @@ class Dashboard extends Component
 
     public function redirectToGrade()
     {
-        $this->redirectRoute('grade');
+        $this->redirectRoute('exam-grade');
     }
 
     public function redirectToProfile()

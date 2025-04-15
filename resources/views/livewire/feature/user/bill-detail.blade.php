@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto p-6 bg-white rounded shadow-sm my-6" id="invoice">
+<div class="max-w-screen-xl mx-auto p-6 bg-white rounded shadow-sm my-6" id="invoice">
   <div class="grid grid-cols-2 items-center">
     <div>
       <!--  Company logo  -->
@@ -8,19 +8,19 @@
         {{ asset('storage/assets/logo/iec-logo-medium.webp') }} 768w,
         {{ asset('storage/assets/logo/iec-logo-large.webp') }} 1024w
     "
-        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1024px" class="h-8"
+        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1024px" class="h-20"
         alt="{{ config('app.name') . ' logo' }}" loading="lazy">
     </div>
 
     <div class="text-right">
       <p>
-        Intensive English Course (IEC) Denpasar
+        {{ config('mail.from.name') }}
       </p>
-      <p class="text-gray-500 text-sm">
-        iecdps.official@gmail.com
+      <p class="text-gray-500 text-base">
+        {{ config('mail.from.address') }}
       </p>
       <p class="text-gray-500 text-sm mt-1">
-        +620874715370
+        +62 817-4715-370
       </p>
     </div>
   </div>
@@ -31,23 +31,37 @@
       <p class="font-bold text-gray-800">
         Bill to :
       </p>
-      <p class="text-gray-500">
+      <p class="text-gray-600 font-medium">
         {{ $order->user->name }}
         <br />
-        {{ $order->user->address ?? 'alamat belum di set' }}
+        <span class="{{ !$order->user->address ? 'text-yellow-600' : '' }}">
+          @if (!$order->user->address)
+            <a class="underline animate-pulse capitalize font-bold"
+              href="{{ route('profile') }}">{{ $order->user->address ?? 'Klik untuk update alamat anda!' }}</a>
+          @else
+            {{ $order->user->address ?? 'Update alamat anda pada profile' }}
+          @endif
+        </span>
       </p>
-      <p class="text-gray-500">
+      <p class="text-gray-600 font-medium">
         {{ $order->user->email }}
       </p>
+      <div class="py-4 ">
+        <p>
+          Tipe pembayaran : <span class="font-bold capitalize"> {{ $order->payment_method }}</span>
+        </p>
+
+      </div>
+
     </div>
 
-    <div class="text-right">
-      <p class="">
-        Order Number:
-        <span class="text-gray-500">{{ $order->order_id }}</span>
+    <div class="text-right space-y-2">
+      <p class="font-semibold text-gray-900">
+        Order Number: <br>
+        <span class="font-normal text-gray-500">{{ $order->order_id }}</span>
       </p>
-      <p>
-        Expire Pay date: <span class="text-gray-500">
+      <p class="font-semibold text-gray-900">
+        Bayar Sebelum: <br> <span class= "font-normal text-gray-500">
           {{ \Carbon\Carbon::parse($order->payments->first()->expired_at)->translatedFormat('l, d F Y H:i') }}</span>
       </p>
     </div>
@@ -76,8 +90,8 @@
       <tbody>
         <tr class="border-b border-gray-200">
           <td class="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
-            <div class="font-medium text-gray-900">{{ $order->program->name }}</div>
-            <div class="mt-1 truncate text-gray-500">{{ Str::limit($order->program->short_description, 100) }}</div>
+            <div class="font-bold text-base text-gray-900">{{ $order->program->name }}</div>
+            <div class="mt-1 text-gray-500">{{ Str::limit($order->program->short_description, 200) }}</div>
           </td>
           <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
             {{ $order->items->first()->quantity }}</td>
@@ -101,18 +115,21 @@
         </tr>
         <tr>
           <th scope="row" colspan="3"
-            class="hidden pl-4 pr-3 pt-4 text-right text-sm font-semibold text-gray-900 sm:table-cell sm:pl-0">Total
+            class="hidden pl-4 pr-3 pt-4 text-right text-sm font-bold text-gray-900 sm:table-cell sm:pl-0">Total
           </th>
           <th scope="row" class="pl-6 pr-3 pt-4 text-left text-sm font-semibold text-gray-900 sm:hidden">Total</th>
-          <td class="pl-3 pr-4 pt-4 text-right text-sm font-semibold text-gray-900 sm:pr-0">
+          <td class="pl-3 pr-4 pt-4 text-right text-sm font-bold text-gray-900 sm:pr-0">
             {{ 'Rp ' . number_format($order->total_price, 0, ',', '.') }}</td>
         </tr>
       </tfoot>
     </table>
     <!-- Payment Button -->
-    <button type="button" id="pay-button" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full">Pay Now</button>
+    @if (!$order->payment_method === 'cash')
+      <button type="button" id="pay-button" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full">Pay Now</button>
+    @endif
     <!-- Print Button -->
-    <button type="button" id="print-button" class="mt-4 bg-green-500 text-white px-4 py-2 rounded-full ml-4">Download
+    <button type="button" id="print-button"
+      class="mt-4 bg-green-500 text-white px-4 py-2 rounded-full {{ !$order->payment_method === 'cash' ? 'ml-4' : '' }}">Download
       Invoice</button>
   </div>
 
@@ -128,6 +145,7 @@
   </script>
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       console.log('DOM fully loaded and parsed');
@@ -161,19 +179,24 @@
           console.log('Print button clicked');
           var element = document.getElementById('invoice');
           if (element) {
-            html2canvas(element).then(function(canvas) {
-              console.log('Canvas generated');
-              var imgData = canvas.toDataURL('image/png');
-              var pdf = new window.jspdf
-                .jsPDF(); // Use window.jspdf.jsPDF to ensure it's correctly referenced
-              var imgProps = pdf.getImageProperties(imgData);
-              var pdfWidth = pdf.internal.pageSize.getWidth();
-              var pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-              pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-              pdf.save('invoice.pdf');
-            }).catch(function(error) {
-              console.error('Error generating canvas:', error);
-            });
+            var opt = {
+              margin: 1,
+              filename: 'invoice tagihan.pdf',
+              image: {
+                type: 'jpeg',
+                quality: 0.98
+              },
+              html2canvas: {
+                scale: 2
+              },
+              jsPDF: {
+                unit: 'mm',
+                format: 'a4',
+                orientation: 'landscape'
+              }
+            };
+
+            html2pdf().from(element).set(opt).save();
           } else {
             console.error('#invoice element not found');
           }
