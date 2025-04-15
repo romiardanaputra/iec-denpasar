@@ -23,11 +23,11 @@
       }
     </style>
 
-    @if (auth()->check() && auth()->user()->isAdmin())
+    {{-- @if (auth()->check() && auth()->user()->isAdmin())
       <meta name="robots" content="noindex, nofollow">
     @elseif(Route::is('admin.*'))
       <meta name="robots" content="noindex, nofollow">
-    @endif
+    @endif --}}
 
     {!! SEO::generate(true) !!}
 
