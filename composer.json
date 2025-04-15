@@ -17,6 +17,7 @@
     "filament/spatie-laravel-translatable-plugin": "^3.2",
     "flowframe/laravel-trend": "^0.3.0",
     "laravel/framework": "^11.9",
+    "laravel/reverb": "^1.0",
     "laravel/socialite": "^5.16",
     "laravel/tinker": "^2.9",
     "livewire/livewire": "^3.5",
@@ -25,6 +26,7 @@
     "midtrans/midtrans-php": "^2.6",
     "nunomaduro/termwind": "^2.3",
     "propaganistas/laravel-phone": "^5.3",
+    "pusher/pusher-php-server": "^7.2",
     "ramsey/uuid": "^4.7",
     "spatie/laravel-medialibrary": "^11.12",
     "spatie/laravel-sitemap": "^7.3"
