@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->longText('short_description');
             $table->string('image');
+            $table->string('mentor_class');
             $table->string('linkedin')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
