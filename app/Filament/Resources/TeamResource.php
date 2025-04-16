@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\TeamResource\Pages;
 use App\Filament\Resources\TeamResource\Widgets\TeamStats;
+use App\Models\Program\Program;
 use App\Models\Team;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -44,12 +45,13 @@ class TeamResource extends Resource
                                     ->label(__('Slug'))
                                     ->disabled()
                                     ->required()
+                                    ->dehydrated()
                                     ->unique(Team::class, 'slug', ignoreRecord: true),
-                                Forms\Components\TextInput::make('mentor_class')
+                                Forms\Components\Select::make('mentor_class')
                                     ->label(__('Mentor Class'))
-                                    ->required()
-                                    ->minLength(2)
-                                    ->maxLength(255),
+                                    ->options(Program::pluck('name', 'program_id')->toArray())
+                                    ->searchable()
+                                    ->required(),
                                 Forms\Components\TextInput::make('age')
                                     ->label(__('Age'))
                                     ->numeric()
