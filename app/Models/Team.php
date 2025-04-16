@@ -28,6 +28,7 @@ class Team extends Model
         'age',
         'gender',
         'short_description',
+        'mentor_class',
         'image',
         'linkedin',
         'facebook',

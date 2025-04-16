@@ -25,7 +25,6 @@ class TeamSeeder extends Seeder
                 'facebook' => 'https://www.facebook.com/romiardanap',
                 'instagram' => 'https://www.instagram.com/romiardanap_/',
                 'whatsapp' => 'https://www.whatsapp.com/?lang=id_ID',
-
                 'is_active' => 1,
             ],
             [
