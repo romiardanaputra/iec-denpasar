@@ -123,13 +123,13 @@
         </tr>
       </tfoot>
     </table>
-    <!-- Payment Button -->
-    @if (!$order->payment_method === 'cash')
-      <button type="button" id="pay-button" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full">Pay Now</button>
+    @if ($order->payment_method->value === \App\Enums\PaymentMethod::Online->value)
+      <button type="button" id="pay-button" class="mt-4 mr-4 bg-blue-600 text-white px-4 py-2 rounded-full">Pay
+        Now</button>
     @endif
     <!-- Print Button -->
     <button type="button" id="print-button"
-      class="mt-4 bg-green-500 text-white px-4 py-2 rounded-full {{ !$order->payment_method === 'cash' ? 'ml-4' : '' }}">Download
+      class="mt-4 bg-green-500 text-white px-4 py-2 rounded-full {{ !$order->payment_method->value === 'cash' ? 'ml-4' : '' }}">Download
       Invoice</button>
   </div>
 
