@@ -28,12 +28,12 @@
     </div>
 
     <x-tabs defaultValue="pending" class="w-full">
-      <x-tabs.List>
+      <x-tabs.list>
         <x-tabs.trigger value="pending">Pending</x-tabs.trigger>
         <x-tabs.trigger value="paid">Paid</x-tabs.trigger>
         <x-tabs.trigger value="failed">Failed</x-tabs.trigger>
         <x-tabs.trigger value="expired">Expired</x-tabs.trigger>
-      </x-tabs.List>
+      </x-tabs.list>
 
       <x-tabs.content value="pending">
         @forelse ($pendingOrders as $order)
