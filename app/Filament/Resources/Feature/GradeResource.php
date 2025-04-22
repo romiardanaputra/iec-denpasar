@@ -33,7 +33,16 @@ class GradeResource extends Resource
                         Forms\Components\Select::make('registration_id')
                             ->label('Nama Siswa')
                             ->helperText('Nama akun siswa yang didaftarkan oleh pengguna website')
-                            ->options(Registration::query()->pluck('student_name', 'id'))
+                            ->options(
+                                Registration::query()
+                                    ->with('program')
+                                    ->get()
+                                    ->mapWithKeys(function ($registration) {
+                                        return [
+                                            $registration->id => "{$registration->student_name} ({$registration->program->name})",
+                                        ];
+                                    })
+                            )
                             ->afterStateUpdated(function ($state, Forms\Set $set) {
                                 if ($state) {
                                     $registration = Registration::find($state);
