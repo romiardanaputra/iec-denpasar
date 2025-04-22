@@ -192,7 +192,7 @@
                             Strong Areas
                           </x-typography.p>
                           <x-typography.p class="">
-                            {{ $grade->strong_area }}
+                            {!! nl2br($grade->strong_area) !!}
                           </x-typography.p>
                         </div>
                         <div class="bg-[#FFF7ED] p-4">
@@ -201,7 +201,7 @@
                             Improvement Area
                           </x-typography.p>
                           <x-typography.p class="">
-                            {{ $grade->improvement_area }}
+                            {!! nl2br($grade->improvement_area) !!}
                           </x-typography.p>
                         </div>
                         <div class="bg-[#EFF6FF] p-4">
@@ -210,7 +210,7 @@
                             Weak Area
                           </x-typography.p>
                           <x-typography.p class="">
-                            {{ $grade->weak_area }}
+                            {!! nl2br($grade->weak_area) !!}
                           </x-typography.p>
                         </div>
                       </div>
