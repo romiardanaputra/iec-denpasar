@@ -43,7 +43,6 @@
                 <p class="font-bold text-center w-8/12">Anda belum mendaftar ke program kursus apapun.</p>
                 <x-button wire:click="redirectToProgram"
                   class="bg-blue-600 font-bold hover:bg-blue-700 w-fit mt-4 rounded-full py-4">{{ __('Daftar Kursus') }}</x-button>
-
               </div>
             @else
               <div class="flex flex-col h-full">
@@ -190,87 +189,94 @@
             </div>
           @else
             <div class="border-black/12.5 mb-0 rounded-t-2xl border-b-0 border-solid bg-white p-6 pb-0">
-              <x-tabs :defaultValue="$selectedStudentName" class="w-full">
-                <x-tabs.list>
-                  @foreach ($students as $student)
-                    <x-tabs.trigger wire:click="selectStudent('{{ $student->student_name }}')"
-                      value="{{ $student->student_name }}">{{ $student->student_name }}</x-tabs.trigger>
-                  @endforeach
-                </x-tabs.list>
+              <div class="flex flex-wrap mt-0 -mx-3">
+                <div class="flex-none w-7/12 max-w-full px-3 mt-0 lg:w-1/2 lg:flex-none">
+                  <h6>Jadwal Kursus</h6>
+                  <p class="mb-0 leading-normal text-size-sm">
+                    <i class="fa fa-check text-cyan-500"></i>
+                    <span class="ml-1 font-semibold">Intensive English Course (IEC) Denpasar</span>
+                  </p>
+                </div>
+              </div>
+              <div class="flex-auto p-6 px-0 pb-2">
+                <div class="overflow-x-auto">
+                  <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                    <thead class="align-bottom">
+                      <tr>
+                        @php
+                          $headers = ['Student Name', 'Program', 'Time Class', 'Daily Class', 'Action'];
+                        @endphp
+                        @for ($i = 0; $i < count($headers); $i++)
+                          <th
+                            class="px-6 py-3 font-bold tracking-normal {{ $i == 0 ? 'text-left' : 'text-center' }} uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
+                            {{ $headers[$i] }}
+                          </th>
+                        @endfor
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($schedules as $schedule)
+                        <tr>
+                          <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
+                            <div class="flex flex-col justify-center">
+                              <h6 class="mb-0 leading-normal text-size-sm">
+                                {{ $schedule->registration->student_name }}</h6>
+                            </div>
+                          </td>
+                          <td
+                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                            <span
+                              class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->program->name }}</span>
+                          </td>
+                          <td
+                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                            <span
+                              class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->time->time_start }}
+                              - {{ $schedule->classSchedule->time->time_end }} </span>
+                          </td>
 
-                @foreach ($students as $student)
-                  <x-tabs.content value="{{ $student->student_name }}">
-                    <div class="flex flex-wrap mt-0 -mx-3">
-                      <div class="flex-none w-7/12 max-w-full px-3 mt-0 lg:w-1/2 lg:flex-none">
-                        <h6>Jadwal Kursus</h6>
-                        <p class="mb-0 leading-normal text-size-sm">
-                          <i class="fa fa-check text-cyan-500"></i>
-                          <span class="ml-1 font-semibold">{{ $student->program->name }}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div class="flex-auto p-6 px-0 pb-2">
-                      <div class="overflow-x-auto">
-                        <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                          <thead class="align-bottom">
-                            <tr>
-                              @php
-                                $headers = ['Teacher Name', 'Class Code', 'Start class', 'End class', 'Daily Class'];
-                              @endphp
-                              @for ($i = 0; $i < count($headers); $i++)
-                                <th
-                                  class="px-6 py-3 font-bold tracking-normal {{ $i == 0 ? 'text-left' : 'text-center' }} uppercase align-middle bg-transparent border-b letter border-b-solid text-size-xxs whitespace-nowrap border-b-gray-200 text-slate-400 opacity-70">
-                                  {{ $headers[$i] }}
-                                </th>
-                              @endfor
-                            </tr>
-                          </thead>
-                          <tbody>
-                            @foreach ($schedules as $schedule)
-                              <tr>
-                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap">
-                                  <div class="flex px-2 py-1">
-                                    <div>
-                                      <img
-                                        class="inline-flex items-center justify-center mr-4 text-white transition-all duration-200 ease-soft-in-out text-size-sm h-9 w-9 rounded-xl"
-                                        src="{{ $schedule->classSchedule->team->image ? (Str::startsWith($schedule->classSchedule->team->image, 'http') ? $schedule->classSchedule->team->image : asset('storage/' . $schedule->classSchedule->team->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
-                                        alt="{{ $schedule->classSchedule->team->image }}" />
+                          <td
+                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                            <span
+                              class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->day->day_name }}</span>
+                          </td>
+
+                          <td
+                            class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
+                            <span class="font-semibold leading-tight text-size-xs">
+                              <x-dialog>
+                                <x-dialog.trigger
+                                  class="bg-transparent border border-blue-600 text-blue-600 rounded-full">Lihat
+                                  Detail</x-dialog.trigger>
+                                <x-dialog.content>
+                                  <x-dialog.header>
+                                    <x-dialog.title class="mb-8">Detail Jadwal
+                                      {{ $schedule->classSchedule->program->name }}</x-dialog.title>
+                                    <div class="space-y-2 mt-4 text-base">
+                                      <p>Student : {{ $schedule->registration->student_name }}</p>
+                                      <p>Program : {{ $schedule->classSchedule->program->name }}</p>
+                                      <p>Jam Mulai : {{ $schedule->classSchedule->time->time_start }}</p>
+                                      <p>Jam Selesai : {{ $schedule->classSchedule->time->time_end }}</p>
+                                      <p>Setiap Hari : {{ $schedule->classSchedule->day->day_name }}</p>
+                                      <p class="text-base">Pengajar :
+                                        <img
+                                          class="inline-flex items-center justify-center mr-2 text-white transition-all duration-200 ease-soft-in-out text-size-sm size-12 rounded-full"
+                                          src="{{ $schedule->classSchedule->team->image ? (Str::startsWith($schedule->classSchedule->team->image, 'http') ? $schedule->classSchedule->team->image : asset('storage/' . $schedule->classSchedule->team->image)) : 'https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png' }}"
+                                          alt="{{ $schedule->classSchedule->team->image }}" />
+                                        {{ $schedule->classSchedule->team->name }}
+                                      </p>
                                     </div>
-                                    <div class="flex flex-col justify-center">
-                                      <h6 class="mb-0 leading-normal text-size-sm">
-                                        {{ $schedule->classSchedule->team->name }}</h6>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td
-                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                                  <span
-                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->class_code }}</span>
-                                </td>
-                                <td
-                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                                  <span
-                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->time->time_start }}</span>
-                                </td>
-                                <td
-                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                                  <span
-                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->time->time_end }}</span>
-                                </td>
-                                <td
-                                  class="p-2 leading-normal text-center align-middle bg-transparent border-b text-size-sm whitespace-nowrap">
-                                  <span
-                                    class="font-semibold leading-tight text-size-xs">{{ $schedule->classSchedule->day->day_name }}</span>
-                                </td>
-                              </tr>
-                            @endforeach
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </x-tabs.content>
-                @endforeach
-              </x-tabs>
+                                  </x-dialog.header>
+                                </x-dialog.content>
+                              </x-dialog>
+                            </span>
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           @endif
 
