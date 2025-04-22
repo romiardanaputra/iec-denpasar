@@ -21,7 +21,7 @@
     <ul class="flex flex-col pl-0 mb-0">
       <x-sidebar.side-link :routeName="'dashboard'" :routeLabel="'Dashboard'" />
       <li class="w-full mt-4">
-        <h6 class="pl-2 ml-2 font-bold leading-tight uppercase text-size-xs opacity-60">
+        <h6 class="pl-6 ml-2 font-bold leading-tight uppercase text-size-xs opacity-60">
           Course Detail</h6>
       </li>
       <x-sidebar.side-link :routeName="'profile'" :routeLabel="'Profile'" />

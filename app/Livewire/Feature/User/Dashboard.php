@@ -15,8 +15,6 @@ class Dashboard extends Component
 {
     public $user;
 
-    public $selectedStudentName;
-
     public $students;
 
     public $schedules;
@@ -26,24 +24,17 @@ class Dashboard extends Component
     public function mount()
     {
         $authUser = auth()->user();
+        $cacheKey = "iecdenpasar:dashboard:user:{$authUser->id}:student";
+        $cacheTime = now()->addMinutes(15);
+        $cacheCallback = function () {
+            return Registration::where('user_id', auth()->id())
+                ->orderByDesc('id')
+                ->get();
+        };
+
         if ($authUser && $authUser->hasVerifiedEmail()) {
             $this->user = $authUser;
-
-            // Cache students list
-            $this->students = Cache::remember('user_students_'.auth()->user()->id, now()->addMinutes(15), function () {
-                return Registration::where('user_id', auth()->id())
-                    ->orderByDesc('id')
-                    ->get();
-            });
-
-            // Set default selected student name if needed
-            if ($this->students->isNotEmpty()) {
-                $this->selectedStudentName = $this->students->first()->student_name;
-            } else {
-                $this->selectedStudentName = null;
-            }
-
-            // Fetch schedules and programs for the default selected student
+            $this->students = Cache::remember($cacheKey, $cacheTime, $cacheCallback);
             $this->fetchSchedules();
             $this->fetchPrograms();
         } else {
@@ -54,7 +45,9 @@ class Dashboard extends Component
     public function getOrder()
     {
         if (auth()->check() && auth()->user()->hasVerifiedEmail()) {
-            return Order::with(['program'])->where('user_id', auth()->user()->id)->orderByDesc('id')
+            return Order::with(['program'])
+                ->where('user_id', auth()->user()->id)
+                ->orderByDesc('id')
                 ->where('payment_status', 'unpaid')
                 ->get();
         }
@@ -64,52 +57,46 @@ class Dashboard extends Component
 
     public function fetchSchedules()
     {
-        if ($this->selectedStudentName) {
-            $this->schedules = Cache::remember('user_schedules_'.auth()->user()->id.'_'.$this->selectedStudentName, now()->addMinutes(15), function () {
-                return RegistrationSchedule::with(['registration', 'classSchedule'])
-                    ->whereHas('registration', function ($query) {
-                        $query->where('user_id', auth()->id());
-                        $query->where('student_name', $this->selectedStudentName);
-                    })
-                    ->get();
-            });
-        } else {
-            $this->schedules = collect([]); // Ensure schedules is an empty collection
-        }
+        $authId = auth()->user()->id;
+        $cacheKey = "iecdenpasar:dashboard:user:{$authId}:schedule";
+        $cacheTime = now()->addMinutes(15);
+        $cacheCallback = function () {
+            return RegistrationSchedule::with(['registration', 'classSchedule'])
+                ->whereHas('registration', function ($query) {
+                    $query->where('user_id', auth()->id());
+                })
+                ->get();
+        };
+
+        $this->schedules = Cache::remember($cacheKey, $cacheTime, $cacheCallback);
     }
 
     public function fetchPrograms()
     {
-        if ($this->selectedStudentName) {
-            $this->programs = Cache::remember('user_programs_'.auth()->user()->id.'_'.$this->selectedStudentName, now()->addMinutes(15), function () {
-                return Registration::where('user_id', auth()->id())
-                    ->where('student_name', $this->selectedStudentName)
-                    ->with('program')
-                    ->get()
-                    ->groupBy('program.name')
-                    ->map(function ($registrations, $programName) {
-                        return [
-                            'name' => $programName,
-                            'count' => $registrations->count(),
-                        ];
-                    })
-                    ->values();
-            });
-        } else {
-            $this->programs = collect([]); // Ensure programs is an empty collection
-        }
-    }
+        $authId = auth()->user()->id;
+        // $programIds = Registration::where('user_id', $authId)->pluck('id')->implode(':');
+        $cacheKey = "iecdenpasar:dashboard:user:{$authId}:program";
+        $cacheTime = now()->addMinutes(15);
+        $cacheCallback = function () {
+            return Registration::where('user_id', auth()->id())
+                ->with('program')
+                ->get()
+                ->groupBy('program.name')
+                ->map(function ($registrations, $programName) {
+                    return [
+                        'name' => $programName,
+                        'count' => $registrations->count(),
+                    ];
+                })
+                ->values();
+        };
+        $this->programs = Cache::remember($cacheKey, $cacheTime, $cacheCallback);
 
-    public function selectStudent($studentName)
-    {
-        $this->selectedStudentName = $studentName;
-        $this->fetchSchedules();
-        $this->fetchPrograms();
     }
 
     public function redirectToProgram()
     {
-        return redirect()->route('our-program');
+        $this->redirectRoute('our-program');
     }
 
     public function redirectToBill()
@@ -144,7 +131,6 @@ class Dashboard extends Component
             'programs' => $this->programs,
         ];
 
-        // dd($data);
         return view('livewire.feature.user.dashboard', $data);
     }
 }

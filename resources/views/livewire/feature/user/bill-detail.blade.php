@@ -1,4 +1,19 @@
-<div class="max-w-screen-xl mx-auto p-6 bg-white rounded shadow-sm my-6" id="invoice">
+<div class="max-w-screen-xl mx-auto p-6 bg-white rounded shadow-lg my-6 relative overflow-hidden" id="invoice">
+
+  <div class="absolute left-0 top-0 h-16 w-16">
+    @switch($order->payment_status)
+      @case(\App\Enums\PaymentStatus::Paid)
+        <div
+          class="absolute transform -rotate-45 bg-green-600 text-center text-white font-semibold py-1 left-[-34px] top-[32px] w-[170px]">
+          Lunas
+        </div>
+      @break
+
+      @default
+        <div></div>
+    @endswitch
+  </div>
+
   <div class="grid grid-cols-2 items-center">
     <div>
       <!--  Company logo  -->
@@ -50,6 +65,30 @@
         <p>
           Tipe pembayaran : <span class="font-bold capitalize"> {{ $order->payment_method }}</span>
         </p>
+        @switch($order->payment_status)
+          @case(\App\Enums\PaymentStatus::Unpaid)
+            <p>
+              Status pembayaran : <span class="font-bold capitalize">Belum Dibayar</span>
+            </p>
+          @break
+
+          @case(\App\Enums\PaymentStatus::Paid)
+            <p>
+              Status pembayaran : <span class="font-bold capitalize">Lunas</span>
+            </p>
+          @break
+
+          @case(\App\Enums\PaymentStatus::Expired)
+            <p>
+              Status pembayaran : <span class="font-bold capitalize">Pembayaran Kadaluarsa</span>
+            </p>
+          @break
+
+          @default
+            <p>
+              Status pembayaran : <span class="font-bold capitalize">-</span>
+            </p>
+        @endswitch
 
       </div>
 
@@ -123,14 +162,25 @@
         </tr>
       </tfoot>
     </table>
-    <!-- Payment Button -->
-    @if (!$order->payment_method === 'cash')
-      <button type="button" id="pay-button" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-full">Pay Now</button>
-    @endif
-    <!-- Print Button -->
-    <button type="button" id="print-button"
-      class="mt-4 bg-green-500 text-white px-4 py-2 rounded-full {{ !$order->payment_method === 'cash' ? 'ml-4' : '' }}">Download
-      Invoice</button>
+
+    @switch($order->payment_status)
+      @case(\App\Enums\PaymentStatus::Paid)
+        <!-- Print Button -->
+        <button type="button" id="print-button"
+          class="mt-4 bg-green-500 text-white px-4 py-2 rounded-full {{ !$order->payment_method->value === 'cash' ? 'ml-4' : '' }}">Download
+          Invoice</button>
+      @break
+
+      @case(\App\Enums\PaymentStatus::Unpaid)
+        @if ($order->payment_method->value === \App\Enums\PaymentMethod::Online->value)
+          <button type="button" id="pay-button" class="mt-4 mr-4 bg-blue-600 text-white px-4 py-2 rounded-full">Pay
+            Now</button>
+        @endif
+      @break
+
+      @default
+    @endswitch
+
   </div>
 
   <!--  Footer  -->

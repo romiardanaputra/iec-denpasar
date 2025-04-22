@@ -32,7 +32,7 @@
         </x-typography.p>
         <x-typography.list>
           @forelse ($program->detail->benefits as $benefit)
-            <li class="text-gray-600 font-[lato]">{{ __($benefit['item']) }}</li>
+            <li class="text-gray-600 font-[lato]">{{ __($benefit['item']) ?? 'Tidak ada list yang dicantumkan' }}</li>
           @empty
             <li>{{ __('tidak ada manfaat list yang dimasukkan') }}</li>
           @endforelse
@@ -57,13 +57,25 @@
         </div>
         <div class="flex w-full">
           @guest
-            <div class="flex justify-center items-center mt-8">
-              <button wire:click="redirectToBill"
-                class="relative flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg transform hover:scale-105 transition-transform duration-200">
-                <span class="absolute inset-0 rounded-full bg-blue-500 opacity-20 animate-ping"></span>
-                <span class="relative z-10">Daftar kursus sekarang!</span>
-              </button>
-            </div>
+            <x-dialog>
+              <x-dialog.trigger class="bg-blue-600 hover:bg-blue-700 rounded-full hover:text-white">Daftar Kursus
+                Sekarang!</x-dialog.trigger>
+              <x-dialog.content>
+                <x-dialog.header>
+                  <x-dialog.title>Anda belum login!</x-dialog.title>
+                  <x-dialog.description>
+                    Anda akan diarahkan menuju halaman login untuk melanjutkan proses pendaftaran kursus.
+                  </x-dialog.description>
+                  <x-dialog.footer>
+                    <x-button wire:click='redirectLogin' class="bg-blue-600 hover:bg-blue-700 rounded-full ">
+                      <i class="fa fa-user sm:mr-1"></i>
+                      <span class="">Login Sekarang</span>
+                    </x-button>
+                  </x-dialog.footer>
+                </x-dialog.header>
+              </x-dialog.content>
+            </x-dialog>
+
           @endguest
           @auth
             <a href="{{ route('checkout', ['slug' => $program->slug]) }}">

@@ -59,9 +59,9 @@ class ProgramDetail extends Component
         }
     }
 
-    public function redirectToBill()
+    public function redirectLogin()
     {
-        return redirect()->route('bill');
+        return redirect()->route('login');
     }
 
     public function render()
