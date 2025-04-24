@@ -21,17 +21,27 @@
       [x-cloak] {
         display: none !important;
       }
-
-      /* #loading-overlay {
-        display: flex;
-      }
-
-      #loading-overlay.hidden {
-        display: none;
-      } */
     </style>
 
-    {!! SEO::generate(true) !!}
+    @if (
+        !Route::is(
+            'login',
+            'register',
+            'forgot.password',
+            'password.reset',
+            'dashboard',
+            'profile',
+            'bill',
+            'bill.detail',
+            'invoice',
+            'exam-grade',
+            'payment.success',
+            'payment.pending',
+            'payment.failed'))
+      {!! SEO::generate(true) !!}
+    @else
+      <meta name="robots" content="noindex, nofollow">
+    @endif
 
     @if (Route::is('dashboard', 'profile', 'bill', 'bill.detail', 'invoice', 'exam-grade'))
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.5/umd/popper.min.js"></script>
@@ -45,11 +55,6 @@
 
   </head>
   <body class="antialiased">
-    {{-- <div id="loading-overlay" class="fixed inset-0 flex items-center justify-center bg-gray-200 bg-opacity-75 z-50">
-      <dotlottie-player src="https://lottie.host/f1e4f90d-446d-47ba-9bb0-0f28ab0eecd8/WbnWELpfqt.lottie"
-        background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
-    </div> --}}
-
     <div class="w-full">
       @if (auth()->check() && auth()->user()->hasVerifiedEmail() && auth()->user()->isUser())
         @if (!Route::is('verification.notice', 'verification.verify'))
@@ -135,15 +140,6 @@
       <script async defer src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
       <script async defer src="{{ asset('assets/js/soft-ui-dashboard-tailwind.js?v=1.0.3') }}"></script>
     @endif
-
-    {{-- <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-    <script>
-      window.onload = function() {
-        var loadingOverlay = document.getElementById('loading-overlay');
-        loadingOverlay.classList.add('hidden');
-      };
-    </script> --}}
-
     @yield('js_custom')
   </body>
 </html>
