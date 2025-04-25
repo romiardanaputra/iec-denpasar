@@ -15,14 +15,13 @@
     </nav>
 
     <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 xl:gap-4 ">
-      <div class="items-center md:ml-auto md:pr-4">
+      <div class="items-center w-full lg:w-auto  md:ml-auto md:pr-4">
         <div class="ml-2 relative flex flex-wrap items-center  transition-all rounded-full ease-soft">
           <x-input placeholder="search here..." class="pl-10 py-2 rounded-full" id="search" />
           <x-lucide-search class="size-4 absolute left-0 ml-4" />
         </div>
       </div>
-      <ul
-        class="flex flex-row justify-end pl-0 mb-0 list-none w-fit md-max:w-full {{ Request::is('rtl') ? 'pr-10 ml-0 mr-auto' : '' }}">
+      <ul class="flex flex-row justify-end pl-0 mb-0 list-none w-2/4 lg:w-auto md-max:w-full ml-2">
         <li class="flex items-center">
           <a href="javascript:;"
             class="block px-0 py-2 font-semibold transition-all ease-nav-brand text-size-sm text-slate-500">

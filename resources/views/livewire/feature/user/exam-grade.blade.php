@@ -69,7 +69,7 @@
     </div>
     <!-- Filter Section -->
   @else
-    <section class="mb-4">
+    <section class="mb-4 p-2">
       <div class="flex flex-col md:flex-row gap-4">
         <div class="relative w-full max-w-sm">
           <input id="searchStudentProgram" wire:model.live.debounce.300ms="search"
@@ -129,11 +129,11 @@
       </div>
     </section>
 
-    <section class="w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
+    <section class="max-w-full w-full grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4">
       @foreach ($grades as $key => $grade)
         <x-card class="w-full m-2 cursor-pointer border border-solid border-gray-200"
           wire:key="card-{{ $grade->id }}">
-          <x-card.header class="flex-row justify-between p-6 pb-4">
+          <x-card.header class="flex-col sm:flex-row justify-between p-6 pb-4">
             <div class="flex flex-col">
               <x-card.title class="text-lg font-bold">{{ $grade->registration->program->name }} -
                 {{ $grade->level_name }}</x-card.title>

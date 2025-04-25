@@ -13,7 +13,7 @@
   $icon = $icons[$routeName] ?? 'lucide-layout-dashboard';
 @endphp
 <li class="mt-0.5 w-full">
-  <a class="py-2.7 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
+  <a class="py-2 text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors
           {{ Request::is($routeName) ? 'border border-gray-200 border-solid rounded-full bg-white font-semibold text-slate-700' : '' }}"
     href="{{ route($routeName) }}">
     <div

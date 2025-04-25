@@ -4,7 +4,7 @@
       <div class="mb-4 p-2 flex md:flex-nowrap flex-wrap gap-4 md:items-center justify-between bg-white rounded-2xl">
         <!-- Search Input -->
         <div class="w-full md:max-w-sm flex items-center gap-2 relative">
-          <input type="text" wire:model="search"
+          <input name="search" type="text" wire:model="search"
             class="h-10 border border-gray-300 text-gray-900 pl-11 pr-16 text-sm font-normal leading-7 rounded-full block w-full py-2.5 appearance-none relative outline-none bg-white  hover:border-gray-400 hover:bg-gray-50 focus-within:bg-gray-50"
             placeholder="Search by class code">
           <button wire:click="performSearch"
@@ -21,7 +21,7 @@
         <div class="flex gap-4 items-center w-full">
           <!-- Filter by Day -->
           <div class="relative flex items-center w-1/2 md:w-[116px] h-8 cursor-pointer">
-            <select wire:model="filterDay"
+            <select name="filterDay" wire:model="filterDay"
               class="text-gray-900 py-1.5 pr-1.5 pl-3 cursor-pointer text-xs font-medium leading-5 block w-full rounded-md shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] border border-gray-300 appearance-none relative focus:outline-none bg-white transition-all duration-500 hover:bg-gray-50 focus-within:border-gray-300">
               <option value="">Filter by Day</option>
               @foreach ($days as $day)
@@ -37,7 +37,7 @@
 
           <!-- Filter by Time -->
           <div class="relative flex items-center w-1/2  md:w-[150px] h-8 cursor-pointer">
-            <select wire:model="filterTime"
+            <select name="filterTime" wire:model="filterTime"
               class="text-gray-900 py-1.5 cursor-pointer pr-1.5 pl-3 text-xs font-medium leading-5 block w-full rounded-md shadow-[0px_1px_2px_0px_rgba(16,_24,_40,_0.05)] border border-gray-300 appearance-none relative focus:outline-none bg-white transition-all duration-500 hover:bg-gray-50 focus-within:border-gray-300">
               <option value="">Filter by Time</option>
               @foreach ($times as $time)

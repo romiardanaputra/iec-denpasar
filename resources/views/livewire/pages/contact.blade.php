@@ -55,28 +55,28 @@
           </div>
         </div>
 
-        <form wire:submit="submit" class="bg-gray-50 p-5 lg:p-11 lg:rounded-r-2xl rounded-2xl">
+        <form id="contactForm" wire:submit="submit" class="bg-gray-50 p-5 lg:p-11 lg:rounded-r-2xl rounded-2xl">
           <h2 class="text-blue-600 text-4xl font-bold leading-10 mb-11">Send Us A Message</h2>
           <input type="text" name="name" wire:model="name" required
             class="w-full h-12 text-gray-600 placeholder-gray-400  shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-            placeholder="Name">
+            placeholder="Name" autocomplete="on">
           @error('name')
             <span class="text-red-600 text-sm">{{ $message }}</span>
           @enderror
           <input type="text" name="email" equired wire:model="email"
             class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-            placeholder="Email">
+            placeholder="Email" autocomplete="on">
           @error('email')
             <span class="text-red-600 text-sm">{{ $message }}</span>
           @enderror
           <input type="text" name="phone" required
             class="w-full h-12 text-gray-600 placeholder-gray-400 shadow-sm bg-transparent text-lg font-normal leading-7 rounded-full border border-gray-200 focus:outline-none pl-4 mb-10"
-            placeholder="Phone">
+            placeholder="Phone" autocomplete="on">
           @error('phone')
             <span class="text-red-600 text-sm">{{ $message }}</span>
           @enderror
 
-          <textarea type="text" wire:model="message"
+          <textarea name="message" type="text" wire:model="message"
             class="w-full h-48 shadow-sm resize-none text-gray-600 placeholder-text-400 text-lg font-normal leading-7 rounded-2xl border border-gray-200 focus:outline-none px-4 py-4 mb-8"
             placeholder="Message" required></textarea>
           <button type="submit"

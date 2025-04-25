@@ -208,14 +208,17 @@
             onSuccess: function(result) {
               console.log(result);
               alert('Payment successful!');
+              window.location.href = "/transaction/success";
             },
             onPending: function(result) {
               console.log(result);
               alert('Payment is pending.');
+              window.location.href = "/transaction/pending";
             },
             onError: function(result) {
               console.log(result);
               alert('Payment failed.');
+              window.location.href = "/transaction/failed";
             }
           });
         });
