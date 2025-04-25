@@ -177,7 +177,7 @@
     <div class="flex flex-wrap my-6 -mx-3">
       <!-- card 1 -->
 
-      <div class="w-full max-w-full px-3 mt-0 mb-6 md:mb-0 md:w-1/2 md:flex-none lg:w-2/3 lg:flex-none">
+      <div class="w-full max-w-full px-3 mt-0 mb-6 md:mb-0 md:flex-none lg:w-2/3 lg:flex-none">
         <div
           class="relative flex min-w-0 flex-col break-words rounded-2xl border border-solid border-gray-200 bg-white bg-clip-border h-full">
 
@@ -249,7 +249,7 @@
                                   class="bg-transparent border border-blue-600 text-blue-600 rounded-full">Lihat
                                   Detail</x-dialog.trigger>
                                 <x-dialog.content>
-                                  <x-dialog.header>
+                                  <x-dialog.header class="text-left">
                                     <x-dialog.title class="mb-8">Detail Jadwal
                                       {{ $schedule->classSchedule->program->name }}</x-dialog.title>
                                     <div class="space-y-2 mt-4 text-base">
@@ -285,7 +285,7 @@
 
       <!-- card 2 -->
 
-      <div class="w-full max-w-full px-3 md:w-1/2 md:flex-none lg:w-1/3 lg:flex-none">
+      <div class="w-full max-w-full px-3 md:flex-none lg:w-1/3 lg:flex-none">
         @if (!$orders->isEmpty())
           <div
             class="relative flex h-full min-w-0 flex-col break-words rounded-2xl border border-gray-200 border-solid bg-white bg-clip-border">

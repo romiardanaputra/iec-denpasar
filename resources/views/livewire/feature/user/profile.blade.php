@@ -10,7 +10,7 @@
 @endsection
 
 <div>
-  <div class="w-full px-6 mx-auto">
+  <div class="w-full lg:px-6 mx-auto">
     <div class="relative flex items-center p-0 mt-6 overflow-hidden bg-center bg-cover min-h-75 rounded-2xl"
       style="background-image: url({{ asset('/assets/img/curved-images/curved0.jpg') }}); background-position-y: 50%;">
       <span class="absolute inset-y-0 w-full h-full bg-center bg-cover bg-gradient-fuchsia opacity-60"></span>
@@ -40,7 +40,7 @@
     <div class="w-full px-3 mb-6">
       <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
         <div class="flex-auto p-4">
-          <h5 class="font-bold py-5">Basic Info</h5>
+          <h5 class="font-bold py-5">Informasi General</h5>
 
           @if (session('status'))
             <div id="alert"
@@ -66,9 +66,9 @@
 
           <x-form wire:submit="saveProfile" autocomplete="on" id="profileForm">
             <div class="flex flex-wrap -mx-3">
-              <div class="max-w-full px-3 w-1/2 lg:flex-none">
+              <div class="max-w-full w-full px-3 sm:w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
-                  <x-label htmlFor="name">Name</x-label>
+                  <x-label htmlFor="name">Nama</x-label>
                   <x-input class="rounded-full" type="text" wire:model="name" id="name" placeholder="name"
                     :value="old('name', $name)" required autofocus autocomplete="on" />
                   @error('name')
@@ -76,7 +76,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="max-w-full px-3 w-1/2 lg:flex-none">
+              <div class="max-w-full px-3 w-full sm:w-1/2 lg:flex-none mt-8 sm:mt-0">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="email">Email</x-label>
                   <x-input type="email" class="rounded-full" wire:model="email" id="email" placeholder="email"
@@ -88,8 +88,8 @@
               </div>
             </div>
 
-            <div class="flex flex-wrap -mx-3 mt-4">
-              <div class="max-w-full px-3 w-1/2 lg:flex-none space-y-3">
+            <div class="flex flex-wrap -mx-3 ">
+              <div class="max-w-full w-full px-3 sm:w-1/2 lg:flex-none space-y-3">
                 <x-label htmlFor="phone">Phone Number</x-label>
                 <x-input class="rounded-full" type="text" :value="old('phone', $phone)" wire:model="phone" id="phone"
                   placeholder="phone number" required autocomplete="on" />
@@ -97,7 +97,7 @@
                   <p class="text-red-500 text-size-sm">{{ $message }}</p>
                 @enderror
               </div>
-              <div class="max-w-full px-3 w-1/2 lg:flex-none space-y-3">
+              <div class="max-w-full px-3 w-full sm:w-1/2 lg:flex-none space-y-3 mt-8 sm:mt-0">
                 <x-label htmlFor="address">Address</x-label>
                 <x-input class="rounded-full" :value="old('address', $address)" type="text" wire:model="address" id="address"
                   placeholder="address" required autocomplete="on" />
@@ -107,7 +107,7 @@
               </div>
             </div>
 
-            <div class="space-y-3 mt-4">
+            <div class="space-y-3 mt-8">
               <x-label htmlFor="about">Tentang Saya</x-label>
               <x-textarea class="rounded-xl" :value="old('about', $about)" wire:model="about" id="about" rows="5"
                 placeholder="Tell us about yourself" required autocomplete="on"></x-textarea>
@@ -118,7 +118,7 @@
 
             <div class="mt-4">
               <x-button type="submit"
-                class="bg-blue-600 text-sm font-bold hover:bg-blue-700  mt-4 rounded-full py-6">{{ __('Simpan') }}</x-button>
+                class="bg-blue-600 text-sm font-bold hover:bg-blue-700 mt-4 rounded-full py-4">{{ __('Simpan') }}</x-button>
             </div>
           </x-form>
         </div>
@@ -130,7 +130,7 @@
     <div class="w-full px-3 mb-6">
       <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
         <div class="flex-auto p-4">
-          <h5 class="font-bold py-5">Change Password</h5>
+          <h5 class="font-bold py-5">Ganti Password</h5>
 
           @if (session('success_reset_password'))
             <div id="alert"
@@ -156,7 +156,7 @@
 
           <x-form wire:submit="resetPassword" autocomplete="on" id="passwordForm">
             <div class="flex flex-wrap -mx-3">
-              <div class="max-w-full px-3 w-1/2 lg:flex-none">
+              <div class="max-w-full px-3 w-full sm:w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="current_password">Current password</x-label>
                   <x-input class="rounded-full" type="password" autocomplete="on" wire:model="current_password"
@@ -166,7 +166,7 @@
                   @enderror
                 </div>
               </div>
-              <div class="max-w-full px-3 w-1/2 lg:flex-none">
+              <div class="max-w-full px-3 w-full sm:w-1/2 lg:flex-none mt-8 sm:mt-0">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="password">New password</x-label>
                   <x-input class="rounded-full" type="password" wire:model="password" id="password"
@@ -178,8 +178,8 @@
               </div>
             </div>
 
-            <div class="flex flex-wrap -mx-3 mt-4">
-              <div class="max-w-full px-3 w-1/2 lg:flex-none">
+            <div class="flex flex-wrap -mx-3 mt-8">
+              <div class="max-w-full px-3 w-full sm:w-1/2 lg:flex-none">
                 <div class="flex flex-col h-full space-y-3">
                   <x-label htmlFor="password_confirmation">Confirm Password</x-label>
                   <x-input class="rounded-full" type="password" wire:model="password_confirmation"
@@ -193,7 +193,7 @@
 
             <div class="mt-4">
               <x-button type="submit"
-                class="bg-blue-600 text-sm font-bold hover:bg-blue-700  mt-4 rounded-full py-6">{{ __('Simpan') }}</x-button>
+                class="bg-blue-600 text-sm font-bold hover:bg-blue-700  mt-4 rounded-full py-4">{{ __('Simpan') }}</x-button>
             </div>
           </x-form>
         </div>

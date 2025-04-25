@@ -1,28 +1,28 @@
 <div>
-  <div class="w-full p-6 mx-auto">
+  <div class="w-full p-6 pt-0 sm:pt-6 mx-auto">
     <!-- Filter Form -->
     <div class="mb-6">
       <form wire:submit.prevent="applyFilters" class="flex flex-wrap -mx-3">
         <div class="w-full max-w-full px-3 mb-6 md:w-3/12 md:flex-none">
           <label for="startDate" class="block mb-2 text-sm font-medium text-gray-900">Tanggal Mulai</label>
           <input type="date" wire:model="startDate" id="startDate"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
         </div>
         <div class="w-full max-w-full px-3 mb-6 md:w-3/12 md:flex-none">
           <label for="endDate" class="block mb-2 text-sm font-medium text-gray-900">Tanggal Akhir</label>
           <input type="date" wire:model="endDate" id="endDate"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
         </div>
         <div class="w-full max-w-full px-3 mb-6 md:w-3/12 md:flex-none">
           <label for="programName" class="block mb-2 text-sm font-medium text-gray-900">Nama Program</label>
           <input type="text" wire:model="programName" id="programName"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
         </div>
         <div class="w-full max-w-full px-3 gap-2 md:w-3/12 md:flex-none flex items-center">
           <button type="submit"
-            class="bg-blue-600 text-white font-bold py-2.5 px-5 rounded-lg hover:bg-blue-700">Terapkan Filter</button>
+            class="bg-blue-600 text-white font-bold py-2 text-sm px-5 rounded-full hover:bg-blue-700">Terapkan</button>
           <button type="button" wire:click="resetFilters"
-            class="bg-gray-300 text-gray-900 font-bold py-2.5 px-5 rounded-lg hover:bg-gray-400">Reset Filter</button>
+            class="bg-gray-300 text-gray-900 font-bold text-sm py-2 px-5 rounded-full hover:bg-gray-400">Reset</button>
         </div>
       </form>
     </div>
@@ -40,14 +40,15 @@
           <div class="w-full max-w-full px-3 mt-6 md:w-full md:flex-none">
             <div
               class="relative flex flex-col min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
-              <div class="p-6 px-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
+              <div class="md:p-6 md:px-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
                 <h6 class="mb-0">Informasi Tagihan ({{ $order->program->name }})</h6>
                 <small class="font-bold">pesanan dibuat pada:
                   {{ $order->created_at->translatedFormat('l, d F Y H:i:s') }}</small>
               </div>
-              <div class="flex-auto p-4 pt-6">
+              <div class="flex-auto md:p-4 pt-6">
                 <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                  <li class="relative flex p-6 mb-2 border-0 rounded-t-inherit rounded-xl bg-gray-50">
+                  <li
+                    class="relative flex-col sm:flex-row md:p-6 mb-2 border-0 rounded-t-inherit rounded-xl bg-gray-50">
                     <div class="flex flex-col">
                       <h6 class="mb-4 leading-normal text-size-sm">{{ $order->user->name }}</h6>
                       <span class="mb-2 leading-tight text-size-xs">Order Id: <span

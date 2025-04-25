@@ -6,70 +6,102 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 <!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
 
+
 <url>
   <loc>https://www.iecdenpasar.com/</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/login</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/about</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/our-program</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/our-teams</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/contact</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/blog</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/register</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/our-program/english-for-kid</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/our-program/english-for-children</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/our-program/english-for-junior</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/our-program/general-english</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.iecdenpasar.com/forgot-password</loc>
-  <lastmod>2025-03-05T08:31:16+00:00</lastmod>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
   <priority>0.64</priority>
 </url>
+<url>
+  <loc>https://www.iecdenpasar.com/blog/tips-meningkatkan-kemampuan-speaking-bahasa-inggris</loc>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/blog/materi-grammar-dasar-untuk-pemula</loc>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/blog/latihan-listening-dengan-podcast-bahasa-inggris</loc>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/blog/strategi-menulis-essay-bahasa-inggris</loc>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/blog/persiapan-ujian-ielts-writing</loc>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://www.iecdenpasar.com/blog/kosakata-penting-untuk-toefl-preparation</loc>
+  <lastmod>2025-04-24T07:47:46+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
 
 </urlset>
