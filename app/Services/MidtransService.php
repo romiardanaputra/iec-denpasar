@@ -64,6 +64,9 @@ class MidtransService
             ],
             'item_details' => $this->mapItemToDetails($order),
             'customer_details' => $this->getCustomerDetails($order),
+            'callbacks' => [
+                'finish' => route('transaction.success'),
+            ],
         ];
 
         Log::info('Isi midtrans params: '.json_encode($params));
