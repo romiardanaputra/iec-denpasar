@@ -217,7 +217,7 @@
             },
             onError: function(result) {
               console.log(result);
-              alert('Payment failed.');
+              alert('Payment Gagal.');
               window.location.href = "/transaction/failed";
             }
           });
