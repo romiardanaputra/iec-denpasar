@@ -27,7 +27,9 @@ class Dashboard extends Component
         $cacheKey = "iecdenpasar:dashboard:user:{$authUser->id}:student";
         $cacheTime = now()->addMinutes(15);
         $cacheCallback = function () {
-            return Registration::where('user_id', auth()->id())
+            return Registration::query()
+                ->where('user_id', auth()->id())
+                ->where('is_active', 1)
                 ->orderByDesc('id')
                 ->get();
         };
@@ -78,7 +80,9 @@ class Dashboard extends Component
         $cacheKey = "iecdenpasar:dashboard:user:{$authId}:program";
         $cacheTime = now()->addMinutes(15);
         $cacheCallback = function () {
-            return Registration::where('user_id', auth()->id())
+            return Registration::query()
+                ->where('user_id', auth()->id())
+                ->where('is_active', 1)
                 ->with('program')
                 ->get()
                 ->groupBy('program.name')

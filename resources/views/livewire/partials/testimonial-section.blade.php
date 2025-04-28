@@ -38,8 +38,7 @@
                 </p>
               </div>
               <div class="flex items-center gap-5 border-t border-solid border-gray-200 pt-5">
-                <img class="rounded-full h-10 w-10 object-cover" src="https://pagedone.io/asset/uploads/1696229969.png"
-                  alt="avatar" />
+                <img class="rounded-full h-10 w-10 object-cover" src="{{ $testimonial->image_path }}" alt="avatar" />
                 <div class="block">
                   <h5 class="text-gray-900 font-medium transition-all duration-500  mb-1">{{ $testimonial->name }}</h5>
                   <span class="text-sm leading-4 text-gray-500">{{ $testimonial->position }} </span>

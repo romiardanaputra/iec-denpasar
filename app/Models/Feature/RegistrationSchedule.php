@@ -4,10 +4,13 @@ namespace App\Models\Feature;
 
 use App\Models\Schedule\ClassSchedule;
 use App\Models\Transaction\Registration;
+use App\Observers\RegistrationScheduleObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+#[ObservedBy(RegistrationScheduleObserver::class)]
 class RegistrationSchedule extends Model
 {
     /** @use HasFactory<\Database\Factories\Feature\RegistrationScheduleFactory> */

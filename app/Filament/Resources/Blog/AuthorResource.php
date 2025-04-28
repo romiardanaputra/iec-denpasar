@@ -56,6 +56,7 @@ class AuthorResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\Layout\Split::make([
                     Tables\Columns\Layout\Stack::make([

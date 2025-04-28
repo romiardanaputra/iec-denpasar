@@ -1,3 +1,18 @@
+@section('js_custom')
+  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+  </script>
+  <script type="module" src="{{ asset('storage/midtrans/index.js') }}" defer></script>
+@endsection
+
+@section('css_custom')
+  <style>
+    input[type=date]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      right: 1rem;
+    }
+  </style>
+@endsection
+
 <div>
   <div class="container lg:py-24 mt-8 px-8 md:px-12">
     <section>
@@ -48,10 +63,9 @@
             </div>
             <div class="mt-4">
               <x-label htmlFor="birthdate">Tanggal lahir</x-label>
-              <div class="relative flex items-center">
-                <x-input name="birthdate" autocomplete required class="text-gray-800 rounded-full" type="date"
+              <div class="relative flex flex-auto items-center">
+                <x-input name="birthdate" autocomplete required class="text-gray-800 rounded-full w-full" type="date"
                   id="birthdate" placeholder="Tanggal lahir" value="{{ old('birthdate') }}" />
-                <x-lucide-calendar-fold class="size-4 absolute right-0 mr-4" />
               </div>
               <small class="font-semibold">Isi dengan tanggal lahir pendaftar kursus</small>
               <x-input-error :messages="$errors->get('birthdate')" class="mt-2" />
@@ -182,9 +196,3 @@
     <div>{{ session('error') }}</div>
   @endif --}}
 </div>
-
-@section('js_custom')
-  <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
-  </script>
-  <script type="module" src="{{ asset('storage/midtrans/index.js') }}" defer></script>
-@endsection
