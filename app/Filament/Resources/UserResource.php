@@ -39,6 +39,13 @@ class UserResource extends Resource
                     ->schema([
                         Section::make('User Information')
                             ->schema([
+                                TextInput::make('student_card_number')
+                                    ->label('Student Card Number (SC Number)')
+                                    ->unique(ignoreRecord: true)
+                                    ->placeholder('SC-IEC-0001')
+                                    ->maxLength(20)
+                                    ->disabled(fn ($record) => filled($record?->student_card_number)) // SC Number tidak bisa diubah setelah diset
+                                    ->helperText('Masukkan SC Number siswa. Sekali diset, tidak dapat diubah.'),
                                 TextInput::make('name')
                                     ->required()
                                     ->minLength(2)

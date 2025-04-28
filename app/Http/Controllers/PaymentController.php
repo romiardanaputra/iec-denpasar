@@ -88,24 +88,49 @@ class PaymentController extends Controller
                         'status' => 'pending',
                         'payment_status' => 'unpaid',
                     ]);
+                    $lastPayment = $order->payments()->latest()->first();
+                    if ($lastPayment) {
+                        $lastPayment->update([
+                            'status' => 'PENDING',
+                        ]);
+                    }
                     break;
                 case 'expire':
                     $order->update([
-                        'status' => 'cancelled',
+                        'status' => 'failed',
                         'payment_status' => 'expired',
                     ]);
+
+                    $lastPayment = $order->payments()->latest()->first();
+                    if ($lastPayment) {
+                        $lastPayment->update([
+                            'status' => 'EXPIRE',
+                        ]);
+                    }
                     break;
                 case 'cancel':
                     $order->update([
                         'status' => 'cancelled',
                         'payment_status' => 'cancelled',
                     ]);
+                    $lastPayment = $order->payments()->latest()->first();
+                    if ($lastPayment) {
+                        $lastPayment->update([
+                            'status' => 'CANCEL',
+                        ]);
+                    }
                     break;
                 case 'failed':
                     $order->update([
                         'status' => 'failed',
                         'payment_status' => 'failed',
                     ]);
+                    $lastPayment = $order->payments()->latest()->first();
+                    if ($lastPayment) {
+                        $lastPayment->update([
+                            'status' => 'FAILED',
+                        ]);
+                    }
                     break;
                 default:
                     Log::warning('Unknown transaction status: '.$status);
@@ -153,6 +178,27 @@ class PaymentController extends Controller
             'payment_method' => ['required', 'in:online,cash'], // Add validation for payment method
         ]);
 
+        Log::info('cek status biaya pendaftaran');
+        $now = now();
+        $registerFee = $program->register_fee;
+        $userNeedsRegisterFee = true;
+
+        if ($user->student_card_number) {
+            $lastRegistration = Registration::where('user_id', $user->id)
+                ->orderByDesc('created_at')
+                ->first();
+
+            if ($lastRegistration) {
+                $lastActiveDate = $lastRegistration->created_at;
+                $monthsInactive = $lastActiveDate->diffInMonths($now);
+
+                if ($monthsInactive < 2) { // <= 2 bulan
+                    $registerFee = 0;
+                    $userNeedsRegisterFee = false;
+                }
+            }
+        }
+
         Log::info('buat data pendaftar setelah validasi');
         $customer = Registration::create([
             'user_id' => $user->id,
@@ -169,15 +215,17 @@ class PaymentController extends Controller
         Log::info('data pendaftar = '.$customer.' berhasil dibuat');
 
         Log::info('buat data order dari customer');
+        $totalPrice = $program->price + $registerFee;
         $order = Order::create([
             'user_id' => $user->id,
             'program_id' => $customer->program_id,
             'registration_id' => $customer->id,
-            'order_id' => uniqid('ORD-'),
-            'total_price' => $program->price,
+            'total_price' => $totalPrice,
             'payment_method' => $data['payment_method'],
             'status' => 'pending',
         ]);
+        $order->order_id = 'ORD-IEC-'.now()->format('Ymd').'-'.str_pad($order->id, 4, '0', STR_PAD_LEFT);
+        $order->save();
         Log::info('data order customer = '.$order.' berhasil dibuat');
 
         Log::info('buat data order item');
@@ -188,6 +236,18 @@ class PaymentController extends Controller
             'price' => $program->price,
             'product_name' => $program->name,
         ]);
+
+        if ($registerFee > 0) {
+            // Tambahkan OrderItem untuk biaya pendaftaran jika ada
+            OrderItem::create([
+                'order_id' => $order->id,
+                'program_id' => null,
+                'quantity' => 1,
+                'price' => $registerFee,
+                'product_name' => 'Biaya Pendaftaran',
+            ]);
+        }
+
         Log::info('order item = '.$orderItem.' berhasil di buat');
 
         if ($data['payment_method'] === 'online') {
@@ -207,7 +267,9 @@ class PaymentController extends Controller
 
             Log::info('data payment method online '.$payment.' berhasil dibuat');
 
-            session()->flash('success', 'Checkout berhasil. Silakan lanjutkan pembayaran.');
+            session()->flash('success', $userNeedsRegisterFee
+              ? 'Checkout berhasil. Anda dikenakan biaya pendaftaran karena tidak aktif lebih dari 2 bulan.'
+              : 'Checkout berhasil. Anda bebas dari biaya pendaftaran.');
 
             return response()->json([
                 'snap_token' => $snapToken,
@@ -228,7 +290,9 @@ class PaymentController extends Controller
             // You might want to send notification to admin about cash payment
             // Notification::send($adminUsers, new CashPaymentNotification($order));
 
-            session()->flash('success', 'Checkout berhasil, anda memilih pembayaran tunai/cash, silahkan datang ke kantor IEC Denpasar untuk melunasi pembayaran');
+            session()->flash('success', $userNeedsRegisterFee
+              ? 'Checkout berhasil. Anda dikenakan biaya pendaftaran karena tidak aktif lebih dari 2 bulan. Silakan datang ke kantor IEC Denpasar untuk melunasi pembayaran.'
+              : 'Checkout berhasil. Anda bebas dari biaya pendaftaran. Silakan datang ke kantor IEC Denpasar untuk melunasi pembayaran.');
 
             return response()->json([
                 'payment_method' => 'cash',

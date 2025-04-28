@@ -38,6 +38,8 @@ class LatestOrders extends BaseWidget
                     ->badge(),
                 Tables\Columns\TextColumn::make('payment_status')
                     ->badge(),
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('total_price')
                     ->searchable()
                     ->sortable()

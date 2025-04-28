@@ -7,20 +7,22 @@ use Illuminate\Support\Facades\Cache;
 
 class RegistrationObserver
 {
+    protected function forgetUserCache(Registration $registration)
+    {
+        $userId = $registration->user_id ?? null;
+
+        if ($userId) {
+            Cache::forget("iecdenpasar:dashboard:user:{$userId}:program");
+            Cache::forget("iecdenpasar:dashboard:user:{$userId}:student");
+        }
+    }
+
     /**
      * Handle the Registration "created" event.
      */
     public function created(Registration $registration): void
     {
-        $authId = auth()->user()->id;
-        // cache for schedule
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:schedule");
-
-        // cache for program
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:program");
-
-        // cache for student
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:student");
+        $this->forgetUserCache($registration);
     }
 
     /**
@@ -28,15 +30,7 @@ class RegistrationObserver
      */
     public function updated(Registration $registration): void
     {
-        $authId = auth()->user()->id;
-        // cache for schedule
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:schedule");
-
-        // cache for program
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:program");
-
-        // cache for student
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:student");
+        $this->forgetUserCache($registration);
     }
 
     /**
@@ -44,15 +38,7 @@ class RegistrationObserver
      */
     public function deleted(Registration $registration): void
     {
-        $authId = auth()->user()->id;
-        // cache for schedule
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:schedule");
-
-        // cache for program
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:program");
-
-        // cache for student
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:student");
+        $this->forgetUserCache($registration);
     }
 
     /**
@@ -60,15 +46,7 @@ class RegistrationObserver
      */
     public function restored(Registration $registration): void
     {
-        $authId = auth()->user()->id;
-        // cache for schedule
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:schedule");
-
-        // cache for program
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:program");
-
-        // cache for student
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:student");
+        $this->forgetUserCache($registration);
     }
 
     /**
@@ -76,14 +54,6 @@ class RegistrationObserver
      */
     public function forceDeleted(Registration $registration): void
     {
-        $authId = auth()->user()->id;
-        // cache for schedule
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:schedule");
-
-        // cache for program
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:program");
-
-        // cache for student
-        Cache::forget("iecdenpasar:dashboard:user:{$authId}:student");
+        $this->forgetUserCache($registration);
     }
 }
