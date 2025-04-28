@@ -97,7 +97,7 @@ class PaymentController extends Controller
                     break;
                 case 'expire':
                     $order->update([
-                        'status' => 'failed',
+                        'status' => 'pending',
                         'payment_status' => 'expired',
                     ]);
 
@@ -163,6 +163,12 @@ class PaymentController extends Controller
             return response()->json([
                 'message' => 'the current user is not authenticated',
             ], 401);
+        }
+
+        if (! $program) {
+            return response()->json([
+                'message' => 'Program not found',
+            ], 404);
         }
 
         Log::info('validasi data form detail pendaftar kursus');
@@ -231,7 +237,7 @@ class PaymentController extends Controller
         Log::info('buat data order item');
         $orderItem = OrderItem::create([
             'order_id' => $order->id,
-            'program_id' => $order->program_id,
+            'program_id' => $program->program_id,
             'quantity' => 1,
             'price' => $program->price,
             'product_name' => $program->name,
@@ -241,7 +247,7 @@ class PaymentController extends Controller
             // Tambahkan OrderItem untuk biaya pendaftaran jika ada
             OrderItem::create([
                 'order_id' => $order->id,
-                'program_id' => null,
+                'program_id' => $order->program_id,
                 'quantity' => 1,
                 'price' => $registerFee,
                 'product_name' => 'Biaya Pendaftaran',
