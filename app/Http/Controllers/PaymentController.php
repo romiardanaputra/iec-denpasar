@@ -88,12 +88,7 @@ class PaymentController extends Controller
                         'status' => 'pending',
                         'payment_status' => 'unpaid',
                     ]);
-                    $lastPayment = $order->payments()->latest()->first();
-                    if ($lastPayment) {
-                        $lastPayment->update([
-                            'status' => 'PENDING',
-                        ]);
-                    }
+
                     break;
                 case 'expire':
                     $order->update([
@@ -101,36 +96,20 @@ class PaymentController extends Controller
                         'payment_status' => 'expired',
                     ]);
 
-                    $lastPayment = $order->payments()->latest()->first();
-                    if ($lastPayment) {
-                        $lastPayment->update([
-                            'status' => 'EXPIRE',
-                        ]);
-                    }
                     break;
                 case 'cancel':
                     $order->update([
                         'status' => 'cancelled',
                         'payment_status' => 'cancelled',
                     ]);
-                    $lastPayment = $order->payments()->latest()->first();
-                    if ($lastPayment) {
-                        $lastPayment->update([
-                            'status' => 'CANCEL',
-                        ]);
-                    }
+
                     break;
                 case 'failed':
                     $order->update([
                         'status' => 'failed',
                         'payment_status' => 'failed',
                     ]);
-                    $lastPayment = $order->payments()->latest()->first();
-                    if ($lastPayment) {
-                        $lastPayment->update([
-                            'status' => 'FAILED',
-                        ]);
-                    }
+
                     break;
                 default:
                     Log::warning('Unknown transaction status: '.$status);
