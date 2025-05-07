@@ -66,7 +66,7 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
     Route::get('/bill', Bill::class)->name('bill');
     Route::get('/bill/{order}', BillDetail::class)->name('bill.detail');
     Route::get('/invoice', Invoice::class)->name('invoice');
-    Route::get('/checkout/{slug}', Checkout::class)->name('checkout');
+    Route::get('/checkout', Checkout::class)->name('checkout');
     Route::get('/transaction/success', PaymentSuccess::class)->name('payment.success');
     Route::get('/transaction/pending', PendingPayment::class)->name('payment.pending');
     Route::get('/transaction/failed', FailedPayment::class)->name('payment.failed');
@@ -75,7 +75,6 @@ Route::group(['middleware' => ['auth', 'verified', HasRoleUserMiddleware::class]
 
     // post checkout controller
     Route::post('/checkout/{program}', [PaymentController::class, 'checkout'])->name('checkout.transaction');
-
 });
 
 // callback midtrans must be not inside in auth middleware
