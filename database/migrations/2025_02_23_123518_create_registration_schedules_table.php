@@ -14,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('registration_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('registration_id')->constrained('registrations');
-            $table->foreignIdFor(ClassSchedule::class, 'class_schedule_id')->constrained('class_schedules');
+            $table->foreignId('registration_id')->constrained('registrations')->onDelete('cascade');
+            $table->foreignIdFor(ClassSchedule::class, 'class_schedule_id')->constrained('class_schedules')->onDelete('cascade');
+            $table->unique(['registration_id', 'class_schedule_id']);
             $table->timestamps();
             $table->softDeletes();
         });

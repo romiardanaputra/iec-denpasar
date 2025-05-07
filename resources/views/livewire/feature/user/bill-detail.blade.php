@@ -128,18 +128,23 @@
       </thead>
       <tbody>
         <tr class="border-b border-gray-200">
+          @foreach ($order->items as $item)
+        <tr class="border-b border-gray-200">
           <td class="max-w-0 py-5 pl-4 pr-3 text-sm sm:pl-0">
-            <div class="font-bold text-base text-gray-900">{{ $order->program->name }}</div>
-            <div class="mt-1 text-gray-500">{{ Str::limit($order->program->short_description, 200) }}</div>
+            <div class="font-bold text-base text-gray-900">{{ $item->program->name }}</div>
+            <div class="mt-1 text-gray-500">{{ Str::limit($item->program->short_description, 200) }}</div>
           </td>
           <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
-            {{ $order->items->first()->quantity }}</td>
+            {{ $item->quantity }}
+          </td>
           <td class="hidden px-3 py-5 text-right text-sm text-gray-500 sm:table-cell">
-            {{ 'Rp ' . number_format($order->items->first()->price, 0, ',', '.') }}
+            {{ 'Rp ' . number_format($item->price, 0, ',', '.') }}
           </td>
           <td class="py-5 pl-3 pr-4 text-right text-sm text-gray-500 sm:pr-0">
-            {{ 'Rp ' . number_format($order->total_price, 0, ',', '.') }}
+            {{ 'Rp ' . number_format($item->price * $item->quantity, 0, ',', '.') }}
           </td>
+        </tr>
+        @endforeach
         </tr>
       </tbody>
       <tfoot>

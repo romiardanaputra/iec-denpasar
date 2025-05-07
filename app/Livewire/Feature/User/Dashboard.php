@@ -9,17 +9,22 @@ use Artesaos\SEOTools\Facades\OpenGraph;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 #[\Livewire\Attributes\Title('Dashboard')]
 class Dashboard extends Component
 {
+    use WithPagination;
+
     public $user;
 
     public $students;
 
-    public $schedules;
-
     public $programs;
+
+    public $search = '';
+
+    protected $queryString = ['search'];
 
     public function mount()
     {
@@ -60,23 +65,24 @@ class Dashboard extends Component
     public function fetchSchedules()
     {
         $authId = auth()->user()->id;
-        $cacheKey = "iecdenpasar:dashboard:user:{$authId}:schedule";
-        $cacheTime = now()->addMinutes(15);
-        $cacheCallback = function () {
-            return RegistrationSchedule::with(['registration', 'classSchedule'])
-                ->whereHas('registration', function ($query) {
-                    $query->where('user_id', auth()->id());
-                })
-                ->get();
-        };
 
-        $this->schedules = Cache::remember($cacheKey, $cacheTime, $cacheCallback);
+        return RegistrationSchedule::with(['registration', 'classSchedule'])
+            ->whereHas('registration', function ($query) use ($authId) {
+                $query->where('user_id', $authId);
+                if ($this->search) {
+                    $query->where('student_name', 'like', '%'.$this->search.'%')
+                        ->orWhereHas('program', function ($programQuery) {
+                            $programQuery->where('name', 'like', '%'.$this->search.'%');
+                        });
+                }
+            })
+            ->orderByDesc('id')
+            ->paginate(5);
     }
 
     public function fetchPrograms()
     {
         $authId = auth()->user()->id;
-        // $programIds = Registration::where('user_id', $authId)->pluck('id')->implode(':');
         $cacheKey = "iecdenpasar:dashboard:user:{$authId}:program";
         $cacheTime = now()->addMinutes(15);
         $cacheCallback = function () {
@@ -94,8 +100,13 @@ class Dashboard extends Component
                 })
                 ->values();
         };
-        $this->programs = Cache::remember($cacheKey, $cacheTime, $cacheCallback);
 
+        $this->programs = Cache::remember($cacheKey, $cacheTime, $cacheCallback);
+    }
+
+    public function performSearch()
+    {
+        $this->resetPage();
     }
 
     public function redirectToProgram()
@@ -128,9 +139,10 @@ class Dashboard extends Component
         OpenGraph::setDescription('dashboard student of iec denpasar');
         OpenGraph::setType('dashboard');
         OpenGraph::setUrl(url()->current());
+
         $data = [
             'orders' => $this->getOrder(),
-            'schedules' => $this->schedules,
+            'schedules' => $this->fetchSchedules(),
             'students' => $this->students,
             'programs' => $this->programs,
         ];

@@ -33,6 +33,12 @@ class ClassSchedule extends Model
         'day_code_id',
         'team_id',
         'class_code',
+        'slot',
+        'slot_status',
+    ];
+
+    protected $casts = [
+        'slot' => 'integer',
     ];
 
     public function program()
@@ -64,5 +70,22 @@ class ClassSchedule extends Model
     public function registrations()
     {
         return $this->belongsToMany(Registration::class, 'registration_schedules', 'class_schedule_id', 'registration_id');
+    }
+
+    public function getTotalRegistrationsAttribute()
+    {
+        return $this->registrations()->count();
+    }
+
+    public function hasAvailableSlots()
+    {
+        return $this->total_registrations < $this->slot;
+    }
+
+    public function updateSlotStatus()
+    {
+        $used = $this->registrations()->count();
+        $this->slot_status = $used >= $this->slot ? 'full' : 'available';
+        $this->saveQuietly();
     }
 }

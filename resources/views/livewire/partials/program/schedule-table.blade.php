@@ -5,16 +5,8 @@
         <!-- Search Input -->
         <div class="w-full md:max-w-sm flex items-center gap-2 relative">
           <input name="search" type="text" wire:model="search"
-            class="h-10 border border-gray-300 text-gray-900 pl-11 pr-16 text-sm font-normal leading-7 rounded-full block w-full py-2.5 appearance-none relative outline-none bg-white  hover:border-gray-400 hover:bg-gray-50 focus-within:bg-gray-50"
+            class="h-10 border border-gray-300 text-gray-900 pl-6 pr-16 text-sm font-normal leading-7 rounded-full block w-full py-2.5 appearance-none relative outline-none bg-white  hover:border-gray-400 hover:bg-gray-50 focus-within:bg-gray-50"
             placeholder="Search by class code">
-          <button wire:click="performSearch"
-            class="absolute top-1/2 -translate-y-1/2 right-0 z-40 bg-blue-600 text-white rounded-full size-9 flex items-center justify-center hover:bg-blue-700 transition-all duration-200 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path
-                d="M17.5 17.5L15.4167 15.4167M15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333C11.0005 15.8333 12.6614 15.0929 13.8667 13.8947C15.0814 12.6872 15.8333 11.0147 15.8333 9.16667Z"
-                stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path>
-            </svg>
-          </button>
         </div>
 
         <!-- Filters -->
@@ -51,86 +43,160 @@
             </svg>
           </div>
 
+          <button wire:click="performSearch"
+            class=" z-40 bg-blue-600 text-white rounded-full size-9 flex items-center justify-center hover:bg-blue-700 transition-all duration-200 focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M17.5 17.5L15.4167 15.4167M15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333C11.0005 15.8333 12.6614 15.0929 13.8667 13.8947C15.0814 12.6872 15.8333 11.0147 15.8333 9.16667Z"
+                stroke="#fff" stroke-width="1.6" stroke-linecap="round"></path>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
   </section>
+
   <div class="flex flex-col overflow-x-auto">
-    <div class=" overflow-x-auto pb-4">
+    <div class="overflow-x-auto pb-4">
       <div class="min-w-full inline-block align-middle">
-        <div class="overflow-hidden  border rounded-lg border-gray-300">
+        <div class="overflow-hidden border rounded-lg border-gray-300">
           <table class="table-auto min-w-full rounded-xl">
             <thead>
               <tr class="bg-gray-50">
-                <th scope="col"
-                  class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize">
-                  Mentor </th>
-                <th scope="col"
-                  class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize">
-                  Program </th>
-                <th scope="col"
-                  class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize"> Buku
-                </th>
-
-                <th scope="col"
-                  class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize"> Hari
-                </th>
-                <th scope="col"
-                  class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize">
-                  Jam </th>
-                <th scope="col"
-                  class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize">Kode
-                  kelas </th>
-                <th scope="col"
-                  class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize">
-                  Status
-                </th>
-                <th scope="col"
-                  class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize">
-                  Actions </th>
+                @foreach (['', 'Program', 'Hari', 'Jam', 'Kode kelas', 'Slot', 'Status', 'Mentor'] as $header)
+                  <th scope="col"
+                    class="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize">
+                    {{ $header }}
+                  </th>
+                @endforeach
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-300 ">
+            <tbody class="divide-y divide-gray-300">
               @forelse ($classes as $key => $class)
-                <tr class="bg-white transition-all duration-500 hover:bg-gray-50" wire:key={{ $class->id }}>
-                  <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> Ms. Tini</td>
+                <tr class="bg-white transition-all duration-500 hover:bg-gray-50"
+                  wire:key={{ $class->class_schedule_id }}>
+                  <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                    <input type="checkbox" wire:click="toggleSchedule({{ $class->class_schedule_id }})"
+                      @if (in_array($class->class_schedule_id, $selectedSchedules)) checked @endif class="rounded text-blue-600">
+                  </td>
+
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                     {{ $class->program->name }}
                   </td>
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                    {{ $class->book->book_name }} </td>
+                    @switch($class->day->day_name)
+                      @case('Monday')
+                        Senin
+                      @break
+
+                      @case('Tuesday')
+                        Selasa
+                      @break
+
+                      @case('Wednesday')
+                        Rabu
+                      @break
+
+                      @case('Thursday')
+                        Kamis
+                      @break
+
+                      @case('Friday')
+                        Jumat
+                      @break
+
+                      @case('Saturday')
+                        Sabtu
+                      @break
+
+                      @case('Sunday')
+                        Minggu
+                      @break
+
+                      @default
+                        {{ $class->day->day_name }}
+                    @endswitch
+                  </td>
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                    {{ $class->day->day_name }}</td>
+                    {{ $class->time->time_start }} - {{ $class->time->time_end }}
+                  </td>
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                    {{ $class->time->time_start }} - {{ $class->time->time_end }} </td>
+                    {{ $class->class_code }}
+                  </td>
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                    {{ $class->class_code }} </td>
+                    {{ count($class->registrations) }} / {{ $class->slot }}
+                  </td>
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                     <div class="py-1.5 px-2.5 bg-emerald-50 rounded-full flex justify-center w-20 items-center gap-1">
-                      <svg width="5" height="6" viewBox="0 0 5 6" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="2.5" cy="3" r="2.5" fill="#059669"></circle>
-                      </svg>
-                      <span class="font-medium text-xs text-emerald-600 ">Active</span>
+                      @switch($class->slot_status)
+                        @case('available')
+                          <span class="font-medium text-xs text-emerald-600">{{ 'tersedia' }}</span>
+                        @break
+
+                        @case('full')
+                          <span class="font-medium text-xs text-red-600">{{ 'penuh' }}</span>
+                        @break
+
+                        @default
+                          <span class="font-medium text-xs text-yellow-600">{{ 'tidak tersedia' }}</span>
+                      @endswitch
+
                     </div>
                   </td>
-                  <td class="flex p-5 items-center gap-0.5">
-                    <button
-                      class="p-2 rounded-full bg-white group transition-all duration-500 hover:bg-blue-600 flex item-center text-sm hover:text-white font-bold">
-                      tanya yuk?
-                    </button>
+                  <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                    {{ $class->team->name }}
                   </td>
                 </tr>
-              @empty
-                <div>jadwal kosong</div>
-              @endforelse
-            </tbody>
-          </table>
+                @empty
+                  <tr>
+                    <td colspan="8" class="text-center py-4">Jadwal kosong</td>
+                  </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
         </div>
+        <div class="mt-4">
+          {{ $classes->links() }}
+        </div>
+        @if (session()->has('error'))
+          <div class="bg-red-100 rounded-lg border-l-4 border-red-500 text-red-700 p-4 mb-4 mr-4">
+            {{ session('error') }}
+          </div>
+        @endif
       </div>
-    </div>
-    <div class="mt-4">
-      {{ $classes->links() }}
+
+      <!-- Tombol Lanjut ke Checkout -->
+
+      @guest
+        <div class="mt-6 flex justify-end">
+          <x-dialog>
+            <x-dialog.trigger class="bg-blue-600 hover:bg-blue-700 rounded-full hover:text-white">Daftar Kursus
+              Sekarang!</x-dialog.trigger>
+            <x-dialog.content>
+              <x-dialog.header>
+                <x-dialog.title>Anda belum login!</x-dialog.title>
+                <x-dialog.description>
+                  Anda akan diarahkan menuju halaman login untuk melanjutkan proses pendaftaran kursus.
+                </x-dialog.description>
+                <x-dialog.footer>
+                  <x-button wire:click='redirectLogin' class="bg-blue-600 hover:bg-blue-700 rounded-full ">
+                    <i class="fa fa-user sm:mr-1"></i>
+                    <span class="">Login Sekarang</span>
+                  </x-button>
+                </x-dialog.footer>
+              </x-dialog.header>
+            </x-dialog.content>
+          </x-dialog>
+        </div>
+      @endguest
+      @auth
+        <div class="mt-6 flex justify-end">
+          <button wire:click="goToCheckout"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full">
+            Checkout Kursus
+          </button>
+        </div>
+      @endauth
     </div>
   </div>
-</div>
