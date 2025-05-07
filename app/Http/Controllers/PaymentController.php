@@ -72,7 +72,7 @@ class PaymentController extends Controller
             switch ($status) {
                 case 'success':
                     $order->update([
-                        'status' => 'processing',
+                        'status' => 'Completed',
                         'payment_status' => 'paid',
                     ]);
                     $lastPayment = $order->payments()->latest()->first();
