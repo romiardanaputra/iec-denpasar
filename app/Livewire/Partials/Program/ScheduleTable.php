@@ -21,11 +21,45 @@ class ScheduleTable extends Component
 
     public $filterStatus = '';
 
-    public $sortBy = 'class_code'; // Default sort by class code
+    public $selectedSchedules = [];
 
-    public $sortDirection = 'asc'; // Default sort direction
+    public $sortBy = 'class_code';
+
+    public $sortDirection = 'asc';
 
     public $perPage = 5;
+
+    protected $listeners = ['resetSelection' => 'resetSelectedSchedules'];
+
+    public function resetSelectedSchedules()
+    {
+        $this->selectedSchedules = [];
+    }
+
+    public function toggleSchedule($class_schedule_id)
+    {
+        if (in_array($class_schedule_id, $this->selectedSchedules)) {
+            $this->selectedSchedules = array_diff($this->selectedSchedules, [$class_schedule_id]);
+        } else {
+            $this->selectedSchedules[] = $class_schedule_id;
+        }
+    }
+
+    public function goToCheckout()
+    {
+        if (count($this->selectedSchedules) !== 2) {
+            session()->flash('error', 'Pilih 2 jadwal kursus, kursus akan dilaksanakan 1 minggu 2 kali.');
+
+            return;
+        }
+
+        return to_route('checkout', ['schedule' => $this->selectedSchedules, 'program' => $this->program->program_id]);
+    }
+
+    public function redirectLogin()
+    {
+        return redirect()->route('login');
+    }
 
     protected $queryString = [
         'search' => ['except' => ''],
@@ -46,7 +80,7 @@ class ScheduleTable extends Component
         $this->resetPage();
     }
 
-    public function updatingFilterDay()
+    public function updatingFilterDay(): void
     {
         $this->resetPage();
     }
@@ -86,10 +120,12 @@ class ScheduleTable extends Component
             ->orderBy($this->sortBy, $this->sortDirection)
             ->paginate($this->perPage);
 
-        return view('livewire.partials.program.schedule-table', [
+        $data = [
             'classes' => $classes,
             'days' => ClassDayCode::get(),
             'times' => ClassTimeCode::get(),
-        ]);
+        ];
+
+        return view('livewire.partials.program.schedule-table', $data);
     }
 }

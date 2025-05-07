@@ -41,7 +41,6 @@ class ProgramDetail extends Component
             $this->job = $user->job;
             $this->parent_guardian = $user->parent_guardian;
         } else {
-
             return redirect()->route('login');
         }
     }
@@ -57,11 +56,6 @@ class ProgramDetail extends Component
             report($e);
             abort(404);
         }
-    }
-
-    public function redirectLogin()
-    {
-        return redirect()->route('login');
     }
 
     public function render()

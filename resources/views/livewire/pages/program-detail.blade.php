@@ -55,40 +55,6 @@
             <p class="font-bold text-blue-600">{{ $program->detail->level }}</p>
           </div>
         </div>
-        <div class="flex w-full">
-          @guest
-            <x-dialog>
-              <x-dialog.trigger class="bg-blue-600 hover:bg-blue-700 rounded-full hover:text-white">Daftar Kursus
-                Sekarang!</x-dialog.trigger>
-              <x-dialog.content>
-                <x-dialog.header>
-                  <x-dialog.title>Anda belum login!</x-dialog.title>
-                  <x-dialog.description>
-                    Anda akan diarahkan menuju halaman login untuk melanjutkan proses pendaftaran kursus.
-                  </x-dialog.description>
-                  <x-dialog.footer>
-                    <x-button wire:click='redirectLogin' class="bg-blue-600 hover:bg-blue-700 rounded-full ">
-                      <i class="fa fa-user sm:mr-1"></i>
-                      <span class="">Login Sekarang</span>
-                    </x-button>
-                  </x-dialog.footer>
-                </x-dialog.header>
-              </x-dialog.content>
-            </x-dialog>
-
-          @endguest
-          @auth
-            <a href="{{ route('checkout', ['slug' => $program->slug]) }}">
-              <div class="flex justify-center items-center mt-8">
-                <button
-                  class="relative flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow-lg transform hover:scale-105 transition-transform duration-200">
-                  <span class="absolute inset-0 rounded-full bg-blue-500 opacity-20 animate-ping"></span>
-                  <span class="relative z-10">Beli Kursus!</span>
-                </button>
-              </div>
-            </a>
-          @endauth
-        </div>
       </div>
     </div>
   </div>

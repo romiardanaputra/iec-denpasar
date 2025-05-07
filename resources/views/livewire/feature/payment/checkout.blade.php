@@ -1,4 +1,34 @@
 @section('js_custom')
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      @this.on("submitForm", (data) => {
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = "{{ route('checkout.transaction', ['program' => $program->program_id]) }}";
+
+        Object.keys(data).forEach(key => {
+          if (key === 'schedule') {
+            data.schedule.forEach(scheduleId => {
+              const input = document.createElement("input");
+              input.type = "hidden";
+              input.name = "schedule[]";
+              input.value = scheduleId;
+              form.appendChild(input);
+            });
+          } else {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = data[key];
+            form.appendChild(input);
+          }
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+      });
+    });
+  </script>
   <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
   </script>
   <script type="module" src="{{ asset('storage/midtrans/index.js') }}" defer></script>
@@ -19,6 +49,10 @@
       <x-form action="{{ route('checkout.transaction', ['program' => $program->program_id]) }}" method="POST"
         class="flex flex-col xl:flex-row gap-2" autocomplete="on" id="payment-form">
         @csrf
+        <input type="hidden" name="program_id" value="{{ $program->program_id }}">
+        @foreach ($schedules as $schedule)
+          <input type="hidden" name="schedule[]" value="{{ $schedule->class_schedule_id }}">
+        @endforeach
         <div class="max-w-screen-md max-md:mx-auto w-full p-6 space-y-4">
           <div>
             <h1 class="text-3xl font-bold">Detail Informasi Pendaftar</h1>
@@ -165,6 +199,52 @@
                 <p>Quantity 1</p>
               </div>
             </div>
+
+            <hr class="my-4">
+
+            <div class="mb-4">
+              <p class="font-semibold mb-2">Jadwal Terpilih:</p>
+              <ul class="list-disc pl-5 space-y-2">
+                @foreach ($schedules as $schedule)
+                  <li>
+                    @switch($schedule->day->day_name)
+                      @case('Monday')
+                        <span>Senin</span>
+                      @break
+
+                      @case('Tuesday')
+                        <span>Selasa</span>
+                      @break
+
+                      @case('Wednesday')
+                        <span>Rabu</span>
+                      @break
+
+                      @case('Thursday')
+                        <span>Kamis</span>
+                      @break
+
+                      @case('Friday')
+                        <span>Jumat</span>
+                      @break
+
+                      @case('Saturday')
+                        <span>Sabtu</span>
+                      @break
+
+                      @case('Sunday')
+                        <span>Minggu</span>
+                      @break
+
+                      @default
+                        {{ $schedule->day->day_name }}
+                    @endswitch
+                    , {{ \Carbon\Carbon::parse($schedule->time->time_start)->format('h:i A') }} -
+                    {{ \Carbon\Carbon::parse($schedule->time->time_end)->format('h:i A') }}
+                  </li>
+                @endforeach
+              </ul>
+            </div>
             <hr>
             <div class="flex justify-between">
               <p class="font-bold text-lg">Subtotal</p>
@@ -187,12 +267,4 @@
       </x-form>
     </section>
   </div>
-  {{--
-  @if (session()->has('success'))
-    <div>{{ session('success') }}</div>
-  @endif
-
-  @if (session()->has('error'))
-    <div>{{ session('error') }}</div>
-  @endif --}}
 </div>

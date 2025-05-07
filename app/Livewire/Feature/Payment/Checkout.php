@@ -7,7 +7,11 @@ use Livewire\Component;
 
 class Checkout extends Component
 {
+    public $program;
+
     public $slug;
+
+    public $schedules = [];
 
     // array of education option
     public $educationOptions = [
@@ -43,22 +47,72 @@ class Checkout extends Component
         'lainnya' => 'Lainnya',
     ];
 
-    public function mount($slug)
+    public function mount()
     {
-        $this->slug = $slug;
-        $this->program = Program::where('slug', $this->slug)->first();
-        if (! $this->program) {
-            abort(404);
+        $programId = request()->query('program');
+        $scheduleIds = request()->query('schedule');
+
+        if (! $programId) {
+            abort(404, 'Prgoram tidak ditemukan.');
         }
+
+        if (! is_array($scheduleIds) || count($scheduleIds) !== 2) {
+            session()->flash('error', 'Harus memilih 2 jadwal.');
+
+            return redirect()->route('program.detail', ['slug' => $this->slug]);
+        }
+
+        $this->program = Program::find($programId);
+        if (! $this->program) {
+            abort(404, 'Program tidak ditemukan');
+        }
+
+        $this->schedules = $this->program->classes()->whereIn('class_schedule_id', $scheduleIds)->get();
+
+        if ($this->schedules->count() < 2) {
+            session()->flash('error', 'Jadwal tidak ditemukan.');
+
+            return redirect()->route('program.detail', ['slug' => $this->slug]);
+        }
+
     }
 
     public function render()
     {
         $data = [
             'program' => Program::select(['name', 'price', 'image', 'program_id'])->where('slug', $this->slug)->first(),
+            'schedules' => $this->schedules,
 
         ];
 
         return view('livewire.feature.payment.checkout', $data);
+    }
+
+    public function submit()
+    {
+        $this->validate([
+            'student_name' => 'required|string|max:255',
+            'birthplace' => 'required|string|max:255',
+            'birthdate' => 'required|date',
+            'address' => 'required|string',
+            'education' => 'required|string',
+            'job' => 'required|string',
+            'market' => 'required|string',
+            'payment_method' => 'required|in:cash,online',
+        ]);
+
+        $postData = [
+            'student_name' => $this->student_name,
+            'birthplace' => $this->birthplace,
+            'birthdate' => $this->birthdate,
+            'address' => $this->address,
+            'education' => $this->education,
+            'job' => $this->job,
+            'market' => $this->market,
+            'parent_guardian' => $this->parent_guardian,
+            'payment_method' => $this->payment_method,
+            'schedule' => $this->schedules->pluck('id')->toArray(),
+        ];
+        $this->emitSelf('submitForm', $postData);
     }
 }
