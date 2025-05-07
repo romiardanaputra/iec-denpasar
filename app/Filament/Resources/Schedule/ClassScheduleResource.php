@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Schedule;
 
+use App\Enums\SlotClassStatus;
 use App\Filament\Resources\Program\ProgramResource\RelationManagers\ClassScheduleRelationManager;
 use App\Filament\Resources\Schedule\ClassScheduleResource\Pages;
 use App\Models\Program\Book;
@@ -117,6 +118,16 @@ class ClassScheduleResource extends Resource
                     ->searchable()
                     ->options(Team::pluck('name', 'team_id')->toArray())
                     ->native(false),
+                TextInput::make('slot')
+                    ->label('Slot Kelas')
+                    ->helperText('Slot kelas mengacu pada kapasitas kelas')
+                    ->required(),
+
+                Select::make('slot_status')
+                    ->required()
+                    ->label('Status Slot')
+                    ->helperText('Status slot mengacu pada kapasitas kelas')
+                    ->options(SlotClassStatus::options()),
 
                 TextInput::make('class_code')
                     ->label('Kode Kelas (per hari)')
@@ -202,48 +213,48 @@ class ClassScheduleResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-            MultiSelectFilter::make('program')
+                MultiSelectFilter::make('program')
                     ->label('Program')
                     ->relationship('program', 'name')
                     ->preload()
                     ->searchable(),
-            MultiSelectFilter::make('book')
+                MultiSelectFilter::make('book')
                     ->label('Buku')
                     ->relationship('book', 'book_name')
                     ->preload()
                     ->searchable(),
-            MultiSelectFilter::make('time')
+                MultiSelectFilter::make('time')
                     ->label('Kode Jam Kelas')
                     ->relationship('time', 'time_code')
                     ->preload()
                     ->searchable(),
-            MultiSelectFilter::make('day')
+                MultiSelectFilter::make('day')
                     ->label('Kode Hari Kelas')
                     ->relationship('day', 'day_code')
                     ->preload()
                     ->searchable(),
-            MultiSelectFilter::make('team')
+                MultiSelectFilter::make('team')
                     ->label('Mentor')
                     ->relationship('team', 'name')
                     ->preload()
                     ->searchable(),
-            Tables\Filters\TrashedFilter::make(),
-        ])
+                Tables\Filters\TrashedFilter::make(),
+            ])
             ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-            Tables\Actions\RestoreAction::make(),
-            Tables\Actions\ForceDeleteAction::make(),
-        ])
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
 
-            ]),
-        ]);
+                ]),
+            ]);
     }
 
     public static function getRelations(): array
