@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feature\RegistrationSchedule;
 use App\Models\Program\Program;
 use App\Models\Transaction\Order;
 use App\Models\Transaction\OrderItem;
@@ -150,6 +151,10 @@ class PaymentController extends Controller
             ], 404);
         }
 
+        // if (!$request->ajax() && !$request->wantsJson()) {
+        //   return abort(403, 'Invalid request');
+        // }
+
         Log::info('validasi data form detail pendaftar kursus');
         $data = $request->validate([
             'student_name' => ['required', 'min:3', 'max:50', 'string'],
@@ -160,7 +165,9 @@ class PaymentController extends Controller
             'job' => ['required'],
             'market' => ['required'],
             'parent_guardian' => ['nullable', 'string', 'max:255'],
-            'payment_method' => ['required', 'in:online,cash'], // Add validation for payment method
+            'payment_method' => ['required', 'in:online,cash'],
+            'schedule' => ['required', 'array', 'min:2'],
+            'schedule.*' => ['exists:class_schedules,class_schedule_id'],
         ]);
 
         Log::info('cek status biaya pendaftaran');
@@ -223,13 +230,19 @@ class PaymentController extends Controller
         ]);
 
         if ($registerFee > 0) {
-            // Tambahkan OrderItem untuk biaya pendaftaran jika ada
             OrderItem::create([
                 'order_id' => $order->id,
                 'program_id' => $order->program_id,
                 'quantity' => 1,
                 'price' => $registerFee,
                 'product_name' => 'Biaya Pendaftaran',
+            ]);
+        }
+
+        foreach ($data['schedule'] as $scheduleId) {
+            RegistrationSchedule::create([
+                'registration_id' => $customer->id,
+                'class_schedule_id' => $scheduleId,
             ]);
         }
 
@@ -259,6 +272,7 @@ class PaymentController extends Controller
             return response()->json([
                 'snap_token' => $snapToken,
                 'payment_method' => 'online',
+                'redirect_url' => route('payment.success'),
             ]);
         } else {
             // Handle cash payment
@@ -272,16 +286,13 @@ class PaymentController extends Controller
 
             Log::info('data payment method cash '.$payment.' berhasil dibuat');
 
-            // You might want to send notification to admin about cash payment
-            // Notification::send($adminUsers, new CashPaymentNotification($order));
-
             session()->flash('success', $userNeedsRegisterFee
               ? 'Checkout berhasil. Anda dikenakan biaya pendaftaran karena tidak aktif lebih dari 2 bulan. Silakan datang ke kantor IEC Denpasar untuk melunasi pembayaran.'
               : 'Checkout berhasil. Anda bebas dari biaya pendaftaran. Silakan datang ke kantor IEC Denpasar untuk melunasi pembayaran.');
 
             return response()->json([
                 'payment_method' => 'cash',
-                'redirect_url' => route('payment.pending'), // Or any other route
+                'redirect_url' => route('payment.pending'),
             ]);
         }
     }
