@@ -24,6 +24,8 @@ return new class extends Migration
             $table->foreignIdFor(ClassDayCode::class, 'day_code_id')->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Team::class, 'team_id')->index()->constrained()->cascadeOnDelete();
             $table->string('class_code', 10)->unique()->index();
+            $table->integer('slot')->default(20);
+            $table->enum('slot_status', ['available', 'full'])->default('available');
             $table->timestamps();
             $table->softDeletes();
 
