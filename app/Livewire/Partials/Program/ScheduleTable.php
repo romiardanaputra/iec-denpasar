@@ -3,6 +3,7 @@
 namespace App\Livewire\Partials\Program;
 
 use App\Models\Schedule\ClassDayCode;
+use App\Models\Schedule\ClassSchedule;
 use App\Models\Schedule\ClassTimeCode;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,6 +12,7 @@ class ScheduleTable extends Component
 {
     use WithPagination;
 
+    // === Properties ===
     public $program;
 
     public $search = '';
@@ -29,19 +31,46 @@ class ScheduleTable extends Component
 
     public $perPage = 5;
 
+    public $showFullModal = false;
+
+    public $fullScheduleDetails = null;
+
+    // === Listeners ===
     protected $listeners = ['resetSelection' => 'resetSelectedSchedules'];
 
+    // === Query String Binding ===
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'filterDay' => ['except' => ''],
+        'filterTime' => ['except' => ''],
+        'filterStatus' => ['except' => ''],
+        'sortBy' => ['except' => 'class_code'],
+        'sortDirection' => ['except' => 'asc'],
+    ];
+
+    // === Event Handlers ===
     public function resetSelectedSchedules()
     {
         $this->selectedSchedules = [];
     }
 
-    public function toggleSchedule($class_schedule_id)
+    public function toggleSchedule($classScheduleId)
     {
-        if (in_array($class_schedule_id, $this->selectedSchedules)) {
-            $this->selectedSchedules = array_diff($this->selectedSchedules, [$class_schedule_id]);
+        $schedule = ClassSchedule::findOrFail($classScheduleId);
+
+        if ($schedule->slot_status === 'full') {
+            $this->dispatch('show.full.modal');
+
+            return;
+        }
+
+        if (! in_array($classScheduleId, $this->selectedSchedules)) {
+            $this->selectedSchedules[] = $classScheduleId;
         } else {
-            $this->selectedSchedules[] = $class_schedule_id;
+            $this->selectedSchedules = array_filter(
+                $this->selectedSchedules,
+                fn ($id) => $id != $classScheduleId
+            );
         }
     }
 
@@ -53,7 +82,31 @@ class ScheduleTable extends Component
             return;
         }
 
-        return to_route('checkout', ['schedule' => $this->selectedSchedules, 'program' => $this->program->program_id]);
+        foreach ($this->selectedSchedules as $scheduleId) {
+            $schedule = ClassSchedule::find($scheduleId);
+            if ($schedule && $schedule->slot_status === 'full') {
+                $this->fullScheduleDetails = [
+                    'program' => $schedule->program->name,
+                    'class_code' => $schedule->class_code,
+                    'day' => optional($schedule->day)->day_name,
+                    'time' => optional($schedule->time)->formatted_time,
+                    'mentor' => optional($schedule->mentor)->name ?? 'Belum ditentukan',
+                ];
+                $this->showFullModal = true;
+
+                return;
+            }
+        }
+
+        return to_route('checkout', [
+            'schedule' => $this->selectedSchedules,
+            'program' => $this->program->program_id,
+        ]);
+    }
+
+    public function closeModal()
+    {
+        $this->showFullModal = false;
     }
 
     public function redirectLogin()
@@ -61,15 +114,7 @@ class ScheduleTable extends Component
         return redirect()->route('login');
     }
 
-    protected $queryString = [
-        'search' => ['except' => ''],
-        'filterDay' => ['except' => ''],
-        'filterTime' => ['except' => ''],
-        'filterStatus' => ['except' => ''],
-        'sortBy' => ['except' => 'class_code'],
-        'sortDirection' => ['except' => 'asc'],
-    ];
-
+    // === Search & Filter Handling ===
     public function performSearch()
     {
         $this->resetPage();
@@ -90,42 +135,38 @@ class ScheduleTable extends Component
         $this->resetPage();
     }
 
+    // === Render Method ===
     public function render()
     {
+        $classes = $this->getQuery()->paginate($this->perPage);
 
-        $classes = $this->program->classes()
-            ->when($this->search, function ($query, $search) {
-                return $query->where('class_code', 'like', '%'.$search.'%')
-                    ->orWhereHas('program', function ($query) use ($search) {
-                        $query->where('name', 'like', '%'.$search.'%');
-                    })
-                    ->orWhereHas('book', function ($query) use ($search) {
-                        $query->where('book_name', 'like', '%'.$search.'%');
-                    })
-                    ->orWhereHas('day', function ($query) use ($search) {
-                        $query->where('day_name', 'like', '%'.$search.'%');
-                    });
-            })
-            ->when($this->filterDay, function ($query) {
-                return $query->whereHas('day', function ($query) {
-                    $query->where('day_name', $this->filterDay);
-                });
-            })
-            ->when($this->filterTime, function ($query) {
-                return $query->whereHas('time', function ($query) {
-                    $query->where('time_start', '<=', $this->filterTime)
-                        ->where('time_end', '>=', $this->filterTime);
-                });
-            })
-            ->orderBy($this->sortBy, $this->sortDirection)
-            ->paginate($this->perPage);
-
-        $data = [
+        return view('livewire.partials.program.schedule-table', [
             'classes' => $classes,
             'days' => ClassDayCode::get(),
             'times' => ClassTimeCode::get(),
-        ];
+        ]);
+    }
 
-        return view('livewire.partials.program.schedule-table', $data);
+    // === Private Helpers ===
+    private function getQuery()
+    {
+        return $this->program->classes()
+            ->when($this->search, function ($query, $search) {
+                return $query->where('class_code', 'like', "%{$search}%")
+                    ->orWhereHas('program', fn ($q) => $q->where('name', 'like', "%{$search}%"))
+                    ->orWhereHas('book', fn ($q) => $q->where('book_name', 'like', "%{$search}%"))
+                    ->orWhereHas('day', fn ($q) => $q->where('day_name', 'like', "%{$search}%"));
+            })
+            ->when($this->filterDay, function ($query) {
+                return $query->whereHas('day', fn ($q) => $q->where('day_name', $this->filterDay));
+            })
+            ->when($this->filterTime, function ($query) {
+                return $query->whereHas(
+                    'time',
+                    fn ($q) => $q->where('time_start', '<=', $this->filterTime)
+                        ->where('time_end', '>=', $this->filterTime)
+                );
+            })
+            ->orderBy($this->sortBy, $this->sortDirection);
     }
 }

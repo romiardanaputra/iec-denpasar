@@ -175,7 +175,7 @@
       <div
         class="relative flex min-w-0 flex-col break-words rounded-2xl border border-solid border-gray-200 bg-white bg-clip-border h-full">
         @if ($schedules->isEmpty())
-          <div class="mb-4 flex gap-4">
+          <div class="mb-4 flex gap-4 p-4 w-full xl:w-6/12 ml-auto">
             <input type="text" placeholder="Cari nama siswa atau program..."
               class="border rounded-full px-4 py-2 w-full text-sm" wire:model.debounce.1000ms="search"
               id="searchInput" />

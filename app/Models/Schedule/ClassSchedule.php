@@ -6,9 +6,13 @@ use App\Models\Program\Book;
 use App\Models\Program\Program;
 use App\Models\Team;
 use App\Models\Transaction\Registration;
+use App\Observers\ClassScheduleObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
+#[ObservedBy(ClassScheduleObserver::class)]
 
 class ClassSchedule extends Model
 {

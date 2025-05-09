@@ -75,16 +75,11 @@
               @forelse ($classes as $key => $class)
                 <tr class="bg-white transition-all duration-500 hover:bg-gray-50"
                   wire:key={{ $class->class_schedule_id }}>
-                  @if ($class->slot_status == 'available')
-                    <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                      <input type="checkbox" wire:click="toggleSchedule({{ $class->class_schedule_id }})"
-                        @if (in_array($class->class_schedule_id, $selectedSchedules)) checked @endif class="rounded text-blue-600">
-                    </td>
-                  @else
-                    <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-
-                    </td>
-                  @endif
+                  <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                    <input type="checkbox" x-on:click="$wire.toggleSchedule({{ $class->class_schedule_id }})"
+                      @if (in_array($class->class_schedule_id, $selectedSchedules)) checked @endif
+                      class="rounded text-blue-600 {{ $class->slot_status == 'full' ? 'cursor-not-allowed' : '' }}"
+                      :disabled="{{ $class->slot_status == 'full' ? 'true' : 'false' }}">
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                     {{ $class->program->name }}
                   </td>
@@ -205,4 +200,28 @@
         </div>
       @endauth
     </div>
+    <!-- Full Schedule Modal -->
+    @if ($showFullModal && $fullScheduleDetails)
+      <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+          <h2 class="text-xl font-bold mb-4">Jadwal Telah Penuh</h2>
+
+          <div class="space-y-2 text-sm">
+            <p><strong>Program:</strong> {{ $fullScheduleDetails['program'] }}</p>
+            <p><strong>Kode Kelas:</strong> {{ $fullScheduleDetails['class_code'] }}</p>
+            <p><strong>Hari:</strong> {{ $fullScheduleDetails['day'] }}</p>
+            <p><strong>Jam:</strong> {{ $fullScheduleDetails['time'] }}</p>
+            <p><strong>Mentor:</strong> {{ $fullScheduleDetails['mentor'] }}</p>
+          </div>
+
+          <p class="mt-4 text-red-600">Slot telah penuh. Silakan pilih kelas lain yang masih tersedia.</p>
+
+          <div class="mt-6 flex justify-end">
+            <button wire:click="closeModal" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+              Tutup
+            </button>
+          </div>
+        </div>
+      </div>
+    @endif
   </div>

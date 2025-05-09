@@ -31,6 +31,7 @@ class RegistrationObserver
     public function updated(Registration $registration): void
     {
         $this->forgetUserCache($registration);
+
     }
 
     /**
