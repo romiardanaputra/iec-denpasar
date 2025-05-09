@@ -2,16 +2,36 @@
 
 namespace App\Enums;
 
-enum SlotClassStatus: string
+use Filament\Support\Contracts\HasColor;
+use Filament\Support\Contracts\HasIcon;
+use Filament\Support\Contracts\HasLabel;
+
+enum SlotClassStatus: string implements HasColor, HasIcon, HasLabel
 {
     case Available = 'available';
     case Full = 'full';
 
-    public static function options(): array
+    public function getLabel(): string
     {
-        return [
-            self::Available->value => 'Available',
-            self::Full->value => 'Full',
-        ];
+        return match ($this) {
+            self::Available => 'available',
+            self::Full => 'full',
+        };
+    }
+
+    public function getColor(): string
+    {
+        return match ($this) {
+            self::Available => 'success',
+            self::Full => 'danger',
+        };
+    }
+
+    public function getIcon(): string
+    {
+        return match ($this) {
+            self::Available => 'heroicon-o-check',
+            self::Full => 'heroicon-m-x-circle',
+        };
     }
 }
