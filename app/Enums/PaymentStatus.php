@@ -12,6 +12,7 @@ enum PaymentStatus: string implements HasColor, HasIcon, HasLabel
     case Paid = 'paid';
     case Expired = 'expired';
     case Failed = 'failed';
+    case Cancelled = 'cancelled';
 
     public function getLabel(): string
     {
@@ -20,6 +21,7 @@ enum PaymentStatus: string implements HasColor, HasIcon, HasLabel
             self::Paid => 'paid',
             self::Expired => 'expired',
             self::Failed => 'failed',
+            self::Cancelled => 'cancelled',
         };
     }
 
@@ -30,6 +32,7 @@ enum PaymentStatus: string implements HasColor, HasIcon, HasLabel
             self::Paid => 'success',
             self::Expired => 'danger',
             self::Failed => 'secondary',
+            self::Cancelled => 'danger',
         };
     }
 
@@ -40,6 +43,7 @@ enum PaymentStatus: string implements HasColor, HasIcon, HasLabel
             self::Paid => 'heroicon-o-check',
             self::Expired => 'heroicon-m-x-circle',
             self::Failed => 'heroicon-m-x-circle',
+            self::Cancelled => 'heroicon-m-x-circle',
         };
     }
 }
