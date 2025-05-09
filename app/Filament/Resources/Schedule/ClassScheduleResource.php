@@ -3,16 +3,18 @@
 namespace App\Filament\Resources\Schedule;
 
 use App\Enums\SlotClassStatus;
-use App\Filament\Resources\Program\ProgramResource\RelationManagers\ClassScheduleRelationManager;
 use App\Filament\Resources\Schedule\ClassScheduleResource\Pages;
+use App\Filament\Resources\Schedule\ClassScheduleResource\RelationManagers\RegistrationRelationManager;
+use App\Filament\Resources\Schedule\ClassScheduleResource\Widgets\ClassSchedulePerProgramChart;
+use App\Filament\Resources\Schedule\ClassScheduleResource\Widgets\ClassScheduleProgramStat;
 use App\Models\Program\Book;
-use App\Models\Program\Program;
 use App\Models\Schedule\ClassDayCode;
 use App\Models\Schedule\ClassSchedule;
 use App\Models\Schedule\ClassTimeCode;
-use App\Models\Team;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
@@ -39,105 +41,115 @@ class ClassScheduleResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('program_id')
-                    ->relationship('program', 'name')
-                    ->label('Nama program')
-                    ->helperText('Pilih nama program untuk ditampilkan pada jadwal')
-                    ->required()
-                    ->options(Program::pluck('name', 'program_id')->toArray())
-                    ->searchable()
-                    ->native(false),
+                Section::make()
+                    ->schema([
+                        Select::make('program_id')
+                            ->relationship('program', 'name')
+                            ->label('Nama Program')
+                            ->helperText('Pilih nama program untuk ditampilkan pada jadwal')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->native(false),
 
-                Select::make('book_id')
-                    ->relationship('book', 'book_name')
-                    ->label('Nama buku')
-                    ->helperText('Nama buku mengikuti program dan level')
-                    ->searchable()
-                    ->options(Book::pluck('book_name', 'book_id')->toArray())
-                    ->native(false)
-                    ->required()
-                    ->debounce()
-                    ->afterStateUpdated(function (Set $set, Get $get) {
-                        self::generateClassCode($set, $get);
-                    }),
+                        // BUKU
+                        Select::make('book_id')
+                            ->relationship('book', 'book_name')
+                            ->label('Nama Buku')
+                            ->helperText('Nama buku mengikuti program dan level')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->native(false)
+                            ->afterStateUpdated(fn (Set $set) => $set('class_code', null))
+                            ->afterStateUpdated(fn (Set $set, Get $get) => self::generateClassCode($set, $get)),
 
-                Select::make('time_code_id')
-                    ->required()
-                    ->relationship('time', 'time_code')
-                    ->label('Kode jam kelas')
-                    ->searchable()
-                    ->debounce()
-                    ->options(
-                        ClassTimeCode::query()
-                            ->orderBy('time_start')
-                            ->get()
-                            ->map(function ($timeCode) {
-                                return [
-                                    'value' => $timeCode->time_code_id,
-                                    'label' => "{$timeCode->time_code} ({$timeCode->time_start} - {$timeCode->time_end})",
-                                ];
-                            })
-                            ->pluck('label', 'value')
-                            ->toArray()
-                    )
-                    ->helperText('Kode jam mengacu pada standarisasi IEC Denpasar')
-                    ->native(false)
-                    ->afterStateUpdated(function (Set $set, Get $get) {
-                        self::generateClassCode($set, $get);
-                    }),
+                        // WAKTU KELAS
+                        Select::make('time_code_id')
+                            ->relationship('time', 'time_code')
+                            ->label('Kode Jam Kelas')
+                            ->helperText('Kode jam mengacu pada standarisasi IEC Denpasar')
+                            ->required()
+                            ->options(
+                                ClassTimeCode::query()
+                                    ->orderBy('time_start')
+                                    ->get()
+                                    ->map(fn ($timeCode) => [
+                                        'value' => $timeCode->time_code_id,
+                                        'label' => "{$timeCode->time_code} ({$timeCode->time_start} - {$timeCode->time_end})",
+                                    ])
+                                    ->pluck('label', 'value')
+                                    ->toArray()
+                            )
+                            ->searchable()
+                            ->live()
+                            ->native(false)
+                            ->afterStateUpdated(fn (Set $set) => $set('class_code', null))
+                            ->afterStateUpdated(fn (Set $set, Get $get) => self::generateClassCode($set, $get)),
 
-                Select::make('day_code_id')
-                    ->required()
-                    ->relationship('day', 'day_code')
-                    ->label('Kode hari kelas')
-                    ->helperText('kode waktu mengacu pada standarisasi IEC Denpasar')
-                    ->searchable()
-                    ->debounce()
-                    ->options(
-                        ClassDayCode::query()
-                            ->orderBy('day_code_id')
-                            ->get()
-                            ->map(function ($dayCode) {
-                                return [
-                                    'value' => $dayCode->day_code_id,
-                                    'label' => "{$dayCode->day_code} ({$dayCode->day_name})",
-                                ];
-                            })
-                            ->pluck('label', 'value')
-                            ->toArray()
-                    )
-                    ->native(false)
-                    ->afterStateUpdated(function (Set $set, Get $get) {
-                        self::generateClassCode($set, $get);
-                    }),
-                Select::make('team_id')
-                    ->required()
-                    ->relationship('team', 'name')
-                    ->label('Nama Mentor')
-                    ->helperText('Pilih nama mentor')
-                    ->searchable()
-                    ->options(Team::pluck('name', 'team_id')->toArray())
-                    ->native(false),
-                TextInput::make('slot')
-                    ->label('Slot Kelas')
-                    ->helperText('Slot kelas mengacu pada kapasitas kelas')
-                    ->required(),
+                        // HARI KELAS
+                        Select::make('day_code_id')
+                            ->relationship('day', 'day_code')
+                            ->label('Kode Hari Kelas')
+                            ->helperText('Kode waktu mengacu pada standarisasi IEC Denpasar')
+                            ->required()
+                            ->options(
+                                ClassDayCode::query()
+                                    ->orderBy('day_code_id')
+                                    ->get()
+                                    ->map(fn ($dayCode) => [
+                                        'value' => $dayCode->day_code_id,
+                                        'label' => "{$dayCode->day_code} ({$dayCode->day_name})",
+                                    ])
+                                    ->pluck('label', 'value')
+                                    ->toArray()
+                            )
+                            ->searchable()
+                            ->live()
+                            ->native(false)
+                            ->afterStateUpdated(fn (Set $set) => $set('class_code', null))
+                            ->afterStateUpdated(fn (Set $set, Get $get) => self::generateClassCode($set, $get)),
 
-                Select::make('slot_status')
-                    ->required()
-                    ->label('Status Slot')
-                    ->helperText('Status slot mengacu pada kapasitas kelas')
-                    ->options(SlotClassStatus::options()),
+                        // MENTOR
+                        Select::make('team_id')
+                            ->relationship('team', 'name')
+                            ->label('Nama Mentor')
+                            ->helperText('Pilih nama mentor')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->live()
+                            ->native(false),
 
-                TextInput::make('class_code')
-                    ->label('Kode Kelas (per hari)')
-                    ->helperText('Kode digenerate secara otomatis oleh sistem')
-                    ->disabled()
-                    ->unique(ClassSchedule::class)
-                    ->placeholder('Kode digenerate secara otomatis oleh sistem!')
-                    ->dehydrated(),
-            ])
-            ->columns(2);
+                        // SLOT
+                        TextInput::make('slot')
+                            ->label('Slot Kelas')
+                            ->helperText('Slot kelas mengacu pada kapasitas kelas')
+                            ->numeric()
+                            ->required(),
+
+                        // STATUS SLOT
+                        ToggleButtons::make('slot_status')
+                            ->label('Status Slot')
+                            ->inline()
+                            ->default('available')
+                            ->options(SlotClassStatus::class)
+                            ->required()
+                            ->disabled()
+                            ->dehydrated(true),
+
+                        // KODE KELAS
+                        TextInput::make('class_code')
+                            ->label('Kode Kelas (per hari)')
+                            ->helperText('Kode digenerate secara otomatis oleh sistem')
+                            ->disabled()
+                            ->unique(ClassSchedule::class, ignorable: fn (?ClassSchedule $record) => $record)
+                            ->placeholder('Kode digenerate secara otomatis!')
+                            ->dehydrated(),
+                    ])->columns(2),
+            ]);
     }
 
     protected static function generateClassCode(Set $set, Get $get)
@@ -175,6 +187,7 @@ class ClassScheduleResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('program.name')
                     ->label('Nama Program')
@@ -191,6 +204,7 @@ class ClassScheduleResource extends Resource
                     ->getStateUsing(function ($record) {
                         return $record->time ? "{$record->time->time_code} ({$record->time->time_start} - {$record->time->time_end})" : '';
                     }),
+
                 TextColumn::make('day.day_code')
                     ->label('Kode Hari Kelas')
                     ->sortable()
@@ -198,6 +212,7 @@ class ClassScheduleResource extends Resource
                     ->getStateUsing(function ($record) {
                         return $record->day ? "{$record->day->day_code} ({$record->day->day_name})" : '';
                     }),
+
                 TextColumn::make('class_code')
                     ->label('Kode Kelas')
                     ->sortable()
@@ -207,6 +222,24 @@ class ClassScheduleResource extends Resource
                     ->label('Nama Mentor')
                     ->sortable()
                     ->searchable(),
+
+                TextColumn::make('total_registrations')
+                    ->label('Jumlah Pendaftar')
+                    ->sortable(),
+
+                TextColumn::make('slot')
+                    ->label('Slot Kelas')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('slot_status')
+                    ->colors([
+                        'success' => SlotClassStatus::Available->value,
+                        'danger' => SlotClassStatus::Full->value,
+                    ])
+                    ->badge()
+                    ->sortable(),
+
                 TextColumn::make('created_at')
                     ->label('Dibuat Pada')
                     ->dateTime('d M Y H:i')
@@ -260,20 +293,26 @@ class ClassScheduleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            ClassScheduleRelationManager::class,
+            RegistrationRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageClassSchedules::route('/'),
+            // 'index' => Pages\ManageClassSchedules::route('/'),
+            'index' => Pages\ListClassSchedules::route('/'),
+            'create' => Pages\CreateClassSchedule::route('/create'),
+            'edit' => Pages\EditClassSchedule::route('/{record}/edit'),
         ];
     }
 
-    public static function getView(): ?string
+    public static function getWidgets(): array
     {
-        return 'filament.class-schedule.show';
+        return [
+            // ClassSchedulePerProgramChart::class,
+            ClassScheduleProgramStat::class,
+        ];
     }
 
     public static function getNavigationBadge(): ?string

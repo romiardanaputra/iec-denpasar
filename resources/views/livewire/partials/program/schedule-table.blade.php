@@ -75,11 +75,16 @@
               @forelse ($classes as $key => $class)
                 <tr class="bg-white transition-all duration-500 hover:bg-gray-50"
                   wire:key={{ $class->class_schedule_id }}>
-                  <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                    <input type="checkbox" wire:click="toggleSchedule({{ $class->class_schedule_id }})"
-                      @if (in_array($class->class_schedule_id, $selectedSchedules)) checked @endif class="rounded text-blue-600">
-                  </td>
+                  @if ($class->slot_status == 'available')
+                    <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
+                      <input type="checkbox" wire:click="toggleSchedule({{ $class->class_schedule_id }})"
+                        @if (in_array($class->class_schedule_id, $selectedSchedules)) checked @endif class="rounded text-blue-600">
+                    </td>
+                  @else
+                    <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
 
+                    </td>
+                  @endif
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
                     {{ $class->program->name }}
                   </td>
@@ -127,18 +132,19 @@
                     {{ count($class->registrations) }} / {{ $class->slot }}
                   </td>
                   <td class="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900">
-                    <div class="py-1.5 px-2.5 bg-emerald-50 rounded-full flex justify-center w-20 items-center gap-1">
+                    <div
+                      class="py-1.5 px-2.5 rounded-full flex justify-center w-20 items-center gap-1  {{ $class->slot_status === 'full' ? 'bg-red-50' : 'bg-emerald-50' }}">
                       @switch($class->slot_status)
                         @case('available')
                           <span class="font-medium text-xs text-emerald-600">{{ 'tersedia' }}</span>
                         @break
 
                         @case('full')
-                          <span class="font-medium text-xs text-red-600">{{ 'penuh' }}</span>
+                          <span class="text-xs text-red-600 font-bold">{{ 'penuh' }}</span>
                         @break
 
                         @default
-                          <span class="font-medium text-xs text-yellow-600">{{ 'tidak tersedia' }}</span>
+                          <span class="font-bold text-xs text-yellow-600">{{ 'tidak tersedia' }}</span>
                       @endswitch
 
                     </div>

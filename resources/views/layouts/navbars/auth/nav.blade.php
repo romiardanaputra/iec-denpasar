@@ -16,7 +16,7 @@
 
     <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 xl:gap-4 ">
       <div class="items-center w-full lg:w-auto  md:ml-auto md:pr-4">
-        <div class="ml-2 relative flex flex-wrap items-center  transition-all rounded-full ease-soft">
+        <div class="ml-2 relative hidden flex-wrap items-center  transition-all rounded-full ease-soft">
           <x-input placeholder="search here..." class="pl-10 py-2 rounded-full" id="search" />
           <x-lucide-search class="size-4 absolute left-0 ml-4" />
         </div>

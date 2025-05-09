@@ -3,9 +3,10 @@
 namespace App\Filament\Resources\Transaction;
 
 use App\Enums\OrderStatus;
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentStatus;
 use App\Filament\Resources\Program\ProgramResource;
 use App\Filament\Resources\Transaction\OrderResource\Pages;
-use App\Filament\Resources\Transaction\OrderResource\RelationManagers;
 use App\Filament\Resources\Transaction\OrderResource\Widgets\OrderStats;
 use App\Models\Program\Program;
 use App\Models\Transaction\Order;
@@ -34,9 +35,9 @@ class OrderResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
-    protected static ?string $navigationLabel = 'Data Pesanan Kursus';
+    protected static ?string $navigationLabel = 'Pesanan';
 
-    protected static ?string $pluralModelLabel = 'Data Pesanan Kursus';
+    protected static ?string $pluralModelLabel = 'Pesanan';
 
     public static function form(Form $form): Form
     {
@@ -93,10 +94,25 @@ class OrderResource extends Resource
                     ->sortable()
                     ->toggleable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->colors([
+                        'warning' => OrderStatus::Pending->value,
+                        'success' => OrderStatus::Completed->value,
+                        'danger' => OrderStatus::Failed->value,
+                    ])
                     ->badge(),
                 Tables\Columns\TextColumn::make('payment_status')
+                    ->colors([
+                        'warning' => PaymentStatus::Unpaid->value,
+                        'success' => PaymentStatus::Paid->value,
+                        'danger' => PaymentStatus::Failed->value,
+                        'secondary' => PaymentStatus::Expired->value,
+                    ])
                     ->badge(),
                 Tables\Columns\TextColumn::make('payment_method')
+                    ->colors([
+                        'primary' => PaymentMethod::Online->value,
+                        'success' => PaymentMethod::Cash->value,
+                    ])
                     ->badge(),
                 Tables\Columns\TextColumn::make('total_price')
                     ->searchable()
@@ -144,28 +160,28 @@ class OrderResource extends Resource
                     }),
             ])
             ->actions([
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\RestoreAction::make(),
-            Tables\Actions\ForceDeleteAction::make(),
-        ])
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+            ])
             ->groupedBulkActions([
-            Tables\Actions\DeleteBulkAction::make()
+                Tables\Actions\DeleteBulkAction::make()
                     ->action(function () {
                         Notification::make()
                             ->title('Now, now, don\'t be cheeky, leave some records for others to play with!')
                             ->warning()
                             ->send();
                     }),
-            Tables\Actions\RestoreBulkAction::make(),
-            Tables\Actions\ForceDeleteBulkAction::make(),
+                Tables\Actions\RestoreBulkAction::make(),
+                Tables\Actions\ForceDeleteBulkAction::make(),
 
-        ])
+            ])
             ->groups([
-            Tables\Grouping\Group::make('created_at')
+                Tables\Grouping\Group::make('created_at')
                     ->label('Order Date')
                     ->date()
                     ->collapsible(),
-        ]);
+            ]);
     }
 
     public static function getRelations(): array
@@ -246,19 +262,11 @@ class OrderResource extends Resource
                 ->required(),
             Forms\Components\ToggleButtons::make('payment_method')
                 ->inline()
-                ->options([
-                    'cash' => 'Cash',
-                    'online' => 'Online',
-                ]),
+                ->options(PaymentMethod::class)
+                ->required(),
             Forms\Components\ToggleButtons::make('payment_status')
                 ->inline()
-                ->options([
-                    'unpaid' => 'Unpaid',
-                    'paid' => 'Paid',
-                    'expired' => 'Expired',
-                    'cancelled' => 'Cancelled',
-                    'failed' => 'Failed',
-                ])
+                ->options(PaymentStatus::class)
                 ->required(),
             Forms\Components\TextInput::make('total_price')
                 ->numeric()
@@ -325,8 +333,8 @@ class OrderResource extends Resource
             ->defaultItems(1)
             ->hiddenLabel()
             ->columns([
-            'md' => 10,
-        ])
+                'md' => 10,
+            ])
             ->required();
     }
 

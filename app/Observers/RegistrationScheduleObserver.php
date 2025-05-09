@@ -22,6 +22,7 @@ class RegistrationScheduleObserver
     public function created(RegistrationSchedule $registrationSchedule): void
     {
         $this->forgetUserScheduleCache($registrationSchedule);
+        $registrationSchedule->classSchedule->updateSlotStatus();
     }
 
     /**
@@ -30,6 +31,7 @@ class RegistrationScheduleObserver
     public function updated(RegistrationSchedule $registrationSchedule): void
     {
         $this->forgetUserScheduleCache($registrationSchedule);
+        $registrationSchedule->classSchedule->updateSlotStatus();
     }
 
     /**
@@ -38,6 +40,7 @@ class RegistrationScheduleObserver
     public function deleted(RegistrationSchedule $registrationSchedule): void
     {
         $this->forgetUserScheduleCache($registrationSchedule);
+        $registrationSchedule->classSchedule->updateSlotStatus();
     }
 
     /**
@@ -46,6 +49,7 @@ class RegistrationScheduleObserver
     public function restored(RegistrationSchedule $registrationSchedule): void
     {
         $this->forgetUserScheduleCache($registrationSchedule);
+        $registrationSchedule->classSchedule->updateSlotStatus();
     }
 
     /**
@@ -54,5 +58,6 @@ class RegistrationScheduleObserver
     public function forceDeleted(RegistrationSchedule $registrationSchedule): void
     {
         $this->forgetUserScheduleCache($registrationSchedule);
+        $registrationSchedule->classSchedule->updateSlotStatus();
     }
 }
