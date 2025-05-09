@@ -129,6 +129,7 @@ class ClassScheduleResource extends Resource
                             ->helperText('Slot kelas mengacu pada kapasitas kelas')
                             ->numeric()
                             ->required(),
+                        // ->afterStateUpdated(fn(Set $set, Get $get) => self::updateSlotStatusOnModel($set, $get)),
 
                         // STATUS SLOT
                         ToggleButtons::make('slot_status')
@@ -150,38 +151,6 @@ class ClassScheduleResource extends Resource
                             ->dehydrated(),
                     ])->columns(2),
             ]);
-    }
-
-    protected static function generateClassCode(Set $set, Get $get)
-    {
-        $dayCodeId = $get('day_code_id');
-        $bookId = $get('book_id');
-        $timeCodeId = $get('time_code_id');
-
-        Log::info("dayCodeId: $dayCodeId, bookId: $bookId, timeCodeId: $timeCodeId");
-
-        if ($dayCodeId && $bookId && $timeCodeId) {
-            $dayCode = ClassDayCode::find($dayCodeId);
-            $book = Book::find($bookId);
-            $timeCode = ClassTimeCode::find($timeCodeId);
-
-            Log::info('dayCode: '.($dayCode ? $dayCode->day_code : 'null'));
-            Log::info('book: '.($book ? $book->book_code : 'null'));
-            Log::info('timeCode: '.($timeCode ? $timeCode->time_code : 'null'));
-
-            if ($dayCode && $book && $timeCode) {
-                $dayCodePart = strtoupper(substr($dayCode->day_code, 0, 2));
-                $bookNamePart = strtoupper(substr($book->book_code, 0, 3));
-                $timeCodePart = strtoupper(substr($timeCode->time_code, 0, 1));
-                $classCode = $dayCodePart.$bookNamePart.$timeCodePart;
-                Log::info("classCode: $classCode");
-                $set('class_code', $classCode);
-            } else {
-                $set('class_code', '');
-            }
-        } else {
-            $set('class_code', '');
-        }
     }
 
     public static function table(Table $table): Table
@@ -246,48 +215,48 @@ class ClassScheduleResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                MultiSelectFilter::make('program')
+            MultiSelectFilter::make('program')
                     ->label('Program')
                     ->relationship('program', 'name')
                     ->preload()
                     ->searchable(),
-                MultiSelectFilter::make('book')
+            MultiSelectFilter::make('book')
                     ->label('Buku')
                     ->relationship('book', 'book_name')
                     ->preload()
                     ->searchable(),
-                MultiSelectFilter::make('time')
+            MultiSelectFilter::make('time')
                     ->label('Kode Jam Kelas')
                     ->relationship('time', 'time_code')
                     ->preload()
                     ->searchable(),
-                MultiSelectFilter::make('day')
+            MultiSelectFilter::make('day')
                     ->label('Kode Hari Kelas')
                     ->relationship('day', 'day_code')
                     ->preload()
                     ->searchable(),
-                MultiSelectFilter::make('team')
+            MultiSelectFilter::make('team')
                     ->label('Mentor')
                     ->relationship('team', 'name')
                     ->preload()
                     ->searchable(),
-                Tables\Filters\TrashedFilter::make(),
-            ])
+            Tables\Filters\TrashedFilter::make(),
+        ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-                Tables\Actions\RestoreAction::make(),
-                Tables\Actions\ForceDeleteAction::make(),
-            ])
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+            Tables\Actions\RestoreAction::make(),
+            Tables\Actions\ForceDeleteAction::make(),
+        ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
 
-                ]),
-            ]);
+            ]),
+        ]);
     }
 
     public static function getRelations(): array
@@ -318,5 +287,50 @@ class ClassScheduleResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return static::$model::count();
+    }
+
+    protected static function generateClassCode(Set $set, Get $get)
+    {
+        $dayCodeId = $get('day_code_id');
+        $bookId = $get('book_id');
+        $timeCodeId = $get('time_code_id');
+
+        Log::info("dayCodeId: $dayCodeId, bookId: $bookId, timeCodeId: $timeCodeId");
+
+        if ($dayCodeId && $bookId && $timeCodeId) {
+            $dayCode = ClassDayCode::find($dayCodeId);
+            $book = Book::find($bookId);
+            $timeCode = ClassTimeCode::find($timeCodeId);
+
+            Log::info('dayCode: '.($dayCode ? $dayCode->day_code : 'null'));
+            Log::info('book: '.($book ? $book->book_code : 'null'));
+            Log::info('timeCode: '.($timeCode ? $timeCode->time_code : 'null'));
+
+            if ($dayCode && $book && $timeCode) {
+                $dayCodePart = strtoupper(substr($dayCode->day_code, 0, 2));
+                $bookNamePart = strtoupper(substr($book->book_code, 0, 3));
+                $timeCodePart = strtoupper(substr($timeCode->time_code, 0, 1));
+                $classCode = $dayCodePart.$bookNamePart.$timeCodePart;
+                Log::info("classCode: $classCode");
+                $set('class_code', $classCode);
+            } else {
+                $set('class_code', '');
+            }
+        } else {
+            $set('class_code', '');
+        }
+
+        static::updateSlotStatusOnModel($set, $get);
+    }
+
+    protected static function updateSlotStatusOnModel(Set $set, Get $get)
+    {
+        $classScheduleId = $get('class_schedule_id');
+        if ($classScheduleId) {
+            $record = ClassSchedule::find($classScheduleId);
+            if ($record) {
+                $record->updateSlotStatus();
+            }
+        }
     }
 }
