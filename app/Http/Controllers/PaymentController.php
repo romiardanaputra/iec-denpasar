@@ -151,10 +151,6 @@ class PaymentController extends Controller
             ], 404);
         }
 
-        // if (!$request->ajax() && !$request->wantsJson()) {
-        //   return abort(403, 'Invalid request');
-        // }
-
         Log::info('validasi data form detail pendaftar kursus');
         $data = $request->validate([
             'student_name' => ['required', 'min:3', 'max:50', 'string'],
