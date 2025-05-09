@@ -20,9 +20,9 @@ class RegistrationResource extends Resource
 
     protected static ?string $navigationGroup = 'Kelola Transaksi';
 
-    protected static ?string $navigationLabel = 'Data Pendaftar Kursus';
+    protected static ?string $navigationLabel = 'Pendaftar Kursus';
 
-    protected static ?string $pluralModelLabel = 'Data Pendaftar Kursus';
+    protected static ?string $pluralModelLabel = 'Pendaftar Kursus';
 
     public static function form(Form $form): Form
     {
@@ -82,6 +82,7 @@ class RegistrationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->sortable()
@@ -133,28 +134,28 @@ class RegistrationResource extends Resource
                     }),
             ])
             ->filters([
-            Tables\Filters\TrashedFilter::make(),
-            Tables\Filters\Filter::make('is_active')
+                Tables\Filters\TrashedFilter::make(),
+                Tables\Filters\Filter::make('is_active')
                     ->query(fn (Builder $query): Builder => $query->where('is_active', true)),
-            Tables\Filters\SelectFilter::make('user')
+                Tables\Filters\SelectFilter::make('user')
                     ->relationship('user', 'name'),
-            Tables\Filters\SelectFilter::make('program')
+                Tables\Filters\SelectFilter::make('program')
                     ->relationship('program', 'name'),
-        ])
+            ])
             ->actions([
-            Tables\Actions\ViewAction::make(),
-            Tables\Actions\EditAction::make(),
-            Tables\Actions\DeleteAction::make(),
-            Tables\Actions\RestoreAction::make(),
-            Tables\Actions\ForceDeleteAction::make(),
-        ])
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\ForceDeleteAction::make(),
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                     Tables\Actions\RestoreBulkAction::make(),
-            ]),
-        ]);
+                ]),
+            ]);
     }
 
     public static function getRelations(): array
